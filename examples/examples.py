@@ -4,8 +4,6 @@ import pytetrad.Translate as tr
 # os.environ["JAVA_HOME"] = "/usr/libexec/java_home"
 # jpype.startJVM(classpath=["/Users/josephramsey/Downloads/tetrad-gui-7.2.2-launch.jar"])
 
-import edu.cmu.tetrad.data as td
-import edu.cmu.tetrad.graph as tg
 import edu.cmu.tetrad.search as ts
 
 import java.util as util
