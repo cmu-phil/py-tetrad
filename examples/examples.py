@@ -1,13 +1,5 @@
-import causallearn
-import numpy as np
 import pandas as pd
 import pytetrad.Translate as tr
-
-import jpype
-import jpype.imports
-from jpype.types import *
-
-import os
 
 # os.environ["JAVA_HOME"] = "/usr/libexec/java_home"
 # jpype.startJVM(classpath=["/Users/josephramsey/Downloads/tetrad-gui-7.2.2-launch.jar"])
