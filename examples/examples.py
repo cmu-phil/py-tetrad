@@ -8,7 +8,6 @@ import edu.cmu.tetrad.search as ts
 
 import java.util as util
 
-
 df = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
 # df = pd.read_csv("/Users/bryanandrews/Desktop/ruben_data/bold_data/bold_data_0.txt")
 
