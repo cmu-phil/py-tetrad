@@ -22,3 +22,5 @@ Makes algorithms/code in Tetrad available in Python via JPype
     * https://github.com/cmu-phil/tetrad
 
     * The latent jar is linked to from that ReadMe.md file on that site (scroll down). The current javadocs for this version are also available, if one wishes to download these from the Maven Central site.
+
+Currently the Java JRE and Tetrad jar links are hard-coded in relevant py files and will need to be set by the user; we will try to figure out a way to make those links automatic.
