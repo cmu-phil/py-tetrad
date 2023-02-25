@@ -66,4 +66,7 @@ print(tr.tetrad_graph_to_pcalg(boss_graph))
 print(tr.tetrad_graph_to_pcalg(grasp_graph))
 print(tr.tetrad_graph_to_pcalg(gango_graph))
 
+print(tr.tetrad_graph_to_causal_learn(fges_graph))
+print(tr.tetrad_graph_to_causal_learn(boss_graph))
+print(tr.tetrad_graph_to_causal_learn(grasp_graph))
 print(tr.tetrad_graph_to_causal_learn(gango_graph))
