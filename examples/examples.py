@@ -52,7 +52,7 @@ grasp_graph = grasp.getGraph(True)
 print("\nGANGO\n")
 datasets = util.ArrayList()
 datasets.add(data)
-rskew = ts.Lofs2(fges_graph, datasets);
+rskew = ts.Lofs2(fges_graph, datasets)
 rskew.setRule(ts.Lofs2.Rule.RSkew)
 gango_graph = rskew.orient()
 
