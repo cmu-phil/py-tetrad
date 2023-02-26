@@ -2,7 +2,7 @@
 Makes algorithms/code in (Java) Tetrad directly available in Python via [JPype](https://github.com/jpype-project/jpype).
 
 Currently this package contains a translate.py file, which helps to translate datasets from Python (pandas) to Java (Tetrad) and graphs from Java (Tetrad) back into Python (two formats currently, the causal-learn graph format and the R PCALG format for general graphs). 
-sev
+
 It also contains an examples.py file, which shows how to run several Tetrad searches on Python (pandas) data, for the continuous case. 
 
 We will shortly expand available data types to discrete and mixed continuous/discrete, and expand the example files, perhaps one for each of several algorithms, though of course the entire Tetrad codebase is made available via JPype. Also more graphs translation methods will be added, in both directions, so that more graph methods can be taken advantage of in Tetrad from Python.
