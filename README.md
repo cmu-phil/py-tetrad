@@ -37,4 +37,4 @@ This already **replaces the older [py-causal](https://github.com/bd2kccd/py-caus
     
 This should cause the examples to run various algorithms in (Java) Tetrad and print out result graphs in several different ways in Python--using the original Java graph class, using the PCALG-style general graph matrix, and using GeneralGraph in causal-learn.
 
-**This project is not yet stable--it will be exapnded in ways listed above, though the examples.py file is correct.**
+**This project is not yet stable--it will be expanded in ways listed above, though the examples.py file is correct.**
