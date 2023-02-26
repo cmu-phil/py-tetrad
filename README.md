@@ -3,15 +3,15 @@ This package makes algorithms/code in (Java) Tetrad directly available in Python
 
 Currently the package contains a translate.py file, which helps to translate datasets from Python (pandas) to Java (Tetrad) and graphs from Java (Tetrad) back into Python (two formats currently, the causal-learn graph format and the R PCALG format for general graphs). 
 
-It also contains an examples.py file, which shows how to run several Tetrad searches on Python (pandas) data, for the continuous case and retrieve their result graphs back into Python.
+It also contains an examples_continuous.py file and an exmaples_mixed.py file, which shows how to run several Tetrad searches on Python (pandas) data, for the continuous case and the mixed continuous/discrete case and retrieve their result graphs back into Python.
 
-We will shortly expand available data types to discrete and mixed continuous/discrete, and expand the example files, perhaps one for each of several algorithms, though of course the entire Tetrad codebase is made available via JPype. Also more graphs translation methods will be added, in both directions, so that more graph methods can be taken advantage of in Tetrad from Python. For instance, the GeneralGraph class in causal-learn is being migrated to a new format; we will add translators for that soon.
+We will shortly expand the example files, showing how to run a variety of different types of searches through JPypa in Tetrad. (Of course the entire Tetrad codebase is made available via JPype, so more is possible.) Also more graphs translation methods will be added, in both directions, so that more graph methods can be taken advantage of in Tetrad from Python. For instance, the GeneralGraph class in causal-learn is being migrated to a new format; we will add translators for that soon.
 
 JPype allows Java interfaces to be implemented in Python, which should make it possible to use causal-learn scores and tests in the (Java) Tetrad code, from the vantage point of Python, though this hasn't been done yet.
 
 We will add Read The Docs documentation.
  
-This already **replaces the older [py-causal](https://github.com/bd2kccd/py-causal) package for continuous datasets**, which used the buggy and hard-to-install Javabridge to connect Python to Java and used an outdated version of Tetrad, so please if you're using py-causal, watch this project and switch over as soon as it is stable. Also, if you're Python-based, consider using [causal-learn](https://github.com/py-why/causal-learn) algorithms where available.
+This already **replaces the older [py-causal](https://github.com/bd2kccd/py-causal) package**, which used the buggy and hard-to-install Javabridge to connect Python to Java and used an outdated version of Tetrad, so please if you're using py-causal, watch this project and switch over as soon as it is stable. Also, if you're Python-based, consider using [causal-learn](https://github.com/py-why/causal-learn) algorithms where available.
 
 # Install
 
