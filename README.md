@@ -5,7 +5,7 @@ Currently this package contains a translate.py file, which helps to translate da
 
 It also contains an examples.py file, which shows how to run several Tetrad searches on Python (pandas) data, for the continuous case and retrieve their result graphs back into Python.
 
-We will shortly expand available data types to discrete and mixed continuous/discrete, and expand the example files, perhaps one for each of several algorithms, though of course the entire Tetrad codebase is made available via JPype. Also more graphs translation methods will be added, in both directions, so that more graph methods can be taken advantage of in Tetrad from Python.
+We will shortly expand available data types to discrete and mixed continuous/discrete, and expand the example files, perhaps one for each of several algorithms, though of course the entire Tetrad codebase is made available via JPype. Also more graphs translation methods will be added, in both directions, so that more graph methods can be taken advantage of in (Jave) Tetrad from Python.
 
 JPype allows Java interfaces to be implemented in Python, which should make it possible to use Python scores and tests in the (Java) Tetrad code, from the point of view of Python, though this hasn't been done yet.
  
