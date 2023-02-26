@@ -31,7 +31,7 @@ This already **replaces the older [py-causal](https://github.com/bd2kccd/py-caus
       
       cd py-tetrad/examples
       
-      export $JAVA_HOME=/opt/anaconda3/bin/java
+      export JAVA_HOME=/Library/java/JavaVirtualMachines/amazon-corretto-18.jdk
       
       python3 examples.py
     
