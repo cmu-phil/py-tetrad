@@ -27,10 +27,13 @@ This already **replaces the older [py-causal](https://github.com/bd2kccd/py-caus
 
 1. Finally, you will need to clone this GitHub repository, so if you don't have Git installed, first google and install that for your machine type, and then in a terminal window cd to a directory where you want the cloned project to appear and type (on a Mac--make adjustments for other platforms and adjusting the JAVA_HOME path to your version of the JRE/JDK):
 
-    git clone https://github.com/cmu-phil/py-tetrad
-    cd py-tetrad/examples
-    export $JAVA_HOME=/opt/anaconda3/bin/java
-    python3 examples.py
+      git clone https://github.com/cmu-phil/py-tetrad
+      
+      cd py-tetrad/examples
+      
+      export $JAVA_HOME=/opt/anaconda3/bin/java
+      
+      python3 examples.py
     
 This should cause the examples to run various algorithms in (Java) Tetrad and print out result graphs in several different ways in Python.
 
