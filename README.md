@@ -33,7 +33,7 @@ This already **replaces the older [py-causal](https://github.com/bd2kccd/py-caus
       
       export JAVA_HOME=/Library/java/JavaVirtualMachines/amazon-corretto-18.jdk
       
-      python3 examples.py
+      python3 examples_continuous.py
     
 This should cause the examples to run various algorithms in (Java) Tetrad and print out result graphs in several different ways in Python--using the original Java graph class, using the PCALG-style general graph matrix, and using GeneralGraph in causal-learn.
 
