@@ -1,7 +1,9 @@
 # py-tetrad
 Makes algorithms/code in (Java) Tetrad available in Python via JPype.
 
-Currently this package contains a translate.py file, which helps to translate datasets from Python (pandas) to Java (Tetrad) and graphs from Java (Tetrad) back into Python (two formats so far). It also contains an examples.py file, which shows how to run Tetrad searches on Python (pandas) data, for the continuous case. We will shortly expand available data types to discrete and mixed continuous/discrete, and expand the example files, perhaps one for each of several algorithms. Also more graphs translation methods will be added, in both diredctions, so that more graph methods can be taken advantage of in Tetrad from Python.
+Currently this package contains a translate.py file, which helps to translate datasets from Python (pandas) to Java (Tetrad) and graphs from Java (Tetrad) back into Python (two formats so far). 
+
+It also contains an examples.py file, which shows how to run Tetrad searches on Python (pandas) data, for the continuous case. We will shortly expand available data types to discrete and mixed continuous/discrete, and expand the example files, perhaps one for each of several algorithms. Also more graphs translation methods will be added, in both diredctions, so that more graph methods can be taken advantage of in Tetrad from Python.
  
 This already replaces the older [py-causal](https://github.com/bd2kccd/py-causal) package for continuous datasets, which used the buggy and hard-to-install Javabridge to connect Python to Java and used an outdated version of Tetrad.
 
