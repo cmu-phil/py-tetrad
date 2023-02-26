@@ -17,12 +17,12 @@ This already replaces the older [py-causal](https://github.com/bd2kccd/py-causal
 
     * https://github.com/py-why/causal-learn
 
-1. We use the JPype package to interface Python with Java. For installation instructions, see the docs for that project:
-
-    * https://jpype.readthedocs.io/en/latest/
-
 1. It is necessary to install a JAVA JRE, preferably the most recent version available with long term support (LTS), certainly greater than 1.8 (version 8). For stability across platforms, we find that the  Corretto installation works the best, 
 
     * https://aws.amazon.com/corretto/?filtered-posts.sort-by=item.additionalFields.createdDate&filtered-posts.sort-order=desc
 
     * It may be necessary, depending on how you set up your Python, to set JAVA_HOME to the path to this JRE installation.
+
+1. We use the JPype package to interface Python with Java. For installation instructions, see the docs for that project:
+
+    * https://jpype.readthedocs.io/en/latest/
