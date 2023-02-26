@@ -31,6 +31,6 @@ This already **replaces the older [py-causal](https://github.com/bd2kccd/py-caus
     * export $JAVA_HOME=/opt/anaconda3/bin/java
     * python3 examples.py
     
-This should cause the examples to run various algorithms in (Java) Tetrad and print out result graphs in several different ways.
+This should cause the examples to run various algorithms in (Java) Tetrad and print out result graphs in several different ways in Python.
 
 **This project is not yet stable.**
