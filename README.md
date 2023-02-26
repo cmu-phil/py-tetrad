@@ -21,7 +21,7 @@ This already replaces the older [py-causal](https://github.com/bd2kccd/py-causal
 
     * https://jpype.readthedocs.io/en/latest/
 
-1. It is necessary to install a JAVA JRE, preferably the most recent version available, certainly greater than 1.8 (version 8). For stability across platforms, we find that the  Corretto installation works the best, 
+1. It is necessary to install a JAVA JRE, preferably the most recent version available with long term support (LTS), certainly greater than 1.8 (version 8). For stability across platforms, we find that the  Corretto installation works the best, 
 
     * https://aws.amazon.com/corretto/?filtered-posts.sort-by=item.additionalFields.createdDate&filtered-posts.sort-order=desc
 
