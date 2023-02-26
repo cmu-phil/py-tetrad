@@ -15,7 +15,6 @@ def data_frame_to_tetrad_data(df):
     discrete_cols = [col for col in cols if df[col].dtypes != np.inexact]
     category_map = {col: {val: i for i, val in enumerate(df[col].unique())} for col in discrete_cols}
     df = df.replace(category_map)
-    df = df.astype({col: "float64" for col in df.columns})
     values = df.values
     n, p = df.shape
 
@@ -80,5 +79,3 @@ def tetrad_graph_to_causal_learn(g):
         graph.add_edge(Edge(node1, node2, endpoint1, endpoint2))
 
     return graph
-
-
