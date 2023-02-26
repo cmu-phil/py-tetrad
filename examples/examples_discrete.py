@@ -17,7 +17,7 @@ import java.util as util
 import edu.cmu.tetrad.search as ts
 
 
-df = pd.read_csv(f"{BASE_DIR}/examples/resources/bridges.data.version21.txt", sep="\t")
+df = pd.read_csv(f"{BASE_DIR}/examples/resources/bridges.data.version211_rev.txt", sep="\t")
 
 data = tr.data_frame_to_tetrad_data(df)
 print(data)
