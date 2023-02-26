@@ -7,18 +7,35 @@ from causallearn.graph.Edge import Edge
 
 import java.util as util
 import edu.cmu.tetrad.data as td
-import edu.cmu.tetrad.graph as tg
 
 
 def data_frame_to_tetrad_data(df):
+    df = df.copy()
     cols = df.columns
+
+    discrete_cols = [col for col in cols if df[col].dtypes != np.inexact]
+    value_map = {col: {val: i for i, val in enumerate(df[col].unique())} for col in discrete_cols}
+    df.replace(value_map)
+    df = df.astype({col: "float64" for col in discrete_cols})
+
     values = df.values
     n, p = df.shape
 
-    databox = td.DoubleDataBox(n, p)
     variables = util.ArrayList()
+    for col in cols:
+        if col in discrete_cols:
+            variables.add(td.DiscreteVariable(str(col)))
+        else: 
+            variables.add(td.ContinuousVariable(str(col)))
+
+    if len(discrete_cols) == len(cols):
+        databox = td.IntDataBox(n, p)
+    elif len(discrete_cols) == 0:
+        databox = td.DoubleDataBox(n, p)
+    else:
+        databox = td.MixedDataBox(variables, n)
+
     for col, var in enumerate(values.T):
-        variables.add(td.ContinuousVariable(cols[col]))
         for row, val in enumerate(var):
             databox.set(row, col, val)
 
