@@ -27,6 +27,7 @@ This already **replaces the older [py-causal](https://github.com/bd2kccd/py-caus
     * git clone https://github.com/cmu-phil/py-tetrad
     * cd py-tetrad/examples
     * python3 examples.py
+    
 This should cause the examples to run various algorithms and print out result graphs in several different ways.
 
 **This project is not yet stable.**
