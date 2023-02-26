@@ -11,14 +11,11 @@ import edu.cmu.tetrad.data as td
 
 
 def data_frame_to_tetrad_data(df):
-    df = df.copy()
     cols = df.columns
-
     discrete_cols = [col for col in cols if df[col].dtypes != np.inexact]
     category_map = {col: {val: i for i, val in enumerate(df[col].unique())} for col in discrete_cols}
-    df.replace(category_map)
-    df = df.astype({col: "float64" for col in discrete_cols})
-
+    df = df.replace(category_map)
+    df = df.astype({col: "float64" for col in df.columns})
     values = df.values
     n, p = df.shape
 
