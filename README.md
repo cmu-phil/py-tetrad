@@ -25,4 +25,4 @@ This already replaces the older [py-causal](https://github.com/bd2kccd/py-causal
 
     * https://aws.amazon.com/corretto/?filtered-posts.sort-by=item.additionalFields.createdDate&filtered-posts.sort-order=desc
 
-    * It may be necessary, depending on how you set up your Python, to set JAVA_HOME to your current python installation.
+    * It may be necessary, depending on how you set up your Python, to set JAVA_HOME to the path to this JRE installation.
