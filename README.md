@@ -3,7 +3,7 @@ This package makes algorithms/code in (Java) Tetrad directly available in Python
 
 Currently the package contains a translate.py file, which helps to translate datasets from Python (pandas) to Java (Tetrad) and graphs from Java (Tetrad) back into Python (two formats currently, the causal-learn graph format and the R PCALG format for general graphs). 
 
-It also contains an examples_continuous.py file and an exmaples_mixed.py file, which shows how to run several Tetrad searches on Python (pandas) data, for the continuous case and the mixed continuous/discrete case and retrieve their result graphs back into Python.
+It also contains an examples_continuous.py file, and examples_discrete.py file, and an examples_mixed.py file, which show how to run several Tetrad searches on Python (pandas) data, for the continuous case, discrete and mixed continuous/discrete cases and retrieve their result graphs back into Python.
 
 We will shortly expand the example files, showing how to run a variety of different types of searches through JPypa in Tetrad. (Of course the entire Tetrad codebase is made available via JPype, so more is possible.) Also more graphs translation methods will be added, in both directions, so that more graph methods can be taken advantage of in Tetrad from Python. For instance, the GeneralGraph class in causal-learn is being migrated to a new format; we will add translators for that soon.
 
@@ -11,7 +11,7 @@ JPype allows Java interfaces to be implemented in Python, which should make it p
 
 We will add Read The Docs documentation.
  
-This already **replaces the older [py-causal](https://github.com/bd2kccd/py-causal) package**, which used the buggy and hard-to-install Javabridge to connect Python to Java and used an outdated version of Tetrad, so please if you're using py-causal, watch this project and switch over as soon as it is stable. Also, if you're Python-based, consider using [causal-learn](https://github.com/py-why/causal-learn) algorithms where available.
+This **replaces the older [py-causal](https://github.com/bd2kccd/py-causal) package**, which used the buggy Javabridge to connect Python to Java, with an outdated version of Tetrad, so please if you're using py-causal, watch this project and switch over as soon as it is stable. Also, if you're Python-based, consider using [causal-learn](https://github.com/py-why/causal-learn) algorithms where available.
 
 # Install
 
@@ -25,7 +25,7 @@ This already **replaces the older [py-causal](https://github.com/bd2kccd/py-caus
 
 1. Make sure you are using the latest Python--at least 3.7--as required by JPype; if not, [update it](https://www.pythoncentral.io/how-to-update-python/). The version of Python needs to be at least 3.7, since JPype requires all of underlying references to Python 2 need to be eliminated--see the JPype documentation.
 
-1. Finally, you will need to clone this very GitHub repository, so if you don't have Git installed, first google and install that for your machine type, and then in a terminal window cd to a directory where you want the cloned project to appear and type (on a Mac--make adjustments for other platforms and adjusting the JAVA_HOME path to your version of the JRE/JDK):
+1. Finally, you will need to clone this GitHub repository, so if you don't have Git installed, first google and install that for your machine type, and then in a terminal window cd to a directory where you want the cloned project to appear and type (on a Mac--make adjustments for other platforms and adjusting the JAVA_HOME path to your version of the JRE/JDK):
 
       git clone https://github.com/cmu-phil/py-tetrad
       
@@ -34,7 +34,11 @@ This already **replaces the older [py-causal](https://github.com/bd2kccd/py-caus
       export JAVA_HOME=/Library/java/JavaVirtualMachines/amazon-corretto-18.jdk
       
       python3 examples_continuous.py
+      
+      python3 examples_discrete.py
     
-This should cause the examples to run various algorithms in (Java) Tetrad and print out result graphs in several different ways in Python--using the original Java graph class, using the PCALG-style general graph matrix, and using GeneralGraph in causal-learn.
+      python3 examples_mixed.py
+
+These last three commands should cause the examples to run various algorithms in (Java) Tetrad and print out result graphs in several different ways in Python--using the original Java graph class, using the PCALG-style general graph matrix, and using GeneralGraph in causal-learn.
 
 **This project is not yet stable--it will be expanded in ways listed above, though the examples.py file is correct.**
