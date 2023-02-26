@@ -20,3 +20,5 @@ This already replaces the older [py-causal](https://github.com/bd2kccd/py-causal
     * It may be necessary, depending on how you set up your Python, to set JAVA_HOME to the path to this JRE installation.
 
 1. We use the JPype package to interface Python with Java. For installation instructions, see the [Docs for the JPype package](https://jpype.readthedocs.io/en/latest/).
+
+**This project is not yet stable.**
