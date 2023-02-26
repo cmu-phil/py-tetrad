@@ -9,7 +9,7 @@ We will shortly expand available data types to discrete and mixed continuous/dis
 
 Also, JPype allows Java interfaces to be implemented in Python, which should make it possible to use Python scores and tests in the (Java) Tetrad code, from the point of view of Python, though this hasn't been done yet.
  
-This already replaces the older [py-causal](https://github.com/bd2kccd/py-causal) package for continuous datasets, which used the buggy and hard-to-install Javabridge to connect Python to Java and used an outdated version of Tetrad.
+This already replaces the older [py-causal](https://github.com/bd2kccd/py-causal) package for continuous datasets, which used the buggy and hard-to-install Javabridge to connect Python to Java and used an outdated version of Tetrad, so please if you're using py-causal, watch this project and switch over as soo as possible. Or if you're Python-based, consider using causal-learn algorithms where available.
 
 # Install
 
