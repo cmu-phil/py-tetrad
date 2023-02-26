@@ -23,9 +23,10 @@ This already **replaces the older [py-causal](https://github.com/bd2kccd/py-caus
 
 1. We use the JPype package to interface Python with Java. For installation instructions, see the [Docs for the JPype package](https://jpype.readthedocs.io/en/latest/).
 
-1. Finally, you will need to clone this GitHub repository, so if you don't have Git installed, first google and install that, and then in a terminal cd to a directory where you want the cloned project to appear and type (in a Mac--obvious adjustments for other platforms:
+1. Finally, you will need to clone this GitHub repository, so if you don't have Git installed, first google and install that, and then in a terminal cd to a directory where you want the cloned project to appear and type (in a Mac--obvious adjustments for other platforms and adjusting the JAVA_HOME path to your version of the JRE/JDK):
     * git clone https://github.com/cmu-phil/py-tetrad
     * cd py-tetrad/examples
+    * export $JAVA_HOME=/opt/anaconda3/bin/java
     * python3 examples.py
     
 This should cause the examples to run various algorithms and print out result graphs in several different ways.
