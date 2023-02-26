@@ -16,11 +16,3 @@ Makes algorithms/code in (Java) Tetrad available in Python via JPype
     * https://aws.amazon.com/corretto/?filtered-posts.sort-by=item.additionalFields.createdDate&filtered-posts.sort-order=desc
 
     * It may be necessary, depending on how you set up your Python, to set JAVA_HOME to your current python installation.
-
-1. Finally, it is necessary to download the latest Tetrad launch jar from Maven Central. Here is the GitHub for Tetrad.
-
-    * https://github.com/cmu-phil/tetrad
-
-    * The latent jar is linked to from that ReadMe.md file on that site (scroll down). The current javadocs for this version are also available, if one wishes to download these from the Maven Central site.
-
-Currently the Java JRE and Tetrad jar links are hard-coded in relevant py files and will need to be set by the user; we will try to figure out a way to make those links automatic.
