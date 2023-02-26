@@ -24,7 +24,7 @@ def data_frame_to_tetrad_data(df):
 
     variables = util.ArrayList()
     for col in cols:
-        if col in discrete_cols:
+        if col in discrete_cols:    
             categories = util.ArrayList()
             for category in category_map[col]:
                 categories.add(str(category))
