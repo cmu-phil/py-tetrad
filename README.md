@@ -5,7 +5,7 @@ Currently this package contains a translate.py file, which helps to translate da
 
 It also contains an examples.py file, which shows how to run several Tetrad searches on Python (pandas) data, for the continuous case and retrieve their result graphs back into Python.
 
-We will shortly expand available data types to discrete and mixed continuous/discrete, and expand the example files, perhaps one for each of several algorithms, though of course the entire Tetrad codebase is made available via JPype. Also more graphs translation methods will be added, in both directions, so that more graph methods can be taken advantage of in Tetrad from Python.
+We will shortly expand available data types to discrete and mixed continuous/discrete, and expand the example files, perhaps one for each of several algorithms, though of course the entire Tetrad codebase is made available via JPype. Also more graphs translation methods will be added, in both directions, so that more graph methods can be taken advantage of in Tetrad from Python. For instance, the GeneralGraph class in causal-learn is being migrated to a new format; we will add translators for that soon.
 
 JPype allows Java interfaces to be implemented in Python, which should make it possible to use causal-learn scores and tests in the (Java) Tetrad code, from the vantage point of Python, though this hasn't been done yet.
 
@@ -35,6 +35,6 @@ This already **replaces the older [py-causal](https://github.com/bd2kccd/py-caus
       
       python3 examples.py
     
-This should cause the examples to run various algorithms in (Java) Tetrad and print out result graphs in several different ways in Python--using the original Java graph class, using the PCALG-style general graph matrix, and using GeneralGraph in causal-learn. The GeneralGraph class in causal-learn is being migrated to a new format; we will add translators for that soon.
+This should cause the examples to run various algorithms in (Java) Tetrad and print out result graphs in several different ways in Python--using the original Java graph class, using the PCALG-style general graph matrix, and using GeneralGraph in causal-learn.
 
 **This project is not yet stable--it will be exapnded in ways listed above, though the examples.py file is correct.**
