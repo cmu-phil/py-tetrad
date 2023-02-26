@@ -7,6 +7,8 @@ sys.path.append(BASE_DIR)
 import jpype
 import jpype.imports
 
+print(BASE_DIR)
+
 # os.environ["JAVA_HOME"] = "/usr/libexec/java_home"
 jpype.startJVM(classpath=[f"{BASE_DIR}/tetrad-gui-7.2.2-launch.jar"])
 
@@ -17,7 +19,7 @@ import java.util as util
 import edu.cmu.tetrad.search as ts
 
 
-df = pd.read_csv("examples/resources/airfoil-self-noise.continuous.txt", sep="\t")
+df = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
 
 data = tr.data_frame_to_tetrad_data(df)
 variables = data.getVariables()
