@@ -20,17 +20,7 @@ import edu.cmu.tetrad.search as ts
 df = pd.read_csv(f"{BASE_DIR}/examples/resources/airfoil-self-noise.continuous.txt", sep="\t")
 df = df.astype({col: "float64" for col in df.columns})
 
-# import numpy as np
-# df = pd.DataFrame(np.array([[str(i%2) for i in range(100)], [str(i%3) for i in range(100)]]).T)
-# df = df.astype({0: "float64"})
-# df = df.astype({1: "float64"})
-
 data = tr.data_frame_to_tetrad_data(df)
-
-# print(data.isDiscrete())
-# print(data.isContinuous())
-# print(data.isMixed())
-
 print(data)
 
 variables = data.getVariables()
