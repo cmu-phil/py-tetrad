@@ -1,5 +1,5 @@
 # py-tetrad
-Makes algorithms/code in Tetrad available in Python via JPype
+Makes algorithms/code in (Java) Tetrad available in Python via JPype
 
 # Install
 
