@@ -1,24 +1,11 @@
-import causallearn
 import numpy as np
-
-import jpype.imports
-from jpype.types import *
-
-import os
 
 from causallearn.graph.GeneralGraph import GeneralGraph
 from causallearn.graph.GraphNode import GraphNode
 from causallearn.graph.Endpoint import Endpoint
 from causallearn.graph.Edge import Edge
 
-
-# os.system('echo export "JAVA_HOME=\\$(/usr/libexec/java_home)" >> ~/.zshrc')
-# jpype.startJVM(classpath=["/Users/bryanandrews/Desktop/tetrad-gui-7.2.2-launch.jar"])
-os.environ["JAVA_HOME"] = "/usr/libexec/java_home"
-jpype.startJVM(classpath=["/Users/josephramsey/Downloads/tetrad-gui-7.2.2-launch.jar"])
-
 import java.util as util
-
 import edu.cmu.tetrad.data as td
 import edu.cmu.tetrad.graph as tg
 
@@ -39,21 +26,20 @@ def data_frame_to_tetrad_data(df):
 
 
 def tetrad_graph_to_pcalg(g):
-    mark2Int = util.HashMap()
-    mark2Int.put(tg.Endpoint.NULL, 0)
-    mark2Int.put(tg.Endpoint.CIRCLE, 1)
-    mark2Int.put(tg.Endpoint.ARROW, 2)
-    mark2Int.put(tg.Endpoint.TAIL, 3)
+    endpoint_map = {"NULL": 0,
+                    "CIRCLE": 1,
+                    "ARROW": 2,
+                    "TAIL": 3}
 
-    n = JInt(g.getNumNodes())
-    A = np.zeros((n, n), dtype=int)
     nodes = g.getNodes()
+    p = g.getNumNodes()
+    A = np.zeros((p, p), dtype=int)
 
     for edge in g.getEdges():
         i = nodes.indexOf(edge.getNode1())
         j = nodes.indexOf(edge.getNode2())
-        A[j][i] = mark2Int.get(edge.getEndpoint1())
-        A[i][j] = mark2Int.get(edge.getEndpoint2())
+        A[j][i] = endpoint_map[edge.getEndpoint1().name()]
+        A[i][j] = endpoint_map[edge.getEndpoint2().name()]
 
     return A
 
@@ -66,7 +52,7 @@ def tetrad_graph_to_causal_learn(g):
                     "STAR": Endpoint.STAR}
 
     nodes = [GraphNode(str(node.getName())) for node in g.getNodes()]
-    graph = causallearn.graph.GeneralGraph.GeneralGraph(nodes)
+    graph = GeneralGraph(nodes)
 
     for edge in g.getEdges():
         node1 = graph.get_node(edge.getNode1().getName())
