@@ -25,7 +25,7 @@ This already **replaces the older [py-causal](https://github.com/bd2kccd/py-caus
 
 1. Make sure you are using the latest Python--at least 3.7--as required by JPype; if not, [update it](https://www.pythoncentral.io/how-to-update-python/).
 
-1. Finally, you will need to clone this GitHub repository, so if you don't have Git installed, first google and install that for your machine type, and then in a terminal window cd to a directory where you want the cloned project to appear and type (on a Mac--obvious adjustments for other platforms and adjusting the JAVA_HOME path to your version of the JRE/JDK):
+1. Finally, you will need to clone this GitHub repository, so if you don't have Git installed, first google and install that for your machine type, and then in a terminal window cd to a directory where you want the cloned project to appear and type (on a Mac--make adjustments for other platforms and adjusting the JAVA_HOME path to your version of the JRE/JDK):
     * git clone https://github.com/cmu-phil/py-tetrad
     * cd py-tetrad/examples
     * export $JAVA_HOME=/opt/anaconda3/bin/java
