@@ -30,12 +30,12 @@ def data_frame_to_tetrad_data(df, dtypes=[np.floating]):
 
     variables = util.ArrayList()
     for col in cols:
-        if col in discrete_cols:    
+        if col in discrete_cols:
             categories = util.ArrayList()
             for category in category_map[col]:
                 categories.add(str(category))
             variables.add(td.DiscreteVariable(str(col), categories))
-        else: 
+        else:
             variables.add(td.ContinuousVariable(str(col)))
 
     if len(discrete_cols) == len(cols):
@@ -51,7 +51,10 @@ def data_frame_to_tetrad_data(df, dtypes=[np.floating]):
 
     return td.BoxDataSet(databox, variables)
 
-# Note: This works too -- JR 2023-02-27
+# Note: This works too, though I actually like the other way of doing
+# it better at the moment, because if you did want the categories for
+# a variable in a particular (sorted?) order, that would be easy to
+# accomplish. -- JR 2023-02-27
 # def data_frame_to_tetrad_data(df, dtypes=[np.floating]):
 #     cols = df.columns
 #     discrete_cols = [col for col in cols if df[col].dtypes not in dtypes]
