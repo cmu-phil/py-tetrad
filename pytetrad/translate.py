@@ -52,7 +52,7 @@ def data_frame_to_tetrad_data(df, dtypes=[np.floating]):
     return td.BoxDataSet(databox, variables)
 
 # Note: This works too -- JR 2023-02-27
-# def data_frame_to_tetrad_data2(df, dtypes=[np.floating]):
+# def data_frame_to_tetrad_data(df, dtypes=[np.floating]):
 #     cols = df.columns
 #     discrete_cols = [col for col in cols if df[col].dtypes not in dtypes]
 #     values = df.values
