@@ -10,8 +10,6 @@ from causallearn.graph.GeneralGraph import GeneralGraph
 from causallearn.graph.GraphNode import GraphNode
 from causallearn.graph.Endpoint import Endpoint
 from causallearn.graph.Edge import Edge
-from pytetrad.util import startJVM
-startJVM()
 
 import java.util as util
 import edu.cmu.tetrad.data as td
