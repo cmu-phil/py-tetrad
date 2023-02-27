@@ -23,7 +23,7 @@ This **replaces the older [py-causal](https://github.com/bd2kccd/py-causal) pack
 
 1. We use the JPype package to interface Python with Java. For installation instructions, see the [Docs for the JPype package](https://jpype.readthedocs.io/en/latest/).
 
-1. Make sure you are using the latest Python--at least 3.7--as required by JPype; if not, [update it](https://www.pythoncentral.io/how-to-update-python/). The version of Python needs to be at least 3.7, since JPype requires all of underlying references to Python 2 need to be eliminated--see the JPype documentation.
+1. Make sure you are using the latest Python--at least 3.7--as required by JPype; if not, [update it](https://www.pythoncentral.io/how-to-update-python/). The version of Python needs to be at least 3.7, since JPype requires all of underlying references to Python 2 need to be eliminated--see the [JPype documentation](https://jpype.readthedocs.io/en/latest/).
 
 1. Finally, you will need to clone this GitHub repository, so if you don't have Git installed, first google and install that for your machine type, and then in a terminal window cd to a directory where you want the cloned project to appear and type (on a Mac--make adjustments for other platforms and adjusting the JAVA_HOME path to your version of the JRE/JDK):
 
