@@ -1,20 +1,11 @@
 import os
 import sys
 
-from pytetrad.util import startJVM
-
+# this needs to happen before import pytetrad (otherwise lib cant be found)
 BASE_DIR = os.path.join(os.path.dirname(__file__), '..')
 sys.path.append(BASE_DIR)
 
-# import jpype
-# import jpype.imports
-#
-# os.environ["JAVA_HOME"] = "/usr/libexec/java_home"
-# try:
-#     jpype.startJVM(classpath=[f"{BASE_DIR}/tetrad-gui-7.2.2-launch.jar"])
-# except OSError:
-#     print("JVM already started")
-
+from pytetrad.util import startJVM
 startJVM()
 
 import pandas as pd

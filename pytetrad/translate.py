@@ -1,34 +1,30 @@
 import os
 import sys
 
-import numpy as np
+# this needs to happen before import pytetrad (otherwise lib cant be found)
+BASE_DIR = os.path.join(os.path.dirname(__file__), '..')
+sys.path.append(BASE_DIR)
 
+import numpy as np
 from causallearn.graph.GeneralGraph import GeneralGraph
 from causallearn.graph.GraphNode import GraphNode
 from causallearn.graph.Endpoint import Endpoint
 from causallearn.graph.Edge import Edge
-
-import jpype
-import jpype.imports
-
 from pytetrad.util import startJVM
-
-# BASE_DIR = os.path.join(os.path.dirname(__file__), '..')
-# sys.path.append(BASE_DIR)
-#
-# try:
-#     jpype.startJVM(classpath=[f"{BASE_DIR}/tetrad-gui-7.2.2-launch.jar"])
-# except OSError:
-#     print("JVM already started")
-
 startJVM()
 
 import java.util as util
 import edu.cmu.tetrad.data as td
 
-def data_frame_to_tetrad_data(df):
+
+# TEMPORARY NOTES #
+# dtype allows the user to specify a list of dtypes should be 
+# interpreted as continuous, the default is [np.floating], to 
+# interpret integers as continuous as well use [np.floating, np.integer]
+# implemnetaion not final: could be changed flag for ints as continous
+def data_frame_to_tetrad_data(df, dtypes=[np.floating]):
     cols = df.columns
-    discrete_cols = [col for col in cols if df[col].dtypes != np.inexact]
+    discrete_cols = [col for col in cols if df[col].dtypes not in dtypes]
     category_map = {col: {val: i for i, val in enumerate(df[col].unique())} for col in discrete_cols}
     df = df.replace(category_map)
     values = df.values
