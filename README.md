@@ -13,7 +13,7 @@ We will add Read The Docs documentation.
  
 This **replaces the older [py-causal](https://github.com/bd2kccd/py-causal) package**, which used Javabridge to connect Python to Java, with an outdated version of Tetrad, so please if you're using py-causal, watch this project and switch over as soon as it is stable. **We may optionally put this code into the py-causal module as a new version.** 
 
-If you're Python-based, consider using [causal-learn](https://github.com/py-why/causal-learn) algorithms where available.
+If you're Python-based, you could consider using [causal-learn](https://github.com/py-why/causal-learn) algorithms where available.
 
 # Install
 
