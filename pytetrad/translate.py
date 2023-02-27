@@ -1,3 +1,6 @@
+import os
+import sys
+
 import numpy as np
 
 from causallearn.graph.GeneralGraph import GeneralGraph
@@ -5,10 +8,23 @@ from causallearn.graph.GraphNode import GraphNode
 from causallearn.graph.Endpoint import Endpoint
 from causallearn.graph.Edge import Edge
 
+import jpype
+import jpype.imports
+
+from pytetrad.util import startJVM
+
+# BASE_DIR = os.path.join(os.path.dirname(__file__), '..')
+# sys.path.append(BASE_DIR)
+#
+# try:
+#     jpype.startJVM(classpath=[f"{BASE_DIR}/tetrad-gui-7.2.2-launch.jar"])
+# except OSError:
+#     print("JVM already started")
+
+startJVM()
+
 import java.util as util
 import edu.cmu.tetrad.data as td
-
-
 
 def data_frame_to_tetrad_data(df):
     cols = df.columns
