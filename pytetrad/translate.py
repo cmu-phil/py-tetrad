@@ -51,6 +51,35 @@ def data_frame_to_tetrad_data(df, dtypes=[np.floating]):
 
     return td.BoxDataSet(databox, variables)
 
+# Note: This works too -- JR 2023-02-27
+# def data_frame_to_tetrad_data2(df, dtypes=[np.floating]):
+#     cols = df.columns
+#     discrete_cols = [col for col in cols if df[col].dtypes not in dtypes]
+#     values = df.values
+#     n, p = df.shape
+#
+#     variables = util.ArrayList()
+#     for col in cols:
+#         if col in discrete_cols:
+#             variables.add(td.DiscreteVariable(str(col)))
+#         else:
+#             variables.add(td.ContinuousVariable(str(col)))
+#
+#     if len(discrete_cols) == len(cols):
+#         databox = td.IntDataBox(n, p)
+#     elif len(discrete_cols) == 0:
+#         databox = td.DoubleDataBox(n, p)
+#     else:
+#         databox = td.MixedDataBox(variables, n)
+#
+#     data = td.BoxDataSet(databox, variables)
+#
+#     for col, var in enumerate(values.T):
+#         for row, val in enumerate(var):
+#             data.setObject(row, col, val)
+#
+#     return data
+
 
 def tetrad_graph_to_pcalg(g):
     endpoint_map = {"NULL": 0,
