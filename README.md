@@ -43,4 +43,4 @@ If you're Python-based, you could consider using [causal-learn](https://github.c
 
 These last three commands should cause the examples to run various algorithms in (Java) Tetrad and print out result graphs in several different ways in Python--using the original Java graph class, using the PCALG-style general graph matrix, and using GeneralGraph in causal-learn.
 
-**This project is not yet stable--it will be expanded in ways listed above, though the example files are correct.**
+**This project is not yet stable--it will be expanded in ways listed above, though the example files are correct. Also, this may possibly be moved into the py-causal module as a new version.**
