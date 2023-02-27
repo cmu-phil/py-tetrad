@@ -11,7 +11,9 @@ JPype allows Java interfaces to be implemented in Python, which should make it p
 
 We will add Read The Docs documentation.
  
-This **replaces the older [py-causal](https://github.com/bd2kccd/py-causal) package**, which used Javabridge to connect Python to Java, with an outdated version of Tetrad, so please if you're using py-causal, watch this project and switch over as soon as it is stable. Also, if you're Python-based, consider using [causal-learn](https://github.com/py-why/causal-learn) algorithms where available.
+This **replaces the older [py-causal](https://github.com/bd2kccd/py-causal) package**, which used Javabridge to connect Python to Java, with an outdated version of Tetrad, so please if you're using py-causal, watch this project and switch over as soon as it is stable. **We may optionally put this code into the py-causal module as a new version.** 
+
+If you're Python-based, you could consider using [causal-learn](https://github.com/py-why/causal-learn) algorithms where available.
 
 # Install
 
@@ -41,4 +43,4 @@ This **replaces the older [py-causal](https://github.com/bd2kccd/py-causal) pack
 
 These last three commands should cause the examples to run various algorithms in (Java) Tetrad and print out result graphs in several different ways in Python--using the original Java graph class, using the PCALG-style general graph matrix, and using GeneralGraph in causal-learn.
 
-**This project is not yet stable--it will be expanded in ways listed above, though the example files are correct.**
+**This project is not yet stable--it will be expanded in ways listed above, though the example files are correct. Also, this may possibly be moved into the py-causal module as a new version.**
