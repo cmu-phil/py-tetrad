@@ -23,9 +23,11 @@ print(data)
 
 variables = data.getVariables()
 
-score = ts.SemBicScoreDGWrapper(data)
-score.setPenaltyDiscount(2)
-score.setStructurePrior(0)
+# score = ts.SemBicScoreDGWrapper(data)
+score = ts.BDeuScore(data)
+# score.setPenaltyDiscount(1)
+score.setSamplePrior(10)
+score.setStructurePrior(1)
 
 test = ts.IndTestScore(score, data)
 test.setAlpha(0.01)
