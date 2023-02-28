@@ -39,5 +39,4 @@ tetrad_fci = ts.Fci(test)
 tetrad_fci_graph = tetrad_fci.search()
 print(tetrad_fci_graph)
 
-
-
+# These differ by one arrowhead.
