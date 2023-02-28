@@ -35,7 +35,7 @@ test = ts.IndTestFisherZ(data, 0.05)
 tetrad_fci = ts.Fci(test)
 tetrad_fci_graph = tetrad_fci.search()
 
-help(ts.Pc.search)
+help(ts.Fci.search)
 
 
 print(tetrad_fci_graph)
