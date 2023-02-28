@@ -28,10 +28,6 @@ print(data)
 
 variables = data.getVariables()
 
-# score = ts.SemBicScore(data)
-# score.setPenaltyDiscount(2)
-# score.setStructurePrior(0)
-
 test = ts.IndTestFisherZ(data, 0.05)
 
 print("\nCL FCI\n")
