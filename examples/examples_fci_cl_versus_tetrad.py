@@ -23,10 +23,6 @@ df = df.astype({col: "float64" for col in df.columns})
 data = tr.data_frame_to_tetrad_data(df)
 print(data)
 
-variables = data.getVariables()
-
-test = ts.IndTestFisherZ(data, 0.05)
-
 print("\nCL FCI\n")
 G, edges = fci(np.array(df), fisherz, 0.05)
 out = str(G)
@@ -35,6 +31,7 @@ for i, col in enumerate(df.columns):
 print(out)
 
 print("\nTetrad FCI\n")
+test = ts.IndTestFisherZ(data, 0.05)
 tetrad_fci = ts.Fci(test)
 tetrad_fci_graph = tetrad_fci.search()
 print(tetrad_fci_graph)
