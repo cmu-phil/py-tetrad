@@ -112,7 +112,7 @@ statistics.add(ac.statistic.NoSemidirectedF1())
 
 statistics.add(ac.statistic.ElapsedCpuTime())
 
-comparison =ac.Comparison()
+comparison = ac.Comparison()
 comparison.setShowAlgorithmIndices(True)
 comparison.setComparisonGraph(ac.Comparison.ComparisonGraph.true_DAG)
 comparison.setParallelized(True)
