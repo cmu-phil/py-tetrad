@@ -9,6 +9,6 @@ def startJVM():
     sys.path.append(BASE_DIR)
 
     try:
-        jpype.startJVM(classpath=[f"{BASE_DIR}/tetrad-gui-7.2.2-launch.jar"])
+        jpype.startJVM(classpath=[f"{BASE_DIR}/tetrad-gui-7.2.2-launch.jar",f"{BASE_DIR}/tetrad-gui-7.2.2-javadoc.jar"])
     except OSError:
         print("JVM already started")

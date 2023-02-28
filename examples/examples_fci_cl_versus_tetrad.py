@@ -21,7 +21,7 @@ df = pd.read_csv(f"{BASE_DIR}/examples/resources/airfoil-self-noise.continuous.t
 df = df.astype({col: "float64" for col in df.columns})
 
 data = tr.data_frame_to_tetrad_data(df)
-print(data)
+# print(data)
 
 print("\nCL FCI\n")
 G, edges = fci(np.array(df), fisherz, 0.05)
@@ -34,6 +34,10 @@ print("\nTetrad FCI\n")
 test = ts.IndTestFisherZ(data, 0.05)
 tetrad_fci = ts.Fci(test)
 tetrad_fci_graph = tetrad_fci.search()
+
+help(ts.Pc.search)
+
+
 print(tetrad_fci_graph)
 
 # These differ by one arrowhead, missing R3 rule application
