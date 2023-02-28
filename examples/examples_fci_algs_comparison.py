@@ -14,7 +14,13 @@ startJVM()
 
 from edu.cmu.tetrad.util import Params, Parameters
 
-import edu.cmu.tetrad.algcomparison as ac
+from edu.cmu.tetrad.algcomparison import Comparison
+from edu.cmu.tetrad.algcomparison.algorithm import Algorithms
+from edu.cmu.tetrad.algcomparison.simulation import Simulations
+import edu.cmu.tetrad.algcomparison.simulation as sim
+import edu.cmu.tetrad.algcomparison.score as score
+import edu.cmu.tetrad.algcomparison.graph as graph
+import edu.cmu.tetrad.algcomparison.independence as ind
 import edu.cmu.tetrad.algcomparison.statistic as stat
 import edu.cmu.tetrad.algcomparison.algorithm.oracle.pag as pag
 
@@ -59,10 +65,10 @@ params.set(Params.DIFFERENT_GRAPHS, True)
 
 params.set(Params.ADD_ORIGINAL_DATASET, False)
 
-score = ac.score.SemBicScore()
-test = ac.independence.FisherZ()
+score = score.SemBicScore()
+test = ind.FisherZ()
 
-algorithms = ac.algorithm.Algorithms()
+algorithms = Algorithms()
 
 algorithms.add(pag.Fci(test))
 algorithms.add(pag.Rfci(test))
@@ -72,8 +78,8 @@ algorithms.add(pag.LVSWAP_1(test, score))
 algorithms.add(pag.LVSWAP_2a(test, score))
 algorithms.add(pag.LVSWAP_2b(test, score))
 
-simulations = ac.simulation.Simulations()
-simulations.add(ac.simulation.SemSimulation(ac.graph.RandomForward()))
+simulations = Simulations()
+simulations.add(sim.SemSimulation(graph.RandomForward()))
 
 statistics = stat.Statistics()
 statistics.add(stat.LegalPag())
@@ -114,9 +120,9 @@ statistics.add(stat.NoSemidirectedF1())
 
 statistics.add(stat.ElapsedCpuTime())
 
-comparison = ac.Comparison()
+comparison = Comparison()
 comparison.setShowAlgorithmIndices(True)
-comparison.setComparisonGraph(ac.Comparison.ComparisonGraph.true_DAG)
+comparison.setComparisonGraph(Comparison.ComparisonGraph.true_DAG)
 comparison.setParallelized(True)
 
 comparison.compareFromSimulations("../testLvSwap", simulations, algorithms, statistics, params)
