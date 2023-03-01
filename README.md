@@ -28,12 +28,8 @@ We're currently using the stable Tetrad version 7.2.2, which is hard-coded for u
       export JAVA_HOME=/Library/java/JavaVirtualMachines/amazon-corretto-18.jdk
       
       python3 examples_continuous.py
-      
-      python3 examples_discrete.py
-    
-      python3 examples_mixed.py
 
-These last three commands should cause the examples to run various algorithms in (Java) Tetrad and print out result graphs in several different ways in Python--using the original Java graph class, using the PCALG-style general graph matrix, and using GeneralGraph in causal-learn.
+These last commands should cause the examples to run various algorithms in (Java) Tetrad and print out result graphs in several different ways in Python--using the original Java graph class, using the PCALG-style general graph matrix, and using GeneralGraph in causal-learn. Feel free to explore other example files in that directory; the plan it to add more.
 
 You can of course load py-causal into a Python editor like PyCharm. The only issue at the moment is that PyCharm does not recognize the Java packages and puts some read underlining in the editor that you can't get rid of. Just ignore such red underlining for Java packages; the modules will run.
 
