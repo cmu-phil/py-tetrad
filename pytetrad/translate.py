@@ -54,20 +54,22 @@ def pandas_to_tetrad(df: DataFrame, dtypes=[np.floating]):
 
     return td.BoxDataSet(databox, variables)
 
+
 def tetrad_to_pandas(data: td.DataSet):
     names = data.getVariableNames()
     columns_ = []
 
     for name in names:
-            columns_.append(str(name))
+        columns_.append(str(name))
 
     df: DataFrame = pd.DataFrame(columns=columns_, index=range(data.getNumRows()))
 
     for row in range(data.getNumRows()):
         for col in range(data.getNumColumns()):
-            df.at[row,columns_[col]] = data.getObject(row, col)
+            df.at[row, columns_[col]] = data.getObject(row, col)
 
     return df
+
 
 def tetrad_graph_to_pcalg(g):
     endpoint_map = {"NULL": 0,
