@@ -25,7 +25,7 @@ df = pd.read_csv(f"{BASE_DIR}/examples/resources/airfoil-self-noise.continuous.t
 df = df.astype({col: "float64" for col in df.columns})
 
 data = tr.pandas_to_tetrad(df)
-print(data)
+# print(data)
 
 variables = data.getVariables()
 
@@ -37,6 +37,7 @@ test = ts.IndTestScore(score, data)
 test.setAlpha(0.01)
 
 fges = ts.Fges(score)
+fges.setVerbose(True)
 fges_graph = fges.search()
 print_graph('FGES', fges_graph)
 
