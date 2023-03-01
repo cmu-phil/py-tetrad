@@ -59,7 +59,7 @@ def tetrad_to_pandas(data: td.DataSet):
     columns_ = []
 
     for name in names:
-        columns_.append(str(name))
+            columns_.append(str(name))
 
     df: DataFrame = pd.DataFrame(columns=columns_, index=range(data.getNumRows()))
 
