@@ -1,23 +1,11 @@
 # py-tetrad
-This package makes algorithms/code in (Java) Tetrad directly available in Python via [JPype](https://github.com/jpype-project/jpype).
+This package shows how to make algorithms/code in [Tetrad](https://github.com/cmu-phil/tetrad) directly available in Python via [JPype](https://github.com/jpype-project/jpype). One is not of course limited to doing it this way; we aim mainly to be giving examples of how it can be done along with some methods for translating dataset, graphs, and such, between Java and Python to make it easier to use Tetrad as part of a Python workflow.
 
-Currently the package contains a translate.py file, which helps to translate datasets from Python (pandas) back and forth to Java (Tetrad) and graphs from Java (Tetrad) back into Python. (The reverse is not yet implemented.)
-
-It also contains several example files, which are a bit of a mess at the moment but illustrate how to do some basic stuff, like loading a dataset in Python, translating it to Java, running a search in Java, and porting the result graph back to a causal-learn GeneralGraph or a PCALG endpoint matrix graph.
-
-The entire Tetrad codebase is made available via JPype, so more is possible.
-
-JPype allows Java interfaces to be implemented in Python, which should make it possible to use causal-learn scores and tests in the (Java) Tetrad code, from the vantage point of Python, though this hasn't been done yet.
-
-We will add Read The Docs documentation.
+Part of our translations an examples make use of the [causal-learn](https://github.com/py-why/causal-learn) Python pacakge for causal structure learning.
  
-This is intended to replace the older [py-causal](https://github.com/bd2kccd/py-causal) package, which used Javabridge to connect Python to Java, which was (difficult to install and buggy on some platforms and used an outdated version of Tetrad, so please if you're using py-causal, watch this project and switch over as soon as it is stable. We may optionally put this code into the py-causal module as a new version.
- 
-In py-causal there are many worked examples; we will aim to provide an adequate set of examples for py-tetrad as well. Also, in some cases it's difficult o know how to use the Tetrad API; we will aim to clean up the Tetrad API for these cases for the _next_ version of Tetrad, 7.3.9.
+This is intended to replace the older [py-causal](https://github.com/bd2kccd/py-causal) package, which used Javabridge to connect Python to Java. Javabridge was (difficult to install, and buggy, on some platforms and used an outdated version of Tetrad, so if you're using py-causal, watch this project and switch over as soon as it is stable. We may optionally put this code into the py-causal module as a new version. Once nice thing about In py-causal was that there were many worked examples; we will aim to provide an adequate set of examples for py-tetrad as well. Also, in some cases it's difficult o know how to use the Tetrad API; we will aim to clean up the Tetrad API for these cases for the _next_ version of Tetrad, 7.3.9.
 
-If you're Python-based, you might consider using [causal-learn](https://github.com/py-why/causal-learn) algorithms where available. We will add some examples for algorithms that overlap with Tetrad to show the comparison.
-
-We're curringly using the stable Tetrad version 7.2.2, which is hard-coded for use in the project. All artifacts for Tetrad (including javadocs) are on Maven Central, including all checksums for security; the link is on the [Tetrad GitHub page](https://github.com/cmu-phil/tetrad). If you'd like to view the javadocs, download them into a new directory and unzip them; then view the in a browser.
+We're currently using the stable Tetrad version 7.2.2, which is hard-coded for use in the project. All artifacts for Tetrad (including javadocs) are on [Maven Central](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/). If you'd like to view the javadocs, download them into a new directory and unzip them; then view the in a browser.
 
 # Install
 
