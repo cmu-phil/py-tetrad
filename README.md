@@ -5,9 +5,7 @@ Currently the package contains a translate.py file, which helps to translate dat
 
 It also contains several example files, which are a bit of a mess at the moment but illustrate how to do some basic stuff, like loading a dataset in Python, translating it to Java, running a search in Java, and porting the result graph back to a causal-learn GeneralGraph or a PCALG endpoint matrix graph.
 
-We'll clean up the example files.
-
-Of course the entire Tetrad codebase is made available via JPype, so more is possible.
+The entire Tetrad codebase is made available via JPype, so more is possible.
 
 JPype allows Java interfaces to be implemented in Python, which should make it possible to use causal-learn scores and tests in the (Java) Tetrad code, from the vantage point of Python, though this hasn't been done yet.
 
