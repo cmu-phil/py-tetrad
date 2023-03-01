@@ -12,8 +12,8 @@ JPype allows Java interfaces to be implemented in Python, which should make it p
 We will add Read The Docs documentation.
  
 This is intended to replace the older [py-causal](https://github.com/bd2kccd/py-causal) package, which used Javabridge to connect Python to Java, which was (difficult to install and buggy on some platforms and used an outdated version of Tetrad, so please if you're using py-causal, watch this project and switch over as soon as it is stable. We may optionally put this code into the py-causal module as a new version.
-
-Of course, in py-causal there are many worked examples; we will aim to provide an adequate set of examples for py-tetrad as well.
+ 
+In py-causal there are many worked examples; we will aim to provide an adequate set of examples for py-tetrad as well. Also, in some cases it's difficult o know how to use the Tetrad API; we will aim to clean up the Tetrad API for these cases for the _next_ version of Tetrad, 7.3.9.
 
 If you're Python-based, you might consider using [causal-learn](https://github.com/py-why/causal-learn) algorithms where available. We will add some examples for algorithms that overlap with Tetrad to show the comparison.
 
