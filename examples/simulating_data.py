@@ -8,15 +8,9 @@ sys.path.append(BASE_DIR)
 from pytetrad.util import startJVM
 startJVM()
 
-# Note: This is an example of how to write an algcomparison script to do algorithm
-# comparison in Tetrad. It may not be the best example yet, but it does make
-# clear how the script can be written. JR 2023-02-27
-
 from edu.cmu.tetrad.util import Params, Parameters
-
 import edu.cmu.tetrad.algcomparison.simulation as sim
 import edu.cmu.tetrad.algcomparison.graph as graph
-
 import pytetrad.translate as tr
 
 # An easy way to simulate data in Tetrad is to use the algorithm comparison tool.
