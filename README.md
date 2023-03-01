@@ -19,7 +19,7 @@ Of course, in py-causal there are many worked examples; we will hopefully be abl
 
 If you're Python-based, you might consider using [causal-learn](https://github.com/py-why/causal-learn) algorithms where available. We will add some examples for algorithms that overlap with Tetrad to show the comparison.
 
-We're curringly using the stable Tetrad version 7.2.2, which is hard-coded for use in the project. Javadocs are provided; if you'd like to use these, download them to a new directory on your computer and unzil them (jars can be unzipped). Then view them with a browser.
+We're curringly using the stable Tetrad version 7.2.2, which is hard-coded for use in the project. Javadocs are provided; if you'd like to use these, download them to a new directory on your computer and unzip them (jars can be unzipped). Then view them with a browser.
 
 # Install
 
