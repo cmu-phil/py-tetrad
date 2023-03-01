@@ -13,7 +13,7 @@ We're currently using the stable Tetrad version 7.2.2, which is hard-coded for u
 
     * It may be necessary, depending on how you set up your Python, to set JAVA_HOME to the path to this JRE/JDK installation.
 
-1. Make sure you are using the latest Python--at least 3.7--as required by JPype; if not, [update it](https://www.pythoncentral.io/how-to-update-python/). The version of Python needs to be at least 3.7, since JPype requires all of underlying references to Python 2 be eliminated--see the [JPype documentation](https://jpype.readthedocs.io/en/latest/).
+1. Make sure you are using the latest Python--at least 3.7--as required by JPype; if not, [update it](https://www.pythoncentral.io/how-to-update-python/). 
 
 1. We use causal-learn, so all of its dependencies, and causal-learn itself, should be installed--see the [Docs for the causal-learn package](https://causal-learn.readthedocs.io/en/latest/).
 
