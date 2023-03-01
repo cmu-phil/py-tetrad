@@ -87,7 +87,12 @@ def tetrad_graph_to_pcalg(g):
         A[j][i] = endpoint_map[edge.getEndpoint1().name()]
         A[i][j] = endpoint_map[edge.getEndpoint2().name()]
 
-    return A
+    columns_ = []
+
+    for name in nodes:
+        columns_.append(str(name))
+
+    return pd.DataFrame(A, columns = columns_)
 
 
 def tetrad_graph_to_causal_learn(g):
