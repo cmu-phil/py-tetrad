@@ -8,7 +8,7 @@ sys.path.append(BASE_DIR)
 from pytetrad.util import startJVM
 startJVM()
 
-# This is an example of how to write an algcomparison script to do algorithm
+# Note: This is an example of how to write an algcomparison script to do algorithm
 # comparison in Tetrad. It may not be the best example yet, but it does make
 # clear how the script can be written. JR 2023-02-27
 
