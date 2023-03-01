@@ -20,7 +20,7 @@ from causallearn.utils.cit import chisq, fisherz, kci, d_separation
 df = pd.read_csv(f"{BASE_DIR}/examples/resources/airfoil-self-noise.continuous.txt", sep="\t")
 df = df.astype({col: "float64" for col in df.columns})
 
-data = tr.data_frame_to_tetrad_data(df)
+data = tr.pandas_to_tetrad(df)
 
 print("\nCL FCI\n")
 G, edges = fci(np.array(df), fisherz, 0.05)

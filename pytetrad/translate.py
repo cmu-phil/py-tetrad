@@ -1,11 +1,14 @@
 import os
 import sys
 
+from pandas import DataFrame
+
 # this needs to happen before import pytetrad (otherwise lib cant be found)
 BASE_DIR = os.path.join(os.path.dirname(__file__), '..')
 sys.path.append(BASE_DIR)
 
 import numpy as np
+import pandas as pd
 from causallearn.graph.GeneralGraph import GeneralGraph
 from causallearn.graph.GraphNode import GraphNode
 from causallearn.graph.Endpoint import Endpoint
@@ -20,7 +23,7 @@ import edu.cmu.tetrad.data as td
 # interpreted as continuous, the default is [np.floating], to 
 # interpret integers as continuous as well use [np.floating, np.integer]
 # implemnetaion not final: could be changed flag for ints as continous
-def data_frame_to_tetrad_data(df, dtypes=[np.floating]):
+def pandas_to_tetrad(df: DataFrame, dtypes=[np.floating]):
     cols = df.columns
     discrete_cols = [col for col in cols if df[col].dtypes not in dtypes]
     category_map = {col: {val: i for i, val in enumerate(df[col].unique())} for col in discrete_cols}
@@ -51,38 +54,20 @@ def data_frame_to_tetrad_data(df, dtypes=[np.floating]):
 
     return td.BoxDataSet(databox, variables)
 
-# Note: This works too, though I actually like the other way of doing
-# it better at the moment, because if you did want the categories for
-# a variable in a particular (sorted?) order, that would be easy to
-# accomplish. -- JR 2023-02-27
-# def data_frame_to_tetrad_data(df, dtypes=[np.floating]):
-#     cols = df.columns
-#     discrete_cols = [col for col in cols if df[col].dtypes not in dtypes]
-#     values = df.values
-#     n, p = df.shape
-#
-#     variables = util.ArrayList()
-#     for col in cols:
-#         if col in discrete_cols:
-#             variables.add(td.DiscreteVariable(str(col)))
-#         else:
-#             variables.add(td.ContinuousVariable(str(col)))
-#
-#     if len(discrete_cols) == len(cols):
-#         databox = td.IntDataBox(n, p)
-#     elif len(discrete_cols) == 0:
-#         databox = td.DoubleDataBox(n, p)
-#     else:
-#         databox = td.MixedDataBox(variables, n)
-#
-#     data = td.BoxDataSet(databox, variables)
-#
-#     for col, var in enumerate(values.T):
-#         for row, val in enumerate(var):
-#             data.setObject(row, col, val)
-#
-#     return data
+def tetrad_to_pandas(data: td.DataSet):
+    names = data.getVariableNames()
+    columns_ = []
 
+    for name in names:
+        columns_.append(str(name))
+
+    df: DataFrame = pd.DataFrame(columns=columns_, index=range(data.getNumRows()))
+
+    for row in range(data.getNumRows()):
+        for col in range(data.getNumColumns()):
+            df.at[row,columns_[col]] = data.getObject(row, col)
+
+    return df
 
 def tetrad_graph_to_pcalg(g):
     endpoint_map = {"NULL": 0,

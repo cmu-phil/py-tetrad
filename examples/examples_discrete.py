@@ -16,7 +16,7 @@ import edu.cmu.tetrad.search as ts
 
 df = pd.read_csv(f"{BASE_DIR}/examples/resources/bridges.data.version211_rev.txt", sep="\t")
 
-data = tr.data_frame_to_tetrad_data(df)
+data = tr.pandas_to_tetrad(df)
 print(data)
 
 variables = data.getVariables()
