@@ -77,6 +77,6 @@ print(tetrad_fci_graph)
 # 9. Velocity o-> Attack
 # 10. Velocity o-> Pressure
 #
-# NOTE: The CL result is missing one R3 rule application.
+# NOTE: The CL result is missing one R3 rule application according to Tetrad
 # Tetrad verbose output:
 # "Orienting edge (R3: Double triangle): Displacement o-> Chord"
