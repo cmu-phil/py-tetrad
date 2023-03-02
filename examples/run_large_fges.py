@@ -42,6 +42,7 @@ params.set(Params.COEF_HIGH, 1)
 params.set(Params.VAR_LOW, 1)
 params.set(Params.VAR_HIGH, 3)
 params.set(Params.FAITHFULNESS_ASSUMED, True)
+params.set(Params.PARALLELIZED, True)
 params.set(Params.VERBOSE, True)
 
 params.set(Params.NUM_RUNS, 1)
