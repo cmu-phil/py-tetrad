@@ -1,5 +1,5 @@
 # py-tetrad
-This package shows how to make algorithms/code in [Tetrad](https://github.com/cmu-phil/tetrad) directly available in Python via [JPype](https://github.com/jpype-project/jpype). One is not of course limited to doing it this way; we aim mainly to be giving examples of how it can be done along with some methods for translating dataset, graphs, and such, between Java and Python to make it easier to use Tetrad as part of a Python workflow.
+This package shows how to make algorithms/code in [Tetrad](https://github.com/cmu-phil/tetrad) directly available in Python via [JPype](https://github.com/jpype-project/jpype). One is not of course limited to doing it this way; we aim mainly to be giving examples of how it can be done along with some methods for translating datasets, graphs, and such, between Java and Python to make it easier to use Tetrad as part of a Python workflow.
 
 Part of our translations and examples make use of the [causal-learn](https://github.com/py-why/causal-learn) Python pacakge for causal structure learning.
  
