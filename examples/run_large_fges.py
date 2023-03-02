@@ -33,7 +33,7 @@ params = Parameters()
 params.set(Params.PENALTY_DISCOUNT, 2)
 
 params.set(Params.SAMPLE_SIZE, 3000)
-params.set(Params.NUM_MEASURES, 5000)
+params.set(Params.NUM_MEASURES, 10000)
 params.set(Params.AVG_DEGREE, 2)
 params.set(Params.NUM_LATENTS, 0)
 params.set(Params.RANDOMIZE_COLUMNS, False)
