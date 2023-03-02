@@ -55,7 +55,7 @@ algorithms = Algorithms()
 algorithms.add(cpdag.Fges(score))
 
 simulations = Simulations()
-simulations.add(sim.SemSimulation(graph.RandomForward()))
+simulations.add(sim.LinearFisherModel(graph.RandomForward()))
 
 statistics = stat.Statistics()
 
