@@ -27,7 +27,7 @@ We're currently using the stable Tetrad version 7.2.2, which is hard-coded for u
       
       export JAVA_HOME=/Library/java/JavaVirtualMachines/amazon-corretto-18.jdk
       
-      python3 examples_continuous.py
+      python3 run_searches_on_continuous_data.py
 
 These last commands should cause the examples to run various algorithms in (Java) Tetrad and print out result graphs in several different ways in Python--using the original Java graph class, using the PCALG-style general graph matrix, and using GeneralGraph in causal-learn. Feel free to explore other example files in that directory; the plan it to add more.
 
