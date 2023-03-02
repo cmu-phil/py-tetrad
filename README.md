@@ -33,4 +33,4 @@ These last commands should cause the examples to run various algorithms in (Java
 
 You can of course load py-causal into a Python editor like PyCharm. The only issue at the moment is that PyCharm does not recognize the Java packages and puts some read underlining in the editor that you can't get rid of. Just ignore such red underlining for Java packages; the modules will run.
 
-**This project is not yet stable--it will be expanded in ways listed above, though the example files are correct. Also, this may possibly be moved into the py-causal module as a new version.**
+**This project is not yet stable--it will be expanded in ways listed above, though the example files run correctly. Also, this may possibly be moved into the py-causal module as a new version.**
