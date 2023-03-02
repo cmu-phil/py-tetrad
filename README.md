@@ -1,7 +1,7 @@
 # py-tetrad
 This package shows how to make algorithms/code in [Tetrad](https://github.com/cmu-phil/tetrad) directly available in Python via [JPype](https://github.com/jpype-project/jpype). One is not of course limited to doing it this way; we aim mainly to be giving examples of how it can be done along with some methods for translating dataset, graphs, and such, between Java and Python to make it easier to use Tetrad as part of a Python workflow.
 
-Part of our translations an examples make use of the [causal-learn](https://github.com/py-why/causal-learn) Python pacakge for causal structure learning.
+Part of our translations and examples make use of the [causal-learn](https://github.com/py-why/causal-learn) Python pacakge for causal structure learning.
  
 This is intended to replace the older [py-causal](https://github.com/bd2kccd/py-causal) package, which used Javabridge to connect Python to Java. Javabridge was difficult to install (and buggy) on some platforms and used an outdated version of Tetrad, so if you're using py-causal, watch this project and switch over as soon as it is stable. We may optionally put this code into the py-causal module as a new version. Once nice thing about In py-causal was that there were many worked examples; we will aim to provide an adequate set of examples for py-tetrad as well. Also, in some cases it's difficult o know how to use the Tetrad API; we will aim to clean up the Tetrad API for these cases for the _next_ version of Tetrad, 7.3.9.
 
