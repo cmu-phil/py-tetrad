@@ -50,6 +50,8 @@ df.to_csv('../mydata.csv', index=False)
 
 with open('../mygraph.txt', 'w') as f:
     f.write(str(gr))
+
+# To save out in PCALG format:
 # gr.to_csv('../mygraph.csv', index=False)
 
 
