@@ -25,7 +25,7 @@ export JAVA_HOME=/Library/java/JavaVirtualMachines/amazon-corretto-18.jdk
 
 1. Finally, you will need to clone this GitHub repository, so if you don't have Git installed, first google and install that for your machine type, and then in a terminal window,for instance, cd to a directory where you want the cloned project to appear. 
    
-You will need to adjust this for the actual location of your Java JDK and for your platform. Then to check out py-tetrad and run an example module, you can type the following:
+1. Then to check out py-tetrad and run an example module, you can type the following:
     
 ```      
 git clone https://github.com/cmu-phil/py-tetrad
