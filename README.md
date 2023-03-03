@@ -19,7 +19,7 @@ We're currently using the stable Tetrad version 7.2.2, which is hard-coded for u
 
 1. Finally, you will need to clone this GitHub repository, so if you don't have Git installed, first google and install that for your machine type, and then in a terminal window,for instance, cd to a directory where you want the cloned project to appear. 
    
-1. Then to check out py-tetrad and run an example module, you can type the following:
+Then to check out py-tetrad and run an example module, you can type the following:
     
 ```      
 git clone https://github.com/cmu-phil/py-tetrad
