@@ -30,14 +30,14 @@ params.set(Params.VAR_HIGH, 3)
 params.set(Params.VERBOSE, False)
 params.set(Params.NUM_RUNS, 1)
 
-sim_ = sim.SemSimulation(graph.RandomForward())
+sim_ = sim.LinearFisherModel(graph.RandomForward())
 sim_.createData(params, True)
 data_model = sim_.getDataModel(0)
 df = tr.tetrad_to_pandas(data_model)
 
 print(df)
 
-df.to_csv('/Users/josephramsey/Downloads/mydata.csv', index=False)
+df.to_csv('../mydata.csv', index=False)
 
 
 
