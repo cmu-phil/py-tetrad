@@ -27,7 +27,7 @@ cd py-tetrad/examples
 python3 run_searches_on_continuous_data.py
 ```
 
-If everything is set up right, this last command should cause this example module to run various algorithms in (Java) Tetrad and print out result graphs in several different ways in Python--using the original Java graph class, using the PCALG-style general graph matrix, and using GeneralGraph in causal-learn. Feel free to explore other example modules in that directory.
+If everything is set up right, the last command should cause this example module to run various algorithms in (Java) Tetrad and print out result graphs in several different ways in Python--using the original Java graph class, using the PCALG-style general graph matrix, and using GeneralGraph in causal-learn. Feel free to explore other example modules in that directory.
 
 If you load py-causal in PyCharm, the only issue is that PyCharm does not recognize the Java packages and puts some red underlining in the editor that you can't get rid of. Just ignore such red underlining for Java packages; the modules will run.
 
