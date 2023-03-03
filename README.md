@@ -11,7 +11,7 @@ We're currently using the stable Tetrad version 7.2.2, which is hard-coded for u
 
 1. It is necessary to install a JAVA JRE or JDK, preferably the most recent version available with long term support (LTS), certainly **greater than** 1.8 (version 8). For stability across platforms, we find that a [Corretto JRE/JDK Installation](https://aws.amazon.com/corretto/?filtered-posts.sort-by=item.additionalFields.createdDate&filtered-posts.sort-order=desc) works well.
 
-    * It may be necessary, depending on how this installation is done on your platform, to set JAVA_HOME to the path to this JRE/JDK installation. (The installation may alread do that.)
+    * It may be necessary, depending on how this installation is done on your platform, to set JAVA_HOME to the path to this JRE/JDK installation. (The installation may already do that.)
 
 1. Make sure you are using the latest Python--at least 3.7--as required by JPype; if not, [update it](https://www.pythoncentral.io/how-to-update-python/). 
 
