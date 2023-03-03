@@ -37,4 +37,4 @@ This last command should cause the examples to run various algorithms in (Java) 
 
 If you load py-causal in PyCharm, the only issue is that PyCharm does not recognize the Java packages and puts some red underlining in the editor that you can't get rid of. Just ignore such red underlining for Java packages; the modules will run.
 
-**This project is not yet stable--it will be expanded in ways listed above, though the example files run correctly. Also, this may possibly be moved into the py-causal module as a new version.**
+**The use of JPype with Tetrad is now stable, though we plan to add more example files in the near future.**
