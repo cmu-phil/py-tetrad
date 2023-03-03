@@ -19,18 +19,20 @@ We're currently using the stable Tetrad version 7.2.2, which is hard-coded for u
 
 1. We use the JPype package to interface Python with Java. For installation instructions, see the [Docs for the JPype package](https://jpype.readthedocs.io/en/latest/).
 
-1. Finally, you will need to clone this GitHub repository, so if you don't have Git installed, first google and install that for your machine type, and then in a terminal window cd to a directory where you want the cloned project to appear and type (on a Mac--make adjustments for other platforms and adjusting the JAVA_HOME path to your version of the JRE/JDK):
+1. Finally, you will need to clone this GitHub repository, so if you don't have Git installed, first google and install that for your machine type, and then in a terminal window,for instance, cd to a directory where you want the cloned project to appear. First, if JAVA_HOME is not alread set to the correct location of your Java installation above, you'll need ot set it--on a Mac you'd type something like this:
 
+      export JAVA_HOME=/Library/java/JavaVirtualMachines/amazon-corretto-18.jdk
+      
+adjusting for the actual location of your Java JDK. Then to check out py-tetrad and run an example module, you can type the following:
+      
       git clone https://github.com/cmu-phil/py-tetrad
       
       cd py-tetrad/examples
       
-      export JAVA_HOME=/Library/java/JavaVirtualMachines/amazon-corretto-18.jdk
-      
       python3 run_searches_on_continuous_data.py
 
-This last command should cause the examples to run various algorithms in (Java) Tetrad and print out result graphs in several different ways in Python--using the original Java graph class, using the PCALG-style general graph matrix, and using GeneralGraph in causal-learn. Feel free to explore other example files in that directory; the plan is to add more.
+This last command should cause the examples to run various algorithms in (Java) Tetrad and print out result graphs in several different ways in Python--using the original Java graph class, using the PCALG-style general graph matrix, and using GeneralGraph in causal-learn. Feel free to explore other example modules in that directory; the plan is to add more.
 
-You can of course load py-causal into a Python editor like PyCharm. The only issue at the moment is that PyCharm does not recognize the Java packages and puts some read underlining in the editor that you can't get rid of. Just ignore such red underlining for Java packages; the modules will run.
+If you load py-causal in PyCharm, the only issue is that PyCharm does not recognize the Java packages and puts some red underlining in the editor that you can't get rid of. Just ignore such red underlining for Java packages; the modules will run.
 
 **This project is not yet stable--it will be expanded in ways listed above, though the example files run correctly. Also, this may possibly be moved into the py-causal module as a new version.**
