@@ -17,9 +17,9 @@ We're currently using the stable Tetrad version 7.2.2, which is hard-coded for u
 
 1. We use the JPype package to interface Python with Java. For installation instructions, see the [Docs for the JPype package](https://jpype.readthedocs.io/en/latest/).
 
-1. Finally, you will need to clone this GitHub repository, so if you don't have Git installed, first google and install that for your machine type, and then in a terminal window,for instance, cd to a directory where you want the cloned project to appear. 
-   
-Then to check out py-tetrad and run an example module, you can type the following:
+1. Finally, you will need to clone this GitHub repository, so if you don't have Git installed, google and install that for your machine type,
+
+Then in a terminal window,for instance, cd to a directory where you want the cloned project to appear and type the following (or just copy and paste it):
     
 ```      
 git clone https://github.com/cmu-phil/py-tetrad
