@@ -9,7 +9,11 @@ We're currently using the stable Tetrad version 7.2.2, which is hard-coded for u
 
 # Install
 
-1. It is necessary to install a JAVA JRE or JDK, preferably the most recent version available with long term support (LTS), certainly **greater than** 1.8 (version 8). For stability across platforms, we find that a [Corretto JRE/JDK Installation](https://aws.amazon.com/corretto/?filtered-posts.sort-by=item.additionalFields.createdDate&filtered-posts.sort-order=desc) works well.
+1. It is necessary to install a JAVA JRE or JDK, preferably the most recent version available with long term support (LTS), certainly **greater than** 1.8 (version 8). For stability across platforms, we find that a [Corretto JRE/JDK Installation](https://aws.amazon.com/corretto/?filtered-posts.sort-by=item.additionalFields.createdDate&filtered-posts.sort-order=desc) works well. If JAVA_HOME is not already set to the correct location of your Java installation above, you'll need to set it--on a Mac you'd type something like this:
+
+```
+export JAVA_HOME=/Library/java/JavaVirtualMachines/amazon-corretto-18.jdk
+```
 
     * It may be necessary, depending on how this installation is done on your platform, to set JAVA_HOME to the path to this JRE/JDK installation. (The installation may already do that.)
 
@@ -19,11 +23,7 @@ We're currently using the stable Tetrad version 7.2.2, which is hard-coded for u
 
 1. We use the JPype package to interface Python with Java. For installation instructions, see the [Docs for the JPype package](https://jpype.readthedocs.io/en/latest/).
 
-1. Finally, you will need to clone this GitHub repository, so if you don't have Git installed, first google and install that for your machine type, and then in a terminal window,for instance, cd to a directory where you want the cloned project to appear. First, if JAVA_HOME is not alread set to the correct location of your Java installation above, you'll need to set it--on a Mac you'd type something like this:
-
-```
-export JAVA_HOME=/Library/java/JavaVirtualMachines/amazon-corretto-18.jdk
-```
+1. Finally, you will need to clone this GitHub repository, so if you don't have Git installed, first google and install that for your machine type, and then in a terminal window,for instance, cd to a directory where you want the cloned project to appear. 
    
 You will need to adjust this for the actual location of your Java JDK and for your platform. Then to check out py-tetrad and run an example module, you can type the following:
     
