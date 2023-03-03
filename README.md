@@ -1,17 +1,18 @@
 # py-tetrad
-This package shows how to make algorithms/code in [Tetrad](https://github.com/cmu-phil/tetrad) directly available in Python via [JPype](https://github.com/jpype-project/jpype). One is not of course limited to doing it this way; we aim mainly to be giving examples of how it can be done along with some methods for translating datasets, graphs, and such, between Java and Python to make it easier to use Tetrad as part of a Python workflow.
+This package shows how to make algorithms/code in [Tetrad](https://github.com/cmu-phil/tetrad) directly available in Python via [JPype](https://github.com/jpype-project/jpype). One is not of course limited to doing it this way; we aim mainly to be giving examples of _how_ it can be done along with some methods for translating datasets, graphs, and such, between Java and Python to make it easier to use Tetrad as part of a Python workflow.
 
-Part of our translations and examples make use of the [causal-learn](https://github.com/py-why/causal-learn) Python pacakge for causal structure learning.
+Part of our code makes use of the [causal-learn](https://github.com/py-why/causal-learn) Python pacakge for causal structure learning, to show how it can be integrated with that.
  
-This is intended to replace the older [py-causal](https://github.com/bd2kccd/py-causal) package, which used Javabridge to connect Python to Java. Javabridge was difficult to install (and buggy) on some platforms, and py-causal used an outdated version of Tetrad, so if you're using py-causal, watch this project and switch over as soon as it is stable. We may optionally put this code into the py-causal module as a new version. One nice thing about In py-causal was that there were many worked examples; we will aim to provide an adequate set of examples for py-tetrad as well. Also, in some cases it's difficult to know how to use the Tetrad API; we will aim to clean up the Tetrad API for these cases for the next version of Tetrad.
+This is intended to replace the older [py-causal](https://github.com/bd2kccd/py-causal) package. The installation procedure is much easier cross-platform, and the most recent Tetrad can be used. One nice thing about In py-causal was that there were many worked examples; we will aim to provide an adequate set of examples for py-tetrad as well. Also, in some cases it's difficult to know how to use the Tetrad API; we will aim to clean up the Tetrad API for these cases for the next version of Tetrad. Please add issues to our [Issue Tracker](https://github.com/cmu-phil/py-tetrad/issues) if you have problems, so we can work to make things easier, especially as this is still a new project.
 
 We're currently using the stable Tetrad version 7.2.2, which is hard-coded for use in the project. All artifacts for Tetrad are on [Maven Central](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/). If you'd like to view the javadocs for Tetrad 7.2.2, click [here](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/tetrad-lib/7.2.2/tetrad-lib-7.2.2-javadoc.jar) to download them, then move them into a new directory and unzip them; then view them in a browser.
 
 # Install
 
-1. It is necessary to install a JAVA JRE or JDK, preferably the most recent version available with long term support (LTS), certainly greater than 1.8 (version 8). For stability across platforms, we find that a [Corretto JRE/JDK Installation](https://aws.amazon.com/corretto/?filtered-posts.sort-by=item.additionalFields.createdDate&filtered-posts.sort-order=desc) works well.
+1. It is necessary to install a JAVA JRE or JDK, preferably the most recent version available with long term support (LTS), certainly **greater than** 1.8 (version 8). For stability across platforms, we find that a [Corretto JRE/JDK Installation](https://aws.amazon.com/corretto/?filtered-posts.sort-by=item.additionalFields.createdDate&filtered-posts.sort-order=desc) works well. 
 
-    * It may be necessary, depending on how this installation is done on your platform, to set JAVA_HOME to the path to this JRE/JDK installation. (The installation may alread do that.)
+
+1. If JAVA_HOME is not already set to the correct location of your Java installation above, you'll need to set it--on a Mac you'd type something like this: "export JAVA_HOME=/Library/java/JavaVirtualMachines/amazon-corretto-18.jdk". Adjust this for your platform and JDK/JRE installation.
 
 1. Make sure you are using the latest Python--at least 3.7--as required by JPype; if not, [update it](https://www.pythoncentral.io/how-to-update-python/). 
 
@@ -19,18 +20,18 @@ We're currently using the stable Tetrad version 7.2.2, which is hard-coded for u
 
 1. We use the JPype package to interface Python with Java. For installation instructions, see the [Docs for the JPype package](https://jpype.readthedocs.io/en/latest/).
 
-1. Finally, you will need to clone this GitHub repository, so if you don't have Git installed, first google and install that for your machine type, and then in a terminal window cd to a directory where you want the cloned project to appear and type (on a Mac--make adjustments for other platforms and adjusting the JAVA_HOME path to your version of the JRE/JDK):
+1. Finally, you will need to clone this GitHub repository, so if you don't have Git installed, google and install that for your machine type.
 
-      git clone https://github.com/cmu-phil/py-tetrad
-      
-      cd py-tetrad/examples
-      
-      export JAVA_HOME=/Library/java/JavaVirtualMachines/amazon-corretto-18.jdk
-      
-      python3 run_searches_on_continuous_data.py
+Then in a terminal window,for instance, cd to a directory where you want the cloned project to appear and type the following (or just copy and paste it):
+    
+```      
+git clone https://github.com/cmu-phil/py-tetrad
+cd py-tetrad/examples
+python3 run_searches_on_continuous_data.py
+```
 
-These last commands should cause the examples to run various algorithms in (Java) Tetrad and print out result graphs in several different ways in Python--using the original Java graph class, using the PCALG-style general graph matrix, and using GeneralGraph in causal-learn. Feel free to explore other example files in that directory; the plan is to add more.
+If everything is set up right, the last command should cause this example module to run various algorithms in (Java) Tetrad and print out result graphs in several different ways in Python--using the original Java graph class, using the PCALG-style general graph matrix, and using GeneralGraph in causal-learn. Feel free to explore other example modules in that directory.
 
-You can of course load py-causal into a Python editor like PyCharm. The only issue at the moment is that PyCharm does not recognize the Java packages and puts some read underlining in the editor that you can't get rid of. Just ignore such red underlining for Java packages; the modules will run.
+If you load py-causal in PyCharm, the only issue is that PyCharm does not recognize the Java packages and puts some red underlining in the editor that you can't get rid of. Just ignore such red underlining for Java packages; the modules will run. You can of course use your favorite method for editing and running Python modules. You know best.
 
-**This project is not yet stable--it will be expanded in ways listed above, though the example files run correctly. Also, this may possibly be moved into the py-causal module as a new version.**
+**The use of JPype with Tetrad in this project is now stable, though we plan to add more example files in the near future and more translation methods to the translate.py module.**
