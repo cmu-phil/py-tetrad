@@ -5,6 +5,11 @@ import sys
 BASE_DIR = os.path.join(os.path.dirname(__file__), '..')
 sys.path.append(BASE_DIR)
 
+import jpype
+import jpype.imports
+
+jpype.startJVM("-Xmx40g", classpath=[f"{BASE_DIR}/tetrad-gui-7.2.2-launch.jar"])
+
 from pytetrad.util import startJVM
 startJVM()
 
@@ -19,7 +24,7 @@ import pytetrad.translate as tr
 params = Parameters()
 
 params.set(Params.SAMPLE_SIZE, 500)
-params.set(Params.NUM_MEASURES, 2000)
+params.set(Params.NUM_MEASURES, 200)
 params.set(Params.AVG_DEGREE, 6)
 params.set(Params.NUM_LATENTS, 8)
 params.set(Params.RANDOMIZE_COLUMNS, True)
@@ -33,11 +38,19 @@ params.set(Params.NUM_RUNS, 1)
 sim_ = sim.LinearFisherModel(graph.RandomForward())
 sim_.createData(params, True)
 data_model = sim_.getDataModel(0)
+graph = sim_.getTrueGraph(0)
+
 df = tr.tetrad_to_pandas(data_model)
+gr = tr.tetrad_graph_to_causal_learn(graph)
 
 print(df)
+print(graph)
 
 df.to_csv('../mydata.csv', index=False)
+
+with open('../mygraph.txt', 'w') as f:
+    f.write(str(gr))
+# gr.to_csv('../mygraph.csv', index=False)
 
 
 
