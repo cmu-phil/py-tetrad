@@ -18,8 +18,8 @@ import pytetrad.translate as tr
 
 params = Parameters()
 
-params.set(Params.SAMPLE_SIZE, 1000)
-params.set(Params.NUM_MEASURES, 30)
+params.set(Params.SAMPLE_SIZE, 500)
+params.set(Params.NUM_MEASURES, 2000)
 params.set(Params.AVG_DEGREE, 6)
 params.set(Params.NUM_LATENTS, 8)
 params.set(Params.RANDOMIZE_COLUMNS, True)
@@ -33,9 +33,11 @@ params.set(Params.NUM_RUNS, 1)
 sim_ = sim.SemSimulation(graph.RandomForward())
 sim_.createData(params, True)
 data_model = sim_.getDataModel(0)
-data = tr.tetrad_to_pandas(data_model)
+df = tr.tetrad_to_pandas(data_model)
 
-print(data)
+print(df)
+
+df.to_csv('/Users/josephramsey/Downloads/mydata.csv', index=False)
 
 
 
