@@ -30,7 +30,7 @@ import edu.cmu.tetrad.algcomparison.algorithm.oracle.cpdag as cpdag
 # df = df.astype({col: "float64" for col in df.columns})
 
 params = Parameters()
-params.set(Params.PENALTY_DISCOUNT, 2)
+params.set(Params.PENALTY_DISCOUNT, 8)
 
 params.set(Params.SAMPLE_SIZE, 3000)
 params.set(Params.NUM_MEASURES, 10000)
