@@ -24,10 +24,12 @@ data = tr.pandas_to_tetrad(df)
 
 print("\nCL FCI\n")
 G, edges = fci(np.array(df), fisherz, 0.05)
-out = str(G)
-for i, col in enumerate(df.columns):
-    out = out.replace(f"X{i+1}", col)
-print(out)
+print(G)
+#
+# out = str(G)
+# for i, col in enumerate(df.columns):
+#     out = out.replace(f"X{i+1}", col)
+# print(out)
 
 print("\nTetrad FCI\n")
 test = ts.IndTestFisherZ(data, 0.05)
@@ -36,7 +38,7 @@ tetrad_fci_graph = tetrad_fci.search()
 
 print(tetrad_fci_graph)
 
-# Works with causal-learn version in github now!
+# Works with causal-learn version in github now! 2023-3-3
 # CL FCI
 #
 # Depth=3, working on node 5: 100%|██████████| 6/6 [00:00<00:00, 1391.22it/s]
