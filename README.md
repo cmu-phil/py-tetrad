@@ -14,7 +14,7 @@ We're currently using the stable Tetrad version 7.2.2, which is hard-coded for u
 
 1. If JAVA_HOME is not already set to the correct location of your Java installation above, you'll need to set it--on a Mac you'd type in a terminal, "echo $JAVA_HOME" to see if it's set and something like something like, "export JAVA_HOME=/Library/java/JavaVirtualMachines/amazon-corretto-18.jdk", to set it. Adjust this for your platform and JDK/JRE installation path.
 
-1. Make sure you are using the latest Python--at least_ 3.7--as required by JPype; if not, [update it](https://www.pythoncentral.io/how-to-update-python/). 
+1. Make sure you are using the latest Python--at least 3.7--as required by JPype; if not, [update it](https://www.pythoncentral.io/how-to-update-python/). 
 
 1. We use causal-learn, so all of its dependencies, and causal-learn itself, should be installed--see the [Docs for the causal-learn package](https://causal-learn.readthedocs.io/en/latest/).
 
