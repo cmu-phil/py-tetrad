@@ -8,7 +8,7 @@ This is intended to replace the older [py-causal](https://github.com/bd2kccd/py-
 
 We're currently using the stable Tetrad version 7.2.2, which is hard-coded for use in the project. All artifacts for Tetrad are on [Maven Central](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/). If you'd like to view the javadocs for Tetrad 7.2.2, click [here](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/tetrad-lib/7.2.2/tetrad-lib-7.2.2-javadoc.jar) to download them, then move them into a new directory and unzip them; then view them in a browser.
 
-By the way, the [JPype project](https://github.com/jpype-project/jpype) is already quite awesome, and one is not of course limited to integrating Tetrad into Python this way. We aim mainly to be giving examples of _how_ it can be done along with some methods for translating datasets, graphs, and such, between Java and Python to make it easier to use Tetrad as part of a Python workflow
+The [JPype project](https://github.com/jpype-project/jpype) is already quite awesome, and one is not of course limited to integrating Tetrad into Python this way. We aim mainly to be giving examples of _how_ it can be done along with some methods for translating datasets, graphs, and such, between Java and Python to make it easier to use Tetrad as part of a Python workflow
 
 # Install
 
