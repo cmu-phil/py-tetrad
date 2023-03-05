@@ -9,7 +9,7 @@ We're currently using the stable Tetrad version 7.2.2, which is hard-coded for u
 
 # Install
 
-1. It is necessary to install a JAVA JRE or JDK, preferably the most recent version available with long term support (LTS), certainly **greater than 1.8 (version 8)**. For stability across platforms, we find that a [Corretto JRE/JDK Installation](https://aws.amazon.com/corretto/?filtered-posts.sort-by=item.additionalFields.createdDate&filtered-posts.sort-order=desc) works well. 
+1. It is necessary to install a JAVA JRE or JDK, preferably the most recent version available with long term support (LTS), certainly **_greater than_ 1.8 (version 8)**. For stability across platforms, we find that a [Corretto JRE/JDK Installation](https://aws.amazon.com/corretto/?filtered-posts.sort-by=item.additionalFields.createdDate&filtered-posts.sort-order=desc) works well. 
 
 
 1. If JAVA_HOME is not already set to the correct location of your Java installation above, you'll need to set it--on a Mac you'd type something like this: "export JAVA_HOME=/Library/java/JavaVirtualMachines/amazon-corretto-18.jdk". Adjust this for your platform and JDK/JRE installation.
