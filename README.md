@@ -5,6 +5,8 @@ Part of our code makes use of the [causal-learn](https://github.com/py-why/causa
  
 This is intended to replace the older [py-causal](https://github.com/bd2kccd/py-causal) package. The installation procedure is much easier cross-platform, and the most recent Tetrad can be used. One nice thing about py-causal was that there were many worked examples; we will aim to provide an adequate set of examples for py-tetrad as well. Also, in some cases it's difficult to know how to use the Tetrad API; we will aim to clean up the Tetrad API for these cases for the next version of Tetrad. Please add issues to our [Issue Tracker](https://github.com/cmu-phil/py-tetrad/issues) if you have problems, so we can work to make things easier, especially as this is still a new project.
 
+By the way, the JPype project is already quite awesome; it is not necessary to use it in the way suggested in py-tetrad, though perhaps py-tetrad can provide a way to get started with it.
+
 We're currently using the stable Tetrad version 7.2.2, which is hard-coded for use in the project. All artifacts for Tetrad are on [Maven Central](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/). If you'd like to view the javadocs for Tetrad 7.2.2, click [here](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/tetrad-lib/7.2.2/tetrad-lib-7.2.2-javadoc.jar) to download them, then move them into a new directory and unzip them; then view them in a browser.
 
 # Install
