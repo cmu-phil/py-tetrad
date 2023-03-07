@@ -9,7 +9,7 @@ sys.path.append(BASE_DIR)
 # import jpype
 # import jpype.imports
 #
-# jpype.startJVM("-Xmx40g", classpath=[f"{BASE_DIR}/tetrad-gui-7.2.2-launch.jar"])
+# jpype.startJVM("-Xmx12g", classpath=[f"{BASE_DIR}/tetrad-gui-7.2.2-launch.jar"])
 
 # Otherwise...
 from pytetrad.util import startJVM
