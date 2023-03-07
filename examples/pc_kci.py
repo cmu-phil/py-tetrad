@@ -20,7 +20,6 @@ import edu.cmu.tetrad.search as ts
 import pytetrad.translate as tr
 
 df = pd.read_csv(f"{BASE_DIR}/examples/resources/airfoil-self-noise.continuous.txt", sep="\t")
-df = pd.read_csv(f"{BASE_DIR}/examples/resources/1.txt", sep="\t") # airfoil-self-noise.continuous.txt", sep="\t")
 df = df.astype({col: "float64" for col in df.columns})
 
 data = tr.pandas_to_tetrad(df)
