@@ -27,7 +27,7 @@ import pytetrad.translate as tr
 params = Parameters()
 
 # Params for graph
-params.set(Params.NUM_MEASURES, 20)
+params.set(Params.NUM_MEASURES, 500)
 params.set(Params.NUM_LATENTS, 0)
 params.set(Params.AVG_DEGREE, 6)
 
@@ -39,7 +39,7 @@ params.set(Params.MAX_CATEGORIES, 3)
 params.set(Params.RANDOMIZE_COLUMNS, True)
 params.set(Params.SAMPLE_SIZE, 500)
 params.set(Params.SAVE_LATENT_VARS, False)
-params.set(Params.SEED, 29483)
+# params.set(Params.SEED, 29483)
 
 params.set(Params.NUM_RUNS, 1)
 
@@ -48,6 +48,8 @@ sim_ = sim.BayesNetSimulation(graph.RandomForward())
 sim_.createData(params, True)
 data_model = sim_.getDataModel(0)
 graph = sim_.getTrueGraph(0)
+
+# print(graph)
 
 #Save data to a file
 df = tr.tetrad_to_pandas(data_model)

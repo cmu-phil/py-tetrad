@@ -37,6 +37,7 @@ params.set(Params.VAR_LOW, 1)
 params.set(Params.VAR_HIGH, 3)
 params.set(Params.VERBOSE, False)
 params.set(Params.NUM_RUNS, 1)
+# params.set(Params.SEED, 29483)
 
 # Do the simulation and grab the dataset and generative graph
 sim_ = sim.LinearFisherModel(graph.RandomForward())
