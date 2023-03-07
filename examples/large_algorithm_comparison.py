@@ -5,8 +5,14 @@ import sys
 BASE_DIR = os.path.join(os.path.dirname(__file__), '..')
 sys.path.append(BASE_DIR)
 
-from pytetrad.util import startJVM
-startJVM()
+import jpype
+import jpype.imports
+
+# this needs to happen before import pytetrad (otherwise lib cant be found)
+try:
+    jpype.startJVM(classpath=[f"{BASE_DIR}/tetrad-gui-7.2.2-launch.jar"])
+except OSError:
+    print("JVM already started")
 
 # Note: This is an example of how to write an algcomparison script to do algorithm
 # comparison in Tetrad. It may not be the best example yet, but it does make

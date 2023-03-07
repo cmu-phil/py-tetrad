@@ -1,8 +1,5 @@
 import os
 import sys
-import time
-
-from causallearn.utils import cit
 
 # this needs to happen before import pytetrad (otherwise lib cant be found)
 BASE_DIR = os.path.join(os.path.dirname(__file__), '..')

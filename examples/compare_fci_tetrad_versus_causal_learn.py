@@ -5,8 +5,14 @@ import sys
 BASE_DIR = os.path.join(os.path.dirname(__file__), '..')
 sys.path.append(BASE_DIR)
 
-from pytetrad.util import startJVM
-startJVM()
+import jpype
+import jpype.imports
+
+# this needs to happen before import pytetrad (otherwise lib cant be found)
+try:
+    jpype.startJVM(classpath=[f"{BASE_DIR}/tetrad-gui-7.2.2-launch.jar"])
+except OSError:
+    print("JVM already started")
 
 import pandas as pd
 import numpy as np
@@ -25,11 +31,11 @@ data = tr.pandas_to_tetrad(df)
 print("\nCL FCI\n")
 G, edges = fci(np.array(df), fisherz, 0.05)
 print(G)
-#
-# out = str(G)
-# for i, col in enumerate(df.columns):
-#     out = out.replace(f"X{i+1}", col)
-# print(out)
+
+out = str(G)
+for i, col in enumerate(df.columns):
+    out = out.replace(f"X{i+1}", col)
+print(out)
 
 print("\nTetrad FCI\n")
 test = ts.IndTestFisherZ(data, 0.05)
@@ -38,7 +44,6 @@ tetrad_fci_graph = tetrad_fci.search()
 
 print(tetrad_fci_graph)
 
-# Works with causal-learn version in github now! 2023-3-3
 # CL FCI
 #
 # Depth=3, working on node 5: 100%|██████████| 6/6 [00:00<00:00, 1391.22it/s]
