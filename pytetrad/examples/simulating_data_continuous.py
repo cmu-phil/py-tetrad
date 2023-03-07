@@ -15,5 +15,5 @@ D, G = util.simulateContinuous(num_meas=100, samp_size=1000)
 D.to_csv('../mydata.csv', index=False)
 
 # To save out causal learn graph:
-with open('../mygraph.txt', 'w') as f:
+with open('../../mygraph.txt', 'w') as f:
     f.write(str(G))
