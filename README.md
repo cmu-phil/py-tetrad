@@ -27,10 +27,10 @@ We're currently using the most recent stable Tetrad version 7.2.2, which is hard
 
 Then in a terminal window,for instance, cd to a directory where you want the cloned project to appear and type the following (or just copy and paste it--again, as above, make sure JAVA_HOME is set correctly in the below to your java path):
     
-```      
+```   
+export JAVA_HOME=/opt/anaconda3
 pip3 install git+https://github.com/cmu-phil/py-tetrad
 git clone https://github.com/cmu-phil/py-tetrad
-export JAVA_HOME=/opt/anaconda3
 cd py-tetrad/pytetrad/examples
 python run_searches_on_continuous_data.py
 ```
