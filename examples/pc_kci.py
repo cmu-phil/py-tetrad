@@ -1,5 +1,3 @@
-import os
-import sys
 import time
 
 # this needs to happen before import pytetrad (otherwise lib cant be found)

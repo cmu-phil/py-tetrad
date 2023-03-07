@@ -1,6 +1,3 @@
-import os
-import sys
-
 import jpype
 import jpype.imports
 

@@ -1,6 +1,3 @@
-import os
-import sys
-
 import jpype
 import jpype.imports
 
@@ -22,7 +19,7 @@ print(data)
 data_ = tr.tetrad_to_pandas(data)
 print(data_)
 
-df = pd.read_csv(f"{BASE_DIR}/examples/resources/bridges.data.version211_rev.txt", sep="\t")
+df = pd.read_csv(f"resources/bridges.data.version211_rev.txt", sep="\t")
 
 data = tr.pandas_to_tetrad(df)
 print(data)
@@ -30,7 +27,7 @@ print(data)
 data_ = tr.tetrad_to_pandas(data)
 print(data_)
 
-df = pd.read_csv(f"{BASE_DIR}/examples/resources/auto-mpg.data.mixed.max.3.categories.txt", sep="\t")
+df = pd.read_csv(f"resources/auto-mpg.data.mixed.max.3.categories.txt", sep="\t")
 df = df.astype({col: "float64" for col in df.columns if col != "origin"})
 
 data = tr.pandas_to_tetrad(df)
