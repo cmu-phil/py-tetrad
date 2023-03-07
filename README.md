@@ -25,14 +25,14 @@ We're currently using the most recent stable Tetrad version 7.2.2, which is hard
 
 1. Finally, you will need to clone this GitHub repository, so if you don't have Git installed, google and install that for your machine type.
 
-Then in a terminal window,for instance, cd to a directory where you want the cloned project to appear and type the following (or just copy and paste it--again, as above, make sure JAVA_HOME is set):
-
-....hold on... adjusting the following...
+Then in a terminal window,for instance, cd to a directory where you want the cloned project to appear and type the following (or just copy and paste it--again, as above, make sure JAVA_HOME is set correctly in the below to your java path):
     
 ```      
+pip3 install git+https://github.com/cmu-phil/py-tetrad
 git clone https://github.com/cmu-phil/py-tetrad
-cd py-tetrad/examples
-python3 run_searches_on_continuous_data.py
+export JAVA_HOME=/opt/anaconda3
+cd py-tetrad/pytetrad/examples
+python run_searches_on_continuous_data.py
 ```
 
 If everything is set up right, the last command should cause this example module to run various algorithms in (Java) Tetrad and print out result graphs in several different ways in Python--using the original Java graph class, using the PCALG-style general graph matrix, and using GeneralGraph in causal-learn. Feel free to explore other example modules in that directory.
