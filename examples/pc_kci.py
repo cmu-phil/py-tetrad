@@ -1,16 +1,17 @@
 import os
 import sys
+import time
 
 # this needs to happen before import pytetrad (otherwise lib cant be found)
-BASE_DIR = os.path.join(os.path.dirname(__file__), '..')
-sys.path.append(BASE_DIR)
+# BASE_DIR = os.path.join(os.path.dirname(__file__), '..')
+# sys.path.append(BASE_DIR)
 
 import jpype
 import jpype.imports
 
 # this needs to happen before import pytetrad (otherwise lib cant be found)
 try:
-    jpype.startJVM(classpath=[f"{BASE_DIR}/tetrad-gui-7.2.2-launch.jar"])
+    jpype.startJVM(classpath=[f"resources/tetrad-gui-7.2.2-launch.jar"])
 except OSError:
     print("JVM already started")
 
@@ -23,7 +24,7 @@ import edu.cmu.tetrad.search as ts
 import pytetrad.translate as tr
 import pytetrad.simulate as util
 
-D = pd.read_csv(f"{BASE_DIR}/examples/resources/airfoil-self-noise.continuous.txt", sep="\t")
+D = pd.read_csv(f"resources/airfoil-self-noise.continuous.txt", sep="\t")
 D = D.astype({col: "float64" for col in D.columns})
 
 # Bootstrap sample
