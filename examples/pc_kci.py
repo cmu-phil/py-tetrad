@@ -21,7 +21,7 @@ from causallearn.search.ConstraintBased.PC import pc, pc_alg
 from causallearn.utils.cit import chisq, fisherz, kci, d_separation, KCI
 import edu.cmu.tetrad.search as ts
 import pytetrad.translate as tr
-import pytetrad.util as util
+import pytetrad.simulate as util
 
 D = pd.read_csv(f"{BASE_DIR}/examples/resources/airfoil-self-noise.continuous.txt", sep="\t")
 D = D.astype({col: "float64" for col in D.columns})
