@@ -29,9 +29,9 @@ Then in a terminal window,for instance, cd to a directory where you want the clo
     
 ```   
 export JAVA_HOME=/opt/anaconda3
-git clone https://github.com/cmu-phil/py-tetrad/examples
+git clone https://github.com/cmu-phil/py-tetrad/
 pip install ./py-tetrad 
-cd py-tetrad/pytetrad/examples
+cd py-tetrad/examples
 python run_searches_on_continuous_data.py
 ```
 
