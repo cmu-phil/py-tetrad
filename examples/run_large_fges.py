@@ -8,7 +8,11 @@ sys.path.append(BASE_DIR)
 import jpype
 import jpype.imports
 
-jpype.startJVM("-Xmx40g", classpath=[f"{BASE_DIR}/tetrad-gui-7.2.2-launch.jar"])
+# this needs to happen before import pytetrad (otherwise lib cant be found)
+try:
+    jpype.startJVM("-Xmx40g", classpath=[f"{BASE_DIR}/tetrad-gui-7.2.2-launch.jar"])
+except OSError:
+    print("JVM already started")
 
 # Note: This is an example of how to write an algcomparison script to do algorithm
 # comparison in Tetrad. It may not be the best example yet, but it does make
