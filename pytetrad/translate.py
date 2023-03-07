@@ -1,5 +1,6 @@
-## This assumes that you have already started the JVM using JPype.
-## Your code should start with the following lines:
+## This assumes that you have already started the JVM using JPype. You may
+## start the JVM only once per session. Your code should start with the following
+## lines:
 #
 # import os
 # import sys
