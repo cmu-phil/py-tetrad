@@ -26,19 +26,19 @@ import edu.cmu.tetrad.search as ts
 import pytetrad.translate as tr
 import pytetrad.util as util
 
-# D = pd.read_csv(f"{BASE_DIR}/examples/resources/airfoil-self-noise.continuous.txt", sep="\t")
-# D = D.astype({col: "float64" for col in D.columns})
-#
-# # Bootstrap sample
-# D = D.sample(600, replace=True)
-# D = D.astype({col: "float64" for col in D.columns})
-
-D, G = util.simulateContinuous(num_meas=5, avg_deg=2, samp_size=600)
+D = pd.read_csv(f"{BASE_DIR}/examples/resources/airfoil-self-noise.continuous.txt", sep="\t")
 D = D.astype({col: "float64" for col in D.columns})
+
+# Bootstrap sample
+D = D.sample(600, replace=True)
+D = D.astype({col: "float64" for col in D.columns})
+
+# D, G = util.simulateContinuous(num_meas=5, avg_deg=2, samp_size=600)
+# D = D.astype({col: "float64" for col in D.columns})
 
 # print(D)
 # print(D.columns)
-print(G)
+# print(G)
 
 # print(np.array(D))
 
@@ -81,9 +81,11 @@ score.setStructurePrior(0)
 test = ts.IndTestScore(score, data)
 test.setAlpha(0.01)
 
+print('BOSS')
+start = time.time()
 boss = ts.Boss(test, score)
 boss.setUseDataOrder(False)
 boss.setNumStarts(5)
 boss.bestOrder(variables)
 boss_graph = boss.getGraph(True)
-print('BOSS', boss_graph)
+print(boss_graph, stop - start)
