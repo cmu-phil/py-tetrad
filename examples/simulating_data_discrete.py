@@ -61,7 +61,6 @@ with open('../mygraph.txt', 'w') as f:
 # To save out in PCALG format:
 gr = tr.tetrad_graph_to_pcalg(graph)
 gr.to_csv('../mygraph.csv', index=False)
-gr.to_csv('../mygraph.csv', index=False)
 
 
 
