@@ -51,7 +51,7 @@ boss.setUseDataOrder(False)
 boss.setNumStarts(5)
 boss.bestOrder(variables)
 boss_graph = boss.getGraph(True)
-print_graph('BOSS', fges_graph)
+print_graph('BOSS', boss_graph)
 
 grasp = ts.Grasp(test, score)
 grasp.setOrdered(False)
@@ -59,26 +59,26 @@ grasp.setUseDataOrder(False)
 grasp.setNumStarts(5)
 grasp.bestOrder(variables)
 grasp_graph = grasp.getGraph(True)
-print_graph('GRaSP', fges_graph)
+print_graph('GRaSP', grasp_graph)
 
 datasets = util.ArrayList()
 datasets.add(data)
 rskew = ts.Lofs2(fges_graph, datasets)
 rskew.setRule(ts.Lofs2.Rule.RSkew)
 gango_graph = rskew.orient()
-print_graph('GANGO', fges_graph)
+print_graph('GANGO', gango_graph)
 
 fci = ts.Fci(test)
 fci_graph = fci.search()
-print_graph('FCI', fges_graph)
+print_graph('FCI', fci_graph)
 
 gfci = ts.GFci(test, score)
 gfci_graph = gfci.search()
-print_graph('GFCI', fges_graph)
+print_graph('GFCI', gfci_graph)
 
 grasp_fci = ts.GraspFci(test, score)
 grasp_fci_graph = grasp_fci.search()
-print_graph('GRaSP-FCI', fges_graph)
+print_graph('GRaSP-FCI', grasp_fci_graph)
 
 
 

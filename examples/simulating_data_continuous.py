@@ -13,23 +13,14 @@ try:
 except OSError:
     print("JVM already started")
 
-import pytetrad.translate as tr
 import pytetrad.util as util
 
-D, G = util.simulateContiuous(num_meas=100, samp_size=1000)
+# D, G = util.simulateContinuous(num_meas=100, samp_size=1000)
+D, G = util.simulateContinuous(num_meas=5, avg_deg=2, samp_size=600)
 
-#Save data to a file
-df = tr.tetrad_to_pandas(D)
-df.to_csv('../mydata.csv', index=False)
+# Save data to a file
+D.to_csv('../mydata.csv', index=False)
 
 # To save out causal learn graph:
-G_ = tr.tetrad_graph_to_causal_learn(G)
 with open('../mygraph.txt', 'w') as f:
-    f.write(str(G_))
-
-# To save out in PCALG format:
-G_ = tr.tetrad_graph_to_pcalg(G)
-G_.to_csv('../mygraph.csv', index=False)
-
-
-
+    f.write(str(G))

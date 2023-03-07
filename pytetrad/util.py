@@ -7,6 +7,7 @@ import jpype.imports
 from edu.cmu.tetrad.util import Params, Parameters
 import edu.cmu.tetrad.algcomparison.simulation as sim
 import edu.cmu.tetrad.algcomparison.graph as graph
+import pytetrad.translate as tr
 
 
 # def startJVM():
@@ -18,7 +19,7 @@ import edu.cmu.tetrad.algcomparison.graph as graph
 #     except OSError:
 #         print("JVM already started")
 
-def simulateContiuous(num_meas = 20, num_lat = 0, avg_deg = 4, samp_size = 200, coef_low = 0, coef_high = 1, var_low = 1, var_high = 3):
+def simulateContinuous(num_meas = 20, num_lat = 0, avg_deg = 4, samp_size = 200, coef_low = 0, coef_high = 1, var_low = 1, var_high = 3):
     # Set the parameters for the simulation
     params = Parameters()
 
@@ -26,7 +27,7 @@ def simulateContiuous(num_meas = 20, num_lat = 0, avg_deg = 4, samp_size = 200, 
     params.set(Params.NUM_MEASURES, num_meas)
     params.set(Params.AVG_DEGREE, avg_deg)
     params.set(Params.NUM_LATENTS, num_lat)
-    params.set(Params.RANDOMIZE_COLUMNS, True)
+    params.set(Params.RANDOMIZE_COLUMNS, False)
     params.set(Params.COEF_LOW, coef_low)
     params.set(Params.COEF_HIGH, coef_high)
     params.set(Params.VAR_LOW, var_low)
@@ -41,7 +42,12 @@ def simulateContiuous(num_meas = 20, num_lat = 0, avg_deg = 4, samp_size = 200, 
     D = sim_.getDataModel(0)
     G = sim_.getTrueGraph(0)
 
-    return D, G
+    D_ = tr.tetrad_to_pandas(D)
+    # D_ = D.astype({col: "float64" for col in D_.columns})
+
+    G_ = tr.tetrad_graph_to_causal_learn(G)
+
+    return D_, G_
 
 def simulateDiscrete(num_meas = 20, num_lat = 0, avg_deg = 4, min_cat=3, max_cat=3, samp_size=1000):
     # Set the parameters for the simulation
@@ -71,4 +77,4 @@ def simulateDiscrete(num_meas = 20, num_lat = 0, avg_deg = 4, min_cat=3, max_cat
     D = sim_.getDataModel(0)
     G = sim_.getTrueGraph(0)
 
-    return D, G
+    return tr.tetrad_to_pandas(D), tr.tetrad_graph_to_causal_learn(G)
