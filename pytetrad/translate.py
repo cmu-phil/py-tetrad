@@ -9,10 +9,10 @@ import jpype
 import jpype.imports
 
 # this needs to happen before import pytetrad (otherwise lib cant be found)
-try:
-    jpype.startJVM(classpath=[f"{BASE_DIR}/tetrad-gui-7.2.2-launch.jar"])
-except OSError:
-    print("JVM already started")
+# try:
+#     jpype.startJVM(classpath=[f"{BASE_DIR}/tetrad-gui-7.2.2-launch.jar"])
+# except OSError:
+#     print("JVM already started")
 
 import numpy as np
 import pandas as pd
