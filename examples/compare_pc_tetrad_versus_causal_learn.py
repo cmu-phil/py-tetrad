@@ -38,3 +38,40 @@ tetrad_pc = ts.Pc(test)
 tetrad_pc_graph = tetrad_pc.search()
 
 print(tetrad_pc_graph)
+
+# CL PC
+#
+# Depth=3, working on node 5: 100%|██████████| 6/6 [00:00<00:00, 1342.61it/s]
+# Graph Nodes:
+# Frequency;Attack;Chord;Velocity;Displacement;Pressure
+#
+# Graph Edges:
+# 1. Frequency --> Attack
+# 2. Frequency --- Velocity
+# 3. Frequency --> Pressure
+# 4. Chord --> Attack
+# 5. Velocity --> Attack
+# 6. Displacement --> Attack
+# 7. Chord --- Displacement
+# 8. Chord --> Pressure
+# 9. Velocity --> Pressure
+# 10. Displacement --> Pressure
+#
+#
+# Tetrad PC
+#
+# new thread
+# Graph Nodes:
+# Frequency;Attack;Chord;Velocity;Displacement;Pressure
+#
+# Graph Edges:
+# 1. Attack --> Chord
+# 2. Chord --> Pressure
+# 3. Displacement --> Attack
+# 4. Displacement --> Chord
+# 5. Displacement --> Pressure
+# 6. Frequency --> Attack
+# 7. Frequency --> Pressure
+# 8. Frequency --- Velocity
+# 9. Velocity --> Attack
+# 10. Velocity --> Pressure
