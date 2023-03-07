@@ -49,8 +49,6 @@ sim_.createData(params, True)
 data_model = sim_.getDataModel(0)
 graph = sim_.getTrueGraph(0)
 
-# print(graph)
-
 #Save data to a file
 df = tr.tetrad_to_pandas(data_model)
 df.to_csv('../mydata.csv', index=False)
