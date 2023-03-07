@@ -5,7 +5,6 @@
 # import jpype
 # import jpype.imports
 #
-# # this needs to happen before import pytetrad (otherwise lib cant be found)
 # try:
 #     jpype.startJVM(classpath=[f"resources/tetrad-gui-7.2.2-launch.jar"])
 # except OSError:
