@@ -45,8 +45,6 @@ def simulateContinuous(num_meas = 20, num_lat = 0, avg_deg = 4, samp_size = 200,
     G = sim_.getTrueGraph(0)
 
     D_ = tr.tetrad_to_pandas(D)
-    # D_ = D.astype({col: "float64" for col in D_.columns})
-
     G_ = tr.tetrad_graph_to_causal_learn(G)
 
     return D_, G_
@@ -81,4 +79,7 @@ def simulateDiscrete(num_meas = 20, num_lat = 0, avg_deg = 4, min_cat=3, max_cat
     D = sim_.getDataModel(0)
     G = sim_.getTrueGraph(0)
 
-    return tr.tetrad_to_pandas(D), tr.tetrad_graph_to_causal_learn(G)
+    D_ = tr.tetrad_to_pandas(D)
+    G_ = tr.tetrad_graph_to_causal_learn(G)
+
+    return D_, G_
