@@ -4,6 +4,12 @@ import sys
 import jpype
 import jpype.imports
 
+# this needs to happen before import pytetrad (otherwise lib cant be found)
+try:
+    jpype.startJVM(classpath=[f"{BASE_DIR}/tetrad-gui-7.2.2-launch.jar"])
+except OSError:
+    print("JVM already started")
+
 from edu.cmu.tetrad.util import Params, Parameters
 import edu.cmu.tetrad.algcomparison.simulation as sim
 import edu.cmu.tetrad.algcomparison.graph as graph
