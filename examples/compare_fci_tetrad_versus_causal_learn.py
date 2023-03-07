@@ -1,10 +1,6 @@
 import os
 import sys
 
-# this needs to happen before import pytetrad (otherwise lib cant be found)
-BASE_DIR = os.path.join(os.path.dirname(__file__), '..')
-sys.path.append(BASE_DIR)
-
 import jpype
 import jpype.imports
 
@@ -23,7 +19,7 @@ import edu.cmu.tetrad.search as ts
 from causallearn.search.ConstraintBased.FCI import fci
 from causallearn.utils.cit import chisq, fisherz, kci, d_separation
 
-df = pd.read_csv(f"{BASE_DIR}/examples/resources/airfoil-self-noise.continuous.txt", sep="\t")
+df = pd.read_csv(f"resources/airfoil-self-noise.continuous.txt", sep="\t")
 df = df.astype({col: "float64" for col in df.columns})
 
 data = tr.pandas_to_tetrad(df)

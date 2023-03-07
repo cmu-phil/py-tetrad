@@ -1,10 +1,6 @@
 import os
 import sys
 
-# this needs to happen before import pytetrad (otherwise lib cant be found)
-BASE_DIR = os.path.join(os.path.dirname(__file__), '..')
-sys.path.append(BASE_DIR)
-
 import jpype
 import jpype.imports
 
@@ -29,9 +25,6 @@ import edu.cmu.tetrad.algcomparison.graph as graph
 import edu.cmu.tetrad.algcomparison.independence as ind
 import edu.cmu.tetrad.algcomparison.statistic as stat
 import edu.cmu.tetrad.algcomparison.algorithm.oracle.cpdag as cpdag
-
-# df = pd.read_csv(f"{BASE_DIR}/examples/resources/airfoil-self-noise.continuous.txt", sep="\t")
-# df = df.astype({col: "float64" for col in df.columns})
 
 params = Parameters()
 params.set(Params.PENALTY_DISCOUNT, 8)

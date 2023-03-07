@@ -1,10 +1,6 @@
 import os
 import sys
 
-# this needs to happen before import pytetrad (otherwise lib cant be found)
-BASE_DIR = os.path.join(os.path.dirname(__file__), '..')
-sys.path.append(BASE_DIR)
-
 import jpype
 import jpype.imports
 

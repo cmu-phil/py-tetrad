@@ -1,10 +1,6 @@
 import os
 import sys
 
-# this needs to happen before import pytetrad (otherwise lib cant be found)
-BASE_DIR = os.path.join(os.path.dirname(__file__), '..')
-sys.path.append(BASE_DIR)
-
 import jpype
 import jpype.imports
 
@@ -25,7 +21,7 @@ def print_graph(alg_name, G):
     print(tr.tetrad_graph_to_pcalg(G))
     print(tr.tetrad_graph_to_causal_learn(G))
 
-df = pd.read_csv(f"{BASE_DIR}/examples/resources/bridges.data.version211_rev.txt", sep="\t")
+df = pd.read_csv(f"resources/bridges.data.version211_rev.txt", sep="\t")
 
 data = tr.pandas_to_tetrad(df)
 print(data)
