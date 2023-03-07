@@ -9,16 +9,6 @@ import edu.cmu.tetrad.algcomparison.simulation as sim
 import edu.cmu.tetrad.algcomparison.graph as graph
 import pytetrad.translate as tr
 
-
-# def startJVM():
-#     BASE_DIR = os.path.join(os.path.dirname(__file__), '..')
-#     sys.path.append(BASE_DIR)
-#
-#     try:
-#         jpype.startJVM(classpath=[f"{BASE_DIR}/tetrad-gui-7.2.2-launch.jar"])
-#     except OSError:
-#         print("JVM already started")
-
 # Simuolates a continuous dataset with the given arguments and returns the dataset as a pandas dataframe
 # along with the graph as a causal-learn GeneralGraph.
 def simulateContinuous(num_meas = 20, num_lat = 0, avg_deg = 4, samp_size = 200, coef_low = 0, coef_high = 1, var_low = 1, var_high = 3):
