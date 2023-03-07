@@ -39,4 +39,4 @@ If everything is set up right, the last command should cause this example module
 
 You can of course use your favorite method for editing and running Python modules. One caveat--if you load py-causal in PyCharm, an issue is that PyCharm does not recognize the Java packages and puts some red underlining in the editor that you can't get rid of. Just ignore such red underlining for Java packages; the modules will run. 
 
-** This is currently not stable; adjusting code **
+**This is currently not stable; adjusting code**
