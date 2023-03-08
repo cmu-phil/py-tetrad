@@ -2,7 +2,7 @@
 
 This package shows how to make algorithms/code in [Tetrad](https://github.com/cmu-phil/tetrad) directly available in Python via [JPype](https://github.com/jpype-project/jpype) as part of a Python workflow.
 
-Part of our code makes use of the [causal-learn](https://github.com/py-why/causal-learn) Python pacakge for causal structure learning, to show how it can be integrated with that.
+Part of our code makes use of the [causal-learn](https://github.com/py-why/causal-learn) Python package for causal structure learning, to show how it can be integrated with that.
  
 This is intended to replace the older [py-causal](https://github.com/bd2kccd/py-causal) package.
 
