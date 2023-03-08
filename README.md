@@ -10,6 +10,8 @@ This is still a new project, so please bear with us as we add example modules an
 
 We're currently using the most recent stable Tetrad version 7.2.2, which is hard-coded for use in the project. All artifacts for Tetrad though for the last several releases are on [Maven Central](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/). If you'd like to view the javadocs for Tetrad 7.2.2, click [here](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/tetrad-lib/7.2.2/tetrad-lib-7.2.2-javadoc.jar) to download them, then move them into a new directory and unzip them; then view them in a browser.
 
+By the way, you can also integrate Tetrad code into Python by making os.system(..) calls; here are some [examples](https://github.com/cmu-phil/algocompy/blob/main/old/causalcmd/tetrad_cmd_algs.py) of how to do it.
+
 # Install
 
 1. It is necessary to install a JAVA JRE or JDK, preferably the most recent version available with long term support (LTS), certainly greater than 1.8 (version 8). For stability across platforms, we find that a [Corretto JRE/JDK Installation](https://aws.amazon.com/corretto/?filtered-posts.sort-by=item.additionalFields.createdDate&filtered-posts.sort-order=desc) works well. 
