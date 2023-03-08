@@ -30,7 +30,7 @@ By the way, you can also integrate Tetrad code into Python by making os.system(.
 Then in a terminal window,for instance, cd to a directory where you want the cloned project to appear and type the following (or just copy and paste it--again, as above, make sure JAVA_HOME is set correctly in the below to your java path):
     
 ```   
-export JAVA_HOME=/opt/anaconda3
+export JAVA_HOME=[path to your Java installation]
 git clone https://github.com/cmu-phil/py-tetrad/
 pip install ./py-tetrad 
 cd py-tetrad/examples
