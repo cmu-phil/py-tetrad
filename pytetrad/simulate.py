@@ -80,6 +80,8 @@ def simulateDiscrete(num_meas = 20, num_lat = 0, avg_deg = 4, min_cat=3, max_cat
 
     return D_, G_
 
+# Simuolates a mixed continuous/discrete dataset using the Lee-Hastic method with the given arguments
+# and returns the dataset as a pandas dataframe along with the graph as a causal-learn GeneralGraph.
 def simulateLeeHastie(num_meas = 20, num_lat = 0, avg_deg = 4, min_cat=3, max_cat=3, perc_disc=50, samp_size=1000):
 
     # Set the parameters for the simulation
