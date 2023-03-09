@@ -20,6 +20,8 @@ def print_graph(alg_name, G):
 df = pd.read_csv(f"resources/auto-mpg.data.mixed.max.3.categories.txt", sep="\t")
 df = df.astype({col: "float64" for col in df.columns if col != "origin"})
 
+
+
 data = tr.pandas_to_tetrad(df)
 
 variables = data.getVariables()
