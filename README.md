@@ -43,4 +43,4 @@ python run_searches_on_continuous_data.py
 
 If everything is set up right, the last command should cause this example module to run various algorithms in (Java) Tetrad and print out result graphs in several different ways in Python--using the original Java graph class, using the PCALG-style general graph matrix, and using GeneralGraph in causal-learn. Feel free to explore other example modules in that directory.
 
-**This is currently not stable; adjusting code**
+**This is currently not stable; adjusting code. Also making some fixes to the Tetrad jar to help with some of the JPype issues we found--see the bugfix jar.**
