@@ -12,7 +12,7 @@ This is still a new project, so please bear with us as we add example modules an
 
 In fact, the main problem for calling arbitrary code from Tetrad using JPype is figuring out what classes are available and what methods to call and what their signatures are; we'll try to make that easier. It helps to consult the javadocs for Tetrad. If you'd like to view the javadocs for Tetrad 7.2.2, click [here](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/tetrad-lib/7.2.2/) to download them, then move them into a _new directory_ and unzip them; then view them in a browser. Hopefully, though, we can just add or clarify examples for the main things you may want to do.
 
-Another problem is that some code in Tetrad is not written in a way to make it easy to call from Python; where we find issues like this in our examples, we will try for the next version of Tetrad to clean that up.
+Another problem is that some code in Tetrad is not written in a way to make it easy to call from Python or else the tools we have so far for calling it are not working well; where we find issues like this in our examples, we will try for the next version of Tetrad to clean that up. Everything should be simple and ituititve to call.
 
 We're currently using the most recent stable Tetrad version 7.2.2, which is included in the project--all of the examples in the project are using this versioin. But all artifacts for Tetrad for the last several releases are on [Maven Central](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/), along with signatures to verify their authenticity.
 
