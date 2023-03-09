@@ -14,7 +14,7 @@ In fact, the main problem for calling arbitrary code from Tetrad using JPype is 
 
 Another problem is that some code in Tetrad is not written in a way to make it easy to call from Python; where we find issues like this in our examples, we will try for the next version of Tetrad to clean that up.
 
-We're currently using the most recent stable Tetrad version 7.2.2--all of the examples in the project are using this versioin. But all artifacts for Tetrad for the last several releases are on [Maven Central](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/), along with signatures to verify their authenticity.
+We're currently using the most recent stable Tetrad version 7.2.2, which is included in the project--all of the examples in the project are using this versioin. But all artifacts for Tetrad for the last several releases are on [Maven Central](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/), along with signatures to verify their authenticity.
 
 # Install
 
