@@ -10,7 +10,7 @@ You can also integrate Tetrad code into Python by making os.system(..) calls to 
 
 This is still a new project, so please bear with us as we add example modules and clarify the code. Please submit any problems you have figuring things out to our [Issue Tracker](https://github.com/cmu-phil/py-tetrad/issues) and we'll see if we can solve them. Actually, using JPype or causal-learn in Python to integrate Tetrad code is pretty easy once you see how to do it. This is not a complicated project; feel free to steal code as needed. :smiley: In fact, the main problem is figuring out what classes are available in Tetrad and what methods to call and what their signatures are; we'll try to make that easier. It helps to consult the javadocs for Tetrad. If you'd like to view the javadocs for Tetrad 7.2.2, click [here](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/tetrad-lib/7.2.2/tetrad-lib-7.2.2-javadoc.jar) to download them, then move them into a _new directory_ and unzip them; then view them in a browser. Hopefully, though, we can just add or clarify examples for the main things you may want to do.
 
-We're currently using the most recent stable Tetrad version 7.2.2, which is hard-coded for use in the project. All artifacts for Tetrad though for the last several releases are on [Maven Central](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/). 
+We're currently using the most recent stable Tetrad version 7.2.2, which is hard-coded for use in the project. But all artifacts for Tetrad for the last several releases are on [Maven Central](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/). 
 
 # Install
 
