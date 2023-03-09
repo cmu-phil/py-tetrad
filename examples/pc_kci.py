@@ -19,29 +19,13 @@ import pytetrad.translate as tr
 import pytetrad.simulate as util
 
 D = pd.read_csv(f"resources/airfoil-self-noise.continuous.txt", sep="\t")
-D = D.astype({col: "float64" for col in D.columns})
-
-# Bootstrap sample
 D = D.sample(600, replace=True)
 D = D.astype({col: "float64" for col in D.columns})
 
 # D, G = util.simulateContinuous(num_meas=5, avg_deg=2, samp_size=600)
 # D = D.astype({col: "float64" for col in D.columns})
 
-# print(D)
-# print(D.columns)
-# print(G)
-
-# print(np.array(D))
-
-# numvars = data_.shape[1]
-
-# cl_kci = cit.CIT(D, 'kci')  # , kernelX=kernelname, kernelY=kernelname,
-# kernelZ=kernelname, est_width=est_width, use_gp=use_gp, approx=approx,
-# polyd=polyd, kwidthx=kwidth, kwidthy=kwidth, kwidthz=kwidth)
-
 # kci_ = KCI(np.array(D))
-#
 # print(f"{0} {1} {cl_kci(0, 1)}")
 # print(f"{0} {1} | {2} {cl_kci(0, 1, {2})}")
 
@@ -80,4 +64,5 @@ boss.setUseDataOrder(False)
 boss.setNumStarts(5)
 boss.bestOrder(variables)
 boss_graph = boss.getGraph(True)
+stop = time.time()
 print(boss_graph, stop - start)

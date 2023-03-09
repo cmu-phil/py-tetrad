@@ -50,7 +50,6 @@ def simulateContinuous(num_meas = 20, num_lat = 0, avg_deg = 4, samp_size = 200,
 # along with the graph as a causal-learn GeneralGraph.
 def simulateDiscrete(num_meas = 20, num_lat = 0, avg_deg = 4, min_cat=3, max_cat=3, samp_size=1000):
     # Set the parameters for the simulation
-    # Set the parameters for the simulation
     params = Parameters()
 
     # Params for graph
@@ -75,6 +74,40 @@ def simulateDiscrete(num_meas = 20, num_lat = 0, avg_deg = 4, min_cat=3, max_cat
     sim_.createData(params, True)
     D = sim_.getDataModel(0)
     G = sim_.getTrueGraph(0)
+
+    D_ = tr.tetrad_to_pandas(D)
+    G_ = tr.tetrad_graph_to_causal_learn(G)
+
+    return D_, G_
+
+def simulateLeeHastie(num_meas = 20, num_lat = 0, avg_deg = 4, min_cat=3, max_cat=3, perc_disc=50, samp_size=1000):
+
+    # Set the parameters for the simulation
+    params = Parameters()
+
+    params.set(Params.NUM_MEASURES, num_meas)
+    params.set(Params.NUM_LATENTS, num_lat)
+    params.set(Params.AVG_DEGREE, avg_deg)
+
+    params.set(Params.MIN_CATEGORIES, min_cat)
+    params.set(Params.MAX_CATEGORIES, max_cat)
+    params.set(Params.PERCENT_DISCRETE, perc_disc)
+    params.set(Params.DIFFERENT_GRAPHS, False)
+
+    params.set(Params.RANDOMIZE_COLUMNS, True)
+    params.set(Params.SAMPLE_SIZE, samp_size)
+    params.set(Params.SAVE_LATENT_VARS, False)
+    # params.set(Params.SEED, 29493L)
+
+    params.set(Params.NUM_RUNS, 1)
+
+    # Do the simulation and grab the dataset and generative graph
+    sim_ = sim.LeeHastieSimulation(graph.RandomForward())
+    sim_.createData(params, True)
+    D = sim_.getDataModel(0)
+    G = sim_.getTrueGraph(0)
+
+    print(D)
 
     D_ = tr.tetrad_to_pandas(D)
     G_ = tr.tetrad_graph_to_causal_learn(G)
