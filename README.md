@@ -6,11 +6,11 @@ Part of our code makes use of the [causal-learn](https://github.com/py-why/causa
  
 This is intended to replace the older [py-causal](https://github.com/bd2kccd/py-causal) package.
 
-This is still a new project, so please bear with us as we add example modules and clarify the code. Please submit any problems you have figuring things out to our [Issue Tracker](https://github.com/cmu-phil/py-tetrad/issues) and we'll see if we can solve them.
+You can also integrate Tetrad code into Python by making os.system(..) calls to [Causal Command](https://github.com/bd2kccd/causal-cmd); here are some [examples](https://github.com/cmu-phil/algocompy/blob/main/old/causalcmd/tetrad_cmd_algs.py) of how to do it.
+
+This is still a new project, so please bear with us as we add example modules and clarify the code. Please submit any problems you have figuring things out to our [Issue Tracker](https://github.com/cmu-phil/py-tetrad/issues) and we'll see if we can solve them. Actually, using JPype or causal-learn in Python to integrate Tetrad code is pretty easy once you see how to do it. This is not a complicated repository. But it does show how to get over the initial hurdles!  On our end, we'll keep trying to make it easier. :smiley:
 
 We're currently using the most recent stable Tetrad version 7.2.2, which is hard-coded for use in the project. All artifacts for Tetrad though for the last several releases are on [Maven Central](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/). If you'd like to view the javadocs for Tetrad 7.2.2, click [here](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/tetrad-lib/7.2.2/tetrad-lib-7.2.2-javadoc.jar) to download them, then move them into a new directory and unzip them; then view them in a browser.
-
-You can also integrate Tetrad code into Python by making os.system(..) calls to [Causal Command](https://github.com/bd2kccd/causal-cmd); here are some [examples](https://github.com/cmu-phil/algocompy/blob/main/old/causalcmd/tetrad_cmd_algs.py) of how to do it.
 
 # Install
 
