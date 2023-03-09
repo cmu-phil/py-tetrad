@@ -109,9 +109,7 @@ def simulateLeeHastie(num_meas = 20, num_lat = 0, avg_deg = 4, min_cat=3, max_ca
     D = sim_.getDataModel(0)
     G = sim_.getTrueGraph(0)
 
-    print(D)
+    # D_ = tr.tetrad_to_pandas(D)
+    # G_ = tr.tetrad_graph_to_causal_learn(G)
 
-    D_ = tr.tetrad_to_pandas(D)
-    G_ = tr.tetrad_graph_to_causal_learn(G)
-
-    return D_, G_
+    return D, G

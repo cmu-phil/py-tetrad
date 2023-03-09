@@ -60,6 +60,10 @@ rskew.setRule(ts.Lofs2.Rule.RSkew)
 gango_graph = rskew.orient()
 print_graph('GANGO', gango_graph)
 
+pc = ts.Pc(test)
+pc_graph = pc.search()
+print_graph('PC', pc_graph)
+
 fci = ts.Fci(test)
 fci_graph = fci.search()
 print_graph('FCI', fci_graph)
