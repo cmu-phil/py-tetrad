@@ -19,15 +19,16 @@ def print_graph(alg_name, G):
     print(tr.tetrad_graph_to_pcalg(G))
     print(tr.tetrad_graph_to_causal_learn(G))
 
-# df = pd.read_csv(f"resources/auto-mpg.data.mixed.max.3.categories.txt", sep="\t")
-# df = df.astype({col: "float64" for col in df.columns if col != "origin"})
+df = pd.read_csv(f"resources/auto-mpg.data.mixed.max.3.categories.txt", sep="\t")
+df = df.astype({col: "float64" for col in df.columns if col != "origin"})
+data = tr.pandas_to_tetrad(df)
 
-data, graph = sim.simulateLeeHastie()
+# data, graph = sim.simulateLeeHastie()
 
 print(data)
 
 
-# data = tr.pandas_to_tetrad(df)
+
 
 
 # # Note: This API is confusing in Tetrad; need to clean it up for the next version of Tetrad
