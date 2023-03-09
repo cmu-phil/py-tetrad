@@ -27,10 +27,6 @@ data = tr.pandas_to_tetrad(df)
 
 print(data)
 
-
-# # Note: This API is confusing in Tetrad; need to clean it up for the next version of Tetrad
-# # so these mixed variable tests and scores can be called more simply.
-#
 score = ts.ConditionalGaussianScore(data, 2, True)
 
 # score = ts.SemBicScoreDGWrapper(data)
