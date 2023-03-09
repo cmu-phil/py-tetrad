@@ -71,9 +71,7 @@ print_graph('FCI', fci_graph)
 gfci = ts.GFci(test, score)
 gfci_graph = gfci.search()
 print_graph('GFCI', gfci_graph)
-#
+
 grasp_fci = ts.GraspFci(test, score)
-# grasp_fci.setDoDiscriminatingPathRule(False)
-# grasp_fci.setPossibleDsepSearchDone(False)
 grasp_fci_graph = grasp_fci.search()
 print_graph('GRaSP-FCI', grasp_fci_graph)
