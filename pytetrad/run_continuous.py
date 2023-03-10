@@ -11,7 +11,6 @@ except OSError:
 import pandas as pd
 import tools.translate as tr
 
-import java.util as util
 import edu.cmu.tetrad.search as ts
 
 df = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
