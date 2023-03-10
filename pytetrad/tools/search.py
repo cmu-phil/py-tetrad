@@ -81,3 +81,9 @@ def gfci(test, score, verbose=False, out='tetrad'):
     gfci.setVerbose(verbose)
     gfci_graph = gfci.search()
     return return_graph(gfci_graph, out)
+
+def grasp_fci(test, score, verbose=False, out='tetrad'):
+    grasp_fci = ts.GraspFci(test, score)
+    grasp_fci.setVerbose(verbose)
+    grasp_fci_graph = grasp_fci.search()
+    return return_graph(grasp_fci_graph, out)

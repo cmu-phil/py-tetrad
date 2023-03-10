@@ -46,6 +46,5 @@ print('FCI', fci_graph)
 gfci_graph = search.gfci(test, score)
 print('GFCI', gfci_graph)
 
-grasp_fci = ts.GraspFci(test, score)
-grasp_fci_graph = grasp_fci.search()
+grasp_fci_graph = search.grasp_fci(test, score)
 print('GRaSP-FCI', grasp_fci_graph)

@@ -49,5 +49,5 @@ print('PC', pc_graph)
 fci_graph = search.fci(test)
 print('FCI', fci_graph)
 
-gfci_graph = search.gfci(test, score)
+gfci_graph = search.grasp_fci(test, score)
 print('GFCI', gfci_graph)
