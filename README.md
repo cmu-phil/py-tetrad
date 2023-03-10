@@ -1,6 +1,6 @@
 # py-tetrad
 
-This package shows how to make algorithms/code in [Tetrad](https://github.com/cmu-phil/tetrad) directly available in Python via [JPype](https://github.com/jpype-project/jpype) as part of a Python workflow.
+This package shows how to make arbitrary code in [Tetrad](https://github.com/cmu-phil/tetrad) directly available in Python via [JPype](https://github.com/jpype-project/jpype) as part of a Python workflow. We do this by giving examples of how it can be done, along with [API Javadoc documentation](https://www.phil.cmu.edu/tetrad-javadocs/7.2.2/lib/) to allow further exploration of the entire Tetrad codebase.
 
 Part of our code makes use of the [causal-learn](https://github.com/py-why/causal-learn) Python package, to show how it can be integrated with that.
  
@@ -9,8 +9,6 @@ This is intended to replace the older [py-causal](https://github.com/bd2kccd/py-
 You can also integrate Tetrad code into Python by making os.system(..) calls to [Causal Command](https://github.com/bd2kccd/causal-cmd); here are some [examples](https://github.com/cmu-phil/algocompy/blob/main/old/causalcmd/tetrad_cmd_algs.py) of how to do it.
 
 This is still a new project, so please bear with us as we add example modules and clarify the code. Please submit any problems you have figuring things out to our [Issue Tracker](https://github.com/cmu-phil/py-tetrad/issues) and we'll see if we can solve them. Actually, using JPype or Causal Command to integrate Tetrad code into a Python workflow is pretty easy once you see how to do it. This JPype project is not complicated; feel free to steal code as needed.
-
-In fact, the main problem for calling arbitrary code from Tetrad using JPype is figuring out what classes are available and what methods to call and what their signatures are; we'll try to make that easier. It helps to consult the [Javadocs (that is, API docs) for Tetrad](https://www.phil.cmu.edu/tetrad-javadocs/7.2.2/lib). Hopefully, though, we can just add or clarify examples for the main things you may want to do.
 
 Another problem is that some code in Tetrad is not written in a way to make it easy to call from Python or else the tools we have so far for calling it are not working well; where we find issues like this in our examples, we will try for the next version of Tetrad to clean that up. Everything should be simple and ituititve to call. We will maintain a bugfix version of the Tetrad launch jar for the latest bug fixes past the current published version.
 
