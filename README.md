@@ -8,7 +8,7 @@ This is intended to replace the older [py-causal](https://github.com/bd2kccd/py-
 
 You can also integrate Tetrad code into Python by making os.system(..) calls to [Causal Command](https://github.com/bd2kccd/causal-cmd); here are some [examples](https://github.com/cmu-phil/algocompy/blob/main/old/causalcmd/tetrad_cmd_algs.py) of how to do it.
 
-This is still a new project, so please bear with us as we add example modules and clarify the code. Please submit any problems you have figuring things out to our [Issue Tracker](https://github.com/cmu-phil/py-tetrad/issues) and we'll see if we can solve them. Actually, using JPype or Causal Command to integrate Tetrad code into a Python workflow is pretty easy once you see how to do it. This JPype project is not complicated; feel free to steal code as needed.
+This is still a new project, so please bear with us as we add example modules and clarify the code. Please submit any problems you have figuring things out to our [Issue Tracker](https://github.com/cmu-phil/py-tetrad/issues) and we'll see if we can solve them. Actually, using JPype or Causal Command to integrate Tetrad code into a Python workflow is pretty easy once you see how to do it. Feel free to steal and modify code as needed.
 
 Another problem is that some code in Tetrad is not written in a way to make it easy to call from Python or else the tools we have so far for calling it are not working well; where we find issues like this in our examples, we will try for the next version of Tetrad to clean that up. Everything should be simple and ituititve to call. We will maintain a bugfix version of the Tetrad launch jar for the latest bug fixes past the current published version.
 
