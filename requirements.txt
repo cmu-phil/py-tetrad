@@ -1,8 +1,8 @@
-JPype1==1.4.1
+JPype1
 numpy
 packaging
 pandas
-python-dateutil==2.8.2
+python-dateutil
 pytz
-six==1.16.0
-causal-learn==0.1.3.3
+six
+causal-learn

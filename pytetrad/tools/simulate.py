@@ -31,6 +31,9 @@ def simulateContinuous(num_meas = 20, num_lat = 0, avg_deg = 4, samp_size = 200,
     params.set(Params.COEF_HIGH, coef_high)
     params.set(Params.VAR_LOW, var_low)
     params.set(Params.VAR_HIGH, var_high)
+    params.set(Params.INTERVAL_BETWEEN_SHOCKS, 30)
+    params.set(Params.INTERVAL_BETWEEN_RECORDINGS, 30)
+
     params.set(Params.VERBOSE, False)
     params.set(Params.NUM_RUNS, 1)
     # params.set(Params.SEED, 29483)
