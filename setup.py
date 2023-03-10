@@ -14,15 +14,9 @@ setuptools.setup(
     long_description_content_type='text/markdown',
     install_requires=[
         'numpy',
-        'scipy',
-        'scikit-learn',
-        'graphviz',
-        'statsmodels',
         'pandas',
-        'matplotlib',
-        'networkx',
-        'pydot',
-        'tqdm'
+        'JPype1'
+        'causal-learn'
     ],
     url='https://github.com/cmu-phil/py-tetrad',
     packages=setuptools.find_packages(),
