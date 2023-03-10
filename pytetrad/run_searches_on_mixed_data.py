@@ -31,8 +31,6 @@ score = ts.ConditionalGaussianScore(data, 2, True)
 # score.setPenaltyDiscount(2)
 # score.setStructurePrior(0)
 
-variables = score.getVariables()
-
 test = ts.IndTestConditionalGaussianLRT(data, 0.05, True)
 
 fges = ts.Fges(score)
@@ -42,7 +40,7 @@ print_graph('fGES', fges_graph)
 boss = ts.Boss(test, score)
 boss.setUseDataOrder(False)
 boss.setNumStarts(1)
-boss.bestOrder(variables)
+boss.bestOrder(score.getVariables())
 boss_graph = boss.getGraph(True)
 print_graph('BOSS', boss_graph)
 
@@ -50,7 +48,7 @@ grasp = ts.Grasp(test, score)
 grasp.setOrdered(False)
 grasp.setUseDataOrder(False)
 grasp.setNumStarts(5)
-grasp.bestOrder(variables)
+grasp.bestOrder(score.getVariables())
 grasp_graph = grasp.getGraph(True)
 print_graph('GRaSP', grasp_graph)
 
