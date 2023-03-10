@@ -53,3 +53,20 @@ def gango(score, data, verbose=False, out='tetrad'):
     gango_graph = rskew.orient()
     return return_graph(gango_graph, out)
 
+def pc(test, verbose=False, out='tetrad'):
+    pc = ts.Pc(test)
+    pc.setVerbose(verbose)
+    pc_graph = pc.search()
+    return return_graph(pc_graph, out)
+
+def fci(test, verbose=False, out='tetrad'):
+    fci = ts.Fci(test)
+    fci.setVerbose(verbose)
+    fci_graph = fci.search()
+    return return_graph(fci_graph, out)
+
+def gfci(test, score, verbose=False, out='tetrad'):
+    gfci = ts.GFci(test, score)
+    gfci.setVerbose(verbose)
+    gfci_graph = gfci.search()
+    return return_graph(gfci_graph, out)
