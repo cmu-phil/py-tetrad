@@ -1,6 +1,6 @@
 # py-tetrad
 
-This package shows how to make arbitrary code in [Tetrad](https://github.com/cmu-phil/tetrad) directly available in Python via [JPype](https://github.com/jpype-project/jpype) as part of a Python workflow. We do this by giving examples of how it can be done, along with [API Javadoc documentation](https://www.phil.cmu.edu/tetrad-javadocs/7.2.2/lib/) to allow further exploration of the entire Tetrad codebase.
+This package shows how to make arbitrary code in [Tetrad](https://github.com/cmu-phil/tetrad) directly available in Python via [JPype](https://github.com/jpype-project/jpype) as part of a Python workflow. We do this by giving [examples](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad) of how it can be done, along with [API Javadoc documentation](https://www.phil.cmu.edu/tetrad-javadocs/7.2.2/lib/) to allow further exploration of the entire Tetrad codebase.
 
 Part of our code makes use of the [causal-learn](https://github.com/py-why/causal-learn) Python package, to show how it can be integrated with that.
  
