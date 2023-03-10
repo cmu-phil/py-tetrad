@@ -29,12 +29,9 @@ import java.util as util
 import edu.cmu.tetrad.data as td
 
 
-# TEMPORARY NOTES #
-# dtype allows the user to specify a list of dtypes should be 
-# interpreted as continuous, the default is [np.floating], to 
-# interpret integers as continuous as well use [np.floating, np.integer]
-# implemnetaion not final: could be changed flag for ints as continous
-def pandas_to_tetrad(df: DataFrame, dtypes=[np.floating]):
+def pandas_to_tetrad(df: DataFrame, int_as_cont=False):
+    dtypes = [np.floating]
+    if int_as_cont: dtypes.append(np.integer)
     cols = df.columns
     discrete_cols = [col for col in cols if df[col].dtypes not in dtypes]
     category_map = {col: {val: i for i, val in enumerate(df[col].unique())} for col in discrete_cols}
