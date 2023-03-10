@@ -12,7 +12,7 @@ This is still a new project, so please bear with us as we add example modules an
 
 Another problem is that some code in Tetrad is not written in a way to make it easy to call from Python or else the tools we have so far for calling it are not working well; where we find issues like this in our examples, we will try for the next version of Tetrad to clean that up. Everything should be simple and ituititve to call. We will maintain a [bugfix version of the Tetrad launch jar](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/resources) for the latest bug fixes past the current published version.
 
-Our most recent stable Tetrad version 7.2.2, which is included in the project. But all artifacts for Tetrad for the last several releases are on [Maven Central](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/), along with signatures to verify their authenticity.
+Our most recent stable Tetrad version 7.2.2 is included in the project. But all artifacts for Tetrad for the last several releases are on [Maven Central](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/), along with signatures to verify their authenticity.
 
 # Install
 
