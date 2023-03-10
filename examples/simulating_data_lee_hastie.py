@@ -9,6 +9,7 @@ except OSError:
 
 import pytetrad.simulate as util
 
+## Simulates data with both continuous and discrete columns.
 D, G = util.simulateLeeHastie(num_meas=100, samp_size=1000)
 
 # Save data to a file
