@@ -1,4 +1,3 @@
-import jpype
 import jpype.imports
 
 try:
@@ -8,7 +7,7 @@ except OSError:
     print("JVM already started")
 
 import pandas as pd
-import pytetrad.translate as tr
+import tools.translate as tr
 
 df = pd.read_csv(f"resources/airfoil-self-noise.continuous.txt", sep="\t")
 df = df.astype({col: "float64" for col in df.columns})

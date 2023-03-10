@@ -1,6 +1,5 @@
 import time
 
-import jpype
 import jpype.imports
 
 # this needs to happen before import pytetrad (otherwise lib cant be found)
@@ -13,11 +12,10 @@ except OSError:
 import pandas as pd
 import numpy as np
 
-from causallearn.search.ConstraintBased.PC import pc, pc_alg
-from causallearn.utils.cit import chisq, fisherz, kci, d_separation, KCI
+from causallearn.search.ConstraintBased.PC import pc
+from causallearn.utils.cit import kci
 import edu.cmu.tetrad.search as ts
-import pytetrad.translate as tr
-import pytetrad.simulate as util
+import tools.translate as tr
 
 D = pd.read_csv(f"resources/airfoil-self-noise.continuous.txt", sep="\t")
 D = D.sample(600, replace=True)

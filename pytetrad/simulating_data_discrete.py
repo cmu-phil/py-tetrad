@@ -1,4 +1,3 @@
-import jpype
 import jpype.imports
 
 try:
@@ -7,7 +6,7 @@ try:
 except OSError:
     print("JVM already started")
 
-import pytetrad.simulate as util
+import tools.simulate as util
 
 D, G = util.simulateDiscrete(num_meas=100, samp_size=1000)
 

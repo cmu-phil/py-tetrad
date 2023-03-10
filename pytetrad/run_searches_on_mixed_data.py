@@ -1,4 +1,3 @@
-import jpype
 import jpype.imports
 
 try:
@@ -8,8 +7,7 @@ except OSError:
     print("JVM already started")
 
 import pandas as pd
-import pytetrad.translate as tr
-import pytetrad.simulate as sim
+import tools.translate as tr
 
 import edu.cmu.tetrad.search as ts
 

@@ -1,4 +1,3 @@
-import jpype
 import jpype.imports
 
 try:
@@ -9,12 +8,12 @@ except OSError:
 
 import pandas as pd
 import numpy as np
-import pytetrad.translate as tr
+import tools.translate as tr
 
 import edu.cmu.tetrad.search as ts
 
-from causallearn.search.ConstraintBased.PC import pc, pc_alg
-from causallearn.utils.cit import chisq, fisherz, kci, d_separation, KCI
+from causallearn.search.ConstraintBased.PC import pc
+from causallearn.utils.cit import fisherz
 
 df = pd.read_csv(f"resources/airfoil-self-noise.continuous.txt", sep="\t")
 df = df.astype({col: "float64" for col in df.columns})

@@ -14,7 +14,7 @@
 from edu.cmu.tetrad.util import Params, Parameters
 import edu.cmu.tetrad.algcomparison.simulation as sim
 import edu.cmu.tetrad.algcomparison.graph as graph
-import pytetrad.translate as tr
+import pytetrad.tools.translate as tr
 
 # Simuolates a continuous dataset with the given arguments and returns the dataset as a pandas dataframe
 # along with the graph as a causal-learn GeneralGraph.
