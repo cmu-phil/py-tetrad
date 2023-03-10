@@ -37,7 +37,7 @@ Then in a terminal window,for instance, cd to a directory where you want the clo
 export JAVA_HOME=[path to your Java installation]
 git clone https://github.com/cmu-phil/py-tetrad/
 cd py-tetrad/pytetrad
-python run_searches_on_continuous_data.py
+python run_continuous.py
 ```
 
 If everything is set up right, the last command should cause this example module to run various algorithms in (Java) Tetrad and print out result graphs in several different ways in Python--using the original Java graph class, using the PCALG-style general graph matrix, and using GeneralGraph in causal-learn. Feel free to explore other example modules in that directory.
