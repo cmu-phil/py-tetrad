@@ -1,7 +1,5 @@
 import jpype.imports
 
-import tools.search as search
-
 try:
     # jpype.startJVM(classpath=[f"resources/tetrad-gui-7.2.2-launch.jar"])
     jpype.startJVM(classpath=[f"resources/tetrad-gui-bugfix-launch.jar"])
@@ -10,6 +8,7 @@ except OSError:
 
 import pandas as pd
 import tools.translate as tr
+import tools.search as search
 
 import edu.cmu.tetrad.search as ts
 

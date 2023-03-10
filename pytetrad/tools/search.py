@@ -1,5 +1,6 @@
 import jpype
 import jpype.imports
+import pandas as pd
 
 try:
     # jpype.startJVM(classpath=[f"resources/tetrad-gui-7.2.2-launch.jar"])
@@ -7,8 +8,9 @@ try:
 except OSError:
     print("JVM already started")
 
-from .translate import tetrad_to_pandas
+from .translate import tetrad_graph_to_pcalg, tetrad_graph_to_causal_learn
 import edu.cmu.tetrad.search as ts
+import edu.cmu.tetrad.data as td
 import java.util as util
 
 ## Some functions wrapping various classes in Tetrad. Feel free to just steal
@@ -20,7 +22,11 @@ def return_graph(graph, out):
     if out=='tetrad':
         return graph
     elif out =='pcalg':
-        return tetrad_to_pandas(graph)
+        return tetrad_graph_to_pcalg(graph)
+    elif out == 'cl':
+        return tetrad_graph_to_causal_learn(graph)
+    else:
+        raise Exception("Graph type must be tetrad (default), pcalg, or cl (causal-learn)")
 
 def fges(score, verbose=False, out='tetrad'):
     fges = ts.Fges(score)
@@ -29,7 +35,7 @@ def fges(score, verbose=False, out='tetrad'):
     return return_graph(pattern, out)
 
 def boss(score, verbose=False, out='tetrad'):
-    test = ts.IndTestScore(score, score.getData())
+    test = ts.IndTestScore(score) # ignored.
     boss = ts.Boss(test, score)
     boss.setUseDataOrder(False)
     boss.setNumStarts(5)
@@ -39,7 +45,7 @@ def boss(score, verbose=False, out='tetrad'):
     return return_graph(pattern, out)
 
 def grasp(score, verbose=False, out='tetrad'):
-    test = ts.IndTestScore(score, score.getData())
+    test = ts.IndTestScore(score) # ignored
     grasp = ts.Grasp(test, score)
     grasp.setOrdered(False)
     grasp.setUseDataOrder(False)
