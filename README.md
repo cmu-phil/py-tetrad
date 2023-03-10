@@ -36,8 +36,7 @@ Then in a terminal window,for instance, cd to a directory where you want the clo
 ```   
 export JAVA_HOME=[path to your Java installation]
 git clone https://github.com/cmu-phil/py-tetrad/
-pip install ./py-tetrad 
-cd py-tetrad/examples
+cd py-tetrad/pytetrad
 python run_searches_on_continuous_data.py
 ```
 
