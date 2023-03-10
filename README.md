@@ -29,7 +29,7 @@ Our most recent stable Tetrad version 7.2.2 is included in the project. But all 
 
 1. Finally, you will need to clone this GitHub repository, so if you don't have Git installed, google and install that for your machine type.
 
-Then in a terminal window,for instance, cd to a directory where you want the cloned project to appear and type the following (or just copy and paste it--again, as above, make sure JAVA_HOME is set correctly in the below to your java path):
+Then in a terminal window, for instance, cd to a directory where you want the cloned project to appear and type the following (or just copy and paste it)--again, as above, make sure JAVA_HOME is set correctly to your java path):
     
 ```   
 export JAVA_HOME=[path to your Java installation]
