@@ -9,6 +9,7 @@ except OSError:
 
 from .translate import tetrad_to_pandas
 import edu.cmu.tetrad.search as ts
+import java.util as util
 
 def return_graph(graph, out):
     if out=='tetrad':
@@ -42,4 +43,13 @@ def grasp(score, verbose=False, out='tetrad'):
     grasp.setVerbose(verbose)
     pattern = grasp.getGraph(True)
     return return_graph(pattern, out)
+
+def gango(score, data, verbose=False, out='tetrad'):
+    fges_graph = fges(score, verbose)
+    datasets = util.ArrayList()
+    datasets.add(data)
+    rskew = ts.Lofs2(fges_graph, datasets)
+    rskew.setRule(ts.Lofs2.Rule.RSkew)
+    gango_graph = rskew.orient()
+    return return_graph(gango_graph, out)
 

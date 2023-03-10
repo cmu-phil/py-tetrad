@@ -1,6 +1,6 @@
 import jpype.imports
 
-from tools.search import fges
+import tools.search as search
 
 try:
     # jpype.startJVM(classpath=[f"resources/tetrad-gui-7.2.2-launch.jar"])
@@ -25,25 +25,16 @@ def run_searches(df):
     test = ts.IndTestScore(score, data)
     test.setAlpha(0.01)
 
-    fges_graph = fges(score)
+    fges_graph = search.fges(score)
     print('FGES', fges_graph)
 
-    boss_graph = fges(score)
+    boss_graph = search.boss(score)
     print('BOSS', boss_graph)
 
-    grasp = ts.Grasp(test, score)
-    grasp.setOrdered(False)
-    grasp.setUseDataOrder(False)
-    grasp.setNumStarts(5)
-    grasp.bestOrder(score.getVariables())
-    grasp_graph = grasp.getGraph(True)
+    grasp_graph = search.grasp(score)
     print('GRaSP', grasp_graph)
 
-    datasets = util.ArrayList()
-    datasets.add(data)
-    rskew = ts.Lofs2(fges_graph, datasets)
-    rskew.setRule(ts.Lofs2.Rule.RSkew)
-    gango_graph = rskew.orient()
+    gango_graph = search.gango(score, data)
     print('GANGO', gango_graph)
 
     pc = ts.Pc(test)
