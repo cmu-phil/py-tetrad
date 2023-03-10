@@ -2,13 +2,13 @@
 ## start the JVM only once per session. Your code should start with the following
 ## lines:
 #
-# import jpype
-# import jpype.imports
-#
-# try:
-#     jpype.startJVM(classpath=[f"resources/tetrad-gui-7.2.2-launch.jar"])
-# except OSError:
-#     print("JVM already started")
+import jpype
+import jpype.imports
+
+try:
+    jpype.startJVM(classpath=[f"resources/tetrad-gui-7.2.2-launch.jar"])
+except OSError:
+    print("JVM already started")
 
 
 from edu.cmu.tetrad.util import Params, Parameters

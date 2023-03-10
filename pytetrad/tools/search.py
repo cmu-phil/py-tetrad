@@ -11,6 +11,11 @@ from .translate import tetrad_to_pandas
 import edu.cmu.tetrad.search as ts
 import java.util as util
 
+## Some functions wrapping various classes in Tetrad. Feel free to just steal
+## the relevant code for your own projects, or call these functions. We
+## will add more named parameters to help one see which methods for the
+## the searches can be controlled.
+
 def return_graph(graph, out):
     if out=='tetrad':
         return graph
