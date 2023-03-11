@@ -13,6 +13,11 @@ except OSError:
 import os
 import sys
 
+## Some functions wrapping various classes in Tetrad. Feel free to just steal
+## the relevant code for your own projects, or 'pip install' this Github directory
+## and call these functions. will add more named parameters to help one see which 
+## methods for the the searches can be controlled.
+
 # this needs to happen before import pytetrad (otherwise lib cant be found)
 BASE_DIR = os.path.join(os.path.dirname(__file__), '../..')
 sys.path.append(BASE_DIR)
