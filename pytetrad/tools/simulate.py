@@ -6,10 +6,10 @@ import jpype
 import jpype.imports
 
 try:
-    jpype.startJVM(classpath=[f"resources/tetrad-gui-7.2.2-launch.jar"])
+    # jpype.startJVM(classpath=[f"resources/tetrad-gui-7.2.2-launch.jar"])
+    jpype.startJVM(classpath=[f"resources/tetrad-gui-bugfix-launch.jar"])
 except OSError:
     print("JVM already started")
-
 
 from edu.cmu.tetrad.util import Params, Parameters
 import edu.cmu.tetrad.algcomparison.simulation as sim
