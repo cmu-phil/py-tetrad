@@ -11,7 +11,7 @@ You can also integrate Tetrad code into Python by making os.system (..) calls to
 
 This project is still new, so please bear with us as we add example modules and clarify the code. Please submit any problems to our [Issue Tracker](https://github.com/cmu-phil/py-tetrad/issues), and we'll see if we can solve them. Using JPype or Causal Command to integrate Tetrad code into a Python workflow is easy once you see how. Feel free to steal and modify code as needed.
 
-We are also modifying some classes in Tetrad to make them easier to call from Python. We will maintain a [current version of the Tetrad launch jar](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/resources), which is either the current published version or else the current published version with some [adjustments](https://github.com/cmu-phil/tetrad/wiki/Forthcoming-fixes).
+We are also modifying some classes in Tetrad to make them easier to call from Python. We will maintain a [current version of the Tetrad launch jar](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/resources), which is either the current published version or else the current published version with some [adjustments](https://github.com/cmu-phil/tetrad/wiki/Forthcoming-fixes). The example code will work with this current jar.
 
 Our most recent stable Tetrad version, 7.2.2, is also included in the pytetrad/resources directory. But all artifacts for Tetrad for the last several releases are on [Maven Central](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/), along with signatures to verify their authenticity.
 
