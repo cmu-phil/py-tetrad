@@ -43,4 +43,4 @@ If everything is set up right, the last command should cause this example module
 
 Feel free to use your favorite method for editing and running modules.
 
-**This is currently not stable; adjusting code. Also making some fixes to the Tetrad jar to help with some of the JPype issues we found--see the current jar.**
+**This is currently not stable; adjusting code.**
