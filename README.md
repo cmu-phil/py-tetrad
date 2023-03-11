@@ -10,9 +10,9 @@ You can also integrate Tetrad code into Python by making os.system(..) calls to 
 
 This is still a new project, so please bear with us as we add example modules and clarify the code. Please submit any problems you have figuring things out to our [Issue Tracker](https://github.com/cmu-phil/py-tetrad/issues) and we'll see if we can solve them. Actually, using JPype or Causal Command to integrate Tetrad code into a Python workflow is pretty easy once you see how to do it. Feel free to steal and modify code as needed.
 
-Another problem is that some code in Tetrad is not written in a way to make it easy to call from Python or else the tools we have so far for calling it are not working well; where we find issues like this in our examples, we will try for the next version of Tetrad to clean that up. Everything should be simple and ituititve to call. We will maintain a [bugfix version of the Tetrad launch jar](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/resources) for the latest bug fixes past the current published version.
+Another problem is that some code in Tetrad is not written in a way to make it easy to call from Python or else the tools we have so far for calling it are not working well; where we find issues like this in our examples, we will try for the next version of Tetrad to clean that up. Everything should be simple and ituititve to call. We will maintain a [current version of the Tetrad launch jar](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/resources) for the latest bug fixes past the current published version.
 
-Our most recent stable Tetrad version 7.2.2 is included in the project. But all artifacts for Tetrad for the last several releases are on [Maven Central](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/), along with signatures to verify their authenticity.
+Our most recent stable Tetrad version 7.2.2 is also included in the pytetrad/resources directory. But all artifacts for Tetrad for the last several releases are on [Maven Central](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/), along with signatures to verify their authenticity.
 
 # Install
 
@@ -42,4 +42,4 @@ If everything is set up right, the last command should cause this example module
 
 Feel free to use whatever your favorite method is for editing modules and running them.
 
-**This is currently not stable; adjusting code. Also making some fixes to the Tetrad jar to help with some of the JPype issues we found--see the bugfix jar.**
+**This is currently not stable; adjusting code. Also making some fixes to the Tetrad jar to help with some of the JPype issues we found--see the current jar.**
