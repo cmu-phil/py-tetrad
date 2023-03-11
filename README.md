@@ -20,7 +20,7 @@ Our most recent stable Tetrad version, 7.2.2, is also included in the pytetrad/r
 1. It is necessary to install a JAVA JRE or JDK, preferably the most recent version with long-term support (LTS), certainly greater than 1.8 (version 8). For stability across platforms, we find a [Corretto JRE/JDK Installation](https://aws.amazon.com/corretto/?filtered-posts.sort-by=item.additionalFields.createdDate&filtered-posts.sort-order=desc) works well. 
 
 
-1. If JAVA_HOME is not already set to the correct location of your Java installation above, you'll need to set it. On a Mac, you'd type in a terminal, "echo $JAVA_HOME" to see if it's set, and if not, type something like, "export JAVA_HOME=/Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk", to fix it. Adjust this for your platform and JDK/JRE installation path.
+1. If JAVA_HOME is not already set to the correct location of your Java installation above, you'll need to set it. On a Mac, you'd type in a terminal, `echo $JAVA_HOME` to see if it's set, and if not, type something like `export JAVA_HOME=/Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk` to fix it. Adjust this for your platform and JDK/JRE installation path.
 
 1. Make sure you are using the latest Python--at least 3.7--as required by JPype; if not, [update it](https://www.pythoncentral.io/how-to-update-python/). 
 
