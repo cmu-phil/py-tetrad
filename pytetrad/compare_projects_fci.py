@@ -1,7 +1,7 @@
 import jpype.imports
 
 try:
-   jpype.startJVM(classpath=[f"resources/tetrad-gui-current-launch.jar"])
+    jpype.startJVM(classpath=[f"resources/tetrad-gui-current-launch.jar"])
 except OSError:
     print("JVM already started")
 
@@ -25,7 +25,7 @@ print(G)
 
 out = str(G)
 for i, col in enumerate(df.columns):
-    out = out.replace(f"X{i+1}", col)
+    out = out.replace(f"X{i + 1}", col)
 print(out)
 
 print("\nTetrad FCI\n")
