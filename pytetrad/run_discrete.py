@@ -28,7 +28,7 @@ score = ts.BDeuScore(data)
 score.setSamplePrior(10)
 score.setStructurePrior(1)
 
-test = ts.IndTestChiSquare(data, 0.05)
+test = ts.IndTestGSquare(data, 0.05)
 
 fges_graph = search.fges(score)
 print('fGES', fges_graph)
@@ -48,5 +48,5 @@ print('FCI', fci_graph)
 gfci_graph = search.gfci(test, score)
 print('GFCI', gfci_graph)
 
-gfci_graph = search.grasp_fci(test, score)
-print('GFCI', gfci_graph)
+graph_fci_graph = search.grasp_fci(test, score)
+print('GraSP-FCI', graph_fci_graph)
