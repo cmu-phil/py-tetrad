@@ -1,3 +1,4 @@
+
 # py-tetrad
 
 This package shows how to make arbitrary code in [Tetrad](https://github.com/cmu-phil/tetrad) directly available in Python via [JPype](https://github.com/jpype-project/jpype) as part of a Python workflow. We do this by giving [reusable examples](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad) of how it can be done, along with [API Javadoc documentation](https://www.phil.cmu.edu/tetrad-javadocs/7.2.2/lib/) to allow further exploration of the entire Tetrad codebase.
@@ -43,4 +44,3 @@ If everything is set up right, the last command should cause this example module
 Feel free to use your favorite method for editing and running modules.
 
 **This is currently not stable; adjusting code. Also making some fixes to the Tetrad jar to help with some of the JPype issues we found--see the current jar.**
-![image](https://user-images.githubusercontent.com/9853255/224466006-7f0e21aa-bdaf-416f-9d5f-ab7dbc430ed1.png)
