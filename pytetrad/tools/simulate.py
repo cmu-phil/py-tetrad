@@ -30,7 +30,7 @@ def simulateContinuous(num_meas = 20, num_lat = 0, avg_deg = 4, samp_size = 200,
     params.set(Params.NUM_MEASURES, num_meas)
     params.set(Params.AVG_DEGREE, avg_deg)
     params.set(Params.NUM_LATENTS, num_lat)
-    params.set(Params.RANDOMIZE_COLUMNS, False)
+    params.set(Params.RANDOMIZE_COLUMNS, True) # Preents some algorithsm from taking advantage of true orde
     params.set(Params.COEF_LOW, coef_low)
     params.set(Params.COEF_HIGH, coef_high)
     params.set(Params.VAR_LOW, var_low)
@@ -69,7 +69,7 @@ def simulateDiscrete(num_meas = 20, num_lat = 0, avg_deg = 4, min_cat=3, max_cat
     params.set(Params.MAX_CATEGORIES, max_cat)
 
     # Params for simuulation
-    params.set(Params.RANDOMIZE_COLUMNS, False)
+    params.set(Params.RANDOMIZE_COLUMNS, True) # Preents some algorithsm from taking advantage of true orde
     params.set(Params.SAMPLE_SIZE, samp_size)
     params.set(Params.SAVE_LATENT_VARS, False)
     # params.set(Params.SEED, 29483)
@@ -103,7 +103,7 @@ def simulateLeeHastie(num_meas = 20, num_lat = 0, avg_deg = 4, min_cat=3, max_ca
     params.set(Params.PERCENT_DISCRETE, perc_disc)
     params.set(Params.DIFFERENT_GRAPHS, False)
 
-    params.set(Params.RANDOMIZE_COLUMNS, True)
+    params.set(Params.RANDOMIZE_COLUMNS, True) # Preents some algorithsm from taking advantage of true order
     params.set(Params.SAMPLE_SIZE, samp_size)
     params.set(Params.SAVE_LATENT_VARS, False)
     # params.set(Params.SEED, 29493L)
