@@ -9,6 +9,11 @@ try:
    jpype.startJVM(classpath=[f"resources/tetrad-gui-current-launch.jar"])
 except OSError:
     print("JVM already started")
+      
+## Some functions wrapping various classes in Tetrad. Feel free to just steal
+## the relevant code for your own projects, or 'pip install' this Github directory
+## and call these functions. will add more named parameters to help one see which 
+## methods for the the searches can be controlled.
 
 from edu.cmu.tetrad.util import Params, Parameters
 import edu.cmu.tetrad.algcomparison.simulation as sim
