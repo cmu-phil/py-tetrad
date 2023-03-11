@@ -12,6 +12,9 @@ import edu.cmu.tetrad.search as ts
 import edu.cmu.tetrad.data as td
 import java.util as util
 
+from edu.cmu.tetrad.util import Params, Parameters
+
+
 ## Some functions wrapping various classes in Tetrad. Feel free to just steal
 ## the relevant code for your own projects, or call these functions. We
 ## will add more named parameters to help one see which methods for the
@@ -63,10 +66,21 @@ def gango(score, data, verbose=False, out='tetrad'):
     gango_graph = rskew.orient()
     return return_graph(gango_graph, out)
 
-def pc(test, verbose=False, out='tetrad'):
-    pc = ts.Pc(test)
-    pc.setVerbose(verbose)
-    pc_graph = pc.search()
+def pc(test, depth=-1, prevent_cycles=True, verbose=False, out='tetrad'):
+    search = ts.Pc(test)
+    search.setDepth(depth)
+    search.setAggressivelyPreventCycles(prevent_cycles)
+    search.setVerbose(verbose)
+    pc_graph = search.search()
+
+    # Putting this version of PC here because it's the one that's used
+    # in the interface and in Causal Command.
+    # params = Parameters()
+
+
+
+
+
     return return_graph(pc_graph, out)
 
 def fci(test, verbose=False, out='tetrad'):

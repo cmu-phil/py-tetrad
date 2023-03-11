@@ -11,13 +11,6 @@ import tools.search as search
 
 import edu.cmu.tetrad.search as ts
 
-
-def print_graph(alg_name, G):
-    print(f"\n{alg_name}\n")
-    print(G)
-    print(tr.tetrad_graph_to_pcalg(G))
-    print(tr.tetrad_graph_to_causal_learn(G))
-
 # data, graph = sim.simulateLeeHastie()
 
 df = pd.read_csv("resources/auto-mpg.data.mixed.max.3.categories.txt", sep="\t")
@@ -34,10 +27,10 @@ score = ts.ConditionalGaussianScore(data, 2, True)
 test = ts.IndTestConditionalGaussianLRT(data, 0.05, True)
 
 fges_graph = search.fges(score)
-print_graph('fGES', fges_graph)
+print('fGES', fges_graph)
 
 boss_graph = search.boss(score)
-print_graph('BOSS', boss_graph)
+print('BOSS', boss_graph)
 
 grasp_graph = search.grasp(score)
 print('GRaSP', grasp_graph)

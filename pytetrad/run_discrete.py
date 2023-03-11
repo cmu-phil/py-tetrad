@@ -22,17 +22,19 @@ df = pd.read_csv("resources/bridges.data.version211_rev.txt", sep="\t")
 data = tr.pandas_to_tetrad(df)
 print(data)
 
+# score = ts.DiscreteBicScore(data)
+
 score = ts.BDeuScore(data)
 score.setSamplePrior(10)
 score.setStructurePrior(1)
 
-test = ts.IndTestChiSquare(data, 0.1)
+test = ts.IndTestChiSquare(data, 0.05)
 
 fges_graph = search.fges(score)
-print_graph('fGES', fges_graph)
+print('fGES', fges_graph)
 
 boss_graph = search.boss(score)
-print_graph('BOSS', boss_graph)
+print('BOSS', boss_graph)
 
 grasp_graph = search.grasp(score)
 print('GRaSP', grasp_graph)
