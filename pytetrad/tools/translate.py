@@ -35,8 +35,11 @@ import edu.cmu.tetrad.data as td
 
 
 def pandas_to_tetrad(df: DataFrame, int_as_cont=False):
-    dtypes = [np.floating]
-    if int_as_cont: dtypes.append(np.integer)
+    dtypes = ["float16", "float32", "float64"]
+    if int_as_cont:
+        for i in range(3, 7):
+            dtypes.append(f"int{2**i}")
+            dtypes.append(f"uint{2**i}")
     cols = df.columns
     discrete_cols = [col for col in cols if df[col].dtypes not in dtypes]
     category_map = {col: {val: i for i, val in enumerate(df[col].unique())} for col in discrete_cols}
