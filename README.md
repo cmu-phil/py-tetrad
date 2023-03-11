@@ -5,7 +5,7 @@ This package shows how to make arbitrary code in [Tetrad](https://github.com/cmu
 
 Part of our code uses the [causal-learn Python package](https://github.com/py-why/causal-learn) to show how it can be integrated.
  
-This is intended to replace the older [py-causal](https://github.com/bd2kccd/py-causal) package.
+This replaces the older [py-causal](https://github.com/bd2kccd/py-causal) package.
 
 You can also integrate Tetrad code into Python by making os. system (..) calls to [Causal Command](https://github.com/bd2kccd/causal-cmd); here are some [examples](https://github.com/cmu-phil/algocompy/blob/main/old/causalcmd/tetrad_cmd_algs.py) of how to do it.
 
