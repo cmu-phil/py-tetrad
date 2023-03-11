@@ -39,7 +39,7 @@ cd py-tetrad/pytetrad
 python run_continuous.py
 ```
 
-If everything is set up right, the last command should cause this example module to run various algorithms in (Java) Tetrad and print out result graphs in several different ways in Python--using the original Java graph class, using the PCALG-style general graph matrix, and using GeneralGraph in causal-learn. Feel free to explore other example modules in that directory.
+If everything is set up right, the last command should cause this example module to run various algorithms in (Java) Tetrad and print out result graphs. Feel free to explore other example modules in that directory.
 
 Feel free to use your favorite method for editing and running modules.
 
