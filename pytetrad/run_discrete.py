@@ -49,4 +49,4 @@ gfci_graph = search.gfci(test, score)
 print('GFCI', gfci_graph)
 
 graph_fci_graph = search.grasp_fci(test, score)
-print('GraSP-FCI', graph_fci_graph)
+print('GRaSP-FCI', graph_fci_graph)
