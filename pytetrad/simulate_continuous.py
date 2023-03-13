@@ -1,3 +1,4 @@
+import jpype
 import jpype.imports
 
 try:
