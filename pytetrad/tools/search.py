@@ -9,7 +9,6 @@ except OSError:
 
 from .translate import tetrad_graph_to_pcalg, tetrad_graph_to_causal_learn
 import edu.cmu.tetrad.search as ts
-import edu.cmu.tetrad.data as td
 import java.util as util
 
 from edu.cmu.tetrad.util import Params, Parameters
@@ -40,16 +39,14 @@ def fges(score, verbose=False, knowledge=None, out='tetrad'):
     return return_graph(pattern, out)
 
 
-def boss(score, knowledge=None, verbose=False, out='tetrad'):
-    test = ts.IndTestScore(score)  # ignored.
-    boss = ts.Boss(test, score)
-    boss.setUseDataOrder(False)
-    boss.setNumStarts(5)
+def boss(score, knowledge=None, depth=-1, num_starts=1, verbose=False, out='tetrad'):
+    boss = ts.Boss(score)
     if knowledge != None:
         boss.setKnowledge(knowledge)
+    boss.setDepth(depth)
+    boss.setNumStarts(num_starts)
     boss.setVerbose(verbose)
-    boss.bestOrder(score.getVariables())
-    pattern = boss.getGraph(True)
+    pattern = boss.search()
     return return_graph(pattern, out)
 
 

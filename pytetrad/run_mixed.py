@@ -21,10 +21,13 @@ data = tr.pandas_to_tetrad(df)
 ## We have to types of scores/tests, Conditional Gaussain and Degenerate Gaussian.
 score = ts.ConditionalGaussianScore(data, 2, True)
 
+## These tests are no working from Python.
 # score = ts.DegenerateGaussianScore(data)
 # score.setPenaltyDiscount(2)
 
-test = ts.IndTestConditionalGaussianLRT(data, 0.01, True)
+# test = ts.IndTestConditionalGaussianLRT(data, 0.01, True)
+
+test = ts.IndTestScore(score)
 
 ## DG-LRT still doesn't work from Python.
 # test = ts.IndTestDegenerateGaussianLRT(data)
