@@ -14,17 +14,17 @@ import edu.cmu.tetrad.search as ts
 # data, graph = sim.simulateLeeHastie()
 
 df = pd.read_csv("resources/auto-mpg.data.mixed.max.3.categories.txt", sep="\t")
-df.astype({col: "float64" for col in df.columns if col != "origin"})
+df = df.astype({col: "float64" for col in df.columns if col != "origin"})
 
 data = tr.pandas_to_tetrad(df)
 
 score = ts.ConditionalGaussianScore(data, 2, True)
 
-# score = ts.SemBicScoreDGWrapper(data)
+# score = ts.DegenerateGaussianScore(data)
 # score.setPenaltyDiscount(2)
 # score.setStructurePrior(0)
 
-test = ts.IndTestConditionalGaussianLRT(data, 0.05, True)
+test = ts.IndTestConditionalGaussianLRT(data, 0.01, True)
 
 fges_graph = search.fges(score)
 print('fGES', fges_graph)
