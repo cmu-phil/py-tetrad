@@ -28,7 +28,7 @@ Our most recent stable Tetrad version, 7.2.2, is also included in the pytetrad/r
 
 1. Finally, you will need to clone this GitHub repository, so if you don't have Git installed, google and install that for your machine type.
 
-Then in a terminal window, for instance, cd to a directory where you want the cloned project to appear and type the following (or copy and paste it)--again, as above, make sure JAVA_HOME is set correctly to your java path):
+Then (for instance, on a Mac) in a terminal window, cd to a directory where you want the cloned project to appear and type the following--again, as above, make sure JAVA_HOME is set correctly to your java path):
     
 ```   
 export JAVA_HOME=[path to your Java installation]
@@ -37,6 +37,6 @@ cd py-tetrad/pytetrad
 python run_continuous.py
 ```
 
-If everything is set up right, the last command should cause this example module to run various algorithms in (Java) Tetrad and print out result graphs. Feel free to explore other example modules in that directory.
+If everything is set up right, the last command should cause this example module to run various algorithms in Tetrad and print out result graphs. Feel free to explore other example modules in that directory.
 
 Feel free to use your favorite method for editing and running modules.
