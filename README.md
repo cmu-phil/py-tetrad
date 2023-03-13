@@ -4,14 +4,12 @@
 This package shows how to make arbitrary code in [Tetrad](https://github.com/cmu-phil/tetrad) directly available in Python via [JPype](https://github.com/jpype-project/jpype) as part of a Python workflow. We do this by giving [reusable examples](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad) of how it can be done, along with [API Javadoc documentation](https://www.phil.cmu.edu/tetrad-javadocs/7.2.2/lib/) to allow further exploration of the entire Tetrad codebase.
 
 Part of our code uses the [causal-learn Python package](https://github.com/py-why/causal-learn) to show how it can be integrated.
- 
-This replaces the older [py-causal](https://github.com/bd2kccd/py-causal) package.
 
 You can also integrate Tetrad code into Python by making os.system (..) calls to [Causal Command](https://github.com/bd2kccd/causal-cmd); here are some [examples](https://github.com/cmu-phil/algocompy/blob/main/old/causalcmd/tetrad_cmd_algs.py) of how to do it.
 
 This project is still new, so please bear with us as we add example modules and clarify the code. Please submit any problems to our [Issue Tracker](https://github.com/cmu-phil/py-tetrad/issues), and we'll see if we can solve them. Using JPype or Causal Command to integrate Tetrad code into a Python workflow is easy once you see how. Feel free to steal and modify code as needed.
 
-We are also modifying some classes in Tetrad to make them easier to call from Python. We will maintain a [current version of the Tetrad launch jar](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/resources), which is either the current published version or else the current published version with some [adjustments](https://github.com/cmu-phil/tetrad/wiki/Forthcoming-fixes). The example code will work with this current jar.
+We are also modifying some classes in Tetrad to make them easier to call from Python. We will maintain a [current version of the Tetrad launch jar](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/resources), which is either the current published version or else the current published version with some [adjustments](https://github.com/cmu-phil/tetrad/wiki/Forthcoming-fixes). The example code will work with this current jar. We will release a new version with the Tetrad API changes soon.
 
 Our most recent stable Tetrad version, 7.2.2, is also included in the pytetrad/resources directory. All artifacts for Tetrad for the last several releases are on [Maven Central](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/), along with signatures to verify their authenticity.
 

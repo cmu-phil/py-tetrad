@@ -2,7 +2,7 @@ import jpype
 import jpype.imports
 
 try:
-   jpype.startJVM(classpath=[f"resources/tetrad-gui-current-launch.jar"])
+    jpype.startJVM(classpath=[f"resources/tetrad-gui-current-launch.jar"])
 except OSError:
     print("JVM already started")
 

@@ -1,7 +1,7 @@
 import jpype.imports
 
 try:
-   jpype.startJVM(classpath=[f"resources/tetrad-gui-current-launch.jar"])
+    jpype.startJVM(classpath=[f"resources/tetrad-gui-current-launch.jar"])
 except OSError:
     print("JVM already started")
 
@@ -9,7 +9,6 @@ import pandas as pd
 import tools.translate as tr
 import tools.search as search
 
-import edu.cmu.tetrad.data as td
 import edu.cmu.tetrad.search as ts
 
 df = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
