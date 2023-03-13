@@ -18,13 +18,17 @@ df = df.astype({col: "float64" for col in df.columns if col != "origin"})
 
 data = tr.pandas_to_tetrad(df)
 
+## We have to types of scores/tests, Conditional Gaussain and Degenerate Gaussian.
 score = ts.ConditionalGaussianScore(data, 2, True)
 
 # score = ts.DegenerateGaussianScore(data)
 # score.setPenaltyDiscount(2)
-# score.setStructurePrior(0)
 
 test = ts.IndTestConditionalGaussianLRT(data, 0.01, True)
+
+## DG-LRT still doesn't work from Python.
+# test = ts.IndTestDegenerateGaussianLRT(data)
+# test.setAlpha(0.01)
 
 fges_graph = search.fges(score)
 print('fGES', fges_graph)
