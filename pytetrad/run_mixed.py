@@ -21,32 +21,25 @@ data = tr.pandas_to_tetrad(df)
 ## We have to types of scores/tests, Conditional Gaussain and Degenerate Gaussian.
 score = ts.ConditionalGaussianScore(data, 2, True)
 
-## These tests are no working from Python.
-# score = ts.DegenerateGaussianScore(data)
-# score.setPenaltyDiscount(2)
+# test = ts.IndTestScore(score)
+# test = ts.IndTestConditionalGaussianLRT(data, 0.05, True)
+test = ts.IndTestDegenerateGaussianLRT(data)
+test.setAlpha(0.05)
 
-# test = ts.IndTestConditionalGaussianLRT(data, 0.01, True)
-
-test = ts.IndTestScore(score)
-
-## DG-LRT still doesn't work from Python.
-# test = ts.IndTestDegenerateGaussianLRT(data)
-# test.setAlpha(0.01)
-
-fges_graph = search.fges(score)
-print('fGES', fges_graph)
-
-boss_graph = search.boss(score)
-print('BOSS', boss_graph)
-
-grasp_graph = search.grasp(score)
-print('GRaSP', grasp_graph)
+# fges_graph = search.fges(score)
+# print('fGES', fges_graph)
+#
+# boss_graph = search.boss(score)
+# print('BOSS', boss_graph)
+#
+# grasp_graph = search.grasp(score)
+# print('GRaSP', grasp_graph)
 
 pc_graph = search.pc(test)
 print('PC', pc_graph)
 
-fci_graph = search.fci(test)
-print('FCI', fci_graph)
-
-gfci_graph = search.grasp_fci(test, score)
-print('GFCI', gfci_graph)
+# fci_graph = search.fci(test)
+# print('FCI', fci_graph)
+#
+# gfci_graph = search.grasp_fci(test, score)
+# print('GFCI', gfci_graph)
