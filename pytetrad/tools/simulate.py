@@ -38,6 +38,7 @@ def simulateContinuous(num_meas = 20, num_lat = 0, avg_deg = 4, samp_size = 200,
     params.set(Params.INTERVAL_BETWEEN_SHOCKS, 30)
     params.set(Params.INTERVAL_BETWEEN_RECORDINGS, 30)
 
+    params.set(Params.RANDOMIZE_COLUMNS, True)
     params.set(Params.VERBOSE, False)
     params.set(Params.NUM_RUNS, 1)
     # params.set(Params.SEED, 29483)
@@ -51,7 +52,7 @@ def simulateContinuous(num_meas = 20, num_lat = 0, avg_deg = 4, samp_size = 200,
     D_ = tr.tetrad_to_pandas(D)
     G_ = tr.tetrad_graph_to_causal_learn(G)
 
-    return D_, G_
+    return D, G
 
 # Simuolates a discrete dataset with the given arguments and returns the dataset as a pandas dataframe
 # along with the graph as a causal-learn GeneralGraph.
