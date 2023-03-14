@@ -24,7 +24,7 @@ score = ts.ConditionalGaussianScore(data, 2, True)
 # test = ts.IndTestScore(score)
 # test = ts.IndTestConditionalGaussianLRT(data, 0.05, True)
 test = ts.IndTestDegenerateGaussianLRT(data)
-test.setAlpha(0.05)
+test.setAlpha(0.01)
 
 # fges_graph = search.fges(score)
 # print('fGES', fges_graph)
