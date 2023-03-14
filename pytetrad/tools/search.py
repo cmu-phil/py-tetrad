@@ -39,10 +39,8 @@ def fges(score, verbose=False, knowledge=None, out='tetrad'):
     return return_graph(pattern, out)
 
 
-def boss(score, knowledge=None, depth=-1, num_starts=1, verbose=False, out='tetrad'):
+def boss(score, depth=-1, num_starts=1, verbose=False, out='tetrad'):
     boss = ts.Boss(score)
-    if knowledge != None:
-        boss.setKnowledge(knowledge)
     boss.setDepth(depth)
     boss.setNumStarts(num_starts)
     boss.setVerbose(verbose)

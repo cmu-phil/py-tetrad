@@ -36,9 +36,6 @@ print(kwnl)
 fges_graph = search.fges(score, knowledge=kwnl)
 print('FGES', fges_graph)
 
-boss_graph = search.boss(score, knowledge=kwnl)
-print('BOSS', boss_graph)
-
 grasp_graph = search.grasp(score, knowledge=kwnl)
 print('GRaSP', grasp_graph)
 
