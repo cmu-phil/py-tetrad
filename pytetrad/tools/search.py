@@ -51,8 +51,8 @@ def boss(score, knowledge=None, depth=-1, num_starts=1, verbose=False, out='tetr
 
 
 def grasp(score, verbose=False, knowledge=None, out='tetrad'):
-    test = ts.IndTestScore(score)  # ignored
-    grasp = ts.Grasp(test, score)
+    # _test = ts.IndTestScore(score)
+    grasp = ts.Grasp(score)
     grasp.setOrdered(False)
     grasp.setUseDataOrder(False)
     grasp.setNumStarts(5)
@@ -109,6 +109,13 @@ def gfci(test, score, knowledge=None, verbose=False, out='tetrad'):
     gfci_graph = gfci.search()
     return return_graph(gfci_graph, out)
 
+def bfci(test, score, knowledge=None, verbose=False, out='tetrad'):
+    bfci = ts.BFci(test, score)
+    if knowledge != None:
+        bfci.setKnowledge(knowledge)
+    bfci.setVerbose(verbose)
+    bfci_graph = bfci.search()
+    return return_graph(bfci_graph, out)
 
 def grasp_fci(test, score, knowledge=None, verbose=False, out='tetrad'):
     grasp_fci = ts.GraspFci(test, score)
