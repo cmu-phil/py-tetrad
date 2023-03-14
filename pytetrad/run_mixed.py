@@ -18,16 +18,12 @@ df = df.astype({col: "float64" for col in df.columns if col != "origin"})
 
 data = tr.pandas_to_tetrad(df)
 
-## For some reason, if you use both a test and a score here, you must use
-## IndTestScore. We don't know why. It has something to do with concurrency maybe.
-## In Java alone this issue doesn't come up
-
 ## We have to types of scores/tests, Conditional Gaussian and Degenerate Gaussian.
 score = ts.ConditionalGaussianScore(data, 2, True)
 # score = ts.DegenerateGaussianScore(data)
 
-test = ts.IndTestScore(score)
-# test = ts.IndTestConditionalGaussianLRT(data, 0.05, True)
+# test = ts.IndTestScore(score)
+test = ts.IndTestConditionalGaussianLRT(data, 0.05, True)
 # test = ts.IndTestDegenerateGaussianLRT(data)
 # test.setAlpha(0.01)
 
