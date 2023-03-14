@@ -19,9 +19,9 @@ df = df.astype({col: "float64" for col in df.columns if col != "origin"})
 data = tr.pandas_to_tetrad(df)
 
 ## For some reason, if you use both a test and a score here, you must use
-## IndTestScore. We don't know why. It has something to do with concurrency.
+## IndTestScore. We don't know why. It has something to do with concurrency maybe.
 
-## We have to types of scores/tests, Conditional Gaussain and Degenerate Gaussian.
+## We have to types of scores/tests, Conditional Gaussian and Degenerate Gaussian.
 score = ts.ConditionalGaussianScore(data, 2, True)
 # score = ts.DegenerateGaussianScore(data)
 
