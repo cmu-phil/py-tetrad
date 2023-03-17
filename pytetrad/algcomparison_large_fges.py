@@ -2,6 +2,7 @@ import jpype.imports
 
 try:
     jpype.startJVM(classpath=[f"resources/tetrad-gui-current-launch.jar"])
+    # jpype.startJVM("-Xmx40g", classpath=[f"resources/tetrad-gui-current-launch.jar"])
 except OSError:
     print("JVM already started")
 
@@ -26,6 +27,7 @@ params.set(Params.PENALTY_DISCOUNT, 8)
 
 params.set(Params.SAMPLE_SIZE, 500)
 params.set(Params.NUM_MEASURES, 2000)
+# params.set(Params.NUM_MEASURES, 20000)
 params.set(Params.AVG_DEGREE, 6)
 params.set(Params.NUM_LATENTS, 0)
 params.set(Params.RANDOMIZE_COLUMNS, False)

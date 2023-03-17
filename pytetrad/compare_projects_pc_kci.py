@@ -16,7 +16,7 @@ import edu.cmu.tetrad.search as ts
 import tools.translate as tr
 
 D = pd.read_csv(f"resources/airfoil-self-noise.continuous.txt", sep="\t")
-D = D.sample(600, replace=True)
+D = D.sample(600, replace=True) # bootstrap sample.
 D = D.astype({col: "float64" for col in D.columns})
 
 # D, G = util.simulateContinuous(num_meas=5, avg_deg=2, samp_size=600)
