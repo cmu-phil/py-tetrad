@@ -3,7 +3,7 @@ import jpype.imports
 import pandas as pd
 
 try:
-    jpype.startJVM(classpath=[f"resources/tetrad-gui-current-launch.jar"])
+    jpype.startJVM(classpath=[f"resources/tetrad-gui-7.3.0-launch.jar"])
 except OSError:
     print("JVM already started")
 
@@ -41,10 +41,10 @@ def fges(score, verbose=False, knowledge=None, out='tetrad'):
 
 def boss(score, depth=-1, num_starts=1, verbose=False, out='tetrad'):
     boss = ts.Boss(score)
-    boss.setDepth(depth)
     boss.setNumStarts(num_starts)
-    boss.setVerbose(verbose)
-    pattern = boss.search()
+    alg = ts.PermutationSearch(ts.Boss(score))
+    alg.setVerbose(verbose)
+    pattern = alg.search()
     return return_graph(pattern, out)
 
 

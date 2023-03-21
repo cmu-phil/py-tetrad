@@ -1,7 +1,7 @@
 import jpype.imports
 
 try:
-    jpype.startJVM(classpath=[f"resources/tetrad-gui-current-launch.jar"])
+    jpype.startJVM(classpath=[f"resources/tetrad-gui-7.3.0-launch.jar"])
 except OSError:
     print("JVM already started")
 
@@ -71,9 +71,6 @@ algorithms.add(pag.Fci(test))
 algorithms.add(pag.Rfci(test))
 algorithms.add(pag.GFCI(test, score))
 algorithms.add(pag.BFCI(test, score))
-algorithms.add(pag.LVSWAP_1(test, score))
-algorithms.add(pag.LVSWAP_2a(test, score))
-algorithms.add(pag.LVSWAP_2b(test, score))
 
 simulations = Simulations()
 simulations.add(sim.SemSimulation(graph.RandomForward()))
@@ -122,4 +119,4 @@ comparison.setShowAlgorithmIndices(True)
 comparison.setComparisonGraph(Comparison.ComparisonGraph.true_DAG)
 comparison.setParallelized(True)
 
-comparison.compareFromSimulations("../testLvSwap", simulations, algorithms, statistics, params)
+comparison.compareFromSimulations("../testFciAlgs", simulations, algorithms, statistics, params)

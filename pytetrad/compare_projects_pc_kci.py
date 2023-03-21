@@ -3,7 +3,7 @@ import time
 
 # this needs to happen before import pytetrad (otherwise lib cant be found)
 try:
-    jpype.startJVM(classpath=[f"resources/tetrad-gui-current-launch.jar"])
+    jpype.startJVM(classpath=[f"resources/tetrad-gui-7.3.0-launch.jar"])
 except OSError:
     print("JVM already started")
 
@@ -14,6 +14,7 @@ from causallearn.search.ConstraintBased.PC import pc
 from causallearn.utils.cit import kci
 import edu.cmu.tetrad.search as ts
 import tools.translate as tr
+import tools.search as search
 
 D = pd.read_csv(f"resources/airfoil-self-noise.continuous.txt", sep="\t")
 D = D.sample(600, replace=True) # bootstrap sample.
@@ -51,15 +52,8 @@ score = ts.SemBicScore(data)
 score.setPenaltyDiscount(2)
 score.setStructurePrior(0)
 
-test = ts.IndTestScore(score, data)
-test.setAlpha(0.01)
-
 print('BOSS')
 start = time.time()
-boss = ts.Boss(test, score)
-boss.setUseDataOrder(False)
-boss.setNumStarts(5)
-boss.bestOrder(variables)
-boss_graph = boss.getGraph(True)
+boss_graph = search.boss(score)
 stop = time.time()
 print(boss_graph, stop - start)
