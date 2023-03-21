@@ -47,6 +47,14 @@ def boss(score, depth=-1, num_starts=1, verbose=False, out='tetrad'):
     pattern = alg.search()
     return return_graph(pattern, out)
 
+def sp(score, depth=-1, num_starts=1, verbose=False, out='tetrad'):
+    boss = ts.Boss(score)
+    boss.setNumStarts(num_starts)
+    alg = ts.PermutationSearch(ts.Sp(score))
+    alg.setVerbose(verbose)
+    pattern = alg.search()
+    return return_graph(pattern, out)
+
 
 def grasp(score, verbose=False, knowledge=None, out='tetrad'):
     # _test = ts.IndTestScore(score)
@@ -113,6 +121,14 @@ def bfci(test, score, knowledge=None, verbose=False, out='tetrad'):
         bfci.setKnowledge(knowledge)
     bfci.setVerbose(verbose)
     bfci_graph = bfci.search()
+    return return_graph(bfci_graph, out)
+
+def spfci(test, score, knowledge=None, verbose=False, out='tetrad'):
+    spfci = ts.SpFci(test, score)
+    if knowledge != None:
+        spfci.setKnowledge(knowledge)
+    spfci.setVerbose(verbose)
+    bfci_graph = spfci.search()
     return return_graph(bfci_graph, out)
 
 def grasp_fci(test, score, knowledge=None, verbose=False, out='tetrad'):

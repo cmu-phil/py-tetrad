@@ -30,6 +30,9 @@ print('FGES', fges_graph)
 boss_graph = search.boss(score)
 print('BOSS', boss_graph)
 
+sp_graph = search.sp(score)
+print('SP', sp_graph)
+
 grasp_graph = search.grasp(score)
 print('GRaSP', grasp_graph)
 

@@ -33,6 +33,9 @@ print('fGES', fges_graph)
 boss_graph = search.boss(score)
 print('BOSS', boss_graph)
 
+sp_graph = search.sp(score)
+print('SP', sp_graph)
+
 grasp_graph = search.grasp(score)
 print('GRaSP', grasp_graph)
 
@@ -44,6 +47,9 @@ print('FCI', fci_graph)
 
 bfci_graph = search.bfci(test, score)
 print('BFCI', bfci_graph)
+
+spfci_graph = search.spfci(test, score)
+print('SPFCI', spfci_graph)
 
 grasp_fci_graph = search.grasp_fci(test, score)
 print('GRaSP_FCI', grasp_fci_graph)
