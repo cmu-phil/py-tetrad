@@ -23,6 +23,7 @@ data = tr.pandas_to_tetrad(df)
 print(data)
 
 # score = ts.DiscreteBicScore(data)
+# score.setStructurePrior(0)
 
 score = ts.BDeuScore(data)
 score.setSamplePrior(10)

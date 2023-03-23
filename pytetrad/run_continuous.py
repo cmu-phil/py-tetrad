@@ -50,3 +50,13 @@ print('GFCI', gfci_graph)
 
 grasp_fci_graph = search.grasp_fci(test, score)
 print('GRaSP-FCI', grasp_fci_graph)
+
+## SVAR-FCI Example; for an applied example, data should be a time series.
+num_lags = 2
+lagged_data = ts.TimeSeriesUtils.createLagData(data, num_lags)
+ts_test = ts.IndTestFisherZ(lagged_data, 0.01)
+svar_fci = ts.SvarFci(ts_test)
+svar_fci.setKnowledge(lagged_data.getKnowledge())
+svar_fci.setVerbose(True)
+svar_fci_graph = svar_fci.search()
+print('SVAR-FCI', svar_fci_graph)
