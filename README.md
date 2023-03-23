@@ -36,6 +36,8 @@ python run_continuous.py
 
 If everything is set up right, the last command should cause this example module to run various algorithms in Tetrad and print out result graphs. Feel free to explore other example modules in that directory.
 
+Feel free to use your favorite method for editing and running modules.
+
 # Citation
 
 Please cite as: 
