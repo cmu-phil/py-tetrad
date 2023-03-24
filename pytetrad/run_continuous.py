@@ -51,7 +51,7 @@ print('GFCI', gfci_graph)
 grasp_fci_graph = search.grasp_fci(test, score)
 print('GRaSP-FCI', grasp_fci_graph)
 
-## By request, an SVAR-FCI exmaple. 2023/03/23 JR
+## By request, an SVAR-FCI example. 2023/03/23 JR
 ## For an applied example, data should be a time series.
 ## Please make an issue in the GitHub Issue Tracker if more/other detail is needed.
 num_lags = 2
