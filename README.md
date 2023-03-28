@@ -15,7 +15,7 @@ We will maintain a [current version of the Tetrad launch jar](https://github.com
 
 1. It is necessary to [install a Java JDK](https://github.com/cmu-phil/tetrad/wiki/Setting-up-Java:-Tutorial-for-Newbies-and-Experts-Alike), preferably a recent version with long-term support (LTS).
 
-1. If JAVA_HOME is not already set to the correct location of your Java installation above, you'll need to set it. On a Mac, you'd type in a terminal, `echo $JAVA_HOME` to see if it's set, and if not, type something like `export JAVA_HOME=/Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk` to fix it. Adjust this for your platform and JDK/JRE installation path.
+1. If JAVA_HOME is not already set to the correct location of your Java installation above, you'll need to [set JAVA_HOME](https://www.baeldung.com/java-home-on-windows-7-8-10-mac-os-x-linux#:~:text=On%20the%20Desktop%2C%20right%2Dclick,Variable%20value%20and%20click%20OK.).
 
 1. Make sure you are using the latest Python--at least 3.7--as required by JPype; if not, [update it](https://www.pythoncentral.io/how-to-update-python/). 
 
