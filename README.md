@@ -25,7 +25,7 @@ We maintain a [current version of the Tetrad launch jar](https://github.com/cmu-
 
 1. Finally, you will need to clone this GitHub repository, so if you don't have Git installed, google and install that for your machine type.
 
-Then (for instance, on a Mac) in a terminal window, cd to a directory where you want the cloned project to appear and type the following--again, as above, make sure JAVA_HOME is set correctly to your java path):
+Then (for instance, on a Mac) in a terminal window, cd to a directory where you want the cloned project to appear and type the following--again, as above, make sure JAVA_HOME is set correctly to your java path:
     
 ```   
 git clone https://github.com/cmu-phil/py-tetrad/
