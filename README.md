@@ -28,7 +28,6 @@ We will maintain a [current version of the Tetrad launch jar](https://github.com
 Then (for instance, on a Mac) in a terminal window, cd to a directory where you want the cloned project to appear and type the following--again, as above, make sure JAVA_HOME is set correctly to your java path):
     
 ```   
-export JAVA_HOME=[path to your Java installation]
 git clone https://github.com/cmu-phil/py-tetrad/
 cd py-tetrad/pytetrad
 python run_continuous.py
