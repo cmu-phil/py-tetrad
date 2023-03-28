@@ -5,7 +5,7 @@ This package shows how to make arbitrary code in [Tetrad](https://github.com/cmu
 
 Part of our code uses the [causal-learn Python package](https://github.com/py-why/causal-learn) in [py-why](https://github.com/py-why) to show how it can be integrated.
 
-You can also integrate Tetrad code into Python by making os.system (..) calls to [Causal Command](https://github.com/bd2kccd/causal-cmd); here are some [examples](https://github.com/cmu-phil/algocompy/blob/main/old/causalcmd/tetrad_cmd_algs.py) of how to do it.
+You can also integrate Tetrad code into Python by making os.system (..) calls to [Causal Command](https://github.com/bd2kccd/causal-cmd); here are [some examples](https://github.com/cmu-phil/algocompy/blob/main/old/causalcmd/tetrad_cmd_algs.py) of how to do it.
 
 Please bear with us as we add and refine example modules and keep our code up to date. Please submit any problems or suggestions to our [Issue Tracker](https://github.com/cmu-phil/py-tetrad/issues), so that we can resolve them. In some cases it may not be obvious how to call a Tetrad class or method from Python; these issues need to be fixed in Tetrad. Please point out any difficulties you have, so that we can make it more intuitive to use for the next version of Tetrad.
 
