@@ -13,7 +13,7 @@ We will maintain a [current version of the Tetrad launch jar](https://github.com
 
 # Install
 
-1. It is necessary to install a JAVA JDK, preferably the most recent version with long-term support (LTS), but see our [Wiki article on the topic](https://github.com/cmu-phil/tetrad/wiki/Setting-up-Java:-Tutorial-for-Newbies-and-Experts-Alike) if you have questions.
+1. It is necessary to [install a JDK](https://github.com/cmu-phil/tetrad/wiki/Setting-up-Java:-Tutorial-for-Newbies-and-Experts-Alike), preferably the most recent version with long-term support (LTS).
 
 1. If JAVA_HOME is not already set to the correct location of your Java installation above, you'll need to set it. On a Mac, you'd type in a terminal, `echo $JAVA_HOME` to see if it's set, and if not, type something like `export JAVA_HOME=/Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk` to fix it. Adjust this for your platform and JDK/JRE installation path.
 
