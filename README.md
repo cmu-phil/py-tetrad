@@ -13,7 +13,7 @@ We maintain a [current version of the Tetrad launch jar](https://github.com/cmu-
 
 # Install
 
-1. It is necessary to install a JDK. For this, see our Wiki article, [Setting up Java for Tetrad](https://github.com/cmu-phil/tetrad/wiki/Setting-up-Java-for-Tetrad), preferably a recent version with long-term support (LTS).
+1. It is necessary to install a JDK. For this, see our Wiki article, [Setting up Java for Tetrad](https://github.com/cmu-phil/tetrad/wiki/Setting-up-Java-for-Tetrad).
 
 1. If JAVA_HOME is not already set to the correct location of your Java installation above, you'll need to [set JAVA_HOME](https://www.baeldung.com/java-home-on-windows-7-8-10-mac-os-x-linux#:~:text=On%20the%20Desktop%2C%20right%2Dclick,Variable%20value%20and%20click%20OK.) to the path of the Java installation you want to use for py-tetrad.
 
