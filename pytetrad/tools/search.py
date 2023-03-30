@@ -27,6 +27,7 @@ def fges(score, verbose=False, knowledge=None):
 
 def boss(score, depth=-1, num_starts=1, verbose=False):
     boss = ts.Boss(score)
+    boss.setDepth(depth)
     boss.setNumStarts(num_starts)
     alg = ts.PermutationSearch(ts.Boss(score))
     alg.setVerbose(verbose)
@@ -34,7 +35,7 @@ def boss(score, depth=-1, num_starts=1, verbose=False):
     return pattern
 
 
-def sp(score, depth=-1, num_starts=1, verbose=False):
+def sp(score, num_starts=1, verbose=False):
     boss = ts.Boss(score)
     boss.setNumStarts(num_starts)
     alg = ts.PermutationSearch(ts.Sp(score))
