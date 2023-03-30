@@ -7,11 +7,8 @@ try:
 except OSError:
     print("JVM already started")
 
-from .translate import tetrad_graph_to_pcalg, tetrad_graph_to_causal_learn
 import edu.cmu.tetrad.search as ts
 import java.util as util
-
-from edu.cmu.tetrad.util import Params, Parameters
 
 
 ## Some functions wrapping various classes in Tetrad. Feel free to just steal
@@ -35,6 +32,7 @@ def boss(score, depth=-1, num_starts=1, verbose=False):
     alg.setVerbose(verbose)
     pattern = alg.search()
     return pattern
+
 
 def sp(score, depth=-1, num_starts=1, verbose=False):
     boss = ts.Boss(score)
@@ -99,6 +97,7 @@ def gfci(test, score, knowledge=None, verbose=False):
     gfci_graph = gfci.search()
     return gfci_graph
 
+
 def bfci(test, score, knowledge=None, verbose=False):
     bfci = ts.BFci(test, score)
     if knowledge != None:
@@ -107,6 +106,7 @@ def bfci(test, score, knowledge=None, verbose=False):
     bfci_graph = bfci.search()
     return bfci_graph
 
+
 def spfci(test, score, knowledge=None, verbose=False):
     spfci = ts.SpFci(test, score)
     if knowledge != None:
@@ -114,6 +114,7 @@ def spfci(test, score, knowledge=None, verbose=False):
     spfci.setVerbose(verbose)
     sp_graph = spfci.search()
     return sp_graph
+
 
 def grasp_fci(test, score, knowledge=None, verbose=False):
     grasp_fci = ts.GraspFci(test, score)
