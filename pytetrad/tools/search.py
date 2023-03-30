@@ -19,44 +19,33 @@ from edu.cmu.tetrad.util import Params, Parameters
 ## will add more named parameters to help one see which methods for the
 ## the searches can be controlled.
 
-def return_graph(graph, out):
-    if out == 'tetrad':
-        return graph
-    elif out == 'pcalg':
-        return tetrad_graph_to_pcalg(graph)
-    elif out == 'cl':
-        return tetrad_graph_to_causal_learn(graph)
-    else:
-        raise Exception("Graph type must be tetrad (default), pcalg, or cl (causal-learn)")
-
-
-def fges(score, verbose=False, knowledge=None, out='tetrad'):
+def fges(score, verbose=False, knowledge=None):
     fges = ts.Fges(score)
     if knowledge != None:
         fges.setKnowledge(knowledge)
     fges.setVerbose(verbose)
     pattern = fges.search()
-    return return_graph(pattern, out)
+    return pattern
 
 
-def boss(score, depth=-1, num_starts=1, verbose=False, out='tetrad'):
+def boss(score, depth=-1, num_starts=1, verbose=False):
     boss = ts.Boss(score)
     boss.setNumStarts(num_starts)
     alg = ts.PermutationSearch(ts.Boss(score))
     alg.setVerbose(verbose)
     pattern = alg.search()
-    return return_graph(pattern, out)
+    return pattern
 
-def sp(score, depth=-1, num_starts=1, verbose=False, out='tetrad'):
+def sp(score, depth=-1, num_starts=1, verbose=False):
     boss = ts.Boss(score)
     boss.setNumStarts(num_starts)
     alg = ts.PermutationSearch(ts.Sp(score))
     alg.setVerbose(verbose)
     pattern = alg.search()
-    return return_graph(pattern, out)
+    return pattern
 
 
-def grasp(score, verbose=False, knowledge=None, out='tetrad'):
+def grasp(score, verbose=False, knowledge=None):
     # _test = ts.IndTestScore(score)
     grasp = ts.Grasp(score)
     grasp.setOrdered(False)
@@ -67,10 +56,10 @@ def grasp(score, verbose=False, knowledge=None, out='tetrad'):
         grasp.setKnowledge(knowledge)
     grasp.setVerbose(verbose)
     pattern = grasp.getGraph(True)
-    return return_graph(pattern, out)
+    return pattern
 
 
-def gango(score, data, verb=False, knowledge=None, out='tetrad'):
+def gango(score, data, verb=False, knowledge=None):
     fges_graph = fges(score, verbose=verb, knowledge=knowledge)
     datasets = util.ArrayList()
     datasets.add(data)
@@ -79,10 +68,10 @@ def gango(score, data, verb=False, knowledge=None, out='tetrad'):
         rskew.setKnowledge(knowledge)
     rskew.setRule(ts.Lofs2.Rule.RSkew)
     gango_graph = rskew.orient()
-    return return_graph(gango_graph, out)
+    return gango_graph
 
 
-def pc(test, depth=-1, prevent_cycles=True, knowledge=None, verbose=False, out='tetrad'):
+def pc(test, depth=-1, prevent_cycles=True, knowledge=None, verbose=False):
     pc = ts.Pc(test)
     if knowledge != None:
         pc.setKnowledge(knowledge)
@@ -90,51 +79,46 @@ def pc(test, depth=-1, prevent_cycles=True, knowledge=None, verbose=False, out='
     pc.setAggressivelyPreventCycles(prevent_cycles)
     pc.setVerbose(verbose)
     pc_graph = pc.search()
-
-    # Putting this version of PC here because it's the one that's used
-    # in the interface and in Causal Command.
-    # params = Parameters()
-
-    return return_graph(pc_graph, out)
+    return pc_graph
 
 
-def fci(test, knowledge=None, verbose=False, out='tetrad'):
+def fci(test, knowledge=None, verbose=False):
     fci = ts.Fci(test)
     if knowledge != None:
         fci.setKnowledge(knowledge)
     fci.setVerbose(verbose)
     fci_graph = fci.search()
-    return return_graph(fci_graph, out)
+    return fci_graph
 
 
-def gfci(test, score, knowledge=None, verbose=False, out='tetrad'):
+def gfci(test, score, knowledge=None, verbose=False):
     gfci = ts.GFci(test, score)
     if knowledge != None:
         gfci.setKnowledge(knowledge)
     gfci.setVerbose(verbose)
     gfci_graph = gfci.search()
-    return return_graph(gfci_graph, out)
+    return gfci_graph
 
-def bfci(test, score, knowledge=None, verbose=False, out='tetrad'):
+def bfci(test, score, knowledge=None, verbose=False):
     bfci = ts.BFci(test, score)
     if knowledge != None:
         bfci.setKnowledge(knowledge)
     bfci.setVerbose(verbose)
     bfci_graph = bfci.search()
-    return return_graph(bfci_graph, out)
+    return bfci_graph
 
-def spfci(test, score, knowledge=None, verbose=False, out='tetrad'):
+def spfci(test, score, knowledge=None, verbose=False):
     spfci = ts.SpFci(test, score)
     if knowledge != None:
         spfci.setKnowledge(knowledge)
     spfci.setVerbose(verbose)
-    bfci_graph = spfci.search()
-    return return_graph(bfci_graph, out)
+    sp_graph = spfci.search()
+    return sp_graph
 
-def grasp_fci(test, score, knowledge=None, verbose=False, out='tetrad'):
+def grasp_fci(test, score, knowledge=None, verbose=False):
     grasp_fci = ts.GraspFci(test, score)
     if knowledge != None:
         grasp_fci.setKnowledge(knowledge)
     grasp_fci.setVerbose(verbose)
     grasp_fci_graph = grasp_fci.search()
-    return return_graph(grasp_fci_graph, out)
+    return grasp_fci_graph
