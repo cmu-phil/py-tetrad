@@ -15,14 +15,16 @@ from causallearn.utils.cit import kci
 import edu.cmu.tetrad.search as ts
 import tools.translate as tr
 import tools.search as search
+import tools.simulate as sim
 
 D = pd.read_csv(f"resources/airfoil-self-noise.continuous.txt", sep="\t")
 D = D.sample(600, replace=True) # bootstrap sample.
 D = D.astype({col: "float64" for col in D.columns})
 
-# D, G = util.simulateContinuous(num_meas=5, avg_deg=2, samp_size=600)
+# D, G = sim.simulateContinuous(num_meas=5, avg_deg=2, samp_size=600)
+# D = tr.tetrad_to_pandas(D)
 # D = D.astype({col: "float64" for col in D.columns})
-
+#
 # kci_ = KCI(np.array(D))
 # print(f"{0} {1} {cl_kci(0, 1)}")
 # print(f"{0} {1} | {2} {cl_kci(0, 1, {2})}")
