@@ -67,8 +67,8 @@ test = ind.FisherZ()
 
 algorithms = Algorithms()
 
-algorithms.add(pag.Fci(test))
-algorithms.add(pag.Rfci(test))
+algorithms.add(pag.FCI(test))
+algorithms.add(pag.RFCI(test))
 algorithms.add(pag.GFCI(test, score))
 algorithms.add(pag.BFCI(test, score))
 

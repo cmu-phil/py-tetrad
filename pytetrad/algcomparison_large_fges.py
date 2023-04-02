@@ -46,7 +46,7 @@ test = ind.FisherZ()
 
 algorithms = Algorithms()
 
-algorithms.add(cpdag.Fges(score))
+algorithms.add(cpdag.FGES(score))
 
 simulations = Simulations()
 simulations.add(sim.LinearFisherModel(graph.RandomForward()))
