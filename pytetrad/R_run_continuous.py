@@ -8,7 +8,7 @@ except OSError:
     print("JVM already started")
 
 import pandas as pd
-import pytetrad.tools.rsearch as rs
+import pytetrad.tools.R_search as rs
 
 df = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
 df = df.astype({col: "float64" for col in df.columns})

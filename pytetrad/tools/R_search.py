@@ -1,4 +1,13 @@
-# Meant ot be run in R.
+# Tests some functionality that needs to work from R, in our current
+# understanding (which may be naive). It may be
+# a bit constricting for Python users, since it assumes you need
+# functions that take data frames as inputs and output data frames
+# (for ease of use in R), but go ahead and use it is you like.
+# The functions will take pandas data frames as input datasets,
+# with parameters, and output PCALG-style general graphs.
+# For R users, we are currently working out how this can work
+# in R-Studio and will try to give updated instructions in the
+# R package. Currently under investigation.
 
 import jpype
 import jpype.imports
