@@ -10,14 +10,10 @@ import tools.translate as tr
 import tools.simulate as sim
 
 D, G = sim.simulateContinuous(num_meas=100, samp_size=1000)
-# D, G = sim.simulateContinuous(num_meas=5, avg_deg=2, samp_size=600)
 
-D = tr.tetrad_to_pandas(D)
-G = tr.tetrad_graph_to_causal_learn(G)
+D2 = tr.tetrad_to_pandas(D)
+G2 = tr.tetrad_graph_to_pcalg(G)
 
 # Save data to a file
-D.to_csv('../mydata.csv', index=False)
-
-# To save out causal learn graph:
-with open('../mygraph.txt', 'w') as f:
-    f.write(str(G))
+D2.to_csv('../mydata.csv', index=False)
+G2.to_csv('../mygraph.csv', index=False)

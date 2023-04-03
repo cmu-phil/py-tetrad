@@ -8,10 +8,16 @@
 ## Then in terminal:
 ## > open -na RStudio
 
+setwd("~/py-tetrad/pytetrad")
+
 install.packages(reticulate)
 library(reticulate)
-setwd("py-tetrad/pytetrad")
-tr <- import("tools.translate")
-source_python("run_continuous.py")
-g<-tr$tetrad_graph_to_pcalg(grasp_graph)
+
+data <- read.table("./resources/airfoil-self-noise.continuous.txt")
+i <- c(1, 6) 
+data[ , i] <- apply(data[ , i], 2, function(x) as.numeric(x))
+
+rs <- import("tools.rsearch")
+g <- rs$fges(data)
 g
+ 

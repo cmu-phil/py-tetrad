@@ -46,6 +46,7 @@ def simulateContinuous(num_meas = 20, num_lat = 0, avg_deg = 4, samp_size = 200,
     # Do the simulation and grab the dataset and generative graph
     sim_ = sim.LinearFisherModel(graph.RandomForward())
     sim_.createData(params, True)
+
     D = sim_.getDataModel(0)
     G = sim_.getTrueGraph(0)
 
