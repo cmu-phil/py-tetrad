@@ -23,8 +23,8 @@ i <- c(1, 6)
 data[ , i] <- apply(data[ , i], 2, function(x) as.numeric(x))
 
 rs <- import("tools.R_search")
-g1 <- rs$fges(data, penalty_discount = 2)
 
+g1 <- rs$fges(data, penalty_discount = 2)
 print('FGES')
 g1
 
