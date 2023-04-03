@@ -22,6 +22,6 @@ data <- read.table("./resources/airfoil-self-noise.continuous.txt")
 i <- c(1, 6)
 data[ , i] <- apply(data[ , i], 2, function(x) as.numeric(x))
 
-rs <- import("tools.rsearch")
+rs <- import("tools.R_search")
 g <- rs$fges(data, penalty_discount = 2)
 g
