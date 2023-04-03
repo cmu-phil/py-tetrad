@@ -1,11 +1,10 @@
 # Tests some functionality that needs to work from R, in our current
-# understanding (which may be naive).
+# understanding (which may be naive still).
 #
 # This may be a bit constricting for Python users, since it assumes
-# you need functions that take data frames as inputs and output data
-# frames (for ease of use in R), but go ahead and use it is you like.
-# The functions will take pandas data frames as input, with parameters,
-# and output PCALG-style general graphs.
+# you need functions that take data frames as input for data and output
+# graphs (for ease of use in R) in PCALG format (a data frame format),
+# but go ahead and use it is you like.
 #
 # For R users, we are currently working out how this can work
 # in R-Studio and will try to give updated instructions in the
