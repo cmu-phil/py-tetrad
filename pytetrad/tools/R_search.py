@@ -3,8 +3,8 @@
 #
 # This may be a bit constricting for Python users, since it assumes
 # you need functions that take data frames as input for data and output
-# graphs (for ease of use in R) in PCALG format (a data frame format),
-# but go ahead and use it is you like.
+# graphs in PCALG format (a data frame format), but if you're a Python
+# user, go ahead and use it if you like.
 #
 # For R users, we are currently working out how this can work
 # in R-Studio and will try to give updated instructions in the
