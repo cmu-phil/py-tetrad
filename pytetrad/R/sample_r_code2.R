@@ -5,7 +5,8 @@
 ## the SEM BIC score with a given penalty, so for continuous variables only.
 ## Also, we don't yet know how to pass knowledge into the algorithms. In
 ## Python, using JPype, you can use arbitrary search methods with arbitrary
-## scores, and passing in knowledge is easy, so more work needs to be done.
+## scores or tests, and passing in knowledge is easy, so more work needs to
+## be done.
 ##
 ## You will need to adjust this path to your path for py-tetrad.
 setwd("~/py-tetrad/pytetrad")
