@@ -15,6 +15,10 @@ install.packages(reticulate)
 library(reticulate)
 
 data <- read.table("./resources/airfoil-self-noise.continuous.txt")
+
+## When passing data from R into Python, integer columns will still
+## be interpreted as discrete, so we have to specify in the data frame
+## that they are to be interpreted as continuous (i.e., 'numeric').
 i <- c(1, 6)
 data[ , i] <- apply(data[ , i], 2, function(x) as.numeric(x))
 
