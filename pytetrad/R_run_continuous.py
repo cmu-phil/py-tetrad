@@ -13,8 +13,10 @@ import pytetrad.tools.R_search as rs
 df = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
 df = df.astype({col: "float64" for col in df.columns})
 
-G = rs.fges(df)
+print('FGES SEM BIC')
+print(rs.fges(df))
 
-print(G)
+print('BOSS SEM BIC')
+print(rs.boss(df))
 
 

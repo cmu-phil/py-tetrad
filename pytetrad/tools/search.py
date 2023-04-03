@@ -17,7 +17,7 @@ import java.util as util
 ## will add more named parameters to help one see which methods for the
 ## the searches can be controlled.
 
-def fges(score, verbose=False, knowledge=None):
+def fges(score, knowledge=None, verbose=False):
     fges = ts.Fges(score)
     if knowledge != None:
         fges.setKnowledge(knowledge)
@@ -26,26 +26,30 @@ def fges(score, verbose=False, knowledge=None):
     return pattern
 
 
-def boss(score, depth=-1, num_starts=1, verbose=False):
+def boss(score, depth=-1, knowledge=None, num_starts=1, verbose=False):
     boss = ts.Boss(score)
     boss.setDepth(depth)
     boss.setNumStarts(num_starts)
     alg = ts.PermutationSearch(ts.Boss(score))
+    if knowledge != None:
+        alg.setKnowledge(knowledge)
     alg.setVerbose(verbose)
     pattern = alg.search()
     return pattern
 
 
-def sp(score, num_starts=1, verbose=False):
+def sp(score, knowledge=None, num_starts=1, verbose=False):
     boss = ts.Boss(score)
     boss.setNumStarts(num_starts)
     alg = ts.PermutationSearch(ts.Sp(score))
+    if knowledge != None:
+        alg.setKnowledge(knowledge)
     alg.setVerbose(verbose)
     pattern = alg.search()
     return pattern
 
 
-def grasp(score, verbose=False, knowledge=None):
+def grasp(score, knowledge=None, verbose=False):
     # _test = ts.IndTestScore(score)
     grasp = ts.Grasp(score)
     grasp.setOrdered(False)
@@ -59,8 +63,8 @@ def grasp(score, verbose=False, knowledge=None):
     return pattern
 
 
-def gango(score, data, verb=False, knowledge=None):
-    fges_graph = fges(score, verbose=verb, knowledge=knowledge)
+def gango(score, data, knowledge=None, verbose=False):
+    fges_graph = fges(score, verbose=verbose, knowledge=knowledge)
     datasets = util.ArrayList()
     datasets.add(data)
     rskew = ts.Lofs2(fges_graph, datasets)

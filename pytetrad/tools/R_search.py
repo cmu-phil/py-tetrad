@@ -30,3 +30,11 @@ def fges(data_frame, verbose=False, knowledge=None, penalty_discount = 2):
     score.setStructurePrior(0)
     pattern = search.fges(score, knowledge = knowledge, verbose = verbose)
     return tr.tetrad_graph_to_pcalg(pattern)
+
+def boss(data_frame, verbose=False, knowledge=None, penalty_discount = 2, depth=-1, num_starts=1):
+    data = tr.pandas_data_to_tetrad(data_frame)
+    score = ts.SemBicScore(data)
+    score.setPenaltyDiscount(penalty_discount)
+    score.setStructurePrior(0)
+    pattern = search.boss(score, knowledge = knowledge, verbose = verbose, depth=depth, num_starts= num_starts)
+    return tr.tetrad_graph_to_pcalg(pattern)
