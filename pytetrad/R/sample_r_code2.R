@@ -2,10 +2,10 @@
 ## R-search.py module in py-tetrad, using R.
 ##
 ## This is currently rather limited; you can only run FGES or BOSS using
-## the SEM BIC score with a given penalty. Also, we don't yet know how to
-## pass knowledge into the algorithms. In Python, using JPype, you can 
-## use arbitrary search methods with arbitrary scores, and passing in
-## knowledge is easy.
+## the SEM BIC score with a given penalty, so for continuous variables only.
+## Also, we don't yet know how to pass knowledge into the algorithms. In
+## Python, using JPype, you can use arbitrary search methods with arbitrary
+## scores, and passing in knowledge is easy, so more work needs to be done.
 ##
 ## You will need to adjust this path to your path for py-tetrad.
 setwd("~/py-tetrad/pytetrad")
@@ -23,7 +23,10 @@ data[ , i] <- apply(data[ , i], 2, function(x) as.numeric(x))
 
 rs <- import("tools.R_search")
 g1 <- rs$fges(data, penalty_discount = 2)
+
+print('FGES')
 g1
 
 g2 <- rs$boss(data, penalty_discount = 2)
+print('BOSS')
 g2
