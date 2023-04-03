@@ -5,9 +5,9 @@ try:
 except OSError:
     print("JVM already started")
 
-# Note: This is an example of how to write an algcomparison script to do algorithm
-# comparison in Tetrad. It may not be the best example yet, but it does make
-# clear how the script can be written. JR 2023-02-27
+# This is an example of how to write an algcomparison script to do algorithm
+# comparison in Tetrad. Algcomparison allows on to write arbitrary comparison
+# scripts for algorithms in Tetrad.
 
 from edu.cmu.tetrad.util import Params, Parameters
 

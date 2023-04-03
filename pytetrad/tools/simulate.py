@@ -8,7 +8,8 @@ import jpype.imports
 try:
    jpype.startJVM(classpath=[f"resources/tetrad-gui-current-launch.jar"])
 except OSError:
-    print("JVM already started")
+    pass
+    # print("JVM already started")
       
 ## Some functions wrapping various classes in Tetrad. Feel free to just steal
 ## the relevant code for your own projects, or 'pip install' this Github directory
