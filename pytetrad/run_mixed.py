@@ -16,7 +16,7 @@ import edu.cmu.tetrad.search as ts
 df = pd.read_csv("resources/auto-mpg.data.mixed.max.3.categories.txt", sep="\t")
 df = df.astype({col: "float64" for col in df.columns if col != "origin"})
 
-data = tr.pandas_to_tetrad(df)
+data = tr.pandas_data_to_tetrad(df)
 
 ## We have to types of scores/tests, Conditional Gaussian and Degenerate Gaussian.
 score = ts.ConditionalGaussianScore(data, 2, True)

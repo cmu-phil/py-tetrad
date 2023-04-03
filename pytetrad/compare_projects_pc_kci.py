@@ -37,7 +37,7 @@ print(cg.G, stop - start)
 
 print("\nTetrad PC\n")
 start = time.time()
-test = ts.Kci(tr.pandas_to_tetrad(D), 0.05)
+test = ts.Kci(tr.pandas_data_to_tetrad(D), 0.05)
 test.setApproximate(False)
 tetrad_pc = ts.Pc(test)
 tetrad_pc.setVerbose(True)
@@ -46,7 +46,7 @@ tetrad_pc_graph = tetrad_pc.search()
 stop = time.time()
 print(tetrad_pc_graph, stop - start)
 
-data = tr.pandas_to_tetrad(D)
+data = tr.pandas_data_to_tetrad(D)
 
 variables = data.getVariables()
 

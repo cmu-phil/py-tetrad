@@ -11,7 +11,7 @@ import tools.simulate as sim
 
 D, G = sim.simulateContinuous(num_meas=100, samp_size=1000)
 
-D2 = tr.tetrad_to_pandas(D)
+D2 = tr.tetrad_data_to_pandas(D)
 G2 = tr.tetrad_graph_to_pcalg(G)
 
 # Save data to a file

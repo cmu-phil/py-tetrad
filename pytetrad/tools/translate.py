@@ -34,7 +34,7 @@ import java.util as util
 import edu.cmu.tetrad.data as td
 
 
-def pandas_to_tetrad(df: DataFrame, int_as_cont=False):
+def pandas_data_to_tetrad(df: DataFrame, int_as_cont=False):
     dtypes = ["float16", "float32", "float64"]
     if int_as_cont:
         for i in range(3, 7):
@@ -71,7 +71,7 @@ def pandas_to_tetrad(df: DataFrame, int_as_cont=False):
     return td.BoxDataSet(databox, variables)
 
 
-def tetrad_to_pandas(data: td.DataSet):
+def tetrad_data_to_pandas(data: td.DataSet):
     names = data.getVariableNames()
     columns_ = []
 

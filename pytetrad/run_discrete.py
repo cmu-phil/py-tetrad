@@ -19,7 +19,7 @@ def print_graph(alg_name, G):
 
 df = pd.read_csv("resources/bridges.data.version211_rev.txt", sep="\t")
 
-data = tr.pandas_to_tetrad(df)
+data = tr.pandas_data_to_tetrad(df)
 print(data)
 
 # score = ts.DiscreteBicScore(data)

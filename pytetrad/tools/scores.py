@@ -19,6 +19,6 @@ import pytetrad.tools.translate as tr
 ## the searches can be controlled.
 
 def sem_bic_score(data_frame, penaltyDiscount=2) :
-    data = tr.pandas_to_tetrad(data_frame)
+    data = tr.pandas_data_to_tetrad(data_frame)
     score = search.SemBicScore(data, penaltyDiscount)
     return score

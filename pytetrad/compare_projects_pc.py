@@ -17,7 +17,7 @@ from causallearn.utils.cit import fisherz
 df = pd.read_csv(f"resources/airfoil-self-noise.continuous.txt", sep="\t")
 df = df.astype({col: "float64" for col in df.columns})
 
-data = tr.pandas_to_tetrad(df)
+data = tr.pandas_data_to_tetrad(df)
 
 print("\nCL PC\n")
 cg = pc(np.array(df), 0.05, fisherz, node_names=df.columns)

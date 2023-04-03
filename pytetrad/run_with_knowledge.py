@@ -15,7 +15,7 @@ import edu.cmu.tetrad.search as ts
 df = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
 df = df.astype({col: "float64" for col in df.columns})
 
-data = tr.pandas_to_tetrad(df)
+data = tr.pandas_data_to_tetrad(df)
 # print(data)
 
 score = ts.SemBicScore(data)
