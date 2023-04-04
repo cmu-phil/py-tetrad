@@ -10,9 +10,9 @@ The _minimal_ requirements for Java and Python for this particular setup are Jav
 
 We are thinking about some kind of packaging for this to make the install process easier, maybe an R package or a Docker perhaps.
 
-##### (1) You must follow the instructions in the [py-tetrad README](https://github.com/cmu-phil/py-tetrad) to clone the py-tetrad GitHub repository and set it up (Installing JPype, etc.). It's best to set the JAVA_HOME variable in the .bash_profile file.
+#### (1) You must follow the instructions in the [py-tetrad README](https://github.com/cmu-phil/py-tetrad) to clone the py-tetrad GitHub repository and set it up (Installing JPype, etc.). It's best to set the JAVA_HOME variable in the .bash_profile file.
 
-##### (2) Launching RStudio from a Mac's Terminal window would be best. Otherwise, the JAVA_HOME variable doesn't take. ( I haven't tested Windows yet.)
+#### (2) Launching RStudio from a Mac's Terminal window would be best. Otherwise, the JAVA_HOME variable doesn't take. ( I haven't tested Windows yet.)
 
 In a Terminal window:
 
@@ -20,14 +20,14 @@ In a Terminal window:
 open -na RStudio
 `
 
-##### (3) You must install the 'reticulate' package in RStudio. (This only needs to be done once.)
+#### (3) You must install the 'reticulate' package in RStudio. (This only needs to be done once.)
 
 `
 install.packages("reticulate")
 `
 Here are the [Docs for the Reticulate package](https://rstudio.github.io/reticulate/).
 
-##### (4) You need to tell Reticulate/R where your Python is in RStudio. (Again, this only needs to be done once).
+#### (4) You need to tell Reticulate/R where your Python is in RStudio. (Again, this only needs to be done once).
 
 `
 use_python("/usr/local/bin/python")
@@ -35,11 +35,11 @@ use_python("/usr/local/bin/python")
 
 Here, the Python path should be the path to your Python; you can type 'which Python' in a Terminal window to get this.
 
-##### (5) Then if you've done all that, you can open one of the example R scripts in the py-tetrad repository you cloned above. In the online GitHub, they're here:
+#### (5) Then if you've done all that, you can open one of the example R scripts in the py-tetrad repository you cloned above. In the online GitHub, they're here:
 
 https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/R
 
-##### (6) Then adjust the path in it to your working directory in the script (if it isn't right already), select all, and run. That should run FGES on the example file and print the graph in PCALG general graph format. 
+#### (6) Then adjust the path in it to your working directory in the script (if it isn't right already), select all, and run. That should run FGES on the example file and print the graph in PCALG general graph format. 
 
 For the PCALG general graph format, see the docs for FCI in the PCALG package:
 * 0 means NO endpoint
