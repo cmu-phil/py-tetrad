@@ -53,52 +53,60 @@ class TetradSearch:
         self.verbose = verbose
 
     def run_fges(self):
-        pattern = search.fges(self.score, self.knowledge, verbose=self.verbose)
-        return tr.tetrad_graph_to_pcalg(pattern)
+        graph = search.fges(self.score, self.knowledge, verbose=self.verbose)
+        return tr.tetrad_graph_to_pcalg(graph)
 
     def run_boss(self, depth=-1):
-        pattern = search.boss(self.score, depth=depth, knowledge=self.knowledge, verbose=self.verbose)
-        return tr.tetrad_graph_to_pcalg(pattern)
+        graph = search.boss(self.score, depth=depth, knowledge=self.knowledge, verbose=self.verbose)
+        return tr.tetrad_graph_to_pcalg(graph)
 
     def run_sp(self):
-        pattern = search.sp(self.score, self.knowledge, verbose=self.verbose)
-        return tr.tetrad_graph_to_pcalg(pattern)
+        graph = search.sp(self.score, self.knowledge, verbose=self.verbose)
+        return tr.tetrad_graph_to_pcalg(graph)
 
     def run_grasp(self):
-        pattern = search.grasp(self.score, self.knowledge, verbose=self.verbose)
-        return tr.tetrad_graph_to_pcalg(pattern)
+        graph = search.grasp(self.score, self.knowledge, verbose=self.verbose)
+        return tr.tetrad_graph_to_pcalg(graph)
 
     def run_gango(self):
-        pattern = search.gango(self.score, self.data, self.knowledge, verbose=self.verbose)
-        return tr.tetrad_graph_to_pcalg(pattern)
+        graph = search.gango(self.score, self.data, self.knowledge, verbose=self.verbose)
+        return tr.tetrad_graph_to_pcalg(graph)
 
     def run_pc(self):
-        pattern = search.pc(self.test, knowledge=self.knowledge, verbose=self.verbose)
-        return tr.tetrad_graph_to_pcalg(pattern)
+        graph = search.pc(self.test, knowledge=self.knowledge, verbose=self.verbose)
+        return tr.tetrad_graph_to_pcalg(graph)
 
     def run_cpc(self):
-        pattern = search.cpc(self.score, knowledge=self.knowledge, verbose=self.verbose)
-        return tr.tetrad_graph_to_pcalg(pattern)
+        graph = search.cpc(self.score, knowledge=self.knowledge, verbose=self.verbose)
+        return tr.tetrad_graph_to_pcalg(graph)
 
     def run_pcmax(self):
-        pattern = search.pcmax(self.score, knowledge=self.knowledge, verbose=self.verbose)
-        return tr.tetrad_graph_to_pcalg(pattern)
+        graph = search.pcmax(self.score, knowledge=self.knowledge, verbose=self.verbose)
+        return tr.tetrad_graph_to_pcalg(graph)
 
     def run_fci(self):
-        pattern = search.fci(self.test, knowledge=self.knowledge, verbose=self.verbose)
-        return tr.tetrad_graph_to_pcalg(pattern)
+        graph = search.fci(self.test, knowledge=self.knowledge, verbose=self.verbose)
+        return tr.tetrad_graph_to_pcalg(graph)
 
     def run_gfci(self):
-        pattern = search.gfci(self.test, self.score)#//, knowledge=self.knowledge, verbose=self.verbose)
-        return tr.tetrad_graph_to_pcalg(pattern)
+        graph = search.gfci(self.test, self.score)#//, knowledge=self.knowledge, verbose=self.verbose)
+        return tr.tetrad_graph_to_pcalg(graph)
 
     def run_bfci(self):
-        pattern = search.bfci(self.test, self.score, knowledge=self.knowledge, verbose=self.verbose)
-        return tr.tetrad_graph_to_pcalg(pattern)
+        graph = search.bfci(self.test, self.score, knowledge=self.knowledge, verbose=self.verbose)
+        return tr.tetrad_graph_to_pcalg(graph)
 
     def run_grasp_fci(self):
-        pattern = search.grasp_fci(self.test, self.score, knowledge=self.knowledge, verbose=self.verbose)
-        return tr.tetrad_graph_to_pcalg(pattern)
+        graph = search.grasp_fci(self.test, self.score, knowledge=self.knowledge, verbose=self.verbose)
+        return tr.tetrad_graph_to_pcalg(graph)
+
+    def run_ccd(self):
+        if not self.knowledge.isEmpty()
+            print("CCD does not use knowledge.")
+            return
+
+        graph = search.ccd(self.test)
+        return tr.tetrad_graph_to_pcalg(graph)
 
     def run_svar_fci(self):
         num_lags = 2

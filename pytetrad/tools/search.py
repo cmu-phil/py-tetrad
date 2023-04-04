@@ -128,3 +128,8 @@ def grasp_fci(test, score, knowledge=None, verbose=False):
     grasp_fci.setVerbose(verbose)
     grasp_fci_graph = grasp_fci.search()
     return grasp_fci_graph
+
+def ccd(test):
+    ccd = ts.Ccd(test)
+    ccd_graph = ccd.search()
+    return ccd_graph
