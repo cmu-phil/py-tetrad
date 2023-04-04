@@ -35,9 +35,9 @@ Here, the Python path should be the path to your Python; you can type 'which Pyt
 
 https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/R
 
-##### (6) Then adjust the path in it to your working directory in the script (if it isn't right already), select all, and run. That should run FGES on the example file and print the graph in PCALG format. 
+##### (6) Then adjust the path in it to your working directory in the script (if it isn't right already), select all, and run. That should run FGES on the example file and print the graph in PCALG general graph format. 
 
-For the PCALG format, see the docs for FCI in the PCALG package:
+For the PCALG general graph format, see the docs for FCI in the PCALG package:
 * 0 means NO endpoint
 * 1 means CIRCLE endpoint (-o)
 * 2 means ARROW endpoint (->)
