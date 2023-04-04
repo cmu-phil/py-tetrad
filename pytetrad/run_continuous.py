@@ -3,8 +3,7 @@ import jpype.imports
 try:
     jpype.startJVM(classpath=[f"resources/tetrad-gui-current-launch.jar"])
 except OSError:
-    pass
-    # print("JVM already started")
+    print("JVM already started")
 
 import pandas as pd
 
