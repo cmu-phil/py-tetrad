@@ -6,50 +6,68 @@ except OSError:
     print("JVM already started")
 
 import pandas as pd
-import tools.translate as tr
-import tools.search as search
 
-import edu.cmu.tetrad.search as ts
+import tools.TetradSearch as search
 
-# data, graph = sim.simulateLeeHastie()
+data = pd.read_csv("resources/auto-mpg.data.mixed.max.3.categories.txt", sep="\t")
+data = data.astype({col: "float64" for col in data.columns if col != "origin"})
 
-df = pd.read_csv("resources/auto-mpg.data.mixed.max.3.categories.txt", sep="\t")
-df = df.astype({col: "float64" for col in df.columns if col != "origin"})
+## Make a TetradSearch instance to run searches against. This helps to organize
+## the use of Tetrad search algorithms and hides the JPype code for those who
+## don't want to deal with it.
+search = search.TetradSearch(data)
+search.set_verbose(False)
 
-data = tr.pandas_data_to_tetrad(df)
+## Pick the score to use, in this case a continuous linear, Gaussian score.
+search.use_conditional_gaussian_score()
+search.use_conditional_gaussian_test()
 
-## We have to types of scores/tests, Conditional Gaussian and Degenerate Gaussian.
-score = ts.ConditionalGaussianScore(data, 2, True)
-# score = ts.DegenerateGaussianScore(data)
+## Run various algorithms and print their results. For now (for compability with R)
+## all graphs are returned in PCALG general graph format.
+## Commenting out the ones that won't work with mixed data.
+fges_graph = search.run_fges()
+print('FGES')
+print(fges_graph)
 
-# test = ts.IndTestScore(score)
-test = ts.IndTestConditionalGaussianLRT(data, 0.05, True)
-# test = ts.IndTestDegenerateGaussianLRT(data)
-# test.setAlpha(0.01)
+boss_graph = search.run_boss()
+print('BOSS')
+print(boss_graph)
 
-fges_graph = search.fges(score)
-print('fGES', fges_graph)
+sp_graph = search.run_sp()
+print('SP')
+print(sp_graph)
 
-boss_graph = search.boss(score)
-print('BOSS', boss_graph)
+grasp_graph = search.run_grasp()
+print('GRaSP')
+print(grasp_graph)
 
-sp_graph = search.sp(score)
-print('SP', sp_graph)
+# gango_graph = search.run_gango()
+# print('GANGO', gango_graph)
 
-grasp_graph = search.grasp(score)
-print('GRaSP', grasp_graph)
+pc_graph = search.run_pc()
+print('PC')
+print(pc_graph)
 
-pc_graph = search.pc(test)
-print('PC', pc_graph)
+fci_graph = search.run_fci()
+print('FCI')
+print(fci_graph)
 
-fci_graph = search.fci(test)
-print('FCI', fci_graph)
+gfci_graph = search.run_gfci()
+print('GFCI')
+print(gfci_graph)
 
-bfci_graph = search.bfci(test, score)
-print('BFCI', bfci_graph)
+bci_graph = search.run_bfci()
+print('BFCI')
+print(bci_graph)
 
-spfci_graph = search.spfci(test, score)
-print('SPFCI', spfci_graph)
+graph_fci_graph = search.run_grasp_fci()
+print('GRaSP-FCI')
+print(graph_fci_graph)
 
-grasp_fci_graph = search.grasp_fci(test, score)
-print('GRaSP_FCI', grasp_fci_graph)
+ccd_graph = search.run_ccd()
+print('CCD')
+print(ccd_graph)
+
+# svar_fci_graph = search.run_svar_fci()
+# print('SVAR-FCI')
+# print(svar_fci_graph)

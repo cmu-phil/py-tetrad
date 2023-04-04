@@ -1,5 +1,5 @@
 ## This file shows how to Tetrad searches interactively in R using the
-## TetradSearch class for a discrete example.
+## TetradSearch class for a mixed example.
 ##
 ## You will need to adjust this path to your path for py-tetrad.
 setwd("~/py-tetrad/pytetrad")
@@ -7,15 +7,17 @@ setwd("~/py-tetrad/pytetrad")
 install.packages(reticulate)
 library(reticulate)
 
-data <- read.table("./resources/bridges.data.version211_rev.txt", header=TRUE)
+data <- read.table("./resources/auto-mpg.data.mixed.max.3.categories.txt", header=TRUE)
 
-# ## The read.table function will read decimal columns as real ('numeric')
-# ## and integer columns as discrete. When passing data from R into Python,
-# ## integer columns will still be interpreted as discrete, so we have to
-# ## specify in the data frame for this data that they are to be interpreted
-# ## as continuous (i.e., 'numeric').
-#  i <- c(1, 6)
-#  data[ , i] <- apply(data[ , i], 2, function(x) as.numeric(x))
+data
+
+## The read.table function will read decimal columns as real ('numeric')
+## and integer columns as discrete. When passing data from R into Python,
+## integer columns will still be interpreted as discrete, so we have to
+## specify in the data frame for this data that they are to be interpreted
+## as continuous (i.e., 'numeric').
+i <- c(1, 6)
+data[ , i] <- apply(data[ , i], 2, function(x) as.numeric(x))
 
 ## Make a TetradSearch object.
 source_python("tools/TetradSearch.py")

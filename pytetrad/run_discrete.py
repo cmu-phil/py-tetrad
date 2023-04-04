@@ -23,6 +23,7 @@ search.use_g_square(alpha=0.05)
 
 ## Run various algorithms and print their results. For now (for compability with R)
 ## all graphs are returned in PCALG general graph format.
+## Commenting out the ones that won't work with discrete data.
 fges_graph = search.run_fges()
 print('FGES')
 print(fges_graph)
@@ -31,16 +32,16 @@ boss_graph = search.run_boss()
 print('BOSS')
 print(boss_graph)
 
-sp_graph = search.run_sp()
-print('SP')
-print(sp_graph)
+# sp_graph = search.run_sp()
+# print('SP')
+# print(sp_graph)
 
 grasp_graph = search.run_grasp()
 print('GRaSP')
 print(grasp_graph)
 
-gango_graph = search.run_gango()
-print('GANGO', gango_graph)
+# gango_graph = search.run_gango()
+# print('GANGO', gango_graph)
 
 pc_graph = search.run_pc()
 print('PC')
@@ -66,6 +67,6 @@ ccd_graph = search.run_ccd()
 print('CCD')
 print(ccd_graph)
 
-svar_fci_graph = search.run_svar_fci()
-print('SVAR-FCI')
-print(svar_fci_graph)
+# svar_fci_graph = search.run_svar_fci()
+# print('SVAR-FCI')
+# print(svar_fci_graph)
