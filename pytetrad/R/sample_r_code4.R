@@ -27,6 +27,9 @@ ts <- TetradSearch(data)
 ts$use_conditional_gaussian_score()
 ts$use_conditional_gaussian_test()
 
+# ts$use_degenerate_gaussian_score()
+# ts$use_degenerate_gaussian_test()
+
 #  mpg cylinders displacement horsepower weight acceleration modelyear origin
 
 ## Set some knowledge--why not just put mpg in tier 2?

@@ -45,6 +45,12 @@ class TetradSearch:
         score.setStructurePrior(structure_prior)
         self.score = score
 
+    def use_degenerate_gaussian_score(self, penalty_discount=1, structure_prior=0):
+        score = ts.DegenerateGaussianScore(self.data)
+        score.setPenaltyDiscount(penalty_discount)
+        score.setStructurePrior(structure_prior)
+        self.score = score
+
     def use_fisher_z(self, alpha=0.01):
         test = ts.IndTestFisherZ(self.data, alpha)
         self.test = test
@@ -60,6 +66,11 @@ class TetradSearch:
     def use_conditional_gaussian_test(self, alpha=0.01, discretize=True, num_categories_to_discretize=3):
         test = ts.IndTestConditionalGaussianLRT(self.data, alpha, discretize)
         test.setNumCategoriesToDiscretize(num_categories_to_discretize)
+        self.test = test
+
+    def use_degenerate_gaussian_test(self, alpha=0.01):
+        test = ts.IndTestDegenerateGaussianLRT(self.data)
+        test.setAlpha(alpha)
         self.test = test
 
     def add_to_tier(self, tier, var_name):

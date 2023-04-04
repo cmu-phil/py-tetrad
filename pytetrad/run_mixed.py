@@ -19,8 +19,11 @@ search = search.TetradSearch(data)
 search.set_verbose(False)
 
 ## Pick the score to use, in this case a continuous linear, Gaussian score.
-search.use_conditional_gaussian_score()
-search.use_conditional_gaussian_test()
+# search.use_conditional_gaussian_score()
+# search.use_conditional_gaussian_test()
+
+search.use_degenerate_gaussian_score()
+search.use_degenerate_gaussian_test()
 
 ## Run various algorithms and print their results. For now (for compability with R)
 ## all graphs are returned in PCALG general graph format.
