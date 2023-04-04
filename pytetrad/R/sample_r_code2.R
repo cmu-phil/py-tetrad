@@ -25,12 +25,14 @@ ts <- TetradSearch(data)
 ts$use_sem_bic(penalty_discount=2)
 ts$use_fisher_z()
 
-## Set some knowledge.
+## Set some knowledge--we know pressure should be the endogenoud varialbes
+## here, so why not help the search out? (It's interesting of course to
+## see what searches can get this right wihtout the help.)
 ts$add_to_tier(1, "Frequency")
 ts$add_to_tier(1, "Attack")
 ts$add_to_tier(1, "Chord")
-ts$add_to_tier(2, "Velocity")
-ts$add_to_tier(2, "Displacement")
+ts$add_to_tier(1, "Velocity")
+ts$add_to_tier(1, "Displacement")
 ts$add_to_tier(2, "Pressure")
 
 ## Run the search and return the graph in PCALG format
