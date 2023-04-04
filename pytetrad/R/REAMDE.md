@@ -16,13 +16,13 @@ In a Terminal window:
 open -na RStudio
 `
 
-##### (3) You must install the 'reticulate' package in RStudio (this only needs to be done once):
+##### (3) You must install the 'reticulate' package in RStudio. (This only needs to be done once.)
 
 `
 install.packages("reticulate")
 `
 
-##### (4) You need to tell Reticulate/R where your Python is (again, this only needs to be done once). In RStudio:
+##### (4) You need to tell Reticulate/R where your Python is in RStudio. (Again, this only needs to be done once).
 
 `
 use_python("/usr/local/bin/python")
