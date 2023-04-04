@@ -12,12 +12,18 @@ import tools.TetradSearch as search
 data = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
 data = data.astype({col: "float64" for col in data.columns})
 
+## Make a TetradSearch instance to run searches against. This helps to organize
+## the use of Tetrad search algorithms and hides the JPype code for those who
+## don't want to deal with it.
 search = search.TetradSearch(data)
 search.set_verbose(False)
 
+## Pick the score to use, in this case a continuous linear, Gaussian score.
 search.use_sem_bic(penalty_discount=2)
 search.use_fisher_z(alpha=0.05)
 
+## Run various algorithms and print their results. For now (for compability with R)
+## all graphs are returned in PCALG general graph format.
 fges_graph = search.run_fges()
 print('FGES')
 print(fges_graph)
