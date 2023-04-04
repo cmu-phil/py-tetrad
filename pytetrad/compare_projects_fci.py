@@ -35,6 +35,8 @@ tetrad_fci_graph = tetrad_fci.search()
 
 print(tetrad_fci_graph)
 
+## PRINTOUT:
+
 # CL FCI
 #
 # Depth=3, working on node 5: 100%|██████████| 6/6 [00:00<00:00, 1391.22it/s]
