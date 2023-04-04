@@ -9,11 +9,12 @@ library(reticulate)
 
 data <- read.table("./resources/airfoil-self-noise.continuous.txt", header=TRUE)
 
-# ## The read.table function will read decimal columns as real ('numeric')
-# ## and integer columns as discrete. When passing data from R into Python,
-# ## integer columns will still be interpreted as discrete, so we have to
-# ## specify in the data frame that they are to be interpreted as continuous
-# ## (i.e., 'numeric').
+## The read.table function will read decimal columns as real ('numeric')
+## and integer columns as discrete. When passing data from R into Python,
+## integer columns will still be interpreted as discrete, so we have to
+## specify in the data frame for this data that they are to be interpreted
+## as continuous
+## (i.e., 'numeric').
  i <- c(1, 6)
  data[ , i] <- apply(data[ , i], 2, function(x) as.numeric(x))
 
