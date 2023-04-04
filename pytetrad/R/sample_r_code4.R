@@ -16,6 +16,8 @@ data
 ## integer columns will still be interpreted as discrete, so we have to
 ## specify in the data frame for this data that they are to be interpreted
 ## as continuous (i.e., 'numeric').
+## Really on the last varaible is discrete; all the other ones are
+## continuous... need to fix this.
 # i <- c(1, 6)
 # data[ , i] <- apply(data[ , i], 2, function(x) as.numeric(x))
 
