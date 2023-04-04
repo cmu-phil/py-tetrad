@@ -12,7 +12,7 @@ The _minimal_ requirements for Java and Python for this particular setup are Jav
 
 We are thinking about some kind of packaging for this to make the install process easier, maybe an R package or a Docker perhaps.
 
-We are unsure what kind of graph to output to be useful to R users; currently we are outputting a general graph format used by PCALG. If you have thoughts for this, please let me know.
+We are unsure what kind of graph to output to be useful to R users; currently we are outputting a general graph format used by PCALG. If you have thoughts for this, please let us know.
 
 #### (1) You must follow the instructions in the [py-tetrad README](https://github.com/cmu-phil/py-tetrad) to clone the py-tetrad GitHub repository and set it up (Installing JPype, etc.). It's best to set the JAVA_HOME variable in the .bash_profile file.
 
