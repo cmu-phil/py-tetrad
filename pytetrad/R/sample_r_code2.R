@@ -23,17 +23,18 @@ ts <- TetradSearch(data)
 
 ## Use the SEM BIC score.
 ts$use_sem_bic(penalty_discount=2)
+ts$use_fisher_z(0.0)
 
-## Set some knowledge.
-ts$add_to_tier(1, "Frequency")
-ts$add_to_tier(1, "Attack")
-ts$add_to_tier(1, "Chord")
-ts$add_to_tier(2, "Velocity")
-ts$add_to_tier(2, "Displacement")
-ts$add_to_tier(2, "Pressure")
+# ## Set some knowledge.
+# ts$add_to_tier(1, "Frequency")
+# ts$add_to_tier(1, "Attack")
+# ts$add_to_tier(1, "Chord")
+# ts$add_to_tier(2, "Velocity")
+# ts$add_to_tier(2, "Displacement")
+# ts$add_to_tier(2, "Pressure")
 
 ## Run the search and return the graph in PCALG format
-g = ts$run_fges()
+g = ts$run_ccd()
 
 ## Print the graph
 print(g)
