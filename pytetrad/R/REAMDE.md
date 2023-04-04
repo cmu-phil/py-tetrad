@@ -28,7 +28,7 @@ install.packages("reticulate")
 use_python("/usr/local/bin/python")
 `
 
-Here, the Python path should be the path to your Python; you can type 'which Python' or something in a Terminal window to get this.
+Here, the Python path should be the path to your Python; you can type 'which Python' in a Terminal window to get this.
 
 ##### (5) Then if you've done all that, you can open one of the example R scripts in the py-tetrad repository you cloned above. In the online GitHub, they're here:
 
