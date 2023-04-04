@@ -6,7 +6,6 @@ try:
     jpype.startJVM(classpath=[f"resources/tetrad-gui-current-launch.jar"])
 except OSError:
     pass
-    # print("JVM already started")
 
 import edu.cmu.tetrad.search as search
 import tools.search as ts
