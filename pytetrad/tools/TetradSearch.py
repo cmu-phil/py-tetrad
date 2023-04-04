@@ -177,6 +177,10 @@ class TetradSearch:
         graph = search.grasp_fci(self.test, self.score, knowledge=self.knowledge, verbose=self.verbose)
         return tr.tetrad_graph_to_pcalg(graph)
 
+    def run_sp_fci(self):
+        graph = search.sp_fci(self.test, self.score, knowledge=self.knowledge, verbose=self.verbose)
+        return tr.tetrad_graph_to_pcalg(graph)
+
     def run_ccd(self):
         if not self.knowledge.isEmpty():
             print("CCD does not use knowledge.")
