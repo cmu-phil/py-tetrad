@@ -1,6 +1,6 @@
 ## Instructions for setting up Tetrad searches to run in R (RStudio) via Py-Tetrad
 
-The setup requires several steps, and you have to get several paths set right, but the payoff of going through all the setup will be very nice; it will be easy to run Tetrad algorithms in R. We are not sure yet whether these instuctions can be followed easily; please give feedback if not.
+The setup requires several steps, and you have to get several paths set right, but the payoff of going through all the setup will be very nice; it will be easy and reliable to run Tetrad algorithms in R. We are not sure yet whether these instuctions can be followed easily; please give feedback if not.
 
 We will assume you're using a Mac. If you're using Windows, you might want to wait until we've figured out how to do this on a Windows machine. (Or, figure it out and tell us how!)
 
