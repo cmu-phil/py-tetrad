@@ -33,8 +33,22 @@ class TetradSearch:
         score.setPenaltyDiscount(penalty_discount)
         self.score = score
 
+    def use_bdeu(self, sample_prior=10, structure_prior=0):
+        score = ts.BDeuScore(self.data)
+        score.setSamplePrior(sample_prior)
+        score.setStructurePrior(structure_prior)
+        self.score = score
+
     def use_fisher_z(self, alpha=0.01):
         test = ts.IndTestFisherZ(self.data, alpha)
+        self.test = test
+
+    def use_chi_square(self, alpha=0.01):
+        test = ts.IndTestChiSquare(self.data, alpha)
+        self.test = test
+
+    def use_g_square(self, alpha=0.01):
+        test = ts.IndTestGSquare(self.data, alpha)
         self.test = test
 
     def add_to_tier(self, tier, var_name):

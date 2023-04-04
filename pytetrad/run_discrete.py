@@ -1,53 +1,71 @@
 import jpype.imports
 
 try:
-   jpype.startJVM(classpath=[f"resources/tetrad-gui-current-launch.jar"])
+    jpype.startJVM(classpath=[f"resources/tetrad-gui-current-launch.jar"])
 except OSError:
     print("JVM already started")
 
 import pandas as pd
-import tools.translate as tr
-import tools.search as search
 
-import edu.cmu.tetrad.search as ts
+import tools.TetradSearch as search
 
-def print_graph(alg_name, G):
-    print(f"\n{alg_name}\n")
-    print(G)
-    print(tr.tetrad_graph_to_pcalg(G))
-    print(tr.tetrad_graph_to_causal_learn(G))
+data = pd.read_csv("resources/bridges.data.version211_rev.txt", sep="\t")
 
-df = pd.read_csv("resources/bridges.data.version211_rev.txt", sep="\t")
+## Make a TetradSearch instance to run searches against. This helps to organize
+## the use of Tetrad search algorithms and hides the JPype code for those who
+## don't want to deal with it.
+search = search.TetradSearch(data)
+search.set_verbose(False)
 
-data = tr.pandas_data_to_tetrad(df)
-print(data)
+## Pick the score to use, in this case a continuous linear, Gaussian score.
+search.use_bdeu(sample_prior=10, structure_prior=0)
+search.use_g_square(alpha=0.05)
 
-# score = ts.DiscreteBicScore(data)
-# score.setStructurePrior(0)
+## Run various algorithms and print their results. For now (for compability with R)
+## all graphs are returned in PCALG general graph format.
+fges_graph = search.run_fges()
+print('FGES')
+print(fges_graph)
 
-score = ts.BDeuScore(data)
-score.setSamplePrior(10)
-score.setStructurePrior(1)
+boss_graph = search.run_boss()
+print('BOSS')
+print(boss_graph)
 
-test = ts.IndTestGSquare(data, 0.05)
+sp_graph = search.run_sp()
+print('SP')
+print(sp_graph)
 
-fges_graph = search.fges(score)
-print('fGES', fges_graph)
+grasp_graph = search.run_grasp()
+print('GRaSP')
+print(grasp_graph)
 
-boss_graph = search.boss(score)
-print('BOSS', boss_graph)
+gango_graph = search.run_gango()
+print('GANGO', gango_graph)
 
-grasp_graph = search.grasp(score)
-print('GRaSP', grasp_graph)
+pc_graph = search.run_pc()
+print('PC')
+print(pc_graph)
 
-pc_graph = search.pc(test)
-print('PC', pc_graph)
+fci_graph = search.run_fci()
+print('FCI')
+print(fci_graph)
 
-fci_graph = search.fci(test)
-print('FCI', fci_graph)
+gfci_graph = search.run_gfci()
+print('GFCI')
+print(gfci_graph)
 
-gfci_graph = search.gfci(test, score)
-print('GFCI', gfci_graph)
+bci_graph = search.run_bfci()
+print('BFCI')
+print(bci_graph)
 
-gfci_graph = search.grasp_fci(test, score)
-print('GFCI', gfci_graph)
+graph_fci_graph = search.run_grasp_fci()
+print('GRaSP-FCI')
+print(graph_fci_graph)
+
+ccd_graph = search.run_ccd()
+print('CCD')
+print(ccd_graph)
+
+svar_fci_graph = search.run_svar_fci()
+print('SVAR-FCI')
+print(svar_fci_graph)
