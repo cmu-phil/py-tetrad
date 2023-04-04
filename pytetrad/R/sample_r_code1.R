@@ -19,8 +19,7 @@ library(reticulate)
 source_python("run_continuous.py")
 tr <- import("pytetrad.tools.translate")
 
-g<-tr$tetrad_graph_to_pcalg(grasp_graph)
-g
+grasp_graph
 
 ## All of the variables in this file appear in the R environment and can be
 ## accessed there. If you're in RStudio, click to the Environment tab and 

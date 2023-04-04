@@ -7,58 +7,57 @@ except OSError:
     # print("JVM already started")
 
 import pandas as pd
-import tools.translate as tr
-import tools.search as search
 
-import edu.cmu.tetrad.search as ts
+import tools.TetradSearch as search
 
-df = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
-df = df.astype({col: "float64" for col in df.columns})
+data = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
+data = data.astype({col: "float64" for col in data.columns})
 
-data = tr.pandas_data_to_tetrad(df)
-# print(data)
+search = search.TetradSearch(data)
+search.set_verbose(False)
 
-score = ts.SemBicScore(data)
-score.setPenaltyDiscount(2)
-score.setStructurePrior(0)
+search.use_sem_bic(penalty_discount=2)
+search.use_fisher_z(alpha=0.05)
 
-test = ts.IndTestScore(score, data)
-test.setAlpha(0.01)
+fges_graph = search.run_fges()
+print('FGES')
+print(fges_graph)
 
-fges_graph = search.fges(score)
-print('FGES', fges_graph)
+boss_graph = search.run_boss()
+print('BOSS')
+print(boss_graph)
 
-boss_graph = search.boss(score)
-print('BOSS', boss_graph)
+sp_graph = search.run_sp()
+print('SP')
+print(sp_graph)
 
-sp_graph = search.sp(score)
-print('SP', sp_graph)
+grasp_graph = search.run_grasp()
+print('GRaSP')
+print(grasp_graph)
 
-grasp_graph = search.grasp(score)
-print('GRaSP', grasp_graph)
-
-gango_graph = search.gango(score, data)
+gango_graph = search.run_gango()
 print('GANGO', gango_graph)
 
-pc_graph = search.pc(test)
-print('PC', pc_graph)
+pc_graph = search.run_pc()
+print('PC')
+print(pc_graph)
 
-fci_graph = search.fci(test)
-print('FCI', fci_graph)
+fci_graph = search.run_fci()
+print('FCI')
+print(fci_graph)
 
-gfci_graph = search.gfci(test, score)
-print('GFCI', gfci_graph)
+gfci_graph = search.run_gfci()
+print('GFCI')
+print(gfci_graph)
 
-grasp_fci_graph = search.grasp_fci(test, score)
-print('GRaSP-FCI', grasp_fci_graph)
+bci_graph = search.run_bfci()
+print('BFCI')
+print(bci_graph)
 
-num_lags = 2
-lagged_data = ts.TimeSeriesUtils.createLagData(data, num_lags)
-ts_test = ts.IndTestFisherZ(lagged_data, 0.01)
-ts_score = ts.SemBicScore(lagged_data)
-ts_score.setPenaltyDiscount(2)
-svar_fci = ts.SvarGFci(ts_test, ts_score)
-svar_fci.setKnowledge(lagged_data.getKnowledge())
-svar_fci.setVerbose(True)
-svar_fci_graph = svar_fci.search()
-print('SVAR-FCI', svar_fci_graph)
+graph_fci_graph = search.run_grasp_fci()
+print('GRaSP-FCI')
+print(graph_fci_graph)
+
+svar_fci_graph = search.run_svar_fci()
+print('SVAR-FCI')
+print(svar_fci_graph)
