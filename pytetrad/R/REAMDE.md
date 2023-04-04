@@ -4,9 +4,11 @@ The setup requires several steps, and you have to get several paths set right, b
 
 We will assume you're using a Mac. If you're using Windows, you might want to wait until we've figured out how to do this on a Windows machine.
 
+We will also assume that you are using RStudio.
+
 ##### (1) You must follow the instructions in the [py-tetrad README](https://github.com/cmu-phil/py-tetrad) to clone the py-tetrad GitHub repository and set it up (Installing JPype, etc.). It's best to set the JAVA_HOME variable in the .bash_profile file.
 
-##### (2) We're going to assume you are using RStudio. Launching RStudio from a Mac's Terminal window would be best. Otherwise, the JAVA_HOME variable doesn't take. ( I haven't tested Windows yet.)
+##### (2) Launching RStudio from a Mac's Terminal window would be best. Otherwise, the JAVA_HOME variable doesn't take. ( I haven't tested Windows yet.)
 
 In a Terminal window:
 
