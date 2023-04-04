@@ -64,7 +64,8 @@ class TetradSearch:
         score.setStructurePrior(structure_prior)
         self.score = score
 
-    def use_conditional_gaussian_score(self, penalty_discount=1, discretize=True, num_categories_to_discretize=3, structure_prior=0):
+    def use_conditional_gaussian_score(self, penalty_discount=1, discretize=True, num_categories_to_discretize=3,
+                                       structure_prior=0):
         score = ts.ConditionalGaussianScore(self.data, penalty_discount, discretize)
         score.setNumCategoriesToDiscretize(num_categories_to_discretize)
         score.setStructurePrior(structure_prior)
@@ -105,7 +106,8 @@ class TetradSearch:
         test.setPriorEquivalentSampleSize(prior_ess)
         self.test = test
 
-    def use_kci(self, alpha=0.01, approximate=True, width_multipler=1, num_bootstraps=5000, threshold=0.001, epsilon=0.001):
+    def use_kci(self, alpha=0.01, approximate=True, width_multipler=1, num_bootstraps=5000, threshold=0.001,
+                epsilon=0.001):
         test = ts.Kci(self.data, alpha)
         test.setApproximate(approximate)
         test.setWidthMultiplier(width_multipler)
@@ -166,7 +168,7 @@ class TetradSearch:
         return tr.tetrad_graph_to_pcalg(graph)
 
     def run_gfci(self):
-        graph = search.gfci(self.test, self.score)#//, knowledge=self.knowledge, verbose=self.verbose)
+        graph = search.gfci(self.test, self.score)  # //, knowledge=self.knowledge, verbose=self.verbose)
         return tr.tetrad_graph_to_pcalg(graph)
 
     def run_bfci(self):

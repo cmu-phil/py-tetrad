@@ -32,7 +32,7 @@ ts$use_conditional_gaussian_test()
 
 #  mpg cylinders displacement horsepower weight acceleration modelyear origin
 
-## Set some knowledge--why not just put mpg in tier 2?
+## Set some knowledge--why not just put mpg in tier 2 and predict it?
 ts$add_to_tier(1, "origin")
 ts$add_to_tier(1, "cylinders")
 ts$add_to_tier(1, "displacement")
