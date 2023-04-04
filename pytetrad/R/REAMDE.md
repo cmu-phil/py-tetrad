@@ -2,7 +2,7 @@
 
 The setup requires several steps, but the payoff of going through all the setup will be very nice--it will be so easy to run Tetrad algorithms in R! We are not sure yet whether these instuctions can be followed easily; please give feedback if not.
 
-Please follow these steps to do the setup. We will assume you're using a Mac. If you're using Windows, you might want to wait until we've figured out how to do this on a Windows machine.
+We will assume you're using a Mac. If you're using Windows, you might want to wait until we've figured out how to do this on a Windows machine.
 
 ##### (1) You must follow the instructions in the [py-tetrad README](https://github.com/cmu-phil/py-tetrad) to clone the py-tetrad GitHub repository and set it up. (pip install JPype, etc.)
 
