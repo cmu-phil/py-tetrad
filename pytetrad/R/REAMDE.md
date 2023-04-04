@@ -6,7 +6,7 @@ We will assume you're using a Mac. If you're using Windows, you might want to wa
 
 ##### (1) You must follow the instructions in the [py-tetrad README](https://github.com/cmu-phil/py-tetrad) to clone the py-tetrad GitHub repository and set it up. (pip install JPype, etc.)
 
-##### (2) I'm going to assume you are using RStudio. Launching RStudio from a Mac's Terminal window would be best. Otherwise, the JAVA_HOME variable doesn't take. ( I haven't tested Windows yet.)
+##### (2) We're going to assume you are using RStudio. Launching RStudio from a Mac's Terminal window would be best. Otherwise, the JAVA_HOME variable doesn't take. ( I haven't tested Windows yet.)
 
 In a Terminal window:
 
