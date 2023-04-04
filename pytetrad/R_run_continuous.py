@@ -9,6 +9,7 @@ except OSError:
 
 import pandas as pd
 import pytetrad.tools.R_search as rs
+import edu.cmu.tetrad.search as ts
 
 df = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
 df = df.astype({col: "float64" for col in df.columns})

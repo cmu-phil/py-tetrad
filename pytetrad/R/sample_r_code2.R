@@ -14,6 +14,9 @@ setwd("~/py-tetrad/pytetrad")
 install.packages(reticulate)
 library(reticulate)
 
+source_python("R_run_continuous.py")
+
+
 data <- read.table("./resources/airfoil-self-noise.continuous.txt")
 
 ## When passing data from R into Python, integer columns will still
