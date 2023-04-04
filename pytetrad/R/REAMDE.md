@@ -14,3 +14,7 @@ Then in terminal:
 
 You will need to adjust this path to your path for py-tetrad.
 setwd("~/py-tetrad/pytetrad")
+
+The path to Python needs to set set in RStudio; this needs to be done only once. Here are the docs for reticulate:
+
+https://rstudio.github.io/reticulate/
