@@ -30,6 +30,8 @@ tetrad_pc_graph = tetrad_pc.search()
 
 print(tetrad_pc_graph)
 
+## PRINTOUT:
+
 # CL PC
 #
 # Depth=3, working on node 5: 100%|██████████| 6/6 [00:00<00:00, 1342.61it/s]
