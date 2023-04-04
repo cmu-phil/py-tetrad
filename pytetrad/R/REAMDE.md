@@ -36,4 +36,4 @@ https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/R
 
 ##### (6) Then adjust the path in it to your working directory in the script (if it isn't right already), select all, and run. That should run FGES on the example file and print the graph in PCALG format.
 
-We're still determining whether we're returning a graph compatible with the one in rcausal or whether that matters. We're producing a graph in the PCALG general graph format.
+We're still determining whether we're returning a graph compatible with the one in rcausal or whether that matters. We're producing a graph in the PCALG general graph format, as an R data frame.
