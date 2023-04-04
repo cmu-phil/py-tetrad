@@ -8,6 +8,8 @@ We will also assume that you are using RStudio.
 
 The _minimal_ requirements for Java and Python for this particular setup are Java 1.8+ (8+), Python 3.7+. Not sure the minimal requirements for RStudio and R. (If you know, please tell us!) In any case, using the latest stable versions of all of these will work.
 
+We are thinking about some kind of packaging for this to make the install process easier, maybe an R package or a Docker perhaps.
+
 ##### (1) You must follow the instructions in the [py-tetrad README](https://github.com/cmu-phil/py-tetrad) to clone the py-tetrad GitHub repository and set it up (Installing JPype, etc.). It's best to set the JAVA_HOME variable in the .bash_profile file.
 
 ##### (2) Launching RStudio from a Mac's Terminal window would be best. Otherwise, the JAVA_HOME variable doesn't take. ( I haven't tested Windows yet.)
@@ -46,5 +48,3 @@ For the PCALG general graph format, see the docs for FCI in the PCALG package:
 * 3 means TAIL endpoint (--)
 
 So for X-->Y, the output matrix G, where the index of X is i and the index of Y is j, would have G[j][i] = 3 and G[i][j] = 2.
-
-We are looking into making a Docker container for this so you can avoid the complicated setup.
