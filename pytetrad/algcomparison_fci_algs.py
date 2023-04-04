@@ -1,13 +1,13 @@
+# This is an example of how to write an algcomparison script to do algorithm
+# comparison in Tetrad. Algcomparison allows on to write arbitrary comparison
+# scripts for algorithms in Tetrad.
+
 import jpype.imports
 
 try:
     jpype.startJVM(classpath=[f"resources/tetrad-gui-current-launch.jar"])
 except OSError:
     print("JVM already started")
-
-# This is an example of how to write an algcomparison script to do algorithm
-# comparison in Tetrad. Algcomparison allows on to write arbitrary comparison
-# scripts for algorithms in Tetrad.
 
 from edu.cmu.tetrad.util import Params, Parameters
 
