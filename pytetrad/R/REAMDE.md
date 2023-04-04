@@ -42,7 +42,7 @@ For the PCALG general graph format, see the docs for FCI in the PCALG package:
 * 1 means CIRCLE endpoint (-o)
 * 2 means ARROW endpoint (->)
 * 3 means TAIL endpoint (--)
-.
+
 So for X-->Y, the output matrix G, where the index of X is i and the index of Y is j, would have G[j][i] = 3 and G[i][j] = 2.
 
 We're still determining whether we're returning a graph compatible with the one in rcausal or whether that matters.
