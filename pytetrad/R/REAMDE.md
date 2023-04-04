@@ -6,7 +6,7 @@ We will assume you're using a Mac. If you're using Windows, you might want to wa
 
 We will also assume that you are using RStudio.
 
-The _minimal_ requirements for Java and Python for this are Java 1.8+ (8+), Python 3.7+. Not sure the minimal requirements for RStudio and R. In any case, using the last stable versions of all of these will work.
+The _minimal_ requirements for Java and Python for this particular setup are Java 1.8+ (8+), Python 3.7+. Not sure the minimal requirements for RStudio and R. In any case, using the last stable versions of all of these will work.
 
 ##### (1) You must follow the instructions in the [py-tetrad README](https://github.com/cmu-phil/py-tetrad) to clone the py-tetrad GitHub repository and set it up (Installing JPype, etc.). It's best to set the JAVA_HOME variable in the .bash_profile file.
 
