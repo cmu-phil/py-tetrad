@@ -1,4 +1,4 @@
-## Rewriting this to use the TetradSearch class.
+## Rewriting this to use the TetradSearch class, run_continuous.py.
 
 import jpype.imports
 
