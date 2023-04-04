@@ -36,5 +36,5 @@ ts$add_to_tier(2, "Pressure")
 ## Run the search and return the graph in PCALG format
 g = ts$run_fges()
 
-## Print the graph
+## Print the graph in PCALG general graph format (see PCALG's FCI docs)
 print(g)
