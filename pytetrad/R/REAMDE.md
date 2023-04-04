@@ -21,6 +21,7 @@ open -na RStudio
 `
 install.packages("reticulate")
 `
+Here are the [Docs for the Reticulate package](https://rstudio.github.io/reticulate/).
 
 ##### (4) You need to tell Reticulate/R where your Python is in RStudio. (Again, this only needs to be done once).
 
