@@ -9,6 +9,7 @@ library(reticulate)
 
 data <- read.table("./resources/bridges.data.version211_rev.txt", header=TRUE)
 
+
 # ## The read.table function will read decimal columns as real ('numeric')
 # ## and integer columns as discrete. When passing data from R into Python,
 # ## integer columns will still be interpreted as discrete, so we have to
@@ -25,13 +26,20 @@ ts <- TetradSearch(data)
 ts$use_bdeu()
 ts$use_g_square()
 
-## Set some knowledge.
-ts$add_to_tier(1, "Frequency")
-ts$add_to_tier(1, "Attack")
-ts$add_to_tier(1, "Chord")
-ts$add_to_tier(2, "Velocity")
-ts$add_to_tier(2, "Displacement")
-ts$add_to_tier(2, "Pressure")
+# RIVER ERECTED PURPOSE LENGTH LANES CLEAR.G T.OR.D MATERIAL SPAN REL.L TYPE
+
+## Set some knowledge--let's try to predict TYPE
+ts$add_to_tier(1, "RIVER")
+ts$add_to_tier(1, "ERECTED")
+ts$add_to_tier(1, "PURPOSE")
+ts$add_to_tier(1, "LENGTH")
+ts$add_to_tier(1, "LANES")
+ts$add_to_tier(1, "CLEAR.G")
+ts$add_to_tier(1, "T.OR.D")
+ts$add_to_tier(1, "MATERIAL")
+ts$add_to_tier(1, "SPAN")
+ts$add_to_tier(1, "REL.L")
+ts$add_to_tier(2, "TYPE")
 
 ## Run the search and return the graph in PCALG format
 g = ts$run_fges()
