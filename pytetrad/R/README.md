@@ -2,17 +2,17 @@
 
 This is a _tentative project_; if it's not doing the job in a helpful way, we will pursue other options! So, please [let us know](https://github.com/cmu-phil/py-tetrad/issues).
  
-The setup requires several steps, and you have to get several paths set right, but the payoff of going through all the setup will be very nice; it will be easy and reliable to run Tetrad algorithms in R. We are not sure yet whether these instuctions can be followed easily; please give feedback if not.
+The setup requires several steps, and you have to get several paths set right, but the payoff of going through all the setup will be very nice; it will be easy and reliable to run Tetrad algorithms in R. We are not sure yet whether these instuctions can be followed easily; please [give feedback](https://github.com/cmu-phil/py-tetrad/issues) if not.
 
-We will assume for purposes of this tutorial you're using a Mac. If you're using Windows, you might want to wait until we've figured out how to do this on a Windows machine. (Or, figure it out and tell us how!)
+We will assume for purposes of this tutorial you're using a Mac. If you're using Windows, you might want to wait until we've figured out how to do this on a Windows machine. (Or, figure it out and [tell us how](https://github.com/cmu-phil/py-tetrad/issues)!)
 
 We will also assume that you are using RStudio.
 
-The _minimal_ requirements for Java and Python for this particular setup are Java 1.8+ (8+), Python 3.7+. Not sure the minimal requirements for RStudio and R. (If you know, please tell us!) In any case, using the latest stable versions of all of these will work.
+The _minimal_ requirements for Java and Python for this particular setup are Java 1.8+ (8+), Python 3.7+. Not sure the minimal requirements for RStudio and R. (If you know, please [tell us](https://github.com/cmu-phil/py-tetrad/issues)!) In any case, using the latest stable versions of all of these will work.
 
 We are thinking about some kind of packaging for this to make the install process easier, maybe an R package or a Docker perhaps.
 
-We are unsure what kind of graph to output to be useful to R users; currently we are outputting a general graph format used by PCALG. If you have thoughts for this, please let us know.
+We are unsure what kind of graph to output to be useful to R users; currently we are outputting a general graph format used by PCALG. If you have thoughts for this, please [let us know](https://github.com/cmu-phil/py-tetrad/issues).
 
 #### (1) You must follow the instructions in the [py-tetrad README](https://github.com/cmu-phil/py-tetrad) to clone the py-tetrad GitHub repository and set it up (Installing JPype, etc.). It's best to set the JAVA_HOME variable in the .bash_profile file.
 
