@@ -47,6 +47,6 @@ For the PCALG general graph format, see the docs for FCI in the PCALG package:
 
 So for X-->Y, the output matrix G, where the index of X is i and the index of Y is j, would have G[j][i] = 3 and G[i][j] = 2.
 
-We're still determining whether we're returning a graph compatible with the one in rcausal or whether that matters.
+We're still determining whether we're returning a graph that R users can use; it's a detail that can be fixed later, but any feedback would be welcome.
 
 We are looking into making a Docker container for this so you can avoid the complicated setup.
