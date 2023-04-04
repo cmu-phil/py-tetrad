@@ -11,7 +11,7 @@ Please bear with us as we add and refine example modules and keep our code up to
 
 We maintain a [current version of the Tetrad launch jar](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/resources), which is either the [current published version](https://github.com/cmu-phil/tetrad/releases) or else the current published version with some [adjustments](https://github.com/cmu-phil/tetrad/wiki/Forthcoming-fixes). The example code will work with this current jar. Feel free to use any version of Tetrad though. All artifacts for Tetrad for the last several releases are on [Maven Central](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/), with their corresponding API Javadocs, along wth signatures to verify authenticity.
 
-We added [a method to use Tetrad algorithms in R via py-tetrad](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/REAMDE.md). This is work in progress.
+We added [a method to use Tetrad algorithms in R via py-tetrad](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/). This is work in progress.
 
 # Install
 
