@@ -101,7 +101,7 @@ class TetradSearch:
         return tr.tetrad_graph_to_pcalg(graph)
 
     def run_ccd(self):
-        if not self.knowledge.isEmpty()
+        if not self.knowledge.isEmpty():
             print("CCD does not use knowledge.")
             return
 

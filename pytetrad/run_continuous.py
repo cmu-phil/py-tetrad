@@ -63,6 +63,10 @@ graph_fci_graph = search.run_grasp_fci()
 print('GRaSP-FCI')
 print(graph_fci_graph)
 
+ccd_graph = search.run_ccd()
+print('CCD')
+print(ccd_graph)
+
 svar_fci_graph = search.run_svar_fci()
 print('SVAR-FCI')
 print(svar_fci_graph)
