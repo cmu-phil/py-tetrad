@@ -33,6 +33,31 @@ class TetradSearch:
         score.setPenaltyDiscount(penalty_discount)
         self.score = score
 
+    def use_ebic(self, gamma=0.8):
+        score = ts.EbicScore(self.data)
+        score.setGamma(gamma)
+        self.score = score
+
+    def use_kim_score(self, rule_type=4, penalty_discount=2):
+        score = ts.KimEtAlScores(self.data)
+        score.setRuleType(rule_type)
+        score.setPenaltyDiscount(penalty_discount)
+        self.score = score
+
+    def use_mixed_variable_polynomial(self, structure_prior=0, f_degree=0, discretize=False):
+        score = ts.MVPScore(self.data, structure_prior, f_degree, discretize)
+        self.score = score
+
+    def use_poisson_prior(self, lambda_=2):
+        score = ts.PoissonPriorScore(self.data)
+        score.setLambda(lambda_)
+        self.score = score
+
+    def use_zhang_shen_bound(self, risk_bound=0.2):
+        score = ts.ZhangShenBoundScore(self.data)
+        score.setRiskBound(risk_bound)
+        self.score = score
+
     def use_bdeu(self, sample_prior=10, structure_prior=0):
         score = ts.BDeuScore(self.data)
         score.setSamplePrior(sample_prior)
@@ -71,6 +96,22 @@ class TetradSearch:
     def use_degenerate_gaussian_test(self, alpha=0.01):
         test = ts.IndTestDegenerateGaussianLRT(self.data)
         test.setAlpha(alpha)
+        self.test = test
+
+    def use_probabilistic_test(self, threshold=False, cutoff=0.5, prior_ess=10):
+        test = ts.IndTestProbabilistic(self.data)
+        test.setThreshold(threshold)
+        test.setCutoff(cutoff)
+        test.setPriorEquivalentSampleSize(prior_ess)
+        self.test = test
+
+    def use_kci(self, alpha=0.01, approximate=True, width_multipler=1, num_bootstraps=5000, threshold=0.001, epsilon=0.001):
+        test = ts.Kci(self.data, alpha)
+        test.setApproximate(approximate)
+        test.setWidthMultiplier(width_multipler)
+        test.setNumBootstraps(num_bootstraps)
+        test.setThreshold(threshold)
+        test.setEpsilon(epsilon)
         self.test = test
 
     def add_to_tier(self, tier, var_name):
