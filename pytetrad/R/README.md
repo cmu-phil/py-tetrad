@@ -2,15 +2,17 @@
 
 This is a possible way of connecting Tetrad to R which we are trying out. If you try the instructions and have trouble, please let us know. 
 
-The minimal requirements for Java and Python for this particular setup are Java 1.8+ (8+), Python 3.7+. Not sure the minimal requirements for RStudio and R. In any case, using the latest stable versions of all of these will work.
-
 We have worked out these instructions using RStudio on a Mac; we will test on other platforms soon.
 
 There are currently several steps need to do the installation. (The instructions will hopefully simplify in the future.)
 
-#### (1) Install a Java JDK. Any version 1.8+ (i.e., 8+) will do for this. For very verbose instructions, see [here](https://github.com/cmu-phil/tetrad/wiki/Setting-up-Java-for-Tetrad).
+#### (1) Install a Java JDK. the minimal version for this install is 1.8 (version 8).Any version 1.8+ (i.e., 8+).
 
-#### (2) Install Python. Make sure you are using the latest Python--at least 3.7--if not, [update it](https://www.pythoncentral.io/how-to-update-python/). 
+For very verbose instructions, see [here](https://github.com/cmu-phil/tetrad/wiki/Setting-up-Java-for-Tetrad).
+
+#### (2) Install Python. The minimal version for this install is 3.7.
+
+If you're using a version lower than 3.7, [update it](https://www.pythoncentral.io/how-to-update-python/). 
 
 #### (3) For Mac, in a text editor, add this line to the file ~/.bash_profile:
 ```
