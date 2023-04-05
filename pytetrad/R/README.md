@@ -4,7 +4,7 @@ This is for using py-tetrad in RStudio to run algorithms in R. If you've already
 
 This project is being offered is a possible way of connecting Tetrad to R which we are trying out; if it turns out now to be useful to people, we will try a different route. It is intended to replace the older [r-causal](https://github.com/bd2kccd/r-causal) Python project.
 
-We have worked out these instructions using RStudio on a Mac; we will test on other platforms soon.
+We have worked out and tested these instructions using RStudio on a Mac; we will test on other platforms soon.
 
 These algorithms output graphs in the PCALG general graph format. For the PCALG general graph format, see the docs for FCI in the PCALG package:
 
