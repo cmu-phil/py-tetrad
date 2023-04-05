@@ -53,10 +53,11 @@ ts$add_to_tier(1, "Displacement")
 ts$add_to_tier(2, "Pressure")
 
 ## Run the search and return the graph in PCALG format
-g = ts$run_fges()
+ts$run_fges()
 
 ## Print the graph in PCALG general graph format (see PCALG's FCI docs)
-print(g)
+print('FGES')
+print(ts$get_dot())
 ```
 On a Mac, after you've run the script once, look at the line in the script where it says:
 
