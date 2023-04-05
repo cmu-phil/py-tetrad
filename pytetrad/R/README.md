@@ -18,22 +18,22 @@ We are unsure what kind of graph to output to be useful to R users; currently we
 
 We give these instructions below.
 
-1.If you don't have one, install a Java JDK. Any version 1.8+ (i.e., 8+) will do for this. For very verbose isntrucitons, see [here](https://github.com/cmu-phil/tetrad/wiki/Setting-up-Java-for-Tetrad).
+* If you don't have one, install a Java JDK. Any version 1.8+ (i.e., 8+) will do for this. For very verbose isntrucitons, see [here](https://github.com/cmu-phil/tetrad/wiki/Setting-up-Java-for-Tetrad).
 
-1. In the file ~/.bash_profile, add this line:
+* In the file ~/.bash_profile, add this line:
 
 export JAVA_HOME=[..path..to...your...java...jdk...]
 
 and save. If you don't know where you JDK is, in a Terminal window type `which java`.
 
-1. Make sure you are using the latest Python--at least 3.7--if not, [update it](https://www.pythoncentral.io/how-to-update-python/). 
+* Make sure you are using the latest Python--at least 3.7--if not, [update it](https://www.pythoncentral.io/how-to-update-python/). 
 
-1. In a new Terminal window (to grab the JAVA_HOME you just set), do some pip installs:
+* In a new Terminal window (to grab the JAVA_HOME you just set), do some pip installs:
 
 pip install causal-learn
 pip install JPype1
 
-1. Finally, (for instance, on a Mac), in your User direction (~), type the following to clone this repository:
+* Finally, (for instance, on a Mac), in your User direction (~), type the following to clone this repository:
     
 ```   
 git clone https://github.com/cmu-phil/py-tetrad/
