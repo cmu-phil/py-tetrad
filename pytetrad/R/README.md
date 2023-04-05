@@ -1,4 +1,4 @@
-## Instructions for setting up Tetrad searches to run in R (RStudio) via Py-Tetrad
+# Installation Instructions
 
 This is a possible way of connecting Tetrad to R which we are trying out. If you try the instructions and have trouble, please let us know. 
 
@@ -84,7 +84,7 @@ Select all lines in the file by typeing control-A.
 
 Then click the Run button. That should run FGES on the example file and print the graph in PCALG general graph format. 
 
-## Some Pointers
+# Some Pointers
 
 Feel free to select a different algorithm or a different test or score in the script. On a Mac, once you've run the script once, look at the line in the script where it says:
 
