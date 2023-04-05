@@ -1,6 +1,6 @@
 # Installation Instructions
 
-If you've already installed and want to see how to start using this, see our [Pointers](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/README.md#some-pointers) below.
+This is for using py-tetrad in RStudio to run algorithms in R. If you've already done the installation and want to see how to start exploring, see our [Pointers](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/README.md#some-pointers) below.
 
 This is a possible way of connecting Tetrad to R which we are trying out. If you try the instructions and have trouble, please let us know. 
 
