@@ -4,7 +4,7 @@ Click here for [Installation Instructions](https://github.com/cmu-phil/py-tetrad
 
 This section will eventualy turn into some bonafide documentation; please be patient. For information on specific algorithms, tests, or scores, or if you'd like to watch some videos on causal search, please see the [Documentation Section on the Tetrad GitHub page](https://github.com/cmu-phil/tetrad#documentation). if you are familiar with Tetrad, these are the same algorithms, tests, and scores that are available in the Search box in the current Tetrad interface, and in the current py-tetrad, and will work exactly the same way.
 
-These algorithms currently output graphs in the PCALG general graph format. For the PCALG general graph format, see the docs for FCI in the PCALG package:
+These algorithms currently output graphs in the PCALG general graph format, as R data frames. For the PCALG general graph format, see the docs for FCI in the PCALG package:
 
 * 0 means NO endpoint
 * 1 means CIRCLE endpoint (-o)
