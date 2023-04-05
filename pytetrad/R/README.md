@@ -18,19 +18,22 @@ We are unsure what kind of graph to output to be useful to R users; currently we
 
 We give these instructions below.
 
-1. It is necessary to install a JDK. For this, see our Wiki article, [Setting up Java for Tetrad](https://github.com/cmu-phil/tetrad/wiki/Setting-up-Java-for-Tetrad).
+1.If you don't have one, install a Java JDK. Any version 1.8+ (i.e., 8+) will do for this. For very verbose isntrucitons, see [here](https://github.com/cmu-phil/tetrad/wiki/Setting-up-Java-for-Tetrad).
 
-1. If JAVA_HOME is not already set to the correct location of your Java installation above, you'll need to [set JAVA_HOME](https://www.baeldung.com/java-home-on-windows-7-8-10-mac-os-x-linux#:~:text=On%20the%20Desktop%2C%20right%2Dclick,Variable%20value%20and%20click%20OK.) to the path of the Java installation you want to use for py-tetrad.
+1. In the file ~/.bash_profile, add this line:
 
-1. Make sure you are using the latest Python--at least 3.7--as required by JPype; if not, [update it](https://www.pythoncentral.io/how-to-update-python/). 
+export JAVA_HOME=[..path..to...your...java...jdk...]
 
-1. We use causal-learn. For installation instructions, see the [Docs for the causal-learn package](https://causal-learn.readthedocs.io/en/latest/).
+and save. If you don't know where you JDK is, in a Terminal window type `which java`.
 
-1. We use the JPype package to interface Python with Java. For installation instructions, see the [Docs for the JPype box](https://jpype.readthedocs.io/en/latest/).
+1. Make sure you are using the latest Python--at least 3.7--if not, [update it](https://www.pythoncentral.io/how-to-update-python/). 
 
-1. Finally, you will need to clone this GitHub repository, so if you don't have Git installed, google and install that for your machine type.
+1. In a new Terminal window (to grab the JAVA_HOME you just set), do some pip installs:
 
-Then (for instance, on a Mac) in a terminal window, cd to a directory where you want the cloned project to appear and type the following--again, as above, make sure JAVA_HOME is set correctly to your java path:
+pip install causal-learn
+pip install JPype1
+
+1. Finally, (for instance, on a Mac), in your User direction (~), type the following to clone this repository:
     
 ```   
 git clone https://github.com/cmu-phil/py-tetrad/
@@ -38,30 +41,30 @@ cd py-tetrad/pytetrad
 python run_continuous.py
 ```
 
-If everything is set up right, the last command should cause this example module to run various algorithms in Tetrad and print out result graphs. Feel free to explore other example modules in that directory.
+This last command should cause various algorithms to run in Tetrad and print out result graphs.
 
-#### (2) Launching RStudio from a Mac's Terminal window would be best. Otherwise, the JAVA_HOME variable doesn't take. ( I haven't tested Windows yet.)
+#### (2) On a Mac, launch RStudio from your Terminal window.
 
-In a Terminal window:
+In your Terminal window:
 
 `
 open -na RStudio
 `
 
-#### (3) You must install the 'reticulate' package in RStudio. (This only needs to be done once.)
+#### (3) In RStudio, install the 'reticulate' package. (This only needs to be done once.)
 
 `
 install.packages("reticulate")
 `
 Here are the [Docs for the Reticulate package](https://rstudio.github.io/reticulate/).
 
-#### (4) You need to tell Reticulate/R where your Python is in RStudio. (Again, this only needs to be done once).
+#### (4) In RStudio, tell Reticulate/R where your Python installation is located. (This also only needs to be done once).
 
 `
-use_python("/usr/local/bin/python")
+use_python("[...path...to...your...Python...installation...]")
 `
 
-Here, the Python path should be the path to your Python; you can type 'which Python' in a Terminal window to get this.
+Here, the Python path should be the path to your Python; you can type `which Python` in a Terminal window to get this.
 
 #### (5) Then if you've done all that, you can open one of the example R scripts in the py-tetrad repository you cloned above. In the online GitHub, they're here:
 
