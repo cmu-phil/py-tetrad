@@ -4,6 +4,15 @@ This is a possible way of connecting Tetrad to R which we are trying out. If you
 
 We have worked out these instructions using RStudio on a Mac; we will test on other platforms soon.
 
+These algorithms output graphs in the PCALG general graph format. For the PCALG general graph format, see the docs for FCI in the PCALG package:
+
+* 0 means NO endpoint
+* 1 means CIRCLE endpoint (-o)
+* 2 means ARROW endpoint (->)
+* 3 means TAIL endpoint (--)
+
+So for X-->Y, the output matrix G, where the index of X is i and the index of Y is j, would have G[j][i] = 3 and G[i][j] = 2.
+
 There are currently several steps need to do the installation. (The instructions will hopefully simplify in the future.)
 
 #### (1) Install a Java JDK. the minimal version for this install is 1.8 (version 8).
@@ -65,16 +74,26 @@ This only needs to be done once.
 
 (Here are the docs for the [Reticulate package in R](https://rstudio.github.io/reticulate/).
  
-#### (7) Finally, in RStudio, open one of the example R scripts in the py-tetrad repository you cloned above. In the online GitHub, they're here:
+#### (7) Finally, in RStudio, open one of the example R scripts in the py-tetrad repository and run it.
 
-https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/R
+In RStudio,, open the file 'py-tetrad/pytetrad/R/sample_r_code2.R', for example.
 
-Adjust the path in it to your working directory in the script (if it isn't right already), select all, and run. That should run FGES on the example file and print the graph in PCALG general graph format. 
+Once you've loaded one of the files, adjust the path in it to your working directory if it isn't right already.
 
-For the PCALG general graph format, see the docs for FCI in the PCALG package:
-* 0 means NO endpoint
-* 1 means CIRCLE endpoint (-o)
-* 2 means ARROW endpoint (->)
-* 3 means TAIL endpoint (--)
+Select all lines in the file by typeing control-A.
 
-So for X-->Y, the output matrix G, where the index of X is i and the index of Y is j, would have G[j][i] = 3 and G[i][j] = 2.
+Then click the Run button. That should run FGES on the example file and print the graph in PCALG general graph format. 
+
+Feel free to select a different algorithm or a different test or score in the script. On a Mac, for instance, in the script, it says:
+
+g = ts$run_fges()
+
+Position your mouse to right right of the '$' sign and on the keyboard type control-Space. This will bring up a list of algorithms you can run, and you can select one. S
+
+imilarly for tests or scores. Some algorithms use just a score, like FGES; others use just a test, like PC; others still use both a test and a score, like GFCI. Which test or score you choose will depend on the type of data you have. We give examples files 'sample_r_code2.R', 'sample_r_code3.R', and 'sample_r_code4.R', which show how to run a search on continuous, discrete, and mixed continuous/discrete data, respectively.
+
+As shown in the script, you can set background knowledge as indicated. Knowledge is organized into temporal tiers, where variables in later tiers cannot cause variables in earlier tiers, though explicit forbidden or required edges can also be set.
+
+Enjoy.
+
+
