@@ -54,17 +54,16 @@ open -na RStudio
 ```
 #### (6) Now, in RStudio:
 
-Install the 'reticulate' package. (This only needs to be done once.)
+Inside RStudio, type the following:
 ```
 install.packages("reticulate")
-```
-(Here are the docs for the [Reticulate package in R](https://rstudio.github.io/reticulate/).
-
-Also, tell Reticulate/R where your Python installation is located. (This also only needs to be done once).
-```
 use_python("[...path...to...your...Python...installation...]")
 ```
 This python path was found in step (3).
+
+This only needs to be done once. 
+
+(Here are the docs for the [Reticulate package in R](https://rstudio.github.io/reticulate/).
  
 #### (7) Finally, in RStudio, open one of the example R scripts in the py-tetrad repository you cloned above. In the online GitHub, they're here:
 
