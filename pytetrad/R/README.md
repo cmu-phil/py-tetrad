@@ -4,7 +4,7 @@ This is a possible way of connecting Tetrad to R which we are trying out. If you
 
 The minimal requirements for Java and Python for this particular setup are Java 1.8+ (8+), Python 3.7+. Not sure the minimal requirements for RStudio and R. In any case, using the latest stable versions of all of these will work.
 
-We will assume for purposes of these instructions you're using RStudio on a Mac; we will test on other platforms soon.
+We have worked out these instructions using RStudio on a Mac; we will test on other platforms soon.
 
 There are currently several steps need to do the installation.
 
