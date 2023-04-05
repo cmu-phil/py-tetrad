@@ -36,7 +36,7 @@ Remember these paths for steps below.
 
 #### (4) If you're on a Mac, in a text editor, set JAVA_HOME to your Java installation path in ~/.bash_profile.
 
-On Windows, This step should be unnecessary; check your registry to make sure JAVA_HOME is set. The Java installation should have taken care of this.
+On Windows, This step should be unnecessary; check your registry to make sure JAVA_HOME is set. The Java installation step should have taken care of this.
 
 On a Mac, in a text editor, add this line to the file ~/.bash_profile:
 ```
