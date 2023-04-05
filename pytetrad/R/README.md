@@ -8,7 +8,9 @@ There are currently several steps need to do the installation.
 
 #### (1) If you don't have one, install a Java JDK. Any version 1.8+ (i.e., 8+) will do for this. For very verbose isntrucitons, see [here](https://github.com/cmu-phil/tetrad/wiki/Setting-up-Java-for-Tetrad).
 
-#### (2) In the file ~/.bash_profile, add this line:
+#### (2) Make sure you are using the latest Python--at least 3.7--if not, [update it](https://www.pythoncentral.io/how-to-update-python/). 
+
+#### (3) In a text editor, add this line to the file ~/.bash_profile:
 ```
 export JAVA_HOME=[..path..to...your...java...jdk...]
 ```
@@ -16,17 +18,14 @@ and save. If you don't know where you JDK is, in a Terminal window type
 ```
 which java
 ```
-#### (3) Make sure you are using the latest Python--at least 3.7--if not, [update it](https://www.pythoncentral.io/how-to-update-python/). 
 
-#### (4) In a new Terminal window (to grab the JAVA_HOME you just set), do some pip installs:
-
+#### (4) In a new Terminal window, do some pip installs:
 ```
 pip install causal-learn
 pip install JPype1
 ```
 
-#### (5) Clone this very py-tetrad repository
-    
+#### (5) In the terminal, clone this very py-tetrad repository
 ```   
 git clone https://github.com/cmu-phil/py-tetrad/
 ```
@@ -37,21 +36,19 @@ python run_continuous.py
 ```
 This last command should cause various algorithms to run in Tetrad and print out result graphs.
 
-#### (6) On a Mac, launch RStudio from your Terminal window.
+#### (6) In the terminal window, launch RStudio from the command line.
 
 In your Terminal window:
 ```
 open -na RStudio
 ```
 #### (7) In RStudio, install the 'reticulate' package. (This only needs to be done once.)
-
 ```
 install.packages("reticulate")
 ```
 Here are the [Docs for the Reticulate package](https://rstudio.github.io/reticulate/).
 
 #### (8) In RStudio, tell Reticulate/R where your Python installation is located. (This also only needs to be done once).
-
 ```
 use_python("[...path...to...your...Python...installation...]")
 ```
