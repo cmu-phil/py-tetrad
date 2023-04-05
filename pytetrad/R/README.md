@@ -68,7 +68,11 @@ Here are the [Docs for the Reticulate package](https://rstudio.github.io/reticul
 use_python("[...path...to...your...Python...installation...]")
 `
 
-Here, the Python path should be the path to your Python; you can type `which Python` in a Terminal window to get this.
+Here, the Python path should be the path to your Python; you can type 
+
+```which python```
+
+in a Terminal window to get this.
 
 #### (5) Then if you've done all that, you can open one of the example R scripts in the py-tetrad repository you cloned above. In the online GitHub, they're here:
 
