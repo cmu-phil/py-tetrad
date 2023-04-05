@@ -41,11 +41,12 @@ python run_continuous.py
 ```
 This last command should cause various algorithms to run in Tetrad and print out result graphs.
 
-Finally, launch RStudio from the command line.
+Here are [docs for causal learn](https://causal-learn.readthedocs.io/en/latest/) and [docs for JPype](https://jpype.readthedocs.io/en/latest/index.html).
+
+Finally, launch RStudio _from the command line in this or a new Terminal window_.
 ```
 open -na RStudio
 ```
-Here are [docs for causal learn](https://causal-learn.readthedocs.io/en/latest/) and [docs for JPype](https://jpype.readthedocs.io/en/latest/index.html).
 #### (5) Now, in RStudio:
 
 Install the 'reticulate' package. (This only needs to be done once.)
