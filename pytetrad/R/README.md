@@ -1,6 +1,6 @@
 # Installation Instructions
 
-This is for using py-tetrad in RStudio to run algorithms in R. If you've already done the installation and want to start exploring, see our [Pointers](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/README.md#some-pointers) below. These pointers will eventualy turn into some bonafide documentation; please be patient. (New project.)
+This is for using py-tetrad in RStudio to run algorithms in R. If you've already done the installation and want to start exploring, see our [Pointers](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/README.md#some-pointers) below. 
 
 We have worked out and tested these instructions using RStudio on a Mac; we will test on other platforms soon.
 
@@ -89,6 +89,8 @@ Select all lines in the file by typeing control-A.
 Then click the Run button. That should run FGES on the example file and print the graph in PCALG general graph format. 
 
 # Some Pointers
+
+These pointers will eventualy turn into some bonafide documentation; please be patient.
 
 This project is being offered is a possible way of connecting Tetrad to R which we are trying out; if it turns out not to be useful, we will try a different route. It is intended to replace the older [r-causal](https://github.com/bd2kccd/r-causal) Python project, which uses an outdated version of Tetrad from many years ago.
 
