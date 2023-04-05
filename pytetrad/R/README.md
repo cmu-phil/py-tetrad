@@ -100,7 +100,7 @@ Similarly for tests or scores; you can select different tests or scores. There a
 
 As shown in the script, you can set background knowledge as indicated. Knowledge is organized into temporal tiers, where variables in later tiers cannot cause variables in earlier tiers, though explicit forbidden or required edges can also be set. Some algorithms do not us knowledge, but no worries, if you provide knowledge and the algorithm can't use it, it will tell you.
 
-If you have questions or need more (or different) functionality, [let us know](https://github.com/cmu-phil/py-tetrad/issues). This is a brand-new project as of 2023-04-04, so feedback is very welcome. We will add some links to documentation for the various algorithms, tests, and scores soon; if you are familiar with Tetrad, these are the same algorithms, tests, and scores that are available in the Search box in the Tetrad interface and will work exactly the same way.
+If you have questions or need more (or different) functionality, [let us know](https://github.com/cmu-phil/py-tetrad/issues). This R functionality new as of 2023-04-04, so feedback is very welcome. We will add some links to documentation for the various algorithms, tests, and scores soon; if you are familiar with Tetrad, these are the same algorithms, tests, and scores that are available in the Search box in the Tetrad interface and will work exactly the same way.
 
 Enjoy. 
 
