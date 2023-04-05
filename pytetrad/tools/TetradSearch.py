@@ -216,10 +216,10 @@ class TetradSearch:
          return self.knowledge
 
     def get_java(self): 
-        return self.output
+        return self.java
 
     def get_string(self): 
-        return str(self.output)
+        return str(self.java)
 
     def get_causal_learn(self): 
         return tr.tetrad_graph_to_causal_learn(self.java)

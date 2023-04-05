@@ -25,7 +25,7 @@ search.use_fisher_z(alpha=0.05)
 ## Run various algorithms and print their results. For now (for compability with R)
 print('FGES')
 search.run_fges()
-print(search.get_string())
+print(search.get_pcalg())
 
 print('BOSS')
 search.run_boss()
@@ -39,7 +39,7 @@ print('GRaSP')
 search.run_grasp()
 print(search.get_string())
 
-print('GANGO', gango_graph)
+print('GANGO')
 search.run_gango()
 print(search.get_string())
 

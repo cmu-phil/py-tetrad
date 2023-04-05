@@ -6,7 +6,7 @@ except OSError:
     pass
 
 import pandas as pd
-import tools.TetradSearch as search
+import tools as search
 search = search.TetradSearch()
 
 df = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
