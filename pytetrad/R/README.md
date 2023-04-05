@@ -1,6 +1,6 @@
 ## Instructions for setting up Tetrad searches to run in R (RStudio) via Py-Tetrad
 
-This is a possible way of connecting Tetrad to R which we are trying out. If you try the instructions and have trouble, please let us know.
+This is a possible way of connecting Tetrad to R which we are trying out. If you try the instructions and have trouble, please let us know. The instructions will hopefully simplify in the future.
 
 The minimal requirements for Java and Python for this particular setup are Java 1.8+ (8+), Python 3.7+. Not sure the minimal requirements for RStudio and R. In any case, using the latest stable versions of all of these will work.
 
@@ -39,6 +39,7 @@ Finally, launch RStudio from the command line.
 ```
 open -na RStudio
 ```
+Here are [docs for causal learn](https://causal-learn.readthedocs.io/en/latest/) and [docs for JPype](https://jpype.readthedocs.io/en/latest/index.html).
 #### (5) Now, in RStudio:
 
 Install the 'reticulate' package. (This only needs to be done once.)
