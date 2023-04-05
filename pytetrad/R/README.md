@@ -21,8 +21,9 @@ On Windows, This step should be unnecessary; check your registry to make sure JA
 On a Mac, to find your Java installation path, in a Terminal window, type:
 ```
 which java
+which python
 ```
-Then, in a text editor, add this line to the file ~/.bash_profile:
+Remember these paths; these will the paths to your Java JDK and your Python installation, respectively. Then, in a text editor, add this line to the file ~/.bash_profile:
 ```
 export JAVA_HOME=[..path..to...your...java...jdk...]
 ```
@@ -59,11 +60,7 @@ Also, tell Reticulate/R where your Python installation is located. (This also on
 ```
 use_python("[...path...to...your...Python...installation...]")
 ```
-Here, the Python path should be the path to your Python; you can type :
-```
-which python
-```
-in a Terminal window to get this.
+The path to your Python installation was found in step (3) by typing `which python` in a Terminal window.
  
 #### (6) Finally, in RStudio, open one of the example R scripts in the py-tetrad repository you cloned above. In the online GitHub, they're here:
 
