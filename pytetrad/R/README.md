@@ -10,7 +10,7 @@ There are currently several steps need to do the installation.
 
 #### (2) Install Python. Make sure you are using the latest Python--at least 3.7--if not, [update it](https://www.pythoncentral.io/how-to-update-python/). 
 
-#### (3) In a text editor, add this line to the file ~/.bash_profile:
+#### (3) For Mac, in a text editor, add this line to the file ~/.bash_profile:
 ```
 export JAVA_HOME=[..path..to...your...java...jdk...]
 ```
@@ -18,6 +18,8 @@ and save. If you don't know where your Java JDK is, in a Terminal window type
 ```
 which java
 ```
+For Windows you probaby don[t need to do this; check the registry to see if JAVA_HOME points to your Java instllation.
+
 #### (4) In a new Terminal window, do the following:
 ```
 pip install causal-learn
