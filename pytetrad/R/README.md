@@ -76,7 +76,7 @@ This python path was found in step (3).
 
 This only needs to be done once. 
 
-(Here are the docs for the [Reticulate package in R](https://rstudio.github.io/reticulate/).
+(Here are the docs for the [Reticulate package in R](https://rstudio.github.io/reticulate/).)
  
 #### (7) Finally, in RStudio, open one of the example R scripts in the py-tetrad repository and run it.
 
