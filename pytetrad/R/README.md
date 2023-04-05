@@ -104,6 +104,4 @@ As shown in the script, you can set background knowledge as indicated. Knowledge
 
 If you have questions or need more (or different) functionality, or are just flummoxed by the installation procedure, [let us know](https://github.com/cmu-phil/py-tetrad/issues). This R functionality is new as of 2023-04-04, so feedback is very welcome. We'd like to make this useful for the R community. We will add some links to documentation for the various algorithms, tests, and scores soon; if you are familiar with Tetrad, these are the same algorithms, tests, and scores that are available in the Search box in the Tetrad interface and will work exactly the same way.
 
-Enjoy. 
-
 
