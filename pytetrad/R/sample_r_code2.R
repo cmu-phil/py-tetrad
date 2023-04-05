@@ -25,7 +25,7 @@ ts <- TetradSearch(data)
 ts$use_sem_bic(penalty_discount=2)
 ts$use_fisher_z()
 
-## Set some knowledge--we know pressure should be the endogenoud varialbes
+## Set some knowledge--we know pressure should be the endogenous variable
 ## here, so why not help the search out? (It's interesting of course to
 ## see what searches can get this right wihtout the help.)
 ts$add_to_tier(1, "Frequency")
