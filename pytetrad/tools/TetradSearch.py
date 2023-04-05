@@ -16,6 +16,7 @@ import tools.translate as tr
 import tools.search as search
 import edu.cmu.tetrad.search as ts
 import edu.cmu.tetrad.data as td
+import edu.cmu.tetrad.graph as tg
 import java.lang as lang
 
 
@@ -25,6 +26,7 @@ class TetradSearch:
         self.data = tr.pandas_data_to_tetrad(data)
         self.score = None
         self.test = None
+        self.java = None
         self.verbose = False
         self.knowledge = td.Knowledge()
 
@@ -132,64 +134,50 @@ class TetradSearch:
         self.verbose = verbose
 
     def run_fges(self):
-        graph = search.fges(self.score, self.knowledge, verbose=self.verbose)
-        return tr.tetrad_graph_to_pcalg(graph)
+        self.java = search.fges(self.score, self.knowledge, verbose=self.verbose)
 
     def run_boss(self, depth=-1):
-        graph = search.boss(self.score, depth=depth, knowledge=self.knowledge, verbose=self.verbose)
-        return tr.tetrad_graph_to_pcalg(graph)
+        self.java = search.boss(self.score, depth=depth, knowledge=self.knowledge, verbose=self.verbose)
 
     def run_sp(self):
-        graph = search.sp(self.score, self.knowledge, verbose=self.verbose)
-        return tr.tetrad_graph_to_pcalg(graph)
+        self.java = search.sp(self.score, self.knowledge, verbose=self.verbose)
 
     def run_grasp(self):
-        graph = search.grasp(self.score, self.knowledge, verbose=self.verbose)
-        return tr.tetrad_graph_to_pcalg(graph)
+        self.java = search.grasp(self.score, self.knowledge, verbose=self.verbose)
 
     def run_gango(self):
-        graph = search.gango(self.score, self.data, self.knowledge, verbose=self.verbose)
-        return tr.tetrad_graph_to_pcalg(graph)
+        self.java = search.gango(self.score, self.data, self.knowledge, verbose=self.verbose)
 
     def run_pc(self):
-        graph = search.pc(self.test, knowledge=self.knowledge, verbose=self.verbose)
-        return tr.tetrad_graph_to_pcalg(graph)
+        self.java = search.pc(self.test, knowledge=self.knowledge, verbose=self.verbose)
 
     def run_cpc(self):
-        graph = search.cpc(self.score, knowledge=self.knowledge, verbose=self.verbose)
-        return tr.tetrad_graph_to_pcalg(graph)
+        self.java = search.cpc(self.score, knowledge=self.knowledge, verbose=self.verbose)
 
     def run_pcmax(self):
-        graph = search.pcmax(self.score, knowledge=self.knowledge, verbose=self.verbose)
-        return tr.tetrad_graph_to_pcalg(graph)
+        self.java = search.pcmax(self.score, knowledge=self.knowledge, verbose=self.verbose)
 
     def run_fci(self):
-        graph = search.fci(self.test, knowledge=self.knowledge, verbose=self.verbose)
-        return tr.tetrad_graph_to_pcalg(graph)
+        self.java = search.fci(self.test, knowledge=self.knowledge, verbose=self.verbose)
 
     def run_gfci(self):
-        graph = search.gfci(self.test, self.score)  # //, knowledge=self.knowledge, verbose=self.verbose)
-        return tr.tetrad_graph_to_pcalg(graph)
+        self.java = search.gfci(self.test, self.score)  # //, knowledge=self.knowledge, verbose=self.verbose)
 
     def run_bfci(self):
-        graph = search.bfci(self.test, self.score, knowledge=self.knowledge, verbose=self.verbose)
-        return tr.tetrad_graph_to_pcalg(graph)
+        self.java = search.bfci(self.test, self.score, knowledge=self.knowledge, verbose=self.verbose)
 
     def run_grasp_fci(self):
-        graph = search.grasp_fci(self.test, self.score, knowledge=self.knowledge, verbose=self.verbose)
-        return tr.tetrad_graph_to_pcalg(graph)
+        self.java = search.grasp_fci(self.test, self.score, knowledge=self.knowledge, verbose=self.verbose)
 
     def run_sp_fci(self):
-        graph = search.sp_fci(self.test, self.score, knowledge=self.knowledge, verbose=self.verbose)
-        return tr.tetrad_graph_to_pcalg(graph)
+        self.java = search.sp_fci(self.test, self.score, knowledge=self.knowledge, verbose=self.verbose)
 
     def run_ccd(self):
         if not self.knowledge.isEmpty():
             print("CCD does not use knowledge.")
             return
 
-        graph = search.ccd(self.test)
-        return tr.tetrad_graph_to_pcalg(graph)
+        self.java = search.ccd(self.test)
 
     def run_svar_fci(self):
         num_lags = 2
@@ -200,5 +188,18 @@ class TetradSearch:
         svar_fci = ts.SvarGFci(ts_test, ts_score)
         svar_fci.setKnowledge(lagged_data.getKnowledge())
         svar_fci.setVerbose(True)
-        svar_fci_graph = svar_fci.search()
-        return tr.tetrad_graph_to_pcalg(svar_fci_graph)
+        self.java = svar_fci.search()
+
+    def get_java(self): return self.output
+
+    def get_string(self): return str(self.output)
+
+    def get_causal_learn(self): return tr.tetrad_graph_to_causal_learn(self.java)
+
+    def get_pcalg(self): return tr.tetrad_graph_to_pcalg(self.java)
+
+    def get_get_dot(self): return str(tg.graphToDot(self.java))
+
+    def get_get_xml(self): return str(tg.graphToXml(self.java))
+    
+    def get_get_lavaan(self): return str(tg.graphToXml(self.java))
