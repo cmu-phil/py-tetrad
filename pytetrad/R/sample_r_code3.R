@@ -45,4 +45,4 @@ ts$run_fges()
 
 ## Print the graph in PCALG general graph format (see PCALG's FCI docs)
 print('FGES')
-print(ts$get_lavaan())
+print(ts$get_string())
