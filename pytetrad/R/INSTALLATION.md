@@ -2,7 +2,7 @@
 
 Click here for [Documentation](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/DOCUMENTATION.md).
 
-These are installation instrucitons for using py-tetrad in RStudio to run algorithms in Tetrad from R.
+These are installation instructions for using py-tetrad in RStudio to run algorithms in Tetrad from R.
 
 We have worked out and tested these instructions using RStudio on a Mac; we will test on other platforms soon.
 
