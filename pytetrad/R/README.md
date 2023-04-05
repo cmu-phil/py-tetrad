@@ -1,54 +1,30 @@
-## Instructions for setting up Tetrad searches to run in R (RStudio) via Py-Tetrad
+# Some Initial Documentation
 
-This is a _tentative project_; if it's not doing the job in a helpful way, we will pursue other options! So, please [let us know](https://github.com/cmu-phil/py-tetrad/issues).
- 
-The setup requires several steps, and you have to get several paths set right, but the payoff of going through all the setup will be very nice; it will be easy and reliable to run Tetrad algorithms in R. We are not sure yet whether these instuctions can be followed easily; please [give feedback](https://github.com/cmu-phil/py-tetrad/issues) if not.
+This project is being offered is a possible way of connecting Tetrad to R which we are trying out. If it turns out not to be useful, we will pursue a different route. It is intended to replace the older [r-causal](https://github.com/bd2kccd/r-causal) Python project, which uses an outdated version of Tetrad from many years ago.
 
-We will assume for purposes of this tutorial you're using a Mac. If you're using Windows, you might want to wait until we've figured out how to do this on a Windows machine. (Or, figure it out and [tell us how](https://github.com/cmu-phil/py-tetrad/issues)!)
+This section will eventualy turn into some bonafide documentation; please be patient. For information on specific algorithms, tests, or scores, or if you'd like to watch some videos on causal search, please see the [Documentation Section on the Tetrad GitHub page](https://github.com/cmu-phil/tetrad#documentation). if you are familiar with Tetrad, these are the same algorithms, tests, and scores that are available in the Search box in the current Tetrad interface, and in the current py-tetrad, and will work exactly the same way.
 
-We will also assume that you are using RStudio.
+These algorithms currently output graphs in the PCALG general graph format. For the PCALG general graph format, see the docs for FCI in the PCALG package:
 
-The _minimal_ requirements for Java and Python for this particular setup are Java 1.8+ (8+), Python 3.7+. Not sure the minimal requirements for RStudio and R. (If you know, please [tell us](https://github.com/cmu-phil/py-tetrad/issues)!) In any case, using the latest stable versions of all of these will work.
-
-We are thinking about some kind of packaging for this to make the install process easier, maybe an R package or a Docker perhaps.
-
-We are unsure what kind of graph to output to be useful to R users; currently we are outputting a general graph format used by PCALG. If you have thoughts for this, please [let us know](https://github.com/cmu-phil/py-tetrad/issues).
-
-#### (1) You must follow the instructions in the [py-tetrad README](https://github.com/cmu-phil/py-tetrad) to clone the py-tetrad GitHub repository and set it up (Installing JPype, etc.). It's best to set the JAVA_HOME variable in the .bash_profile file.
-
-#### (2) Launching RStudio from a Mac's Terminal window would be best. Otherwise, the JAVA_HOME variable doesn't take. ( I haven't tested Windows yet.)
-
-In a Terminal window:
-
-`
-open -na RStudio
-`
-
-#### (3) You must install the 'reticulate' package in RStudio. (This only needs to be done once.)
-
-`
-install.packages("reticulate")
-`
-Here are the [Docs for the Reticulate package](https://rstudio.github.io/reticulate/).
-
-#### (4) You need to tell Reticulate/R where your Python is in RStudio. (Again, this only needs to be done once).
-
-`
-use_python("/usr/local/bin/python")
-`
-
-Here, the Python path should be the path to your Python; you can type 'which Python' in a Terminal window to get this.
-
-#### (5) Then if you've done all that, you can open one of the example R scripts in the py-tetrad repository you cloned above. In the online GitHub, they're here:
-
-https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/R
-
-#### (6) Then adjust the path in it to your working directory in the script (if it isn't right already), select all, and run. That should run FGES on the example file and print the graph in PCALG general graph format. 
-
-For the PCALG general graph format, see the docs for FCI in the PCALG package:
 * 0 means NO endpoint
 * 1 means CIRCLE endpoint (-o)
 * 2 means ARROW endpoint (->)
 * 3 means TAIL endpoint (--)
 
 So for X-->Y, the output matrix G, where the index of X is i and the index of Y is j, would have G[j][i] = 3 and G[i][j] = 2.
+
+Feel free to select a different algorithm or a different test or score in the script or choose a different, or write your own. We will assume for now that you're just run this script from the installation instructions: 'py-tetrad/pytetrad/R/sample_r_code2.R'. On a Mac, after you've run the script once, look at the line in the script where it says:
+
+g = ts$run_fges()
+
+Here, position your mouse to right right of the '$' sign and on the keyboard type control-Space. This will bring up a list of algorithms you can run, and you can select a different algorithm if you like. 
+
+Similarly for tests or scores; you can select different tests or scores using the same method. There are some considerations. Some algorithms use just a score, like FGES; others use just a test, like PC; others still use both a test and a score, like GFCI. If you provide the wrong options, it will tell you.
+
+Also, which test or score you choose will depend on the type of data you have. We give examples files 'sample_r_code2.R', 'sample_r_code3.R', and 'sample_r_code4.R', which show how to run a search on continuous, discrete, and mixed continuous/discrete data, respectively. If you choose badly, it will tell you.
+
+As shown in the script, you can set background knowledge as indicated. Knowledge is organized into temporal tiers, where variables in later tiers cannot cause variables in earlier tiers, though explicit forbidden or required edges can also be set. Some algorithms do not use knowledge, but no worries, if you provide knowledge and the algorithm can't use it, it will tell you.
+
+If you have questions or need more (or different) functionality, or are just flummoxed by the installation procedure or output graph format, [let us know](https://github.com/cmu-phil/py-tetrad/issues). This R functionality is new as of 2023-04-04, so feedback is very welcome. We'd like to make this useful for the R community and will put some effort into making that happen.
+
+

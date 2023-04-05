@@ -1,5 +1,5 @@
-## This file shows how to Tetrad searches interactively in R using the
-## TetradSearch class.
+## This file shows how to Tetrad searches for continuous data interactively 
+## in R using the TetradSearch class.
 ##
 ## You will need to adjust this path to your path for py-tetrad.
 setwd("~/py-tetrad/pytetrad")
@@ -25,9 +25,9 @@ ts <- TetradSearch(data)
 ts$use_sem_bic(penalty_discount=2)
 ts$use_fisher_z()
 
-## Set some knowledge--we know pressure should be the endogenoud varialbes
+## Set some knowledge--we know pressure should be the endogenous variable
 ## here, so why not help the search out? (It's interesting of course to
-## see what searches can get this right wihtout the help.)
+## see what searches can get this right without the help.)
 ts$add_to_tier(1, "Frequency")
 ts$add_to_tier(1, "Attack")
 ts$add_to_tier(1, "Chord")
