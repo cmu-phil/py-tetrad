@@ -6,7 +6,7 @@ We have worked out these instructions using RStudio on a Mac; we will test on ot
 
 There are currently several steps need to do the installation. (The instructions will hopefully simplify in the future.)
 
-#### (1) Install a Java JDK. the minimal version for this install is 1.8 (version 8).Any version 1.8+ (i.e., 8+).
+#### (1) Install a Java JDK. the minimal version for this install is 1.8 (version 8).
 
 For very verbose instructions, see [here](https://github.com/cmu-phil/tetrad/wiki/Setting-up-Java-for-Tetrad).
 
