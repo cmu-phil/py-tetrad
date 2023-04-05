@@ -14,7 +14,7 @@ There are currently several steps need to do the installation.
 ```
 export JAVA_HOME=[..path..to...your...java...jdk...]
 ```
-and save. If you don't know where you JDK is, in a Terminal window type 
+and save. If you don't know where your Java JDK is, in a Terminal window type 
 ```
 which java
 ```
