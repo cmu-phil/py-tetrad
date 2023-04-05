@@ -14,22 +14,26 @@ For very verbose instructions, see [here](https://github.com/cmu-phil/tetrad/wik
 
 If you're using a version lower than 3.7, [update it](https://www.pythoncentral.io/how-to-update-python/). 
 
-#### (3) If you're on a Mac, in a text editor, set JAVA_HOME to your Java installation path in ~/.bash_profile.
+#### (3) Find your Java and Python installation paths.
 
-On Windows, This step should be unnecessary; check your registry to make sure JAVA_HOME is set. The Java installation should have taken care of this.
-
-On a Mac, to find your Java installation path, in a Terminal window, type:
+Open a Terminal window and type:
 ```
 which java
 which python
 ```
-Remember these paths; these will the paths to your Java JDK and your Python installation, respectively. Then, in a text editor, add this line to the file ~/.bash_profile:
+Remember these paths for steps below.
+
+#### (4) If you're on a Mac, in a text editor, set JAVA_HOME to your Java installation path in ~/.bash_profile.
+
+On Windows, This step should be unnecessary; check your registry to make sure JAVA_HOME is set. The Java installation should have taken care of this.
+
+On a Mac, in a text editor, add this line to the file ~/.bash_profile:
 ```
 export JAVA_HOME=[..path..to...your...java...jdk...]
 ```
-and save the file.
+and save the file. This Java path was found in step (3).
 
-#### (4) Open a new Terminal window, and do the following:
+#### (5) Open a new Terminal window, and do the following:
 ```
 pip install causal-learn
 pip install JPype1  
@@ -48,7 +52,7 @@ Finally, launch RStudio _from the command line in this or a new Terminal window_
 ```
 open -na RStudio
 ```
-#### (5) Now, in RStudio:
+#### (6) Now, in RStudio:
 
 Install the 'reticulate' package. (This only needs to be done once.)
 ```
@@ -60,9 +64,9 @@ Also, tell Reticulate/R where your Python installation is located. (This also on
 ```
 use_python("[...path...to...your...Python...installation...]")
 ```
-The path to your Python installation was found in step (3) by typing `which python` in a Terminal window.
+This python path was found in step (3).
  
-#### (6) Finally, in RStudio, open one of the example R scripts in the py-tetrad repository you cloned above. In the online GitHub, they're here:
+#### (7) Finally, in RStudio, open one of the example R scripts in the py-tetrad repository you cloned above. In the online GitHub, they're here:
 
 https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/R
 
