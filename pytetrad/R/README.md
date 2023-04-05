@@ -86,11 +86,11 @@ Then click the Run button. That should run FGES on the example file and print th
 
 ## Some Pointers
 
-Feel free to select a different algorithm or a different test or score in the script. On a Mac, for instance, in the script, it says:
+Feel free to select a different algorithm or a different test or score in the script. On a Mac, once you've run the script once, look at the line in the script where it says:
 
 g = ts$run_fges()
 
-Position your mouse to right right of the '$' sign and on the keyboard type control-Space. This will bring up a list of algorithms you can run, and you can select one. 
+Here, position your mouse to right right of the '$' sign and on the keyboard type control-Space. This will bring up a list of algorithms you can run, and you can select one. 
 
 Similarly for tests or scores. Some algorithms use just a score, like FGES; others use just a test, like PC; others still use both a test and a score, like GFCI. Which test or score you choose will depend on the type of data you have. We give examples files 'sample_r_code2.R', 'sample_r_code3.R', and 'sample_r_code4.R', which show how to run a search on continuous, discrete, and mixed continuous/discrete data, respectively. If you choose badly, it will tell you.
 
