@@ -16,7 +16,7 @@ import tools.translate as tr
 import tools.search as search
 import edu.cmu.tetrad.search as ts
 import edu.cmu.tetrad.data as td
-import edu.cmu.tetrad.graph as tg
+import edu.cmu.tetrad.graph.GraphPersistence as gp
 import java.lang as lang
 
 
@@ -32,10 +32,11 @@ class TetradSearch:
 
     def __str__(self):
         display = [self.score, self.test, self.knowledge, self.java]
-        return "\n".join([str(item) for item in display])
+        return "\n\n".join([str(item) for item in display])
         
-    def set_data(self, data):
-        self.data = tr.pandas_data_to_tetrad(data)
+    # Maybe add this functionality later
+    # def set_data(self, data):
+    #     self.data = tr.pandas_data_to_tetrad(data)
 
     def use_sem_bic(self, penalty_discount=2):
         score = ts.SemBicScore(self.data)
@@ -228,10 +229,10 @@ class TetradSearch:
         return tr.tetrad_graph_to_pcalg(self.java)
 
     def get_dot(self): 
-        return str(tg.graphToDot(self.java))
+        return str(gp.graphToDot(self.java))
 
     def get_xml(self): 
-        return str(tg.graphToXml(self.java))
+        return str(gp.graphToXml(self.java))
     
     def get_lavaan(self): 
-        return str(tg.graphToLavaan(self.java))
+        return str(gp.graphToLavaan(self.java))
