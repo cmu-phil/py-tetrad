@@ -8,7 +8,7 @@ There are currently several steps need to do the installation.
 
 #### (1) Install a Java JDK. Any version 1.8+ (i.e., 8+) will do for this. For very verbose isntrucitons, see [here](https://github.com/cmu-phil/tetrad/wiki/Setting-up-Java-for-Tetrad).
 
-#### (2) Make sure you are using the latest Python--at least 3.7--if not, [update it](https://www.pythoncentral.io/how-to-update-python/). 
+#### (2) Install Python. Make sure you are using the latest Python--at least 3.7--if not, [update it](https://www.pythoncentral.io/how-to-update-python/). 
 
 #### (3) In a text editor, add this line to the file ~/.bash_profile:
 ```
