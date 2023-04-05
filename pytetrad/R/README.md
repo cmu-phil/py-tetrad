@@ -13,7 +13,7 @@ These algorithms output graphs in the PCALG general graph format. For the PCALG 
 
 So for X-->Y, the output matrix G, where the index of X is i and the index of Y is j, would have G[j][i] = 3 and G[i][j] = 2.
 
-The installation instructions should simplify in the future, but here are the current instructions.
+The installation instructions should simplify in the future, but here are the current instructions, which we hope are not too difficult to follow.
 
 #### (1) Install a Java JDK. the minimal version for this install is 1.8 (version 8).
 
