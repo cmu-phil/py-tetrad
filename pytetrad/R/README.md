@@ -84,6 +84,8 @@ Select all lines in the file by typeing control-A.
 
 Then click the Run button. That should run FGES on the example file and print the graph in PCALG general graph format. 
 
+## Some Pointers
+
 Feel free to select a different algorithm or a different test or score in the script. On a Mac, for instance, in the script, it says:
 
 g = ts$run_fges()
@@ -94,6 +96,6 @@ imilarly for tests or scores. Some algorithms use just a score, like FGES; other
 
 As shown in the script, you can set background knowledge as indicated. Knowledge is organized into temporal tiers, where variables in later tiers cannot cause variables in earlier tiers, though explicit forbidden or required edges can also be set.
 
-Enjoy.
+Enjoy. If you have questions or need more functionality, [let us know](https://github.com/cmu-phil/py-tetrad/issues).
 
 
