@@ -31,7 +31,7 @@ python run_continuous.py
 ```
 This last command should cause various algorithms to run in Tetrad and print out result graphs.
 
-Finally, in the terminal window, launch RStudio from the command line.
+Finally, launch RStudio from the command line.
 ```
 open -na RStudio
 ```
