@@ -220,7 +220,7 @@ class TetradSearch:
         return self.java
 
     def get_string(self): 
-        return str(self.java)
+        return lang.String @ self.java.toString()
 
     def get_causal_learn(self): 
         return tr.tetrad_graph_to_causal_learn(self.java)
@@ -229,10 +229,10 @@ class TetradSearch:
         return tr.tetrad_graph_to_pcalg(self.java)
 
     def get_dot(self): 
-        return str(gp.graphToDot(self.java))
+        return gp.graphToDot(self.java)
 
     def get_xml(self): 
-        return str(gp.graphToXml(self.java))
+        return gp.graphToXml(self.java)
     
     def get_lavaan(self): 
-        return str(gp.graphToLavaan(self.java))
+        return gp.graphToLavaan(self.java)

@@ -45,7 +45,8 @@ ts$add_to_tier(1, "modelyear")
 ts$add_to_tier(2, "mpg")
 
 ## Run the search and return the graph in PCALG format
-g = ts$run_fges()
+ts$run_fges()
 
 ## Print the graph in PCALG general graph format (see PCALG's FCI docs)
-print(g)
+print('FGES')
+print(ts$get_pcalg())

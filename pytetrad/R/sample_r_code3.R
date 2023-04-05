@@ -9,7 +9,6 @@ library(reticulate)
 
 data <- read.table("./resources/bridges.data.version211_rev.txt", header=TRUE)
 
-
 # ## The read.table function will read decimal columns as real ('numeric')
 # ## and integer columns as discrete. When passing data from R into Python,
 # ## integer columns will still be interpreted as discrete, so we have to
@@ -42,7 +41,8 @@ ts$add_to_tier(1, "REL.L")
 ts$add_to_tier(2, "TYPE")
 
 ## Run the search and return the graph in PCALG format
-g = ts$run_fges()
+ts$run_fges()
 
 ## Print the graph in PCALG general graph format (see PCALG's FCI docs)
-print(g)
+print('FGES')
+print(ts$get_lavaan())
