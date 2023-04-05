@@ -2,8 +2,6 @@
 
 This is for using py-tetrad in RStudio to run algorithms in R. If you've already done the installation and want to start exploring, see our [Pointers](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/README.md#some-pointers) below. These pointers will eventualy turn into some bonafide documentation; please be patient. (New project.)
 
-This project is being offered is a possible way of connecting Tetrad to R which we are trying out; if it turns out not to be useful, we will try a different route. It is intended to replace the older [r-causal](https://github.com/bd2kccd/r-causal) Python project, which uses an outdated version of Tetrad from many years ago.
-
 We have worked out and tested these instructions using RStudio on a Mac; we will test on other platforms soon.
 
 These algorithms output graphs in the PCALG general graph format. For the PCALG general graph format, see the docs for FCI in the PCALG package:
@@ -91,6 +89,8 @@ Select all lines in the file by typeing control-A.
 Then click the Run button. That should run FGES on the example file and print the graph in PCALG general graph format. 
 
 # Some Pointers
+
+This project is being offered is a possible way of connecting Tetrad to R which we are trying out; if it turns out not to be useful, we will try a different route. It is intended to replace the older [r-causal](https://github.com/bd2kccd/r-causal) Python project, which uses an outdated version of Tetrad from many years ago.
 
 Feel free to select a different algorithm or a different test or score in the script or choose a different, or write your own. We will assume for now that you're just run this script from the installation instructions: 'py-tetrad/pytetrad/R/sample_r_code2.R'. On a Mac, once you've run the script once, look at the line in the script where it says:
 
