@@ -25,6 +25,4 @@ Also, which test or score you choose will depend on the type of data you have. W
 
 As shown in the script, you can set background knowledge as indicated. Knowledge is organized into temporal tiers, where variables in later tiers cannot cause variables in earlier tiers, though explicit forbidden or required edges can also be set. Some algorithms do not use knowledge, but no worries, if you provide knowledge and the algorithm can't use it, it will tell you.
 
-If you have questions or need more (or different) functionality, or are just flummoxed by the installation procedure or output graph format, [let us know](https://github.com/cmu-phil/py-tetrad/issues). This R functionality is new as of 2023-04-04, so feedback is very welcome. We'd like to make this useful for the R community and will put some effort into making that happen.
-
 
