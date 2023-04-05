@@ -27,7 +27,7 @@ ts$use_fisher_z()
 
 ## Set some knowledge--we know pressure should be the endogenous variable
 ## here, so why not help the search out? (It's interesting of course to
-## see what searches can get this right wihtout the help.)
+## see what searches can get this right without the help.)
 ts$add_to_tier(1, "Frequency")
 ts$add_to_tier(1, "Attack")
 ts$add_to_tier(1, "Chord")
