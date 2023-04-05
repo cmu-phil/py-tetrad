@@ -63,7 +63,7 @@ Finally, launch RStudio _from the command line in this or a new Terminal window_
 ```
 open -na RStudio
 ```
-Here are the docs for [RStudio](https://posit.co/download/rstudio-desktop/).
+(Here are the docs for [RStudio](https://posit.co/download/rstudio-desktop/).)
 
 #### (6) Now, in RStudio:
 
