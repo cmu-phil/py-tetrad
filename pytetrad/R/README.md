@@ -92,9 +92,9 @@ g = ts$run_fges()
 
 Position your mouse to right right of the '$' sign and on the keyboard type control-Space. This will bring up a list of algorithms you can run, and you can select one. 
 
-Similarly for tests or scores. Some algorithms use just a score, like FGES; others use just a test, like PC; others still use both a test and a score, like GFCI. Which test or score you choose will depend on the type of data you have. We give examples files 'sample_r_code2.R', 'sample_r_code3.R', and 'sample_r_code4.R', which show how to run a search on continuous, discrete, and mixed continuous/discrete data, respectively.
+Similarly for tests or scores. Some algorithms use just a score, like FGES; others use just a test, like PC; others still use both a test and a score, like GFCI. Which test or score you choose will depend on the type of data you have. We give examples files 'sample_r_code2.R', 'sample_r_code3.R', and 'sample_r_code4.R', which show how to run a search on continuous, discrete, and mixed continuous/discrete data, respectively. If you choose badly, it will tell you.
 
-As shown in the script, you can set background knowledge as indicated. Knowledge is organized into temporal tiers, where variables in later tiers cannot cause variables in earlier tiers, though explicit forbidden or required edges can also be set.
+As shown in the script, you can set background knowledge as indicated. Knowledge is organized into temporal tiers, where variables in later tiers cannot cause variables in earlier tiers, though explicit forbidden or required edges can also be set. Some algorithms do not us knowledge. For these algorithms, if you provide knowledge, they will complain.
 
 Enjoy. If you have questions or need more functionality, [let us know](https://github.com/cmu-phil/py-tetrad/issues).
 
