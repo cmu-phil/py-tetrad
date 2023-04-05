@@ -1,5 +1,7 @@
 # Installation Instructions
 
+If you've already installed and want to see how to start using this, see our [Pointers](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/README.md#some-pointers) below.
+
 This is a possible way of connecting Tetrad to R which we are trying out. If you try the instructions and have trouble, please let us know. 
 
 We have worked out these instructions using RStudio on a Mac; we will test on other platforms soon.
