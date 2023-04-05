@@ -104,7 +104,7 @@ Similarly for tests or scores; you can select different tests or scores using th
 
 Also, which test or score you choose will depend on the type of data you have. We give examples files 'sample_r_code2.R', 'sample_r_code3.R', and 'sample_r_code4.R', which show how to run a search on continuous, discrete, and mixed continuous/discrete data, respectively. If you choose badly, it will tell you.
 
-As shown in the script, you can set background knowledge as indicated. Knowledge is organized into temporal tiers, where variables in later tiers cannot cause variables in earlier tiers, though explicit forbidden or required edges can also be set. Some algorithms do not us knowledge, but no worries, if you provide knowledge and the algorithm can't use it, it will tell you.
+As shown in the script, you can set background knowledge as indicated. Knowledge is organized into temporal tiers, where variables in later tiers cannot cause variables in earlier tiers, though explicit forbidden or required edges can also be set. Some algorithms do not use knowledge, but no worries, if you provide knowledge and the algorithm can't use it, it will tell you.
 
 If you have questions or need more (or different) functionality, or are just flummoxed by the installation procedure or output graph format, [let us know](https://github.com/cmu-phil/py-tetrad/issues). This R functionality is new as of 2023-04-04, so feedback is very welcome. We'd like to make this useful for the R community. 
 
