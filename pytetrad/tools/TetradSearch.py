@@ -202,4 +202,4 @@ class TetradSearch:
 
     def get_get_xml(self): return str(tg.graphToXml(self.java))
     
-    def get_get_lavaan(self): return str(tg.graphToXml(self.java))
+    def get_get_lavaan(self): return str(tg.graphToLavaan(self.java))
