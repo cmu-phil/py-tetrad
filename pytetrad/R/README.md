@@ -28,7 +28,7 @@ export JAVA_HOME=[..path..to...your...java...jdk...]
 ```
 and save the file.
 
-#### (4) In a new Terminal window, do the following:
+#### (4) Open a new Terminal window, and do the following:
 ```
 pip install causal-learn
 pip install JPype1  
