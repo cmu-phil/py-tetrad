@@ -1,6 +1,6 @@
 # Installation Instructions
 
-This is for using py-tetrad in RStudio to run algorithms in R. If you've already done the installation and want to start exploring, see our [Pointers](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/README.md#some-pointers) below.
+This is for using py-tetrad in RStudio to run algorithms in R. If you've already done the installation and want to start exploring, see our [Pointers](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/README.md#some-pointers) below. These pointers will eventualy turn into some bonafide documentation; please be patient. (New project.)
 
 This project is being offered is a possible way of connecting Tetrad to R which we are trying out; if it turns out not to be useful, we will try a different route. It is intended to replace the older [r-causal](https://github.com/bd2kccd/r-causal) Python project, which uses an outdated version of Tetrad from many years ago.
 
