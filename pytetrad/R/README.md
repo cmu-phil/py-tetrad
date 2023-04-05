@@ -100,6 +100,6 @@ As shown in the script, you can set background knowledge as indicated. Knowledge
 
 Enjoy. 
 
-If you have questions or need more (or different) functionality, [let us know](https://github.com/cmu-phil/py-tetrad/issues). This is literally a brand-new project as of 2023-04-04, so feedback is very welcome.
+If you have questions or need more (or different) functionality, [let us know](https://github.com/cmu-phil/py-tetrad/issues). This is a brand-new project as of 2023-04-04, so feedback is very welcome.
 
 
