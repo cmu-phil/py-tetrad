@@ -18,7 +18,6 @@ and save. If you don't know where you JDK is, in a Terminal window type
 ```
 which java
 ```
-
 #### (4) In a new Terminal window, do some pip installs:
 ```
 pip install causal-learn
