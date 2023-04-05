@@ -60,12 +60,12 @@ Here, the Python path should be the path to your Python; you can type
 which python
 ```
 in a Terminal window to get this.
-
-#### (9) Then if you've done all that, you can open one of the example R scripts in the py-tetrad repository you cloned above. In the online GitHub, they're here:
+ 
+#### (9) Finally, in RStudio, open one of the example R scripts in the py-tetrad repository you cloned above. In the online GitHub, they're here:
 
 https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/R
 
-#### (10) Then adjust the path in it to your working directory in the script (if it isn't right already), select all, and run. That should run FGES on the example file and print the graph in PCALG general graph format. 
+Adjust the path in it to your working directory in the script (if it isn't right already), select all, and run. That should run FGES on the example file and print the graph in PCALG general graph format. 
 
 For the PCALG general graph format, see the docs for FCI in the PCALG package:
 * 0 means NO endpoint
