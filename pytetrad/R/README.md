@@ -90,7 +90,7 @@ Then click the Run button. That should run FGES on the example file and print th
 
 # Some Pointers
 
-These pointers will eventualy turn into some bonafide documentation; please be patient. For information on specific algorithms, tests, or scores, or if you'd like to watch some videos on causal search, please see the [Documentation Section on the Tetrad GitHub page](https://github.com/cmu-phil/tetrad#documentation).
+These pointers will eventualy turn into some bonafide documentation; please be patient. For information on specific algorithms, tests, or scores, or if you'd like to watch some videos on causal search, please see the [Documentation Section on the Tetrad GitHub page](https://github.com/cmu-phil/tetrad#documentation). if you are familiar with Tetrad, these are the same algorithms, tests, and scores that are available in the Search box in the Tetrad interface and will work exactly the same way.
 
 This project is being offered is a possible way of connecting Tetrad to R which we are trying out; if it turns out not to be useful, we will try a different route. It is intended to replace the older [r-causal](https://github.com/bd2kccd/r-causal) Python project, which uses an outdated version of Tetrad from many years ago.
 
@@ -104,6 +104,6 @@ Similarly for tests or scores; you can select different tests or scores using th
 
 As shown in the script, you can set background knowledge as indicated. Knowledge is organized into temporal tiers, where variables in later tiers cannot cause variables in earlier tiers, though explicit forbidden or required edges can also be set. Some algorithms do not us knowledge, but no worries, if you provide knowledge and the algorithm can't use it, it will tell you.
 
-If you have questions or need more (or different) functionality, or are just flummoxed by the installation procedure or output graph format, [let us know](https://github.com/cmu-phil/py-tetrad/issues). This R functionality is new as of 2023-04-04, so feedback is very welcome. We'd like to make this useful for the R community. if you are familiar with Tetrad, these are the same algorithms, tests, and scores that are available in the Search box in the Tetrad interface and will work exactly the same way.
+If you have questions or need more (or different) functionality, or are just flummoxed by the installation procedure or output graph format, [let us know](https://github.com/cmu-phil/py-tetrad/issues). This R functionality is new as of 2023-04-04, so feedback is very welcome. We'd like to make this useful for the R community. 
 
 
