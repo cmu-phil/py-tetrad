@@ -26,7 +26,11 @@ We give these instructions below.
 export JAVA_HOME=[..path..to...your...java...jdk...]
 `
 
-and save. If you don't know where you JDK is, in a Terminal window type `which java`.
+and save. If you don't know where you JDK is, in a Terminal window type 
+
+```
+which java
+```
 
 * Make sure you are using the latest Python--at least 3.7--if not, [update it](https://www.pythoncentral.io/how-to-update-python/). 
 
