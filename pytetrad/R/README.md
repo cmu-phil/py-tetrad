@@ -96,6 +96,6 @@ Similarly for tests or scores. Some algorithms use just a score, like FGES; othe
 
 As shown in the script, you can set background knowledge as indicated. Knowledge is organized into temporal tiers, where variables in later tiers cannot cause variables in earlier tiers, though explicit forbidden or required edges can also be set. Some algorithms do not us knowledge. For these algorithms, if you provide knowledge, they will complain.
 
-Enjoy. If you have questions or need more functionality, [let us know](https://github.com/cmu-phil/py-tetrad/issues).
+Enjoy. If you have questions or need more (or different) functionality, [let us know](https://github.com/cmu-phil/py-tetrad/issues). This is literally a brand-new project as of 2023-04-04, so feedback is very welcome.
 
 
