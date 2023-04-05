@@ -20,14 +20,13 @@ On Windows, This step should be unnecessary; check your registry to make sure JA
 
 On a Mac, to find your Java installation path, in a Terminal window, type:
 ```
-and save. If you don't know where your Java JDK is, in a Terminal window type 
+which java
 ```
 Then, in a text editor, add this line to the file ~/.bash_profile:
 ```
 export JAVA_HOME=[..path..to...your...java...jdk...]
-
-which java
 ```
+and save the file.
 
 #### (4) In a new Terminal window, do the following:
 ```
