@@ -22,7 +22,9 @@ We give these instructions below.
 
 * In the file ~/.bash_profile, add this line:
 
+`
 export JAVA_HOME=[..path..to...your...java...jdk...]
+`
 
 and save. If you don't know where you JDK is, in a Terminal window type `which java`.
 
@@ -30,8 +32,10 @@ and save. If you don't know where you JDK is, in a Terminal window type `which j
 
 * In a new Terminal window (to grab the JAVA_HOME you just set), do some pip installs:
 
+```
 pip install causal-learn
 pip install JPype1
+```
 
 * Finally, (for instance, on a Mac), in your User direction (~), type the following to clone this repository:
     
