@@ -90,7 +90,7 @@ Then click the Run button. That should run FGES on the example file and print th
 
 # Some Pointers
 
-Feel free to select a different algorithm or a different test or score in the script or choose a different, or write your own. On a Mac, once you've run the script once, look at the line in the script where it says:
+Feel free to select a different algorithm or a different test or score in the script or choose a different, or write your own. We will assume for now that you're just run this script from the installation instructions: 'py-tetrad/pytetrad/R/sample_r_code2.R'. On a Mac, once you've run the script once, look at the line in the script where it says:
 
 g = ts$run_fges()
 
