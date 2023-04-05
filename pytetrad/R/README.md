@@ -58,7 +58,7 @@ Install the 'reticulate' package. (This only needs to be done once.)
 ```
 install.packages("reticulate")
 ```
-(Here are the docs for the [Reticulate package in R](https://rstudio.github.io/reticulate/). This allows one to access Python from R.)
+(Here are the docs for the [Reticulate package in R](https://rstudio.github.io/reticulate/).
 
 Also, tell Reticulate/R where your Python installation is located. (This also only needs to be done once).
 ```
