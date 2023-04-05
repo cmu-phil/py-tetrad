@@ -62,7 +62,7 @@ print('FGES')
 print(ts$get_pcalg())
 
 ```
-On a Mac, after you've run the script once, look at the line in the script where it says:
+After you've run the script once, look at the line in the script where it says:
 
 ts$run_fges()
 
