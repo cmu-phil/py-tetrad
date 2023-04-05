@@ -82,8 +82,10 @@ This only needs to be done once.
 
 In RStudio,, open the file 'py-tetrad/pytetrad/R/sample_r_code2.R', for example.
 
-Once you've loaded it, adjust the path in it to your working directory if it isn't right already.
-
+Once you've loaded it, adjust the path in it to your working directory if it isn't right already:
+```
+setwd("~/py-tetrad/pytetrad")
+```
 Select all lines in the file by typeing control-A.
 
 Then click the Run button. That should run FGES on the example file and print the graph in PCALG general graph format. 
