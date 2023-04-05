@@ -88,7 +88,7 @@ Select all lines in the file by typeing control-A.
 
 Then click the Run button. That should run FGES on the example file and print the graph in PCALG general graph format. 
 
-# Some Pointers
+# How to Explore
 
 This project is being offered is a possible way of connecting Tetrad to R which we are trying out; if it turns out not to be useful, we will try a different route. It is intended to replace the older [r-causal](https://github.com/bd2kccd/r-causal) Python project, which uses an outdated version of Tetrad from many years ago.
 
