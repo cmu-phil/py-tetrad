@@ -57,7 +57,8 @@ ts$run_fges()
 
 ## Print the graph in PCALG general graph format (see PCALG's FCI docs)
 print('FGES')
-print(ts$get_dot())
+print(ts$get_pcalg())
+
 ```
 On a Mac, after you've run the script once, look at the line in the script where it says:
 
