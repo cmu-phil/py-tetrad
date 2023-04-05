@@ -1,5 +1,5 @@
-## This file shows how to Tetrad searches interactively in R using the
-## TetradSearch class.
+## This file shows how to Tetrad searches for continuous data interactively 
+## in R using the TetradSearch class.
 ##
 ## You will need to adjust this path to your path for py-tetrad.
 setwd("~/py-tetrad/pytetrad")
