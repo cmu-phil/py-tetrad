@@ -14,15 +14,20 @@ For very verbose instructions, see [here](https://github.com/cmu-phil/tetrad/wik
 
 If you're using a version lower than 3.7, [update it](https://www.pythoncentral.io/how-to-update-python/). 
 
-#### (3) For Mac, in a text editor, add this line to the file ~/.bash_profile:
-```
-export JAVA_HOME=[..path..to...your...java...jdk...]
+#### (3) If you're on a Mac, in a text editor, set JAVA_HOME to your Java installation path in ~/.bash_profile.
+
+On Windows, This step should be unnecessary; check your registry to make sure JAVA_HOME is set. The Java installation should have taken care of this.
+
+On a Mac, to find your Java installation path, in a Terminal window, type:
 ```
 and save. If you don't know where your Java JDK is, in a Terminal window type 
 ```
+Then, in a text editor, add this line to the file ~/.bash_profile:
+```
+export JAVA_HOME=[..path..to...your...java...jdk...]
+
 which java
 ```
-For Windows you probaby don[t need to do this; check the registry to see if JAVA_HOME points to your Java instllation.
 
 #### (4) In a new Terminal window, do the following:
 ```
