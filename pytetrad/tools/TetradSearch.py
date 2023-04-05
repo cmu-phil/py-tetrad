@@ -30,6 +30,13 @@ class TetradSearch:
         self.verbose = False
         self.knowledge = td.Knowledge()
 
+    def __str__(self):
+        display = [self.score, self.test, self.knowledge, self.java]
+        return "\n".join([str(item) for item in display])
+        
+    def set_data(self, data):
+        self.data = tr.pandas_data_to_tetrad(data)
+
     def use_sem_bic(self, penalty_discount=2):
         score = ts.SemBicScore(self.data)
         score.setPenaltyDiscount(penalty_discount)
@@ -129,6 +136,9 @@ class TetradSearch:
 
     def clear_knowledge(self):
         self.knowledge.clear()
+    
+    def print_knowledge(self): 
+        return str(self.knowledge)
 
     def set_verbose(self, verbose):
         self.verbose = verbose
@@ -190,16 +200,38 @@ class TetradSearch:
         svar_fci.setVerbose(True)
         self.java = svar_fci.search()
 
-    def get_java(self): return self.output
+    def get_data(self): 
+        return self.data
 
-    def get_string(self): return str(self.output)
+    def get_score(self): 
+        return self.score
 
-    def get_causal_learn(self): return tr.tetrad_graph_to_causal_learn(self.java)
+    def get_test(self): 
+        return self.test
 
-    def get_pcalg(self): return tr.tetrad_graph_to_pcalg(self.java)
+    def get_verbose(self): 
+        return self.verbose
 
-    def get_get_dot(self): return str(tg.graphToDot(self.java))
+    def get_knowledge(self): 
+         return self.knowledge
 
-    def get_get_xml(self): return str(tg.graphToXml(self.java))
+    def get_java(self): 
+        return self.output
+
+    def get_string(self): 
+        return str(self.output)
+
+    def get_causal_learn(self): 
+        return tr.tetrad_graph_to_causal_learn(self.java)
+
+    def get_pcalg(self): 
+        return tr.tetrad_graph_to_pcalg(self.java)
+
+    def get_dot(self): 
+        return str(tg.graphToDot(self.java))
+
+    def get_xml(self): 
+        return str(tg.graphToXml(self.java))
     
-    def get_get_lavaan(self): return str(tg.graphToLavaan(self.java))
+    def get_lavaan(self): 
+        return str(tg.graphToLavaan(self.java))

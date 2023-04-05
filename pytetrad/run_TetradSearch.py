@@ -23,9 +23,9 @@ search.add_to_tier(2, "Velocity")
 search.add_to_tier(2, "Displacement")
 search.add_to_tier(2, "Pressure")
 
-## Run the search and return the graph in PCALG format
-g = search.run_fges()
+## Run the search
+search.run_fges()
 
 ## Print the graph
-print(g)
+print(search.get_string())
 
