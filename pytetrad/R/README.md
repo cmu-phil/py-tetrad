@@ -1,10 +1,10 @@
 ## Instructions for setting up Tetrad searches to run in R (RStudio) via Py-Tetrad
 
-This is a _tentative project_; if it's not doing the job in a helpful way, we will pursue other options! So, please [let us know](https://github.com/cmu-phil/py-tetrad/issues).
-
 The minimal requirements for Java and Python for this particular setup are Java 1.8+ (8+), Python 3.7+. Not sure the minimal requirements for RStudio and R. In any case, using the latest stable versions of all of these will work.
 
-We will assume for purposes of this tutorial you're using RStudio on a Mac.
+We will assume for purposes of this tutorial you're using RStudio on a Mac; we will test on other platforms soon.
+
+There are currently several steps need to do the installation.
 
 #### (1) If you don't have one, install a Java JDK. Any version 1.8+ (i.e., 8+) will do for this. For very verbose isntrucitons, see [here](https://github.com/cmu-phil/tetrad/wiki/Setting-up-Java-for-Tetrad).
 
@@ -25,7 +25,7 @@ pip install causal-learn
 pip install JPype1
 ```
 
-#### (5) Clone this repository
+#### (5) Clone this very py-tetrad repository
     
 ```   
 git clone https://github.com/cmu-phil/py-tetrad/
@@ -40,28 +40,25 @@ This last command should cause various algorithms to run in Tetrad and print out
 #### (6) On a Mac, launch RStudio from your Terminal window.
 
 In your Terminal window:
-
-`
+```
 open -na RStudio
-`
-
+```
 #### (7) In RStudio, install the 'reticulate' package. (This only needs to be done once.)
 
-`
+```
 install.packages("reticulate")
-`
+```
 Here are the [Docs for the Reticulate package](https://rstudio.github.io/reticulate/).
 
 #### (8) In RStudio, tell Reticulate/R where your Python installation is located. (This also only needs to be done once).
 
-`
+```
 use_python("[...path...to...your...Python...installation...]")
-`
-
+```
 Here, the Python path should be the path to your Python; you can type 
-
-```which python```
-
+```
+which python
+```
 in a Terminal window to get this.
 
 #### (9) Then if you've done all that, you can open one of the example R scripts in the py-tetrad repository you cloned above. In the online GitHub, they're here:
