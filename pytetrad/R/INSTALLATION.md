@@ -35,7 +35,7 @@ export JAVA_HOME=[..path..to...your...java...jdk...]
 ```
 and save the file. This Java path was found in step (3).
 
-#### (5) Open a NEW TERMINAL WINDOW, and do the following:
+#### (5) Open a NEW TERMINAL WINDOW, and type the following:
 ```
 pip install causal-learn
 pip install JPype1  
