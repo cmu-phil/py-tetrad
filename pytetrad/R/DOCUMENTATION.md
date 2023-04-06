@@ -63,9 +63,9 @@ print(ts$get_pcalg())
 
 ```
 After you've run the script once, look at the line in the script where it says:
-
+```
 ts$run_fges()
-
+```
 Here, in RStudio, position your mouse to right right of the '$' sign and on the keyboard type control-Space. This will bring up a list of algorithms you can run, and you can select a different algorithm if you like. 
 
 Similarly for tests or scores; you can select different tests or scores using the same method. There are some considerations. Some algorithms use just a score, like FGES; others use just a test, like PC; others still use both a test and a score, like GFCI. If you provide the wrong options, it will tell you.
