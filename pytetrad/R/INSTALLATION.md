@@ -18,7 +18,7 @@ If you're using a version lower than 3.7, [update it](https://www.pythoncentral.
 
 #### (3) Find your Java and Python installation paths.
 
-If you don't know these, open a Terminal window and type:
+If you don't know which paths you want to use for these already, open a Terminal window and type:
 ```
 which java
 which python
