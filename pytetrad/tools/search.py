@@ -48,12 +48,12 @@ def sp(score, knowledge=None, num_starts=1, verbose=False):
     return pattern
 
 
-def grasp(score, knowledge=None, verbose=False):
+def grasp(score, knowledge=None, num_starts=1, verbose=False):
     # _test = ts.IndTestScore(score)
     grasp = ts.Grasp(score)
     grasp.setOrdered(False)
     grasp.setUseDataOrder(False)
-    grasp.setNumStarts(5)
+    grasp.setNumStarts(num_starts)
     grasp.bestOrder(score.getVariables())
     if knowledge != None:
         grasp.setKnowledge(knowledge)
