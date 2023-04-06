@@ -15,7 +15,7 @@ The PCALG general graph format, as R data frames, in particular, is a square edg
 
 So for X-->Y, the output matrix G, where the index of X is i and the index of Y is j, would have G[j][i] = 3 and G[i][j] = 2.
 
-We will assume for now that you're just run this script from the installation instructions: 'py-tetrad/pytetrad/R/sample_r_code2.R'. Here is that script:
+We will assume for now that you're just run the following script from the installation instructions: 'py-tetrad/pytetrad/R/sample_r_code2.R'. Here is that script:
 ```
 ## This file shows how to Tetrad searches for continuous data interactively 
 ## in R using the TetradSearch class.
