@@ -1,10 +1,14 @@
-# Some Initial Documentation
+# RPyTetrad: Some Initial Documentation
 
 Click here for [Installation Instructions](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/INSTALLATION.md).
 
-This section will eventualy turn into some bonafide documentation; please be patient. For information on specific algorithms, tests, or scores, or if you'd like to watch some videos on causal search, please see the [Documentation Section on the Tetrad GitHub page](https://github.com/cmu-phil/tetrad#documentation). if you are familiar with Tetrad, these are the same algorithms, tests, and scores that are available in the Search box in the current Tetrad interface, and in the current py-tetrad, and will work exactly the same way.
+RPyTetrad is an R interface for the search algorithms in the [Tetrad](https://github.com/cmu-phil/tetrad) package. This page will eventualy turn into some bonafide documentation; please be patient. 
 
-These algorithms output graphs in several formats, which we will document. Currently supported graph types are Causal-learn (GeneralGraph), DOT, PCALG, Java (Tetrad EdgeListGraph), and Lavaan.
+For information on specific algorithms, tests, or scores, or if you'd like to watch some videos on causal search, please see the [Documentation Section on the Tetrad GitHub page](https://github.com/cmu-phil/tetrad#documentation). 
+
+if you are familiar with Tetrad, these are the same algorithms, tests, and scores that are available in the Search box in the current Tetrad interface, and in the current Python package [py-tetrad](https://github.com/cmu-phil/py-tetrad), and will work exactly the same way in each case.
+
+These algorithms output graphs in several formats, which we will document. Currently supported graph types are Java object (Tetrad EdgeListGraph), Python object (Causal-learn GeneralGraph), DOT, PCALG, , and Lavaan.
 
 The PCALG general graph format, as R data frames, in particular, is a square edge matrix; see the docs for FCI in the PCALG package. The endpoints are recorded as follows:
 
@@ -15,7 +19,7 @@ The PCALG general graph format, as R data frames, in particular, is a square edg
 
 So for X-->Y, the output matrix G, where the index of X is i and the index of Y is j, would have G[j][i] = 3 and G[i][j] = 2.
 
-We will assume for now that you're just run this script from the installation instructions: 'py-tetrad/pytetrad/R/sample_r_code2.R'. Here is that script:
+We will assume that you are working in RStudio and that you've just run the following script from the installation instructions: 'py-tetrad/pytetrad/R/sample_r_code2.R'. Here is that script:
 ```
 ## This file shows how to Tetrad searches for continuous data interactively 
 ## in R using the TetradSearch class.
@@ -63,9 +67,9 @@ print(ts$get_pcalg())
 
 ```
 After you've run the script once, look at the line in the script where it says:
-
+```
 ts$run_fges()
-
+```
 Here, in RStudio, position your mouse to right right of the '$' sign and on the keyboard type control-Space. This will bring up a list of algorithms you can run, and you can select a different algorithm if you like. 
 
 Similarly for tests or scores; you can select different tests or scores using the same method. There are some considerations. Some algorithms use just a score, like FGES; others use just a test, like PC; others still use both a test and a score, like GFCI. If you provide the wrong options, it will tell you.

@@ -1,4 +1,4 @@
-# Installation Instructions
+# RPyTetrad: Installation Instructions
 
 Click here for [Documentation](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/DOCUMENTATION.md).
 
@@ -6,7 +6,7 @@ These are installation instructions for using py-tetrad in RStudio to run algori
 
 We have worked out and tested these instructions using RStudio on a Mac; we will test on other platforms soon.
 
-The installation instructions should simplify in the future, but here are the current instructions, which we hope are not too difficult to follow.
+The installation instructions should simplify in the future; hope they are not too difficult to follow.
 
 #### (1) Install a Java JDK. the minimal version for this install is 1.8 (version 8).
 
@@ -18,7 +18,7 @@ If you're using a version lower than 3.7, [update it](https://www.pythoncentral.
 
 #### (3) Find your Java and Python installation paths.
 
-If you don't know these, open a Terminal window and type:
+If you don't know which paths you want to use for these already, open a Terminal window and type:
 ```
 which java
 which python
@@ -35,7 +35,7 @@ export JAVA_HOME=[..path..to...your...java...jdk...]
 ```
 and save the file. This Java path was found in step (3).
 
-#### (5) Open a NEW TERMINAL WINDOW, and do the following:
+#### (5) Open a NEW TERMINAL WINDOW, and type the following:
 ```
 pip install causal-learn
 pip install JPype1  
