@@ -152,8 +152,8 @@ def write_gdot(g, gdot):
         color = "blue"
         if (endpoint1 == "empty") and (endpoint2 == "empty"): color = "red"
         gdot.edge(node1, node2,
-                  arrowhead=endpoint2,
                   arrowtail=endpoint1,
+                  arrowhead=endpoint2,
                   dir='both', color=color)
 
     return gdot
