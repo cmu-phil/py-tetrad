@@ -19,7 +19,7 @@ ts$use_sem_bic(penalty_discount=1)
 ts$use_fisher_z(0.05)
 
 ## Run the search and return the graph in PCALG format
-ts$run_boss()
+ts$run_fges()
 
 ## Print the graph and grab the DOT format string (for Grasphviz)
 print(ts$get_string())

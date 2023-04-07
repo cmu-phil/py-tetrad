@@ -44,7 +44,6 @@ ts$add_to_tier(2, "TYPE")
 ts$run_grasp()
 
 ## Print the graph and grab the DOT format string (for Grasphviz)
-print('FGES')
 print(ts$get_string())
 dot <- ts$get_dot()
 
