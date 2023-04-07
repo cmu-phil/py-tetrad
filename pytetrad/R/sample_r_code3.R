@@ -48,5 +48,7 @@ print('FGES')
 print(ts$get_string())
 dot <- ts$get_dot()
 
+## Need to install.packages("DiagrammR'). This allowed RStudio to
+## render graphs in the Viewer window.
 library('DiagrammeR')
 grViz(dot)
