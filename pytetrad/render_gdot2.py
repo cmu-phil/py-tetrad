@@ -33,7 +33,7 @@ search.add_to_tier(1, "SPAN")
 search.add_to_tier(1, "REL.L")
 search.add_to_tier(2, "TYPE")
 
-search.run_boss()
+search.run_grasp()
 g = search.get_java()
 
 gdot = gviz.Graph(format='png', 
