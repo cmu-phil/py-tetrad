@@ -57,7 +57,6 @@ pairs.panels(data, method = "pearson")
 # correlation method hist.col = "#00AFBB", density = TRUE, 
 # show density plots ellipses = TRUE # show correlation ellipses )
 
-## Need to install.packages("DiagrammR'). This allowed RStudio to
-## render graphs in the Viewer window.
+## Allows RStudio to render graphs in the Viewer window.
 library('DiagrammeR')
 grViz(dot)
