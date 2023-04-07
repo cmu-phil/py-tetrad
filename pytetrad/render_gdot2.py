@@ -41,5 +41,5 @@ gdot = gviz.Graph(format='png',
                   graph_attr={'viewport': '400', 
                               'outputorder': 'edgesfirst'})
 tr.write_gdot(g, gdot)
-gdot.render(filename="airfoil_graph", cleanup=True, quiet=True)
+gdot.render(filename="bridges", cleanup=True, quiet=True)
 gdot.clear()
