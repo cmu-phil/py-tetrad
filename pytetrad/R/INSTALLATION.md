@@ -62,6 +62,7 @@ Inside RStudio, type the following:
 ```
 install.packages("reticulate")
 install.packages("DiagrammR")
+install.packages("psych")
 use_python("[...path...to...your...Python...installation...]")
 ```
 This python path was found in step (3). "DiagrammR" is used in the sample R scripts to render graphs in the RStudio viewer window; if you're running the scripts in command-line R, it will not help.
