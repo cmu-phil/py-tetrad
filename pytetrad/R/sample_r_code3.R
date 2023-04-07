@@ -7,6 +7,8 @@ setwd("~/py-tetrad/pytetrad")
 install.packages(reticulate)
 library(reticulate)
 
+## It's best to change hyphens and periods in variable names to underscores
+## for reading data into R.
 data <- read.table("./resources/bridges.data.version211_rev.txt", header=TRUE)
 
 # ## The read.table function will read decimal columns as real ('numeric')
@@ -25,20 +27,20 @@ ts <- TetradSearch(data)
 ts$use_bdeu()
 ts$use_g_square()
 
-# RIVER ERECTED PURPOSE LENGTH LANES CLEAR.G T.OR.D MATERIAL SPAN REL.L TYPE
+# RIVER	ERECTED	PURPOSE	LENGTH	LANES	CLEAR_G	T_OR_D	MATERIAL	SPAN	REL_L	TYPE
 
 ## Set some knowledge--let's try to predict TYPE
-ts$add_to_tier(1, "RIVER")
-ts$add_to_tier(1, "ERECTED")
-ts$add_to_tier(1, "PURPOSE")
-ts$add_to_tier(1, "LENGTH")
-ts$add_to_tier(1, "LANES")
-ts$add_to_tier(1, "CLEAR.G")
-ts$add_to_tier(1, "T.OR.D")
-ts$add_to_tier(1, "MATERIAL")
-ts$add_to_tier(1, "SPAN")
-ts$add_to_tier(1, "REL.L")
-ts$add_to_tier(2, "TYPE")
+ts$add_to_tier(0, "RIVER")
+ts$add_to_tier(0, "ERECTED")
+ts$add_to_tier(0, "PURPOSE")
+ts$add_to_tier(0, "LENGTH")
+ts$add_to_tier(0, "LANES")
+ts$add_to_tier(0, "CLEAR_G")
+ts$add_to_tier(0, "T_OR_D")
+ts$add_to_tier(0, "MATERIAL")
+ts$add_to_tier(0, "SPAN")
+ts$add_to_tier(0, "REL_L")
+ts$add_to_tier(1, "TYPE")
 
 ## Run the search and return the graph in PCALG format
 ts$run_grasp()
@@ -48,8 +50,8 @@ print(ts$get_string())
 dot <- ts$get_dot()
 
 ## Plot matrix of variables to show evil distributions.
-library(psych)
-pairs.panels(data, method = "pearson") # correlation method hist.col = "#00AFBB", density = TRUE, # show density plots ellipses = TRUE # show correlation ellipses )
+# library(psych)
+# pairs.panels(data, method = "pearson") # correlation method hist.col = "#00AFBB", density = TRUE, # show density plots ellipses = TRUE # show correlation ellipses )
 
 ## Allows RStudio to render graphs in the Viewer window.
 library('DiagrammeR')

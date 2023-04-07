@@ -50,6 +50,8 @@ def sp(score, knowledge=None, num_starts=1, verbose=False):
 
 def grasp(score, knowledge=None, num_starts=1, verbose=False):
     # _test = ts.IndTestScore(score)
+    print('knowledge', knowledge)
+
     grasp = ts.Grasp(score)
     grasp.setOrdered(False)
     grasp.setUseDataOrder(False)

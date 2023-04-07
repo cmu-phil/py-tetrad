@@ -130,10 +130,10 @@ class TetradSearch:
         self.knowledge.addToTier(lang.Integer(tier), lang.String(var_name))
 
     def add_fobidden(self, var_name_1, var_name_2):
-        self.knowledge.addForbidden(lang.String(var_name_1), lang.Stringvar_name_2)
+        self.knowledge.addForbidden(lang.String(var_name_1), lang.String(var_name_2))
 
     def add_required(self, var_name_1, var_name_2):
-        self.knowledge.addRequied(lang.String(var_name_1), lang.Stringvar_name_2)
+        self.knowledge.addRequired(lang.String(var_name_1), lang.String(var_name_2))
 
     def clear_knowledge(self):
         self.knowledge.clear()
