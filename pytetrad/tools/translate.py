@@ -129,3 +129,31 @@ def tetrad_graph_to_causal_learn(g):
         graph.add_edge(Edge(node1, node2, endpoint1, endpoint2))
 
     return graph
+
+
+# PASS ME A GraphViz Graph object and call it gdot!
+def write_gdot(g, gdot):
+    endpoint_map = {"TAIL": "none",
+                    "ARROW": "empty",
+                    "CIRCLE": "odot"}
+
+    for node in g.getNodes():
+        gdot.node(str(node.getName()),
+                  shape='circle',
+                  fixedsize='true',
+                  style='filled',
+                  color='lightgray')
+
+    for edge in g.getEdges():
+        node1 = str(edge.getNode1().getName())
+        node2 = str(edge.getNode2().getName())
+        endpoint1 = str(endpoint_map[edge.getEndpoint1().name()])
+        endpoint2 = str(endpoint_map[edge.getEndpoint2().name()])
+        color = "blue"
+        if (endpoint1 == "empty") and (endpoint2 == "empty"): color = "red"
+        gdot.edge(node1, node2,
+                  arrowhead=endpoint1,
+                  arrowtail=endpoint2,
+                  dir='both', color=color)
+
+    return gdot

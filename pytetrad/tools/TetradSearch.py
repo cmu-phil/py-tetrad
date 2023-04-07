@@ -180,8 +180,8 @@ class TetradSearch:
     def run_grasp_fci(self):
         self.java = search.grasp_fci(self.test, self.score, knowledge=self.knowledge, verbose=self.verbose)
 
-    def run_sp_fci(self):
-        self.java = search.sp_fci(self.test, self.score, knowledge=self.knowledge, verbose=self.verbose)
+    def run_spfci(self):
+        self.java = search.spfci(self.test, self.score, knowledge=self.knowledge, verbose=self.verbose)
 
     def run_ccd(self):
         if not self.knowledge.isEmpty():
