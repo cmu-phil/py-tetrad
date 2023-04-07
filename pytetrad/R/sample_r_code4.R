@@ -18,15 +18,15 @@ data
 ## as continuous (i.e., 'numeric').
 ## Really on the last varaible is discrete; all the other ones are
 ## continuous... need to fix this.
-# i <- c(1, 6)
-# data[ , i] <- apply(data[ , i], 2, function(x) as.numeric(x))
+i <- c(1, 7)
+data[ , i] <- apply(data[ , i], 2, function(x) as.numeric(x))
 
 ## Make a TetradSearch object.
 source_python("tools/TetradSearch.py")
 ts <- TetradSearch(data)
 
 ## Use the SEM BIC score.
-ts$use_conditional_gaussian_score()
+ts$use_conditional_gaussian_score(penalty_discount=2)
 ts$use_conditional_gaussian_test()
 
 # ts$use_degenerate_gaussian_score()
@@ -45,8 +45,11 @@ ts$add_to_tier(1, "modelyear")
 ts$add_to_tier(2, "mpg")
 
 ## Run the search and return the graph in PCALG format
-ts$run_fges()
+ts$run_()
 
 ## Print the graph in PCALG general graph format (see PCALG's FCI docs)
-print('FGES')
-print(ts$get_pcalg())
+print(ts$get_string())
+dot <- ts$get_dot()
+
+library('DiagrammeR')
+grViz(dot)

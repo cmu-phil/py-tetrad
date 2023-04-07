@@ -41,8 +41,12 @@ ts$add_to_tier(1, "REL.L")
 ts$add_to_tier(2, "TYPE")
 
 ## Run the search and return the graph in PCALG format
-ts$run_fges()
+ts$run_grasp()
 
 ## Print the graph in PCALG general graph format (see PCALG's FCI docs)
 print('FGES')
 print(ts$get_string())
+dot <- ts$get_dot()
+
+library('DiagrammeR')
+grViz(dot)

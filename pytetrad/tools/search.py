@@ -54,10 +54,10 @@ def grasp(score, knowledge=None, num_starts=1, verbose=False):
     grasp.setOrdered(False)
     grasp.setUseDataOrder(False)
     grasp.setNumStarts(num_starts)
-    grasp.bestOrder(score.getVariables())
     if knowledge != None:
         grasp.setKnowledge(knowledge)
     grasp.setVerbose(verbose)
+    grasp.bestOrder(score.getVariables())
     pattern = grasp.getGraph(True)
     return pattern
 

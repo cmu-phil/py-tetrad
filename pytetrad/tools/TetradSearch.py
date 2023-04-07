@@ -229,7 +229,7 @@ class TetradSearch:
         return tr.tetrad_graph_to_pcalg(self.java)
 
     def get_dot(self): 
-        return gp.graphToDot(self.java)
+        return str(gp.graphToDot(self.java))
 
     def get_xml(self): 
         return gp.graphToXml(self.java)
