@@ -43,7 +43,7 @@ ts$add_to_tier(2, "TYPE")
 ## Run the search and return the graph in PCALG format
 ts$run_grasp()
 
-## Print the graph in PCALG general graph format (see PCALG's FCI docs)
+## Print the graph and grab the DOT format string (for Grasphviz)
 print('FGES')
 print(ts$get_string())
 dot <- ts$get_dot()
