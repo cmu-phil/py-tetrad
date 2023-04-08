@@ -59,7 +59,7 @@ It's also worth noting that on Windows, the .Renviron file may not be created by
 
 Regardless of the operating system, any environment variables set in the .Renviron file will be available to R and RStudio, and can be accessed using the Sys.getenv() function in R.
 
-#### (5) Open a NEW TERMINAL WINDOW, and type the following:
+#### (5) Open a terminal window, and type the following:
 ```
 pip install causal-learn
 pip install JPype1  
