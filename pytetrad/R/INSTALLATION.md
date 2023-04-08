@@ -38,7 +38,6 @@ and save the file. This Java path was found in step (3).-->
 
 In the "~/.Renviron file, set JAVA_HOME to the path to your JDK found in step (3). Here's what CHAT GPT says: 
 
-```
 The .Renviron file is used to set environment variables that are specific to R and RStudio. While the basic functionality of the .Renviron file is the same across different operating systems, there are some differences in how the file is used and its location.
 
 On Mac and Linux, the .Renviron file is typically located in the user's home directory, and is used to set environment variables that will be available to R and RStudio. The syntax for setting environment variables in the .Renviron file is:
@@ -59,7 +58,6 @@ set VARIABLE_NAME=value
 It's also worth noting that on Windows, the .Renviron file may not be created by default, and you may need to create it yourself.
 
 Regardless of the operating system, any environment variables set in the .Renviron file will be available to R and RStudio, and can be accessed using the Sys.getenv() function in R.
-```
 
 #### (5) Open a NEW TERMINAL WINDOW, and type the following:
 ```
