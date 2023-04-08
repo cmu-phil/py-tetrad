@@ -25,7 +25,9 @@ which python
 ```
 Remember these paths for steps below.
 
-#### (4) Setet JAVA_HOME to your Java installation path in the file "~/.Renviron".
+#### (4) On a Mac (or maybe Linux too?) Set JAVA_HOME to your Java installation path in the file "~/.Renviron".
+
+Apparently on windows, once you install Java, this step is unnecessary!
 
 <!-- On Windows, This step should be unnecessary; check your registry to make sure JAVA_HOME is set. The Java installation step should have taken care of this.
 
@@ -79,7 +81,7 @@ install.packages("DiagrammR")
 install.packages("psych")
 use_python("[...path...to...your...Python...installation...]")
 ```
-This python path was found in step (3). "DiagrammR" is used in the sample R scripts to render graphs in the RStudio viewer window; if you're running the scripts in command-line R, it will not help.
+This python path was found in step (3). "DiagrammR" is used in the sample R scripts to render graphs in the RStudio viewer window; if you're running the scripts in command-line R, it will not help. Also, "DiagrammR" needs to be installed with devtools for the latest R versions.
 
 This only needs to be done once. 
 
