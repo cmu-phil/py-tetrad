@@ -42,18 +42,14 @@ The .Renviron file is used to set environment variables that are specific to R a
 
 On Mac and Linux, the .Renviron file is typically located in the user's home directory, and is used to set environment variables that will be available to R and RStudio. The syntax for setting environment variables in the .Renviron file is:
 
-makefile
-Copy code
 VARIABLE_NAME=value
+
 For example, to set an environment variable called MY_VARIABLE to a value of hello, you would add the following line to the .Renviron file:
 
-makefile
-Copy code
 MY_VARIABLE=hello
+
 On Windows, the .Renviron file is located in the user's Documents folder, and is used to set environment variables in the same way as on Mac and Linux. However, the file path and syntax for setting environment variables in the .Renviron file may be different due to differences in the Windows operating system. For example, you may need to use the set command to set environment variables in the .Renviron file on Windows, like this:
 
-arduino
-Copy code
 set VARIABLE_NAME=value
 It's also worth noting that on Windows, the .Renviron file may not be created by default, and you may need to create it yourself.
 
