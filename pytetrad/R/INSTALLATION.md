@@ -25,7 +25,7 @@ which python
 ```
 Remember these paths for steps below.
 
-#### (4) Setet JAVA_HOME to your Java installation path in ~/.bash_profile.
+#### (4) Setet JAVA_HOME to your Java installation path in the file "~/.Renviron".
 
 <!-- On Windows, This step should be unnecessary; check your registry to make sure JAVA_HOME is set. The Java installation step should have taken care of this.
 
