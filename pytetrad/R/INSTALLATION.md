@@ -74,15 +74,9 @@ This last command should cause various algorithms to run in Tetrad and print out
 
 (Here are docs for [causal learn](https://causal-learn.readthedocs.io/en/latest/), [JPype](https://jpype.readthedocs.io/en/latest/index.html), and [git](https://git-scm.com/doc).)
 
-Finally, launch RStudio _from the command line in this or a new Terminal window_.
-```
-open -na RStudio
-```
-(Here are the docs for [RStudio](https://posit.co/download/rstudio-desktop/).)
+#### (6) Now, open RStudio and do some set up there.
 
-#### (6) Now, in RStudio:
-
-Inside RStudio, type the following:
+Open RStudio, and inside RStudio, type the following:
 ```
 install.packages("reticulate")
 install.packages("DiagrammR")
@@ -93,7 +87,7 @@ This python path was found in step (3). "DiagrammR" is used in the sample R scri
 
 This only needs to be done once. 
 
-(Here are the docs for the [Reticulate package in R](https://rstudio.github.io/reticulate/).)
+(Here are the docs for [RStudio](https://posit.co/download/rstudio-desktop/) and the [Reticulate package in R](https://rstudio.github.io/reticulate/).)
  
 #### (7) Finally, in RStudio, open one of the example R scripts in the py-tetrad repository and run it.
 
