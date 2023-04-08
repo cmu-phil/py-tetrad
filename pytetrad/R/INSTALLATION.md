@@ -87,7 +87,7 @@ This only needs to be done once.
 
 (Here are the docs for [RStudio](https://posit.co/download/rstudio-desktop/) and the [Reticulate package in R](https://rstudio.github.io/reticulate/).)
  
-#### (7) Finally, in RStudio, open one of the example R scripts in the py-tetrad repository and run it.
+#### (7) Finally, open up RStudio, and in RStudio, open one of the example R scripts in the py-tetrad repository and run it.
 
 In RStudio,, open the file 'py-tetrad/pytetrad/R/sample_r_code2.R', for example.
 
