@@ -27,7 +27,7 @@ Remember these paths for steps below.
 
 #### (4) On a Mac (or maybe Linux too?) Set JAVA_HOME to your Java installation path in the file "~/.Renviron".
 
-Apparently on windows, once you install Java, this step is unnecessary!
+Apparently on windows, once you install Java, this step is unnecessary! Lucky you.
 
 <!-- On Windows, This step should be unnecessary; check your registry to make sure JAVA_HOME is set. The Java installation step should have taken care of this.
 
