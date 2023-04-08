@@ -97,4 +97,4 @@ setwd("~/py-tetrad/pytetrad")
 ```
 Select all lines in the file by typeing control-A.
 
-Then click the Run button. That should run FGES on the example file and print the graph in PCALG general graph format. 
+Then click the Run button. That should run FGES on the example file, display the result in the Viewer window using Graphviz, dipslay a plot matrix of the scatterplots and histograms of the varibles in the Plot window.
