@@ -6,7 +6,7 @@ These are installation instructions for using py-tetrad in RStudio to run algori
 
 We have worked out and tested these instructions using RStudio on a Mac; we will test on other platforms soon.
 
-The installation instructions should simplify in the future; hope they are not too difficult to follow.
+The installation instructions should simplify in the future; a lot of this will be done automtically in the future using a Java package or Docker. We apologize for the current complexity.
 
 #### (1) Install a Java JDK. the minimal version for this install is 1.8 (version 8).
 
