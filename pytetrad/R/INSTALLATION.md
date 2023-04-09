@@ -64,6 +64,7 @@ set VARIABLE_NAME=value
 It's also worth noting that on Windows, the .Renviron file may not be created by default, and you may need to create it yourself.
 
 Regardless of the operating system, any environment variables set in the .Renviron file will be available to R and RStudio, and can be accessed using the Sys.getenv() function in R.
+-->
 
 #### (5) Open a terminal window, and type the following:
 ```
@@ -94,7 +95,7 @@ This python path was found in step (3). "DiagrammR" is used in the sample R scri
 This only needs to be done once. 
 
 (Here are the docs for [RStudio](https://posit.co/download/rstudio-desktop/) and the [Reticulate package in R](https://rstudio.github.io/reticulate/).)
--->
+
  
 #### (7) Finally, open up RStudio, and in RStudio, open one of the example R scripts in the py-tetrad repository and run it.
 
