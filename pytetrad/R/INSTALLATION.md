@@ -33,7 +33,7 @@ On Mac, in a text editor, check to see if you have a file called `.Renviron` in 
 ```
 JAVA_HOME = /Users/[username]/Library/Java/JavaVirtualMachines/azul-20/Contents/Home 
 ```
-Save this file as `.Renviron` in your home directory, `~`. Again, this should be the path to **your** JDK.
+Save this file as `.Renviron` in your home directory, `~`. Again, this should be the path to the `.../Home` directory of **your** JDK.
 
 Then when you open RStudio below by double clicking on its icon, after following step 4, step 5 should work. If not, come back to this step and double-check your work.
 
