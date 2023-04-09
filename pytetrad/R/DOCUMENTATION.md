@@ -1,8 +1,8 @@
-# RPyTetrad: Some Initial Documentation
+# rpytetrad: Some Initial Documentation
 
 Click here for [Installation Instructions](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/INSTALLATION.md).
 
-RPyTetrad is an R interface for the search algorithms in the [Tetrad](https://github.com/cmu-phil/tetrad) package. This page will eventualy turn into some bonafide documentation; please be patient. 
+The rpytetrad is an R interface for the search algorithms in the [Tetrad](https://github.com/cmu-phil/tetrad) package. This page will eventualy turn into some bonafide documentation; please be patient. 
 
 For information on specific algorithms, tests, or scores, or if you'd like to watch some videos on causal search, please see the [Documentation Section on the Tetrad GitHub page](https://github.com/cmu-phil/tetrad#documentation). 
 

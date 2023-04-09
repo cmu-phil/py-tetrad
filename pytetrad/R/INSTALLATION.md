@@ -1,4 +1,4 @@
-# RPyTetrad: Installation Instructions
+# rpytetrad: Installation Instructions
 
 Click here for [Documentation](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/DOCUMENTATION.md).
 
@@ -6,7 +6,7 @@ These are installation instructions for using py-tetrad in RStudio to run algori
 
 We have worked out and tested these instructions using RStudio on a Mac; we will test on other platforms soon.
 
-The installation instructions should simplify in the future; hope they are not too difficult to follow.
+The installation instructions should simplify in the future; a lot of this will be done automtically in the future using a Java package or Docker. We apologize for the current complexity.
 
 #### (1) Install a Java JDK. the minimal version for this install is 1.8 (version 8).
 
@@ -25,9 +25,19 @@ which python
 ```
 Remember these paths for steps below.
 
-#### (4) If you're on a Mac, in a text editor, set JAVA_HOME to your Java installation path in ~/.bash_profile.
+#### (4) On a Mac (or maybe Linux too?) Set JAVA_HOME to your Java installation path in the file "~/.Renviron".
 
-On Windows, This step should be unnecessary; check your registry to make sure JAVA_HOME is set. The Java installation step should have taken care of this.
+On Windows, once you install Java in step (1), this step is unnecessary! Lucky you!
+
+On Mac, in a text editor, check to see if you have a file called `.Renviron` in your home directory, `~`; if not, create one. In this file, type this line, for example--use the path to the Java JDK on your machine that you found in step (3):
+```
+JAVA_HOME = /Users/[username]/Library/Java/JavaVirtualMachines/[JDK name]/Contents/Home 
+```
+Save this file as `.Renviron` in your home directory, `~`. Again, this should be the path to the `.../Home` directory of **your** JDK.
+
+Then when you open RStudio below by double clicking on its icon, after following step 4, step 5 should work. If not, come back to this step and double-check your work.
+
+<!-- On Windows, This step should be unnecessary; check your registry to make sure JAVA_HOME is set. The Java installation step should have taken care of this.
 
 On a Mac, in a text editor, add this line to the file ~/.bash_profile:
 ```
@@ -35,7 +45,28 @@ export JAVA_HOME=[..path..to...your...java...jdk...]
 ```
 and save the file. This Java path was found in step (3).
 
-#### (5) Open a NEW TERMINAL WINDOW, and type the following:
+
+In the "~/.Renviron file, set JAVA_HOME to the path to your JDK found in step (3). Here's what CHAT GPT says: 
+
+The .Renviron file is used to set environment variables that are specific to R and RStudio. While the basic functionality of the .Renviron file is the same across different operating systems, there are some differences in how the file is used and its location.
+
+On Mac and Linux, the .Renviron file is typically located in the user's home directory, and is used to set environment variables that will be available to R and RStudio. The syntax for setting environment variables in the .Renviron file is:
+
+VARIABLE_NAME=value
+
+For example, to set an environment variable called MY_VARIABLE to a value of hello, you would add the following line to the .Renviron file:
+
+MY_VARIABLE=hello
+
+On Windows, the .Renviron file is located in the user's Documents folder, and is used to set environment variables in the same way as on Mac and Linux. However, the file path and syntax for setting environment variables in the .Renviron file may be different due to differences in the Windows operating system. For example, you may need to use the set command to set environment variables in the .Renviron file on Windows, like this:
+
+set VARIABLE_NAME=value
+It's also worth noting that on Windows, the .Renviron file may not be created by default, and you may need to create it yourself.
+
+Regardless of the operating system, any environment variables set in the .Renviron file will be available to R and RStudio, and can be accessed using the Sys.getenv() function in R.
+-->
+
+#### (5) Open a terminal window, and type the following:
 ```
 pip install causal-learn
 pip install JPype1  
@@ -50,28 +81,23 @@ This last command should cause various algorithms to run in Tetrad and print out
 
 (Here are docs for [causal learn](https://causal-learn.readthedocs.io/en/latest/), [JPype](https://jpype.readthedocs.io/en/latest/index.html), and [git](https://git-scm.com/doc).)
 
-Finally, launch RStudio _from the command line in this or a new Terminal window_.
-```
-open -na RStudio
-```
-(Here are the docs for [RStudio](https://posit.co/download/rstudio-desktop/).)
+#### (6) Now, open RStudio and do some setup there.
 
-#### (6) Now, in RStudio:
-
-Inside RStudio, type the following:
+Open RStudio, and inside RStudio, type the following:
 ```
 install.packages("reticulate")
 install.packages("DiagrammR")
 install.packages("psych")
 use_python("[...path...to...your...Python...installation...]")
 ```
-This python path was found in step (3). "DiagrammR" is used in the sample R scripts to render graphs in the RStudio viewer window; if you're running the scripts in command-line R, it will not help.
+This python path was found in step (3). "DiagrammR" is used in the sample R scripts to render graphs in the RStudio viewer window; if you're running the scripts in command-line R, it will not help. Also, "DiagrammR" needs to be installed with devtools for the latest R versions.
 
 This only needs to be done once. 
 
-(Here are the docs for the [Reticulate package in R](https://rstudio.github.io/reticulate/).)
+(Here are the docs for [RStudio](https://posit.co/download/rstudio-desktop/), the [Reticulate package in R](https://rstudio.github.io/reticulate/), the [DiagrammR package in R](https://rich-iannone.github.io/DiagrammeR/docs.html), and the [psych package in R](https://www.rdocumentation.org/packages/psych/versions/2.3.3).)
+
  
-#### (7) Finally, in RStudio, open one of the example R scripts in the py-tetrad repository and run it.
+#### (7) Finally, open up RStudio, and in RStudio, open one of the example R scripts in the py-tetrad repository and run it.
 
 In RStudio,, open the file 'py-tetrad/pytetrad/R/sample_r_code2.R', for example.
 
@@ -81,4 +107,4 @@ setwd("~/py-tetrad/pytetrad")
 ```
 Select all lines in the file by typeing control-A.
 
-Then click the Run button. That should run FGES on the example file and print the graph in PCALG general graph format. 
+Then click the Run button. That should run FGES on the example file, display the result in the Viewer window using Graphviz, dipslay a plot matrix of the scatterplots and histograms of the varibles in the Plot window.
