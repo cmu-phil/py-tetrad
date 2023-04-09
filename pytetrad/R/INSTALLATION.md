@@ -94,7 +94,7 @@ This python path was found in step (3). "DiagrammR" is used in the sample R scri
 
 This only needs to be done once. 
 
-(Here are the docs for [RStudio](https://posit.co/download/rstudio-desktop/), the [Reticulate package in R](https://rstudio.github.io/reticulate/), and the [DiagrammR package in R](https://rich-iannone.github.io/DiagrammeR/docs.html).)
+(Here are the docs for [RStudio](https://posit.co/download/rstudio-desktop/), the [Reticulate package in R](https://rstudio.github.io/reticulate/), the [DiagrammR package in R](https://rich-iannone.github.io/DiagrammeR/docs.html), and the [psych package in R](https://www.rdocumentation.org/packages/psych/versions/2.3.3).)
 
  
 #### (7) Finally, open up RStudio, and in RStudio, open one of the example R scripts in the py-tetrad repository and run it.
