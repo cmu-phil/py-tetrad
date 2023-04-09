@@ -31,7 +31,7 @@ On Windows, once you install Java in step (1), this step is unnecessary! Lucky y
 
 On Mac, in a text editor, check to see if you have a file called `.Renviron` in your home directory, `~`; if not, create one. In this file, type this line, for example--use the path to the Java JDK on your machine that you found in step (3):
 ```
-JAVA_HOME = /Users/[username]/Library/Java/JavaVirtualMachines/azul-20/Contents/Home 
+JAVA_HOME = /Users/[username]/Library/Java/JavaVirtualMachines/[JDK name]/Contents/Home 
 ```
 Save this file as `.Renviron` in your home directory, `~`. Again, this should be the path to the `.../Home` directory of **your** JDK.
 
