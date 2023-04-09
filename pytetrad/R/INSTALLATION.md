@@ -27,7 +27,15 @@ Remember these paths for steps below.
 
 #### (4) On a Mac (or maybe Linux too?) Set JAVA_HOME to your Java installation path in the file "~/.Renviron".
 
-_Apparently on Windows, once you install Java, this step is unnecessary! Lucky you._
+_Apparently on Windows, once you install Java, this step is unnecessary! Lucky you!_
+
+On Mac, in a text editor, create a file called `.Renviron` in your home directory, `~`, and type this line in it--I give an example for my machine--use the path to the Java JDK on your machine that you found in step (3):
+```
+JAVA_HOME = /Users/[username]/Library/Java/JavaVirtualMachines/azul-20/Contents/Home 
+```
+Save this file as `.Renviron` in your home directory, `~`. Again, this should be the path to **your** JDK, not mine.
+
+Then when you open RStudio below by double clicking on its icon, after following step 4, step 5 should work. If not, come back to this step and double-check your work.
 
 <!-- On Windows, This step should be unnecessary; check your registry to make sure JAVA_HOME is set. The Java installation step should have taken care of this.
 
@@ -35,7 +43,7 @@ On a Mac, in a text editor, add this line to the file ~/.bash_profile:
 ```
 export JAVA_HOME=[..path..to...your...java...jdk...]
 ```
-and save the file. This Java path was found in step (3).-->
+and save the file. This Java path was found in step (3).
 
 
 In the "~/.Renviron file, set JAVA_HOME to the path to your JDK found in step (3). Here's what CHAT GPT says: 
@@ -86,6 +94,7 @@ This python path was found in step (3). "DiagrammR" is used in the sample R scri
 This only needs to be done once. 
 
 (Here are the docs for [RStudio](https://posit.co/download/rstudio-desktop/) and the [Reticulate package in R](https://rstudio.github.io/reticulate/).)
+-->
  
 #### (7) Finally, open up RStudio, and in RStudio, open one of the example R scripts in the py-tetrad repository and run it.
 
