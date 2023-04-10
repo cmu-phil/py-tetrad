@@ -19,7 +19,7 @@ search = search.TetradSearch(data)
 search.set_verbose(False)
 
 ## Pick the score to use, in this case a continuous linear, Gaussian score.
-search.use_sem_bic(penalty_discount=2)
+search.use_sem_bic()
 search.use_fisher_z(alpha=0.05)
 
 ## Run various algorithms and print their results. For now (for compability with R)
@@ -37,10 +37,6 @@ print(search.get_string())
 
 print('GRaSP')
 search.run_grasp()
-print(search.get_string())
-
-print('GANGO')
-search.run_gango()
 print(search.get_string())
 
 print('PC')

@@ -19,7 +19,7 @@ search.set_verbose(False)
 
 ## Pick the score to use, in this case a continuous linear, Gaussian score.
 search.use_bdeu(sample_prior=10, structure_prior=0)
-search.use_g_square(alpha=0.05)
+search.use_chi_square(alpha=0.1)
 
 ## Run various algorithms and print their results. For now (for compability with R)
 ## Commenting out the ones that won't work with discrete data.
