@@ -70,3 +70,7 @@ print(search.get_string())
 print('SVAR-FCI')
 search.run_svar_fci()
 print(search.get_string())
+
+print('SP-FCI')
+search.run_spfci()
+print(search.get_string())
