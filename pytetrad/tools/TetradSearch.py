@@ -34,7 +34,6 @@ class TetradSearch:
         self.score = None
         self.test = None
         self.java = None
-        self.verbose = False
         self.knowledge = td.Knowledge()
         self.params = Parameters()
 
@@ -218,11 +217,8 @@ class TetradSearch:
     def print_knowledge(self):
         return str(self.knowledge)
 
-    def set_verbose(self, verbose):
-        self.verbose = verbose
-
     def run_fges(self, symmetric_first_step=False, max_degree=-1, parallelized=False,
-                 faithfulness_assumed=False, time_lag=0, meek_verbose=False):
+                 faithfulness_assumed=False, meek_verbose=False):
         alg = cpdag.FGES(self.SCORE)
         alg.setKnowledge(self.knowledge)
         self.java = alg.search(self.data, self.params)
@@ -231,7 +227,6 @@ class TetradSearch:
         self.params.set(Params.MAX_DEGREE, max_degree)
         self.params.set(Params.PARALLELIZED, parallelized)
         self.params.set(Params.FAITHFULNESS_ASSUMED, faithfulness_assumed)
-        self.params.set(Params.TIME_LAG, time_lag)
         self.params.set(Params.MEEK_VERBOSE, meek_verbose)
 
     def run_boss(self, num_starts = 1, depth=-1):
@@ -253,7 +248,7 @@ class TetradSearch:
     def run_grasp(self, depth=4, singular_depth=1,
                           nonsingular_depth=4, ordered_alg=True,
                           raskutti_uhler=False, use_data_order=True,
-                          time_lag=0, num_starts=1):
+                          num_starts=1):
         alg = cpdag.GRASP(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
@@ -263,16 +258,15 @@ class TetradSearch:
         self.params.set(Params.GRASP_ORDERED_ALG, ordered_alg)
         self.params.set(Params.GRASP_USE_RASKUTTI_UHLER, raskutti_uhler)
         self.params.set(Params.GRASP_USE_DATA_ORDER, use_data_order)
-        self.params.set(Params.TIME_LAG, time_lag)
         self.params.set(Params.NUM_STARTS, num_starts)
 
         self.java = alg.search(self.data, self.params)
 
     def run_gango(self):
-        self.java = search.gango(self.score, self.data, self.knowledge, verbose=self.verbose)
+        self.java = search.gango(self.score, self.data, self.knowledge, verbose=self.params.getBoolean(Params.VERBOSE))
 
     def run_pc(self, conflict_rule=1, depth=-1, use_heuristic=True, max_path_length=-1,
-               time_lag=0, stable_fas=True):
+               stable_fas=True):
         alg = cpdag.PC(self.TEST)
         alg.setKnowledge(self.knowledge)
 
@@ -280,13 +274,12 @@ class TetradSearch:
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.USE_MAX_P_ORIENTATION_HEURISTIC, use_heuristic)
         self.params.set(Params.MAX_P_ORIENTATION_MAX_PATH_LENGTH, max_path_length)
-        self.params.set(Params.TIME_LAG, time_lag)
         self.params.set(Params.STABLE_FAS, stable_fas)
 
         self.java = alg.search(self.data, self.params)
 
     def run_cpc(self, conflict_rule=1, depth=-1, use_heuristic=True, max_path_length=-1,
-               time_lag=0, stable_fas=True):
+               stable_fas=True):
         alg = cpdag.CPC(self.TEST)
         alg.setKnowledge(self.knowledge)
 
@@ -294,13 +287,12 @@ class TetradSearch:
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.USE_MAX_P_ORIENTATION_HEURISTIC, use_heuristic)
         self.params.set(Params.MAX_P_ORIENTATION_MAX_PATH_LENGTH, max_path_length)
-        self.params.set(Params.TIME_LAG, time_lag)
         self.params.set(Params.STABLE_FAS, stable_fas)
 
         self.java = alg.search(self.data, self.params)
 
     def run_pcmax(self, conflict_rule=1, depth=-1, use_heuristic=True, max_path_length=-1,
-               time_lag=0, stable_fas=True):
+               stable_fas=True):
         alg = cpdag.PCMAX(self.TEST)
         alg.setKnowledge(self.knowledge)
 
@@ -308,7 +300,6 @@ class TetradSearch:
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.USE_MAX_P_ORIENTATION_HEURISTIC, use_heuristic)
         self.params.set(Params.MAX_P_ORIENTATION_MAX_PATH_LENGTH, max_path_length)
-        self.params.set(Params.TIME_LAG, time_lag)
         self.params.set(Params.STABLE_FAS, stable_fas)
 
         self.java = alg.search(self.data, self.params)
@@ -316,8 +307,7 @@ class TetradSearch:
     def run_fci(self, fas_heuristic=1, depth=-1, stable_fas=True,
                       max_path_length=-1, possible_dsep=True,
                       do_discriminating_path_rule=True,
-                      complete_rule_set_used=True,
-                      time_lag=0):
+                      complete_rule_set_used=True):
         alg = pag.FCI(self.TEST)
         alg.setKnowledge(self.knowledge)
 
@@ -328,13 +318,12 @@ class TetradSearch:
         self.params.set(Params.POSSIBLE_DSEP_DONE, possible_dsep)
         self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
-        self.params.set(Params.TIME_LAG, time_lag)
 
         self.java = alg.search(self.data, self.params)
 
     def run_gfci(self, depth=-1, max_degree=-1, max_path_length=-1,
                  complete_rule_set_used=True, do_discriminating_path_rule=True,
-                 possible_dsep_done=True, time_lag=0):
+                 possible_dsep_done=True):
         alg = pag.GFCI(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
@@ -344,13 +333,11 @@ class TetradSearch:
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
         self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
         self.params.set(Params.POSSIBLE_DSEP_DONE, possible_dsep_done)
-        self.params.set(Params.TIME_LAG, time_lag)
 
         self.java = alg.search(self.data, self.params)
 
     def run_bfci(self, depth=-1, max_path_length=-1,
-                 complete_rule_set_used=True, do_discriminating_path_rule=True,
-                 time_lag=0):
+                 complete_rule_set_used=True, do_discriminating_path_rule=True):
         alg = pag.BFCI(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
@@ -358,7 +345,6 @@ class TetradSearch:
         self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
         self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
-        self.params.set(Params.TIME_LAG, time_lag)
 
         self.java = alg.search(self.data, self.params)
 
@@ -369,7 +355,7 @@ class TetradSearch:
                       depth=4, singular_depth=1,
                       nonsingular_depth=4, ordered_alg=True,
                       raskutti_uhler=False, use_data_order=True,
-                      time_lag=0, num_starts=1):
+                      num_starts=1):
         alg = pag.GRASP_FCI(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
@@ -380,7 +366,6 @@ class TetradSearch:
         self.params.set(Params.GRASP_ORDERED_ALG, ordered_alg)
         self.params.set(Params.GRASP_USE_RASKUTTI_UHLER, raskutti_uhler)
         self.params.set(Params.GRASP_USE_DATA_ORDER, use_data_order)
-        self.params.set(Params.TIME_LAG, time_lag)
         self.params.set(Params.NUM_STARTS, num_starts)
 
         # FCI
@@ -391,19 +376,17 @@ class TetradSearch:
         self.params.set(Params.POSSIBLE_DSEP_DONE, possible_dsep)
         self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
-        self.params.set(Params.TIME_LAG, time_lag)
 
         self.java = alg.search(self.data, self.params)
 
     def run_sp_fci(self, max_path_length=-1, complete_rule_set_used=True,
-                   do_discriminating_path_rule=True, depth=-1, time_lag=0):
+                   do_discriminating_path_rule=True, depth=-1):
         alg = pag.SP_FCI(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
         self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
         self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
         self.params.set(Params.DEPTH, depth)
-        self.params.set(Params.TIME_LAG, time_lag)
 
         self.java = alg.search(self.data, self.params)
 
@@ -430,7 +413,7 @@ class TetradSearch:
         self.java = svar_fci.search()
 
     # Set numberResampling to 0 to turn off bootstrapping.
-    def set_bootstrapping_parameters(self, numberResampling=0, percent_resample_size=100, add_original=True,
+    def set_bootstrapping(self, numberResampling=0, percent_resample_size=100, add_original=True,
                                      with_replacement=True, resampling_ensemble=1, seed=-1):
         self.params.set(Params.NUMBER_RESAMPLING, numberResampling)
         self.params.set(Params.PERCENT_RESAMPLE_SIZE, percent_resample_size)
@@ -438,6 +421,12 @@ class TetradSearch:
         self.params.set(Params.RESAMPLING_WITH_REPLACEMENT, with_replacement)
         self.params.set(Params.RESAMPLING_ENSEMBLE, resampling_ensemble)
         self.params.set(Params.SEED, seed)
+
+    def set_verbose(self, verbose):
+        self.params.set(Params.VERBOSE, verbose)
+
+    def set_time_lag(self, time_lag=0):
+        self.params.set(Params.TIME_LAG, time_lag)
 
     def get_data(self):
         return self.data
@@ -449,7 +438,7 @@ class TetradSearch:
         return self.test
 
     def get_verbose(self):
-        return self.verbose
+        return self.params.getBoolean(Params.VERBOSE)
 
     def get_knowledge(self):
         return self.knowledge
