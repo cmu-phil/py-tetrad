@@ -71,8 +71,8 @@ class TetradSearch:
         score.setPenaltyDiscount(penalty_discount)
         self.score = score
 
-        self.params.add(Params.SEM_GIC_RULE, sem_gic_rule)
-        self.params.add(Params.PENALTY_DISCOUNT_ZS, penalty_discount)
+        self.params.set(Params.SEM_GIC_RULE, sem_gic_rule)
+        self.params.set(Params.PENALTY_DISCOUNT_ZS, penalty_discount)
         self.SCORE = score_.KimEtAlScores()
 
     def use_mixed_variable_polynomial(self, structure_prior=0, f_degree=0, discretize=False):
@@ -89,8 +89,8 @@ class TetradSearch:
         score.setLambda(lambda_)
         self.score = score
 
-        self.params.add(Params.PRECOMPUTE_COVARIANCES)
-        self.params.add(Params.POISSON_LAMBDA)
+        self.params.set(Params.PRECOMPUTE_COVARIANCES)
+        self.params.set(Params.POISSON_LAMBDA)
         self.SCORE = score_.PoissonPriorScore()
 
     def use_zhang_shen_bound(self, risk_bound=0.2):
@@ -221,87 +221,209 @@ class TetradSearch:
     def set_verbose(self, verbose):
         self.verbose = verbose
 
-    def run_fges(self):
+    def run_fges(self, symmetric_first_step=False, max_degree=-1, parallelized=False,
+                 faithfulness_assumed=False, time_lag=0, meek_verbose=False):
         alg = cpdag.FGES(self.SCORE)
         alg.setKnowledge(self.knowledge)
         self.java = alg.search(self.data, self.params)
 
-    def run_boss(self, depth=-1):
+        self.params.set(Params.SYMMETRIC_FIRST_STEP, symmetric_first_step)
+        self.params.set(Params.MAX_DEGREE, max_degree)
+        self.params.set(Params.PARALLELIZED, parallelized)
+        self.params.set(Params.FAITHFULNESS_ASSUMED, faithfulness_assumed)
+        self.params.set(Params.TIME_LAG, time_lag)
+        self.params.set(Params.MEEK_VERBOSE, meek_verbose)
+
+    def run_boss(self, num_starts = 1, depth=-1):
         self.params.set(Params.DEPTH, depth)
         alg = cpdag.BOSS(self.SCORE)
         alg.setKnowledge(self.knowledge)
+
+        self.params.set(Params.NUM_STARTS, num_starts)
+        self.params.set(Params.DEPTH, depth)
+
         self.java = alg.search(self.data, self.params)
+
 
     def run_sp(self):
         alg = cpdag.SP(self.SCORE)
         alg.setKnowledge(self.knowledge)
         self.java = alg.search(self.data, self.params)
 
-    def run_grasp(self):
+    def run_grasp(self, depth=4, singular_depth=1,
+                          nonsingular_depth=4, ordered_alg=True,
+                          raskutti_uhler=False, use_data_order=True,
+                          time_lag=0, num_starts=1):
         alg = cpdag.GRASP(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
+
+        self.params.set(Params.GRASP_DEPTH, depth)
+        self.params.set(Params.GRASP_SINGULAR_DEPTH, singular_depth)
+        self.params.set(Params.GRASP_NONSINGULAR_DEPTH, nonsingular_depth)
+        self.params.set(Params.GRASP_ORDERED_ALG, ordered_alg)
+        self.params.set(Params.GRASP_USE_RASKUTTI_UHLER, raskutti_uhler)
+        self.params.set(Params.GRASP_USE_DATA_ORDER, use_data_order)
+        self.params.set(Params.TIME_LAG, time_lag)
+        self.params.set(Params.NUM_STARTS, num_starts)
+
         self.java = alg.search(self.data, self.params)
 
     def run_gango(self):
         self.java = search.gango(self.score, self.data, self.knowledge, verbose=self.verbose)
-        # alg = cpdag.BOSS(self.SCORE)
-        # alg.setKnowledge(self.knowledge)
-        # self.java = alg.search(self.data, self.params)
 
-    def run_pc(self):
+    def run_pc(self, conflict_rule=1, depth=-1, use_heuristic=True, max_path_length=-1,
+               time_lag=0, stable_fas=True):
         alg = cpdag.PC(self.TEST)
         alg.setKnowledge(self.knowledge)
+
+        self.params.set(Params.CONFLICT_RULE, conflict_rule)
+        self.params.set(Params.DEPTH, depth)
+        self.params.set(Params.USE_MAX_P_ORIENTATION_HEURISTIC, use_heuristic)
+        self.params.set(Params.MAX_P_ORIENTATION_MAX_PATH_LENGTH, max_path_length)
+        self.params.set(Params.TIME_LAG, time_lag)
+        self.params.set(Params.STABLE_FAS, stable_fas)
+
         self.java = alg.search(self.data, self.params)
 
-    def run_cpc(self):
+    def run_cpc(self, conflict_rule=1, depth=-1, use_heuristic=True, max_path_length=-1,
+               time_lag=0, stable_fas=True):
         alg = cpdag.CPC(self.TEST)
         alg.setKnowledge(self.knowledge)
+
+        self.params.set(Params.CONFLICT_RUL, conflict_rule)
+        self.params.set(Params.DEPTH, depth)
+        self.params.set(Params.USE_MAX_P_ORIENTATION_HEURISTIC, use_heuristic)
+        self.params.set(Params.MAX_P_ORIENTATION_MAX_PATH_LENGTH, max_path_length)
+        self.params.set(Params.TIME_LAG, time_lag)
+        self.params.set(Params.STABLE_FAS, stable_fas)
+
         self.java = alg.search(self.data, self.params)
 
-    def run_pcmax(self):
+    def run_pcmax(self, conflict_rule=1, depth=-1, use_heuristic=True, max_path_length=-1,
+               time_lag=0, stable_fas=True):
         alg = cpdag.PCMAX(self.TEST)
         alg.setKnowledge(self.knowledge)
+
+        self.params.set(Params.CONFLICT_RUL, conflict_rule)
+        self.params.set(Params.DEPTH, depth)
+        self.params.set(Params.USE_MAX_P_ORIENTATION_HEURISTIC, use_heuristic)
+        self.params.set(Params.MAX_P_ORIENTATION_MAX_PATH_LENGTH, max_path_length)
+        self.params.set(Params.TIME_LAG, time_lag)
+        self.params.set(Params.STABLE_FAS, stable_fas)
+
         self.java = alg.search(self.data, self.params)
 
-    def run_fci(self):
+    def run_fci(self, fas_heuristic=1, depth=-1, stable_fas=True,
+                      max_path_length=-1, possible_dsep=True,
+                      do_discriminating_path_rule=True,
+                      complete_rule_set_used=True,
+                      time_lag=0):
         alg = pag.FCI(self.TEST)
         alg.setKnowledge(self.knowledge)
+
+        self.params.set(Params.DEPTH, depth)
+        self.params.set(Params.FAS_HEURISTIC, fas_heuristic)
+        self.params.set(Params.STABLE_FAS, stable_fas)
+        self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
+        self.params.set(Params.POSSIBLE_DSEP_DONE, possible_dsep)
+        self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
+        self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
+        self.params.set(Params.TIME_LAG, time_lag)
+
         self.java = alg.search(self.data, self.params)
 
-    def run_gfci(self):
+    def run_gfci(self, depth=-1, max_degree=-1, max_path_length=-1,
+                 complete_rule_set_used=True, do_discriminating_path_rule=True,
+                 possible_dsep_done=True, time_lag=0):
         alg = pag.GFCI(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
+
+        self.params.set(Params.DEPTH, depth)
+        self.params.set(Params.MAX_DEGREE, max_degree)
+        self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
+        self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
+        self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
+        self.params.set(Params.POSSIBLE_DSEP_DONE, possible_dsep_done)
+        self.params.set(Params.TIME_LAG, time_lag)
+
         self.java = alg.search(self.data, self.params)
 
-    def run_bfci(self):
+    def run_bfci(self, depth=-1, max_path_length=-1,
+                 complete_rule_set_used=True, do_discriminating_path_rule=True,
+                 time_lag=0):
         alg = pag.BFCI(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
+
+        self.params.set(Params.DEPTH, depth)
+        self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
+        self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
+        self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
+        self.params.set(Params.TIME_LAG, time_lag)
+
         self.java = alg.search(self.data, self.params)
 
-    def run_grasp_fci(self):
+    def run_grasp_fci(self, fas_heuristic=1, stable_fas=True,
+                      max_path_length=-1, possible_dsep=True,
+                      do_discriminating_path_rule=True,
+                      complete_rule_set_used=True,
+                      depth=4, singular_depth=1,
+                      nonsingular_depth=4, ordered_alg=True,
+                      raskutti_uhler=False, use_data_order=True,
+                      time_lag=0, num_starts=1):
         alg = pag.GRASP_FCI(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
+
+        # GRaSP
+        self.params.set(Params.GRASP_DEPTH, depth)
+        self.params.set(Params.GRASP_SINGULAR_DEPTH, singular_depth)
+        self.params.set(Params.GRASP_NONSINGULAR_DEPTH, nonsingular_depth)
+        self.params.set(Params.GRASP_ORDERED_ALG, ordered_alg)
+        self.params.set(Params.GRASP_USE_RASKUTTI_UHLER, raskutti_uhler)
+        self.params.set(Params.GRASP_USE_DATA_ORDER, use_data_order)
+        self.params.set(Params.TIME_LAG, time_lag)
+        self.params.set(Params.NUM_STARTS, num_starts)
+
+        # FCI
+        self.params.set(Params.DEPTH, depth)
+        self.params.set(Params.FAS_HEURISTIC, fas_heuristic)
+        self.params.set(Params.STABLE_FAS, stable_fas)
+        self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
+        self.params.set(Params.POSSIBLE_DSEP_DONE, possible_dsep)
+        self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
+        self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
+        self.params.set(Params.TIME_LAG, time_lag)
+
         self.java = alg.search(self.data, self.params)
 
-    def run_spfci(self):
+    def run_sp_fci(self, max_path_length=-1, complete_rule_set_used=True,
+                   do_discriminating_path_rule=True, depth=-1, time_lag=0):
         alg = pag.SP_FCI(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
+        self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
+        self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
+        self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
+        self.params.set(Params.DEPTH, depth)
+        self.params.set(Params.TIME_LAG, time_lag)
+
         self.java = alg.search(self.data, self.params)
 
-    def run_ccd(self):
+    def run_ccd(self, depth=-1, apply_r1=True):
         if not self.knowledge.isEmpty():
             print("CCD does not use knowledge.")
             return
 
+        self.params.set(Params.DEPTH, depth)
+        self.params.set(Params.APPLY_R1, apply_r1)
+
         alg = pag.CCD(self.TEST)
         self.java = alg.search(self.data, self.params)
 
-    def run_svar_fci(self):
+    def run_svar_fci(self, penalty_discount=2):
         num_lags = 2
         lagged_data = ts.TimeSeriesUtils.createLagData(self.data, num_lags)
         ts_test = ts.IndTestFisherZ(lagged_data, 0.01)
         ts_score = ts.SemBicScore(lagged_data)
-        ts_score.setPenaltyDiscount(2)
+        ts_score.setPenaltyDiscount(penalty_discount)
         svar_fci = ts.SvarGFci(ts_test, ts_score)
         svar_fci.setKnowledge(lagged_data.getKnowledge())
         svar_fci.setVerbose(True)
