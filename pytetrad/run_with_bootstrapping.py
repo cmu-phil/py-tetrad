@@ -17,7 +17,8 @@ import tools.TetradSearch as search
 
 search = search.TetradSearch(data)
 search.use_sem_bic(penalty_discount=2)
-search.set_bootstrapping(numberResampling=10)
+search.set_bootstrapping(numberResampling=10, percent_resample_size=100, with_replacement=True,
+                         add_original=True, resampling_ensemble=1, seed=4130213)
 search.run_fges()
 
 print(search.get_java())
