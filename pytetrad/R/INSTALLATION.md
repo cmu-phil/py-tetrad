@@ -79,3 +79,5 @@ setwd("~/py-tetrad/pytetrad")
 Select all lines in the file by typeing control-A.
 
 Then click the Run button. That should run FGES on the example file, display the result in the Viewer window using Graphviz, dipslay a plot matrix of the scatterplots and histograms of the varibles in the Plot window.
+
+We assume if you're an R user you know of other things you can do with data in R.
