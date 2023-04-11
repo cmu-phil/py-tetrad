@@ -40,7 +40,7 @@ ts$use_fisher_z(0.05)
 
 ts$set_bootstrapping(numberResampling=10, percent_resample_size=100, with_replacement=TRUE,
                      add_original=TRUE, resampling_ensemble=1, seed=413025513L)
-ts$run_fges()
+ts$run_fci()
 
 ## Print the graph and grab the DOT format string (for Grasphviz)
 print(ts$get_string())
