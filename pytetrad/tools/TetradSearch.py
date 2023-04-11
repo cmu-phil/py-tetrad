@@ -381,6 +381,10 @@ class TetradSearch:
     def get_dot(self):
         return str(gp.graphToDot(self.java))
 
+    def get_dot2(self):
+        return gp.graphToDot(self.java)
+
+
     def get_xml(self):
         return gp.graphToXml(self.java)
 
