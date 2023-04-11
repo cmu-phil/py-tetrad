@@ -10,4 +10,4 @@ If you have questions or need more (or different) functionality, or are just flu
 
 NEWS:
 
-* 2023-4-11: Bootstrapping facility was added to TetradSearch.py, and all algorithm, search, and test parameters for the algorithms, searches, and tests available in this module are now available as arguments to those method.
+* 2023-4-11: The Tetrad bootstrapping facility was added to TetradSearch.py, and all algorithm, search, and test parameters for the algorithms, searches, and tests available in this module are now available as arguments to those method.
