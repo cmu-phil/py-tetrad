@@ -20,7 +20,7 @@ search.set_verbose(False)
 search.use_sem_bic(penalty_discount=1)
 search.use_fisher_z(alpha=0.05)
 
-search.run_sp_fci()
+search.run_spfci()
 g = search.get_java()
 
 gdot = gviz.Graph(format='png', 

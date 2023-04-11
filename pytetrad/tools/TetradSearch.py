@@ -305,7 +305,7 @@ class TetradSearch:
 
         self.java = alg.search(self.data, self.params)
 
-    def run_sp_fci(self, max_path_length=-1, complete_rule_set_used=True,
+    def run_spfci(self, max_path_length=-1, complete_rule_set_used=True,
                    do_discriminating_path_rule=True, depth=-1):
         alg = pag.SP_FCI(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
@@ -380,10 +380,6 @@ class TetradSearch:
 
     def get_dot(self):
         return str(gp.graphToDot(self.java))
-
-    def get_dot2(self):
-        return gp.graphToDot(self.java)
-
 
     def get_xml(self):
         return gp.graphToXml(self.java)
