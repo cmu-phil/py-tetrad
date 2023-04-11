@@ -174,14 +174,14 @@ class TetradSearch:
         alg.setKnowledge(self.knowledge)
         self.java = alg.search(self.data, self.params)
 
-    def run_grasp(self, depth=4, singular_depth=1,
-                          nonsingular_depth=4, ordered_alg=True,
+    def run_grasp(self, covered_depth=4, singular_depth=1,
+                          nonsingular_depth=1, ordered_alg=False,
                           raskutti_uhler=False, use_data_order=True,
                           num_starts=1):
         alg = cpdag.GRASP(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
-        self.params.set(Params.GRASP_DEPTH, depth)
+        self.params.set(Params.GRASP_DEPTH, covered_depth)
         self.params.set(Params.GRASP_SINGULAR_DEPTH, singular_depth)
         self.params.set(Params.GRASP_NONSINGULAR_DEPTH, nonsingular_depth)
         self.params.set(Params.GRASP_ORDERED_ALG, ordered_alg)
@@ -274,19 +274,19 @@ class TetradSearch:
 
         self.java = alg.search(self.data, self.params)
 
-    def run_grasp_fci(self, fas_heuristic=1, stable_fas=True,
+    def run_grasp_fci(self, fas_heuristic=1, depth = -1, stable_fas=True,
                       max_path_length=-1, possible_dsep=True,
                       do_discriminating_path_rule=True,
                       complete_rule_set_used=True,
-                      depth=4, singular_depth=1,
-                      nonsingular_depth=4, ordered_alg=True,
+                      covered_depth=4, singular_depth=1,
+                      nonsingular_depth=1, ordered_alg=False,
                       raskutti_uhler=False, use_data_order=True,
                       num_starts=1):
         alg = pag.GRASP_FCI(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
         # GRaSP
-        self.params.set(Params.GRASP_DEPTH, depth)
+        self.params.set(Params.GRASP_DEPTH, covered_depth)
         self.params.set(Params.GRASP_SINGULAR_DEPTH, singular_depth)
         self.params.set(Params.GRASP_NONSINGULAR_DEPTH, nonsingular_depth)
         self.params.set(Params.GRASP_ORDERED_ALG, ordered_alg)
