@@ -1,4 +1,4 @@
-## rpytetrad: Py-Tetrad in R
+## RPyTetrad: Py-Tetrad in R
 
 This project is being offered as a possible way of connecting Tetrad to R which we are trying out. If it turns out to be useful, we will develop it; if not, we will pursue a different route. It is intended to replace the older, [r-causal](https://github.com/bd2kccd/r-causal) Python project, that uses an outdated version of Tetrad.
 
