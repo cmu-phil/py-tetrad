@@ -18,6 +18,7 @@ import edu.cmu.tetrad.search as ts
 import edu.cmu.tetrad.data as td
 import edu.cmu.tetrad.graph.GraphPersistence as gp
 import java.lang as lang
+import java.util as util
 import edu.cmu.tetrad.algcomparison.algorithm.oracle.cpdag as cpdag
 import edu.cmu.tetrad.algcomparison.algorithm.oracle.pag as pag
 
@@ -36,6 +37,7 @@ class TetradSearch:
         self.java = None
         self.knowledge = td.Knowledge()
         self.params = Parameters()
+        self.bootstrap_graphs = None
 
     def __str__(self):
         display = [self.score, self.test, self.knowledge, self.java]
@@ -156,6 +158,8 @@ class TetradSearch:
         self.params.set(Params.MEEK_VERBOSE, meek_verbose)
 
         self.java = alg.search(self.data, self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
 
 
     def run_boss(self, num_starts = 1, depth=-1):
@@ -167,12 +171,16 @@ class TetradSearch:
         self.params.set(Params.DEPTH, depth)
 
         self.java = alg.search(self.data, self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
 
 
     def run_sp(self):
         alg = cpdag.SP(self.SCORE)
         alg.setKnowledge(self.knowledge)
         self.java = alg.search(self.data, self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
 
     def run_grasp(self, depth=4, singular_depth=1,
                           nonsingular_depth=4, ordered_alg=True,
@@ -190,6 +198,8 @@ class TetradSearch:
         self.params.set(Params.NUM_STARTS, num_starts)
 
         self.java = alg.search(self.data, self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
 
     def run_pc(self, conflict_rule=1, depth=-1, use_heuristic=True, max_path_length=-1,
                stable_fas=True):
@@ -203,6 +213,8 @@ class TetradSearch:
         self.params.set(Params.STABLE_FAS, stable_fas)
 
         self.java = alg.search(self.data, self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
 
     def run_cpc(self, conflict_rule=1, depth=-1, use_heuristic=True, max_path_length=-1,
                stable_fas=True):
@@ -216,6 +228,8 @@ class TetradSearch:
         self.params.set(Params.STABLE_FAS, stable_fas)
 
         self.java = alg.search(self.data, self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
 
     def run_pcmax(self, conflict_rule=1, depth=-1, use_heuristic=True, max_path_length=-1,
                stable_fas=True):
@@ -229,6 +243,8 @@ class TetradSearch:
         self.params.set(Params.STABLE_FAS, stable_fas)
 
         self.java = alg.search(self.data, self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
 
     def run_fci(self, fas_heuristic=1, depth=-1, stable_fas=True,
                       max_path_length=-1, possible_dsep=True,
@@ -246,6 +262,8 @@ class TetradSearch:
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
 
         self.java = alg.search(self.data, self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
 
     def run_gfci(self, depth=-1, max_degree=-1, max_path_length=-1,
                  complete_rule_set_used=True, do_discriminating_path_rule=True,
@@ -261,6 +279,8 @@ class TetradSearch:
         self.params.set(Params.POSSIBLE_DSEP_DONE, possible_dsep_done)
 
         self.java = alg.search(self.data, self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
 
     def run_bfci(self, depth=-1, max_path_length=-1,
                  complete_rule_set_used=True, do_discriminating_path_rule=True):
@@ -273,6 +293,8 @@ class TetradSearch:
         self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
 
         self.java = alg.search(self.data, self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
 
     def run_grasp_fci(self, fas_heuristic=1, stable_fas=True,
                       max_path_length=-1, possible_dsep=True,
@@ -304,6 +326,8 @@ class TetradSearch:
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
 
         self.java = alg.search(self.data, self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
 
     def run_spfci(self, max_path_length=-1, complete_rule_set_used=True,
                    do_discriminating_path_rule=True, depth=-1):
@@ -315,6 +339,8 @@ class TetradSearch:
         self.params.set(Params.DEPTH, depth)
 
         self.java = alg.search(self.data, self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
 
     def run_ccd(self, depth=-1, apply_r1=True):
         if not self.knowledge.isEmpty():
@@ -326,6 +352,7 @@ class TetradSearch:
 
         alg = pag.CCD(self.TEST)
         self.java = alg.search(self.data, self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_svar_fci(self, penalty_discount=2):
         num_lags = 2
@@ -337,6 +364,7 @@ class TetradSearch:
         svar_fci.setKnowledge(lagged_data.getKnowledge())
         svar_fci.setVerbose(True)
         self.java = svar_fci.search()
+        self.bootstrap_graphs = svar_fci.getBootstrapGraphs()
 
     # Set numberResampling to 0 to turn off bootstrapping.
     def set_bootstrapping(self, numberResampling=0, percent_resample_size=100, add_original=True,
@@ -369,20 +397,39 @@ class TetradSearch:
     def get_java(self):
         return self.java
 
-    def get_string(self):
-        return lang.String @ self.java.toString()
+    def get_string(self, java=None):
+        if (java == None): return lang.String @ self.java.toString()
+        else: lang.String @ java.toString()
 
-    def get_causal_learn(self):
-        return tr.tetrad_graph_to_causal_learn(self.java)
+    def get_causal_learn(self, java=None):
+        if (java == None): return tr.tetrad_graph_to_causal_learn(self.java)
+        else: tr.tetrad_graph_to_causal_learn(java)
 
-    def get_pcalg(self):
-        return tr.tetrad_graph_to_pcalg(self.java)
+    def get_pcalg(self, java=None):
+        if (java == None): return tr.tetrad_graph_to_pcalg(self.java)
+        else: tr.tetrad_graph_to_pcalg(java)
 
-    def get_dot(self):
-        return str(gp.graphToDot(self.java))
+    def get_dot(self, java=None):
+        if (java == None): return str(gp.graphToDot(self.java))
+        else: return str(gp.graphToDot(java))
 
-    def get_xml(self):
-        return gp.graphToXml(self.java)
+    def get_xml(self, java=None):
+        if (java == None): return str(gp.graphToXml(self.java))
+        else: return str(gp.graphToXml(self.java))
 
-    def get_lavaan(self):
-        return gp.graphToLavaan(self.java)
+    def get_lavaan(self, java=None):
+        if (java == None): return gp.graphToLavaan(self.java)
+        else: return gp.graphToLavaan(java)
+
+    def bootstrap_graph(self, index):
+        i = lang.Integer(index).intValue()
+        if i < 0 or i > len(self.bootstrap_graphs):
+            raise ValueError("index out of bounds (0-indexed)")
+        return self.bootstrap_graphs[i]
+
+    def bootstrap_dot(self, index):
+        i = lang.Integer(index).intValue()
+        if i < 0 or i > len(self.bootstrap_graphs):
+            raise ValueError("index out of bounds")
+        java = self.bootstrap_graphs[i]
+        return str(gp.graphToDot(java))

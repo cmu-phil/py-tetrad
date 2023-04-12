@@ -38,19 +38,18 @@ ts$add_to_tier(2, "Pressure")
 ts$use_sem_bic(penalty_discount=2)
 ts$use_fisher_z(0.05)
 
-ts$set_bootstrapping(numberResampling=10, percent_resample_size=100, with_replacement=TRUE,
+ts$set_bootstrapping(numberResampling=0, percent_resample_size=100, with_replacement=TRUE,
                      add_original=TRUE, resampling_ensemble=1, seed=413025513L)
-ts$run_fci()
+ts$run_gfci()
 
 ## Print the graph and grab the DOT format string (for Grasphviz)
 print(ts$get_string())
 dot <- ts$get_dot()
 
 ## Plot matrix of variables to show evil distributions.
-library(psych)
-pairs.panels(data, method = "pearson") # correlation method hist.col = "#00AFBB", density = TRUE, # show density plots ellipses = TRUE # show correlation ellipses )
+# library(psych)
+# pairs.panels(data, method = "pearson") # correlation method hist.col = "#00AFBB", density = TRUE, # show density plots ellipses = TRUE # show correlation ellipses )
 
 ## Allows RStudio to render graphs in the Viewer window.
 library('DiagrammeR')
 grViz(dot)
-
