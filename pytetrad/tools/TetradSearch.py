@@ -145,8 +145,13 @@ class TetradSearch:
     def clear_knowledge(self):
         self.knowledge.clear()
 
+    def load_knowledge(self, path):
+        know_file = io.File(path)
+        know_delim = td.DelimiterType.WHITESPACE
+        self.knowledge = td.SimpleDataLoader.loadKnowledge(know_file, know_delim, "//")
+
     def print_knowledge(self):
-        return str(self.knowledge)
+        print(self.knowledge)
 
     def run_fges(self, symmetric_first_step=False, max_degree=-1, parallelized=False,
                  faithfulness_assumed=False, meek_verbose=False):
@@ -436,7 +441,3 @@ class TetradSearch:
         java = self.bootstrap_graphs[i]
         return str(gp.graphToDot(java))
 
-    def load_knowledge(self, path):
-        know_file = io.File(path)
-        know_delim = td.DelimiterType.WHITESPACE
-        self.knowledge = td.SimpleDataLoader.loadKnowledge(know_file, know_delim, "//")

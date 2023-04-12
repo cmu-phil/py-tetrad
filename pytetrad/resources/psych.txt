@@ -1,4 +1,4 @@
-Years	Rank	Sex	H-Index	Research	Admin	Retention	Salary	Chair	Teaching
+Years	Rank	Sex	H_Index	Research	Admin	Retention	Salary	Chair	Teaching
 51.000	5.000	1.000	140.000	1515563.000	0.000	0.000	260000.000	1.000	0.000
 14.000	3.000	0.000	35.000	582694.000	0.000	1.000	155000.000	1.000	0.000
 15.000	4.000	1.000	55.000	845684.000	1.000	1.000	190000.000	1.000	0.000
