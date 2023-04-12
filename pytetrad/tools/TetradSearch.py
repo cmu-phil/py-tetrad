@@ -45,6 +45,10 @@ class TetradSearch:
         display = [self.score, self.test, self.knowledge, self.java]
         return "\n\n".join([str(item) for item in display])
 
+    def check_knowledge(self):
+        X = [str(x) for x in self.knowledge.getVariables()]
+        Y = [str(y) for y in self.data.getVariablesNames()]
+        return [x for x in X if x not in Y]
 
     def use_sem_bic(self, penalty_discount=2, structurePrior=0, sem_bic_rule=1):
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
