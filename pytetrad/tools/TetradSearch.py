@@ -45,10 +45,6 @@ class TetradSearch:
         display = [self.score, self.test, self.knowledge, self.java]
         return "\n\n".join([str(item) for item in display])
 
-    def check_knowledge(self):
-        X = [str(x) for x in self.knowledge.getVariables()]
-        Y = [str(y) for y in self.data.getVariableNames()]
-        return [x for x in X if x not in Y]
 
     def use_sem_bic(self, penalty_discount=2, structurePrior=0, sem_bic_rule=1):
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
@@ -146,6 +142,9 @@ class TetradSearch:
     def add_required(self, var_name_1, var_name_2):
         self.knowledge.addRequired(lang.String(var_name_1), lang.String(var_name_2))
 
+    def set_knowledge(self, knowledge):
+        self.knowledge = knowledge
+
     def clear_knowledge(self):
         self.knowledge.clear()
 
@@ -153,6 +152,11 @@ class TetradSearch:
         know_file = io.File(path)
         know_delim = td.DelimiterType.WHITESPACE
         self.knowledge = td.SimpleDataLoader.loadKnowledge(know_file, know_delim, "//")
+
+    def check_knowledge(self):
+        X = [str(x) for x in self.knowledge.getVariables()]
+        Y = [str(y) for y in self.data.getVariableNames()]
+        return [x for x in X if x not in Y]
 
     def print_knowledge(self):
         print(self.knowledge)
