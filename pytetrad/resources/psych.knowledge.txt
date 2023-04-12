@@ -2,7 +2,7 @@
 addtemporal
 
 1  Sex Years
-2  Admin Chair H-Index Rank Research Teaching
+2  Admin Chair H_Index Rank Research Teaching
 3  Retention Salary
 
 forbiddirect
