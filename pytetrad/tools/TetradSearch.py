@@ -25,6 +25,8 @@ import edu.cmu.tetrad.algcomparison.algorithm.oracle.pag as pag
 import edu.cmu.tetrad.algcomparison.score as score_
 import edu.cmu.tetrad.algcomparison.independence as ind_
 
+import java.io as io
+
 from edu.cmu.tetrad.util import Params, Parameters
 
 
@@ -433,3 +435,8 @@ class TetradSearch:
             raise ValueError("index out of bounds")
         java = self.bootstrap_graphs[i]
         return str(gp.graphToDot(java))
+
+    def load_knowledge(self, path):
+        know_file = io.File(path)
+        know_delim = td.DelimiterType.WHITESPACE
+        self.knowledge = td.SimpleDataLoader.loadKnowledge(know_file, know_delim, "//")
