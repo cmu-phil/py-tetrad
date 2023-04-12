@@ -47,7 +47,7 @@ class TetradSearch:
 
     def check_knowledge(self):
         X = [str(x) for x in self.knowledge.getVariables()]
-        Y = [str(y) for y in self.data.getVariablesNames()]
+        Y = [str(y) for y in self.data.getVariableNames()]
         return [x for x in X if x not in Y]
 
     def use_sem_bic(self, penalty_discount=2, structurePrior=0, sem_bic_rule=1):
