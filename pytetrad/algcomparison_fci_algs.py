@@ -67,10 +67,10 @@ test = ind.FisherZ()
 
 algorithms = Algorithms()
 
-algorithms.add(pag.FCI(test))
-algorithms.add(pag.RFCI(test))
-algorithms.add(pag.GFCI(test, score))
-algorithms.add(pag.BFCI(test, score))
+algorithms.add(pag.Fci(test))
+algorithms.add(pag.Rfci(test))
+algorithms.add(pag.Gfci(test, score))
+algorithms.add(pag.Bfci(test, score))
 
 simulations = Simulations()
 simulations.add(sim.SemSimulation(graph.RandomForward()))

@@ -63,8 +63,8 @@ print('CCD')
 search.run_ccd()
 print(search.get_string())
 
-print('SVAR-FCI')
-search.run_svar_fci()
+print('SVAR-GFCI')
+search.run_svar_gfci()
 print(search.get_string())
 
 print('SP-FCI')

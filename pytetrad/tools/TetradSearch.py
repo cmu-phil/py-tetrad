@@ -105,7 +105,7 @@ class TetradSearch:
 
     def use_g_square(self, alpha=0.01):
         self.params.set(Params.ALPHA, alpha)
-        self.TEST = ind_.GSquare()
+        self.TEST = ind_.Gsquare()
 
     def use_conditional_gaussian_test(self, alpha=0.01, discretize=True, num_categories_to_discretize=3):
         self.params.set(Params.ALPHA, alpha)
@@ -121,7 +121,7 @@ class TetradSearch:
         self.params.set(Params.NO_RANDOMLY_DETERMINED_INDEPENDENCE, threshold)
         self.params.set(Params.CUTOFF_IND_TEST, cutoff)
         self.params.set(Params.PRIOR_EQUIVALENT_SAMPLE_SIZE, prior_ess)
-        self.TEST = ind_.DegenerateGaussianLRT()
+        self.TEST = ind_.ProbabilisticTest()
 
     def use_kci(self, alpha=0.01, approximate=True, width_multipler=1, num_bootstraps=5000, threshold=0.001,
                 epsilon=0.001):
@@ -163,7 +163,7 @@ class TetradSearch:
 
     def run_fges(self, symmetric_first_step=False, max_degree=-1, parallelized=False,
                  faithfulness_assumed=False, meek_verbose=False):
-        alg = cpdag.FGES(self.SCORE)
+        alg = cpdag.Fges(self.SCORE)
         alg.setKnowledge(self.knowledge)
 
         self.params.set(Params.SYMMETRIC_FIRST_STEP, symmetric_first_step)
@@ -179,7 +179,7 @@ class TetradSearch:
 
     def run_boss(self, num_starts = 1, depth=-1):
         self.params.set(Params.DEPTH, depth)
-        alg = cpdag.BOSS(self.SCORE)
+        alg = cpdag.Boss(self.SCORE)
         alg.setKnowledge(self.knowledge)
 
         self.params.set(Params.NUM_STARTS, num_starts)
@@ -191,7 +191,7 @@ class TetradSearch:
 
 
     def run_sp(self):
-        alg = cpdag.SP(self.SCORE)
+        alg = cpdag.Sp(self.SCORE)
         alg.setKnowledge(self.knowledge)
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
@@ -201,7 +201,7 @@ class TetradSearch:
                           nonsingular_depth=1, ordered_alg=False,
                           raskutti_uhler=False, use_data_order=True,
                           num_starts=1):
-        alg = cpdag.GRASP(self.TEST, self.SCORE)
+        alg = cpdag.Grasp(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
         self.params.set(Params.GRASP_DEPTH, covered_depth)
@@ -218,7 +218,7 @@ class TetradSearch:
 
     def run_pc(self, conflict_rule=1, depth=-1, use_heuristic=True, max_path_length=-1,
                stable_fas=True):
-        alg = cpdag.PC(self.TEST)
+        alg = cpdag.Pc(self.TEST)
         alg.setKnowledge(self.knowledge)
 
         self.params.set(Params.CONFLICT_RULE, conflict_rule)
@@ -233,10 +233,10 @@ class TetradSearch:
 
     def run_cpc(self, conflict_rule=1, depth=-1, use_heuristic=True, max_path_length=-1,
                stable_fas=True):
-        alg = cpdag.CPC(self.TEST)
+        alg = cpdag.Cpc(self.TEST)
         alg.setKnowledge(self.knowledge)
 
-        self.params.set(Params.CONFLICT_RUL, conflict_rule)
+        self.params.set(Params.CONFLICT_RULE, conflict_rule)
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.USE_MAX_P_ORIENTATION_HEURISTIC, use_heuristic)
         self.params.set(Params.MAX_P_ORIENTATION_MAX_PATH_LENGTH, max_path_length)
@@ -248,10 +248,10 @@ class TetradSearch:
 
     def run_pcmax(self, conflict_rule=1, depth=-1, use_heuristic=True, max_path_length=-1,
                stable_fas=True):
-        alg = cpdag.PCMAX(self.TEST)
+        alg = cpdag.PcMax(self.TEST)
         alg.setKnowledge(self.knowledge)
 
-        self.params.set(Params.CONFLICT_RUL, conflict_rule)
+        self.params.set(Params.CONFLICT_RULE, conflict_rule)
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.USE_MAX_P_ORIENTATION_HEURISTIC, use_heuristic)
         self.params.set(Params.MAX_P_ORIENTATION_MAX_PATH_LENGTH, max_path_length)
@@ -265,7 +265,7 @@ class TetradSearch:
                       max_path_length=-1, possible_dsep=True,
                       do_discriminating_path_rule=True,
                       complete_rule_set_used=True):
-        alg = pag.FCI(self.TEST)
+        alg = pag.Fci(self.TEST)
         alg.setKnowledge(self.knowledge)
 
         self.params.set(Params.DEPTH, depth)
@@ -283,7 +283,7 @@ class TetradSearch:
     def run_gfci(self, depth=-1, max_degree=-1, max_path_length=-1,
                  complete_rule_set_used=True, do_discriminating_path_rule=True,
                  possible_dsep_done=True):
-        alg = pag.GFCI(self.TEST, self.SCORE)
+        alg = pag.Gfci(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
         self.params.set(Params.DEPTH, depth)
@@ -299,7 +299,7 @@ class TetradSearch:
 
     def run_bfci(self, depth=-1, max_path_length=-1,
                  complete_rule_set_used=True, do_discriminating_path_rule=True):
-        alg = pag.BFCI(self.TEST, self.SCORE)
+        alg = pag.Bfci(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
         self.params.set(Params.DEPTH, depth)
@@ -319,7 +319,7 @@ class TetradSearch:
                       nonsingular_depth=1, ordered_alg=False,
                       raskutti_uhler=False, use_data_order=True,
                       num_starts=1):
-        alg = pag.GRASP_FCI(self.TEST, self.SCORE)
+        alg = pag.GraspFci(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
         # GRaSP
@@ -346,7 +346,7 @@ class TetradSearch:
 
     def run_spfci(self, max_path_length=-1, complete_rule_set_used=True,
                    do_discriminating_path_rule=True, depth=-1):
-        alg = pag.SP_FCI(self.TEST, self.SCORE)
+        alg = pag.SpFci(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
         self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
@@ -365,7 +365,7 @@ class TetradSearch:
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.APPLY_R1, apply_r1)
 
-        alg = pag.CCD(self.TEST)
+        alg = pag.Ccd(self.TEST)
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
@@ -375,11 +375,23 @@ class TetradSearch:
         ts_test = ts.IndTestFisherZ(lagged_data, 0.01)
         ts_score = ts.SemBicScore(lagged_data)
         ts_score.setPenaltyDiscount(penalty_discount)
-        svar_fci = ts.SvarGFci(ts_test, ts_score)
+        svar_fci = ts.SvarFci(ts_test)
         svar_fci.setKnowledge(lagged_data.getKnowledge())
         svar_fci.setVerbose(True)
         self.java = svar_fci.search()
-        self.bootstrap_graphs = svar_fci.getBootstrapGraphs()
+        # self.bootstrap_graphs = svar_fci.getBootstrapGraphs()
+
+    def run_svar_gfci(self, penalty_discount=2):
+        num_lags = 2
+        lagged_data = ts.TimeSeriesUtils.createLagData(self.data, num_lags)
+        ts_test = ts.IndTestFisherZ(lagged_data, 0.01)
+        ts_score = ts.SemBicScore(lagged_data)
+        ts_score.setPenaltyDiscount(penalty_discount)
+        svar_fci = ts.SvarGfci(ts_test, ts_score)
+        svar_fci.setKnowledge(lagged_data.getKnowledge())
+        svar_fci.setVerbose(True)
+        self.java = svar_fci.search()
+        # self.bootstrap_graphs = svar_fci.getBootstrapGraphs()
 
     # Set numberResampling to 0 to turn off bootstrapping.
     def set_bootstrapping(self, numberResampling=0, percent_resample_size=100, add_original=True,

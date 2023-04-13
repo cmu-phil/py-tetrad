@@ -38,9 +38,9 @@ ts$add_to_tier(2, "Pressure")
 ts$use_sem_bic(penalty_discount=2)
 ts$use_fisher_z(0.05)
 
-ts$set_bootstrapping(numberResampling=0, percent_resample_size=100, with_replacement=TRUE,
+ts$set_bootstrapping(numberResampling=200, percent_resample_size=100, with_replacement=TRUE,
                      add_original=TRUE, resampling_ensemble=1, seed=413025513L)
-ts$run_gfci()
+ts$run_cpc()
 
 ## Print the graph and grab the DOT format string (for Grasphviz)
 print(ts$get_string())

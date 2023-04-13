@@ -25,7 +25,7 @@ print(data)
 # score = ts.DiscreteBicScore(data)
 # score.setStructurePrior(0)
 
-score = ts.BDeuScore(data)
+score = ts.BdeuScore(data)
 score.setSamplePrior(10)
 score.setStructurePrior(1)
 
