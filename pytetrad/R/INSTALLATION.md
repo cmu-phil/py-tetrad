@@ -4,9 +4,9 @@ Click here for [Documentation](https://github.com/cmu-phil/py-tetrad/blob/main/p
 
 These are installation instructions for using py-tetrad in RStudio to run algorithms in Tetrad from R.
 
-We have worked out and tested these instructions using RStudio on a Mac; we will test on other platforms soon.
+We have worked out and tested these instructions using RStudio on a Mac; they have been tested on Windows by end-users. We have not tested them on Linux yet.
 
-The installation instructions should simplify in the future; a lot of this will be done automtically in the future using a Java package or Docker. We apologize for the current complexity.
+Some steps of this installation can be done automtically in the future using a Java package or a Docker container. We apologize for the current complexity.
 
 #### (1) Install a Java JDK. the minimal version for this install is 1.8 (version 8).
 
