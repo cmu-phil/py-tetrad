@@ -61,7 +61,7 @@ install.packages("DiagrammeR")
 install.packages("psych")
 use_python("[...path...to...your...Python...installation...]")
 ```
-This python path was found in step (3). "DiagrammR" is used in the sample R scripts to render graphs in the RStudio viewer window; if you're running the scripts in command-line R, it will not help. Also, "DiagrammR" needs to be installed with devtools for the latest R versions. The "psych" package is used in the examples to display scatterplots and histograms of the data.
+This python path was found in step (3). "DiagrammR" is used in the sample R scripts to render graphs in the RStudio viewer window; if you're running the scripts in command-line R outside of RStudio, it will not help. Also, "DiagrammR" needs to be installed with devtools for the latest R versions. The "psych" package is used in the examples to display scatterplots and histograms of the data.
 
 This only needs to be done once. 
 
