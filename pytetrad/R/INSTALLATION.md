@@ -76,7 +76,7 @@ Once you've loaded it, adjust the path to the 'py-tetrad/pytetrad' directory if 
 ```
 setwd("~/py-tetrad/pytetrad")
 ```
-Select all lines in the file by typeing control-A.
+Select all lines in the file by typing control-A.
 
 Then click the Run button. That should run FGES on the example file, display the result in the Viewer window using Graphviz, dipslay a plot matrix of the scatterplots and histograms of the varibles in the Plot window.
 
