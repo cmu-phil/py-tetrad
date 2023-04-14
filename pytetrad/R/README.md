@@ -1,6 +1,6 @@
 ## RPyTetrad: Py-Tetrad for R and RStudio
 
-This project is being offered as a possible way of connecting Tetrad to R which we are trying out. If it turns out to be useful, we will develop it; if not, we will pursue a different route. It is intended to replace the older, [r-causal](https://github.com/bd2kccd/r-causal) Python project, that uses an outdated version of Tetrad.
+This project is being offered as a possible way of connecting Tetrad to R which we are trying out. If it turns out to be useful, we will develop it; if not, we will pursue a different route. It is intended to replace the older [r-causal](https://github.com/bd2kccd/r-causal) Python project that uses an outdated version of Tetrad.
 
 Here are [INSTALLATION INSTRUCTIONS](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/INSTALLATION.md).
 
@@ -12,3 +12,4 @@ NEWS:
 
 * 2023-4-5: Initial beta release
 * 2023-4-11: The Tetrad bootstrapping facility was added to TetradSearch.py, and all algorithm, search, and test parameters for the algorithms, searches, and tests available in this module are now available as arguments to those methods.
+* 2023-4-13: In Tetrad, the class name convention was enforced to make sure they start with capitqal letters and are camel case after that; this required some adjustments to the RPyTetrad code. Switched to recommending the DiagrammeR package instead of DiagrammR; this seems to be supported on more recent versions of R.
