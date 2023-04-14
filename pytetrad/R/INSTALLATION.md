@@ -57,7 +57,7 @@ This last command should cause various algorithms to run in Tetrad and print out
 Open RStudio, and inside RStudio, type the following:
 ```
 install.packages("reticulate")
-install.packages("DiagrammR")
+install.packages("DiagrammeR")
 install.packages("psych")
 use_python("[...path...to...your...Python...installation...]")
 ```
