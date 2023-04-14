@@ -13,7 +13,6 @@ except OSError:
     pass
 
 import tools.translate as tr
-import tools.search as search
 import edu.cmu.tetrad.search as ts
 import edu.cmu.tetrad.data as td
 import edu.cmu.tetrad.graph.GraphPersistence as gp
