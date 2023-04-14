@@ -12,4 +12,4 @@ NEWS:
 
 * 2023-4-5: Initial beta release
 * 2023-4-11: The Tetrad bootstrapping facility was added to TetradSearch.py, and all algorithm, search, and test parameters for the algorithms, searches, and tests available in this module are now available as arguments to those methods.
-* 2023-4-13: In Tetrad, the class name convention was enforced to make sure they start with capitqal letters and are camel case after that; this required some adjustments to the RPyTetrad code.
+* 2023-4-13: In Tetrad, the class name convention was enforced to make sure they start with capitqal letters and are camel case after that; this required some adjustments to the RPyTetrad code. Switched to recommending the DiagrammeR package instead of DiagrammR; this seems to be supported on more recent versions of R.
