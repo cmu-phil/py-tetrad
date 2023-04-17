@@ -2,13 +2,18 @@
 from jpype import JImplements, JOverride
 import jpype.imports
 
-PATH = "/Users/bryanandrews/Documents/py-tetrad/pytetrad"
+# PATH = "/Users/bryanandrews/Documents/py-tetrad/pytetrad"
+
+# try:
+#     jpype.startJVM(classpath=[f"{PATH}/resources/tetrad-gui-current-launch.jar"])
+# except OSError:
+#     pass
+#     # print("JVM already started")
 
 try:
-    jpype.startJVM(classpath=[f"{PATH}/resources/tetrad-gui-current-launch.jar"])
+    jpype.startJVM(classpath=[f"resources/tetrad-gui-current-launch.jar"])
 except OSError:
-    pass
-    # print("JVM already started")
+    print("JVM already started")
 
 import pandas as pd
 import numpy as np
@@ -92,7 +97,7 @@ class Bsls:
         return self
 
 
-df = pd.read_csv(f"{PATH}/resources/airfoil-self-noise.continuous.txt", sep="\t")
+df = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
 df = df.astype({col: "float64" for col in df.columns})
 
 score = Bsls(df)
