@@ -24,7 +24,8 @@ import java.util as util
 import edu.cmu.tetrad.data as td
 import edu.cmu.tetrad.search as ts
 
-
+# Can use this as a template for defining scores in Python for use with
+# Java Tetrad algorithms.
 @JImplements(ts.Score)
 class Bsls:
     def __init__(self, df):
