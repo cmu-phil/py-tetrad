@@ -3,7 +3,7 @@ from jpype import JImplements, JOverride
 import jpype.imports
 
 # PATH = "/Users/bryanandrews/Documents/py-tetrad/pytetrad"
-
+#
 # try:
 #     jpype.startJVM(classpath=[f"{PATH}/resources/tetrad-gui-current-launch.jar"])
 # except OSError:
