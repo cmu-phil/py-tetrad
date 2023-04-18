@@ -43,7 +43,7 @@ class Bgs:
             self.variables.add(variable)
             self.variable_map[col] = variable
 
-    # camelCase is java convertion; mathcing that...
+    # camelCase is java convention; mathcing that...
     def setParameters(self, parameters):
         self.paramaters = parameters
 
