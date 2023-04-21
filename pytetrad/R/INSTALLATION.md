@@ -12,7 +12,7 @@ Some steps of this installation can be done automtically in the future using a J
 
 For very verbose instructions, see [here](https://github.com/cmu-phil/tetrad/wiki/Setting-up-Java-for-Tetrad).
 
-#### (2) Install Python. The minimal version for this install is 3.7.
+#### (2) Install Python. The minimal version for this install is 3.5.
 
 If you're using a version lower than 3.7, [update it](https://www.pythoncentral.io/how-to-update-python/). 
 

@@ -19,7 +19,7 @@ We added [a method to use Tetrad algorithms in R via py-tetrad](https://github.c
 
 1. If JAVA_HOME is not already set to the correct location of your Java installation above, you'll need to [set JAVA_HOME](https://www.baeldung.com/java-home-on-windows-7-8-10-mac-os-x-linux#:~:text=On%20the%20Desktop%2C%20right%2Dclick,Variable%20value%20and%20click%20OK.) to the path of the Java installation you want to use for py-tetrad.
 
-1. Make sure you are using the latest Python--at least 3.7--as required by JPype; if not, [update it](https://www.pythoncentral.io/how-to-update-python/). 
+1. Make sure you are using the latest Python--at least 3.5--as required by JPype; if not, [update it](https://www.pythoncentral.io/how-to-update-python/). 
 
 1. We use causal-learn. For installation instructions, see the [Docs for the causal-learn package](https://causal-learn.readthedocs.io/en/latest/).
 
