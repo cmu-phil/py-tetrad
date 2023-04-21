@@ -6,7 +6,6 @@
 ## You will need to adjust this path to your path for py-tetrad.
 setwd("~/py-tetrad/pytetrad")
 
-install.packages(reticulate)
 library(reticulate)
 
 ## This in example of linear, Gaussian data with 100 nodes, average degree 6,

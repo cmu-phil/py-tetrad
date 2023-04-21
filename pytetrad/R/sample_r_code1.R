@@ -18,7 +18,6 @@
 ## You will need to adjust this path to your path for py-tetrad.
 setwd("~/py-tetrad/pytetrad")
 
-#install.packages(reticulate)
 library(reticulate)
 source_python("run_continuous.py")
 tr <- import("pytetrad.tools.translate")

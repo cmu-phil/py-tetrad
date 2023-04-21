@@ -7,7 +7,6 @@
 ## You will need to adjust this path to your path for py-tetrad.
 setwd("~/py-tetrad/pytetrad")
 
-install.packages(reticulate)
 library(reticulate)
 
 ## It's best to change hyphens and periods in variable names to underscores

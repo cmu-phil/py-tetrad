@@ -7,7 +7,6 @@
 ## You will need to adjust this path to your path for py-tetrad.
 setwd("~/py-tetrad/pytetrad")
 
-install.packages(reticulate)
 library(reticulate)
 
 data <- read.table("./resources/airfoil-self-noise.continuous.txt", header=TRUE)
