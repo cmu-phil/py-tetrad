@@ -13,7 +13,7 @@
 ##
 ##
 ## Please make your own copy of this R file if you want to make sure your
-## changes don't get overwritten by future `git pull`'s.
+## changes don't get overwritten by future `git pull's.
 ##
 ## You will need to adjust this path to your path for py-tetrad.
 setwd("~/py-tetrad/pytetrad")
