@@ -70,3 +70,11 @@ print(search.get_string())
 print('SP-FCI')
 search.run_spfci()
 print(search.get_string())
+
+print('LiNGAM')
+search.run_lingam(threshold_b=0.4, threshold_spine=0)
+print(search.get_string())
+
+print('LiNG-D')
+search.run_lingd(threshold_b=0.4, threshold_spine=0)
+print(search.get_string())

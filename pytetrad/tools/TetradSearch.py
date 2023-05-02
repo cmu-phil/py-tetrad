@@ -20,7 +20,7 @@ import java.lang as lang
 import java.util as util
 import edu.cmu.tetrad.algcomparison.algorithm.oracle.cpdag as cpdag
 import edu.cmu.tetrad.algcomparison.algorithm.oracle.pag as pag
-
+import edu.cmu.tetrad.algcomparison.algorithm.continuous.dag as dag
 import edu.cmu.tetrad.algcomparison.score as score_
 import edu.cmu.tetrad.algcomparison.independence as ind_
 
@@ -340,6 +340,26 @@ class TetradSearch:
 
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
+
+    def run_lingam(self, ica_a=1.1, ica_max_iter=5000, ica_tolerance=1e-8, threshold_b=0.1, threshold_spine=0.6):
+        alg = dag.Lingam()
+        self.params.set(Params.FAST_ICA_A, ica_a)
+        self.params.set(Params.FAST_ICA_MAX_ITER, ica_max_iter)
+        self.params.set(Params.FAST_ICA_TOLERANCE, ica_tolerance)
+        self.params.set(Params.THRESHOLD_B, threshold_b)
+        self.params.set(Params.THRESHOLD_SPINE, threshold_spine)
+        self.java = alg.search(self.data, self.params)
+        # self.bootstrap_graphs = alg.getBootstrapGraphs()
+
+    def run_lingd(self, ica_a=1.1, ica_max_iter=5000, ica_tolerance=1e-8, threshold_b=0.1, threshold_spine=0.6):
+        alg = dag.LingD()
+        self.params.set(Params.FAST_ICA_A, ica_a)
+        self.params.set(Params.FAST_ICA_MAX_ITER, ica_max_iter)
+        self.params.set(Params.FAST_ICA_TOLERANCE, ica_tolerance)
+        self.params.set(Params.THRESHOLD_B, threshold_b)
+        self.params.set(Params.THRESHOLD_SPINE, threshold_spine)
+        self.java = alg.search(self.data, self.params)
+        # self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_ccd(self, depth=-1, apply_r1=True):
         if not self.knowledge.isEmpty():
