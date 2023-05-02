@@ -3,7 +3,7 @@
 
 This package shows how to make arbitrary code in [Tetrad](https://github.com/cmu-phil/tetrad) directly available in Python via [JPype](https://github.com/jpype-project/jpype) as part of a Python workflow. We do this by giving [reusable examples](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad) of how it can be done, along with [API Javadoc documentation](https://www.phil.cmu.edu/tetrad-javadocs/7.3.4/lib/) to allow further exploration of the entire Tetrad codebase.
 
-It also gives some simple tools that can be used in both Python and R to hide the JPype facilities for those who don't want to deal directly with the Tetrad codebase.
+It also gives some simple tools that can be used in both Python and R to hide the JPype facilities for those who don't want to (or can't, in the case of R) deal directly with the Tetrad codebase.
 
 Part of our code uses the [causal-learn Python package](https://github.com/py-why/causal-learn) in [py-why](https://github.com/py-why) to show how it can be integrated.
 
