@@ -1,4 +1,4 @@
-# R-Tetrad: Some Initial Documentation
+# RPy-Tetrad: Some Initial Documentation
 
 Click here for [Installation Instructions](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/INSTALLATION.md).
 
