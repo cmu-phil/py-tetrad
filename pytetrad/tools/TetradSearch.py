@@ -349,7 +349,7 @@ class TetradSearch:
         self.params.set(Params.THRESHOLD_B, threshold_b)
         self.params.set(Params.THRESHOLD_SPINE, threshold_spine)
         self.java = alg.search(self.data, self.params)
-        # self.bootstrap_graphs = alg.getBootstrapGraphs()
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_lingd(self, ica_a=1.1, ica_max_iter=5000, ica_tolerance=1e-8, threshold_b=0.1, threshold_spine=0.6):
         alg = dag.LingD()
@@ -359,7 +359,7 @@ class TetradSearch:
         self.params.set(Params.THRESHOLD_B, threshold_b)
         self.params.set(Params.THRESHOLD_SPINE, threshold_spine)
         self.java = alg.search(self.data, self.params)
-        # self.bootstrap_graphs = alg.getBootstrapGraphs()
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_ccd(self, depth=-1, apply_r1=True):
         if not self.knowledge.isEmpty():
@@ -387,9 +387,9 @@ class TetradSearch:
 
     def run_svar_gfci(self, penalty_discount=2):
         num_lags = 2
-        lagged_data = ts.TimeSeriesUtils.createLagData(self.data, num_lags)
-        ts_test = ts.IndTestFisherZ(lagged_data, 0.01)
-        ts_score = ts.SemBicScore(lagged_data)
+        lagged_data = ts.utils.TsUtils.createLagData(self.data, num_lags)
+        ts_test = ts.test.IndTestFisherZ(lagged_data, 0.01)
+        ts_score = ts.score.SemBicScore(lagged_data)
         ts_score.setPenaltyDiscount(penalty_discount)
         svar_fci = ts.SvarGfci(ts_test, ts_score)
         svar_fci.setKnowledge(lagged_data.getKnowledge())

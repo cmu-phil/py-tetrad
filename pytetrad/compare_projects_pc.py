@@ -10,6 +10,7 @@ import numpy as np
 import tools.translate as tr
 
 import edu.cmu.tetrad.search as ts
+import edu.cmu.tetrad.search.test as test
 
 from causallearn.search.ConstraintBased.PC import pc
 from causallearn.utils.cit import fisherz
@@ -24,7 +25,7 @@ cg = pc(np.array(df), 0.05, fisherz, node_names=df.columns)
 print(cg.G)
 
 print("\nTetrad PC\n")
-test = ts.IndTestFisherZ(data, 0.05)
+test = test.IndTestFisherZ(data, 0.05)
 tetrad_pc = ts.Pc(test)
 tetrad_pc_graph = tetrad_pc.search()
 

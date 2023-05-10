@@ -10,6 +10,7 @@ import numpy as np
 import tools.translate as tr
 
 import edu.cmu.tetrad.search as ts
+import edu.cmu.tetrad.search.test as test
 
 from causallearn.search.ConstraintBased.FCI import fci
 from causallearn.utils.cit import fisherz
@@ -29,7 +30,7 @@ for i, col in enumerate(df.columns):
 print(out)
 
 print("\nTetrad FCI\n")
-test = ts.IndTestFisherZ(data, 0.05)
+test = test.IndTestFisherZ(data, 0.05)
 tetrad_fci = ts.Fci(test)
 tetrad_fci_graph = tetrad_fci.search()
 

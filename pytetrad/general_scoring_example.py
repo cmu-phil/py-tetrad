@@ -15,13 +15,14 @@ import tools.translate as tr
 import java.util as util
 import edu.cmu.tetrad.data as td
 import edu.cmu.tetrad.search as ts
+import edu.cmu.tetrad.search.score as score
 
 from causallearn.score.LocalScoreFunction import local_score_marginal_general
 from causallearn.score.LocalScoreFunction import local_score_cv_general
 
 # Can use this as a template for defining scores in Python for use with
 # Java Tetrad algorithms.
-@JImplements(ts.Score)
+@JImplements(score.Score)
 class Bgs:
     def __init__(self, df):
         self.df = df

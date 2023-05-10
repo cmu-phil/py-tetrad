@@ -13,6 +13,7 @@ import numpy as np
 from causallearn.search.ConstraintBased.PC import pc
 from causallearn.utils.cit import kci
 import edu.cmu.tetrad.search as ts
+import edu.cmu.tetrad.search.test as test
 import tools.translate as tr
 import tools.search as search
 import tools.simulate as sim
@@ -37,7 +38,7 @@ print(cg.G, stop - start)
 
 print("\nTetrad PC\n")
 start = time.time()
-test = ts.Kci(tr.pandas_data_to_tetrad(D), 0.05)
+test = test.Kci(tr.pandas_data_to_tetrad(D), 0.05)
 test.setApproximate(False)
 tetrad_pc = ts.Pc(test)
 tetrad_pc.setVerbose(True)
