@@ -341,8 +341,8 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_lingam(self, ica_a=1.1, ica_max_iter=5000, ica_tolerance=1e-8, threshold_b=0.1, threshold_spine=0.6):
-        alg = dag.Lingam()
+    def run_ica_lingam(self, ica_a=1.1, ica_max_iter=5000, ica_tolerance=1e-8, threshold_b=0.1, threshold_spine=0.6):
+        alg = dag.IcaLingam()
         self.params.set(Params.FAST_ICA_A, ica_a)
         self.params.set(Params.FAST_ICA_MAX_ITER, ica_max_iter)
         self.params.set(Params.FAST_ICA_TOLERANCE, ica_tolerance)
@@ -351,8 +351,8 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_lingd(self, ica_a=1.1, ica_max_iter=5000, ica_tolerance=1e-8, threshold_b=0.1, threshold_spine=0.6):
-        alg = dag.LingD()
+    def run_ica_lingd(self, ica_a=1.1, ica_max_iter=5000, ica_tolerance=1e-8, threshold_b=0.1, threshold_spine=0.6):
+        alg = dag.IcaLingD()
         self.params.set(Params.FAST_ICA_A, ica_a)
         self.params.set(Params.FAST_ICA_MAX_ITER, ica_max_iter)
         self.params.set(Params.FAST_ICA_TOLERANCE, ica_tolerance)
