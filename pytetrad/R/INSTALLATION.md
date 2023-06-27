@@ -35,7 +35,7 @@ JAVA_HOME = /Users/[username]/Library/Java/JavaVirtualMachines/[JDK name]/Conten
 ```
 Save this file as `.Renviron` in your home directory, `~`. Again, this should be the path to the `.../Home` directory of **your** JDK.
 
-Then when you open RStudio below by double clicking on its icon, after following step 4, step 5 should work. If not, come back to this step and double-check your work.
+Then when you open RStudio below by double-clicking on its icon, after following step 4, step 5 should work. If not, come back to this step and double-check your work.
 
 #### (5) Open a terminal window, and type the following:
 ```
@@ -65,12 +65,12 @@ This python path was found in step (3). "DiagrammR" is used in the sample R scri
 
 This only needs to be done once. 
 
-(Here are the docs for [RStudio](https://posit.co/download/rstudio-desktop/), the [Reticulate package in R](https://rstudio.github.io/reticulate/), the [DiagrammeR package in R](https://rich-iannone.github.io/DiagrammeR/graphviz_and_mermaid.html), and the [psych package in R](https://www.rdocumentation.org/packages/psych/versions/2.3.3).)
+(Here are the docs for [RStudio](https://posit.co/download/rstudio-desktop/), the [Reticulate package in R](https://rstudio.github.io/reticulate/), the [DiagrammeR package in R](https://rich-iannone.github.io/DiagrammeR/), and the [psych package in R](https://www.rdocumentation.org/packages/psych/).)
 
  
 #### (7) Finally, open up RStudio, and in RStudio, open one of the example R scripts in the py-tetrad repository and run it.
 
-In RStudio,, open the file 'py-tetrad/pytetrad/R/sample_r_code2.R', for example.
+In RStudio, open the file 'py-tetrad/pytetrad/R/sample_r_code2.R', for example.
 
 Once you've loaded it, adjust the path to the 'py-tetrad/pytetrad' directory if it isn't right already--this line:
 ```
@@ -80,4 +80,4 @@ Select all lines in the file by typing control-A.
 
 Then click the Run button. That should run FGES on the example file, display the result in the Viewer window using Graphviz, dipslay a plot matrix of the scatterplots and histograms of the varibles in the Plot window.
 
-We assume if you're an R user you know lots of of other things you can do with data in R.
+We assume if you're an R user you know lots of other things you can do with data in R.
