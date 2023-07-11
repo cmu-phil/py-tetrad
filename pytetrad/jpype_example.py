@@ -1,17 +1,11 @@
-import numpy as np
 import pandas as pd
 
 import graphviz as gviz
-import sys
-
-from timeit import default_timer as timer
 
 import jpype
 import jpype.imports
 
-BASE_DIR = "/Users/josephramsey/py-tetrad"
-sys.path.append(BASE_DIR)
-jpype.startJVM(classpath=[f"{BASE_DIR}/pytetrad/resources/tetrad-gui-current-launch.jar"])
+jpype.startJVM(classpath=[f"resources/tetrad-gui-current-launch.jar"])
 
 import pytetrad.tools.translate as tr
 import edu.cmu.tetrad.search as ts
@@ -35,9 +29,8 @@ edgemarks = {'-->': ('none', 'empty'),
              '<-o': ('empty', 'odot'), 
              'o-o': ('odot', 'odot')}
 
-df = pd.read_csv("https://raw.githubusercontent.com/cmu-phil/example-causal-datasets/"
-                 "main/real/apple-watch-fitbit/data/aw-fb-pruned18.data.mixed.numeric.txt",
-                 sep="\t")
+df = pd.read_csv("resources/aw-fb-pruned18.data.mixed.numeric.txt", sep="\t")
+
 df = df[tiers[0] + tiers[1]]
 df = df.astype({col: int for col in ["gender", "device", "activity"]})
 
@@ -103,6 +96,6 @@ for key in probs:
             dir="both",
             color=color)
 
-gdot.render(filename="apple_fitbit.png", directory=f"{BASE_DIR}", cleanup=True,
+gdot.render(filename="apple_fitbit.png", directory=f"", cleanup=True,
             quiet=True)
 gdot.clear()

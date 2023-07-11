@@ -1,4 +1,9 @@
 setwd("~/py-tetrad/pytetrad")
+
+install.packages(reticulate)
+install.packages(psych)
+install.packages(DiagrammeR)
+
 library(reticulate)
 
 data <- read.table("./resources/airfoil-self-noise.continuous.txt", header=TRUE)
