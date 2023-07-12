@@ -15,7 +15,7 @@ except OSError:
 import tools.translate as tr
 import edu.cmu.tetrad.search as ts
 import edu.cmu.tetrad.data as td
-import edu.cmu.tetrad.graph.GraphPersistence as gp
+import edu.cmu.tetrad.graph.GraphSaveLoadUtils as gp
 import java.lang as lang
 import java.util as util
 import edu.cmu.tetrad.algcomparison.algorithm.oracle.cpdag as cpdag
@@ -215,8 +215,8 @@ class TetradSearch:
 
         self.params.set(Params.CONFLICT_RULE, conflict_rule)
         self.params.set(Params.DEPTH, depth)
-        self.params.set(Params.USE_MAX_P_ORIENTATION_HEURISTIC, use_heuristic)
-        self.params.set(Params.MAX_P_ORIENTATION_MAX_PATH_LENGTH, max_path_length)
+        # self.params.set(Params.USE_MAX_P_ORIENTATION_HEURISTIC, use_heuristic)
+        # self.params.set(Params.MAX_P_ORIENTATION_MAX_PATH_LENGTH, max_path_length)
         self.params.set(Params.STABLE_FAS, stable_fas)
 
         self.java = alg.search(self.data, self.params)
@@ -258,10 +258,10 @@ class TetradSearch:
         alg.setKnowledge(self.knowledge)
 
         self.params.set(Params.DEPTH, depth)
-        self.params.set(Params.FAS_HEURISTIC, fas_heuristic)
+        # self.params.set(Params.FAS_HEURISTIC, fas_heuristic)
         self.params.set(Params.STABLE_FAS, stable_fas)
         self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
-        self.params.set(Params.POSSIBLE_DSEP_DONE, possible_dsep)
+        # self.params.set(Params.POSSIBLE_DSEP_DONE, possible_dsep)
         self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
 
@@ -279,7 +279,7 @@ class TetradSearch:
         self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
         self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
-        self.params.set(Params.POSSIBLE_DSEP_DONE, possible_dsep_done)
+        # self.params.set(Params.POSSIBLE_DSEP_DONE, possible_dsep_done)
 
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
@@ -319,10 +319,10 @@ class TetradSearch:
 
         # FCI
         self.params.set(Params.DEPTH, depth)
-        self.params.set(Params.FAS_HEURISTIC, fas_heuristic)
+        # self.params.set(Params.FAS_HEURISTIC, fas_heuristic)
         self.params.set(Params.STABLE_FAS, stable_fas)
         self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
-        self.params.set(Params.POSSIBLE_DSEP_DONE, possible_dsep)
+        # self.params.set(Params.POSSIBLE_DSEP_DONE, possible_dsep)
         self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
 

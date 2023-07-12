@@ -15,7 +15,7 @@ from causallearn.utils.cit import kci
 import edu.cmu.tetrad.search as ts
 import edu.cmu.tetrad.search.test as test
 import tools.translate as tr
-import tools.search as search
+import tools.TetradSearch as search
 import tools.simulate as sim
 
 D = pd.read_csv(f"resources/airfoil-self-noise.continuous.txt", sep="\t")

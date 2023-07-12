@@ -45,7 +45,7 @@ params.set(Params.BOSS_ALG, 1)
 params.set(Params.DEPTH, -1)
 params.set(Params.MAX_PATH_LENGTH, 2)
 params.set(Params.COMPLETE_RULE_SET_USED, True)
-params.set(Params.POSSIBLE_DSEP_DONE, True)
+# params.set(Params.POSSIBLE_DSEP_DONE, True)
 params.set(Params.DO_DISCRIMINATING_PATH_TAIL_RULE, True)
 
 # Flags

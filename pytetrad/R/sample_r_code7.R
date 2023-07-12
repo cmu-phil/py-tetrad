@@ -6,7 +6,8 @@ install.packages(DiagrammeR)
 
 library(reticulate)
 
-data <- read.table("./resources/airfoil-self-noise.continuous.txt", header=TRUE)
+data <- read.table("./resources/airfoil-self-noise.continuous.txt",
+                   header=TRUE)
 i <- c(1, 6)
 data[ , i] <- apply(data[ , i], 2, function(x) as.numeric(x))
 

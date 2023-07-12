@@ -1,8 +1,5 @@
 import pandas as pd
-
 import graphviz as gviz
-
-import jpype
 import jpype.imports
 
 jpype.startJVM(classpath=[f"resources/tetrad-gui-current-launch.jar"])
@@ -10,7 +7,6 @@ jpype.startJVM(classpath=[f"resources/tetrad-gui-current-launch.jar"])
 import pytetrad.tools.translate as tr
 import edu.cmu.tetrad.search as ts
 import edu.cmu.tetrad.data as td
-
 
 tiers = [['age', 'gender', 'height', 'weight', 'resting_heart', 'device', 'activity'], 
          ['steps', 'heart_rate', 'calories', 'distance']]
@@ -34,7 +30,6 @@ df = pd.read_csv("resources/aw-fb-pruned18.data.mixed.numeric.txt", sep="\t")
 df = df[tiers[0] + tiers[1]]
 df = df.astype({col: int for col in ["gender", "device", "activity"]})
 
-
 knowledge = td.Knowledge()
 knowledge.setTierForbiddenWithin(0, True)
 for col in tiers[0]:
@@ -42,9 +37,7 @@ for col in tiers[0]:
 for col in tiers[1]:
     knowledge.addToTier(1, col)
 
-
 probs = {}
-
 reps= 100
 for rep in range(reps):
     data = tr.pandas_data_to_tetrad(df.sample(frac=1, replace=True))
@@ -74,7 +67,6 @@ for rep in range(reps):
         if arr not in probs[key]:
             probs[key][arr] = 0
         probs[key][arr] += 1.0 / reps
-
 
 gdot = gviz.Graph(format='pdf', graph_attr={'outputorder': 'edgesfirst'})
 for col in df.columns:
