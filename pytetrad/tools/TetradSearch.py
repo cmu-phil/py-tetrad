@@ -134,6 +134,9 @@ class TetradSearch:
     def add_to_tier(self, tier, var_name):
         self.knowledge.addToTier(lang.Integer(tier), lang.String(var_name))
 
+    def set_tier_forbidden_within(self, tier, forbiddenWithin = True):
+        self.knowledge.setTierForbiddenWithin(lang.Integer(tier), forbiddenWithin)
+
     def add_fobidden(self, var_name_1, var_name_2):
         self.knowledge.addForbidden(lang.String(var_name_1), lang.String(var_name_2))
 
@@ -169,6 +172,17 @@ class TetradSearch:
         self.params.set(Params.PARALLELIZED, parallelized)
         self.params.set(Params.FAITHFULNESS_ASSUMED, faithfulness_assumed)
         self.params.set(Params.MEEK_VERBOSE, meek_verbose)
+
+        self.java = alg.search(self.data, self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
+    def run_fges_mb(self, target_name, max_degree=1, faithfulness_assumed=False):
+        alg = cpdag.FgesMb(self.SCORE)
+        alg.setKnowledge(self.knowledge)
+
+        self.params.set(Params.TARGET_NAME, target_name)
+        self.params.set(Params.MAX_DEGREE, max_degree)
+        self.params.set(Params.FAITHFULNESS_ASSUMED, faithfulness_assumed)
 
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
