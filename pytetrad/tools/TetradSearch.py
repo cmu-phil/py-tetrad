@@ -215,7 +215,7 @@ class TetradSearch:
 
     def run_cstar(self, targets="", selection_min_effect=0, num_samples=50,
                             q=1, parallelized=False, cpdag_algorithm=1):
-        alg = cpdag.Cstar()
+        alg = cpdag.Cstar(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
         self.params.set(Params.SELECTION_MIN_EFFECT, selection_min_effect)
