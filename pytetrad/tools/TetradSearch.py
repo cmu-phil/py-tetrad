@@ -176,13 +176,16 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_fges_mb(self, target_name, max_degree=1, faithfulness_assumed=False):
-        alg = cpdag.FgesMb(self.SCORE)
+    def run_fges_mb(self, targets="", max_degree=-1, trimming_style=3,
+                    number_of_expansions=2, faithfulness_assumed=False):
+        alg = cpdag.Fges(self.SCORE)
         alg.setKnowledge(self.knowledge)
 
-        self.params.set(Params.TARGET_NAME, target_name)
-        self.params.set(Params.MAX_DEGREE, max_degree)
+        self.params.set(Params.TARGETS, targets)
         self.params.set(Params.FAITHFULNESS_ASSUMED, faithfulness_assumed)
+        self.params.set(Params.MAX_DEGREE, max_degree)
+        self.params.set(Params.TRIMMING_STYLE, trimming_style)
+        self.params.set(Params.NUMBER_OF_EXPANSIONS, number_of_expansions)
 
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
@@ -194,6 +197,33 @@ class TetradSearch:
 
         self.params.set(Params.NUM_STARTS, num_starts)
         self.params.set(Params.DEPTH, depth)
+
+        self.java = alg.search(self.data, self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
+    def run_restricted_boss(self,  targets="", use_bes=False, num_starts=1,
+                            allow_internal_randomness=True):
+        alg = cpdag.Boss(self.SCORE)
+
+        self.params.set(Params.TARGETS, targets)
+        self.params.set(Params.USE_BES, use_bes)
+        self.params.set(Params.NUM_STARTS, num_starts)
+        self.params.set(Params.ALLOW_INTERNAL_RANDOMNESS, allow_internal_randomness)
+
+        self.java = alg.search(self.data, self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
+    def run_cstar(self, targets="", selection_min_effect=0, num_samples=50,
+                            q=1, parallelized=False, cpdag_algorithm=1):
+        alg = cpdag.Cstar()
+        alg.setKnowledge(self.knowledge)
+
+        self.params.set(Params.SELECTION_MIN_EFFECT, selection_min_effect)
+        self.params.set(Params.NUM_SUBSAMPLES, num_samples)
+        self.params.set(Params.TARGETS, targets)
+        self.params.set(Params.CSTAR_Q, q)
+        self.params.set(Params.PARALLELIZED, parallelized)
+        self.params.set(Params.CSTAR_CPDAG_ALGORITHM, cpdag_algorithm)
 
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
