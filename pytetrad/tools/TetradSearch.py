@@ -20,6 +20,7 @@ import java.lang as lang
 import java.util as util
 import edu.cmu.tetrad.algcomparison.algorithm.oracle.cpdag as cpdag
 import edu.cmu.tetrad.algcomparison.algorithm.oracle.pag as pag
+import edu.cmu.tetrad.algcomparison.algorithm.oracle.pattern as pattern
 import edu.cmu.tetrad.algcomparison.algorithm.continuous.dag as dag
 import edu.cmu.tetrad.algcomparison.score as score_
 import edu.cmu.tetrad.algcomparison.independence as ind_
@@ -178,7 +179,7 @@ class TetradSearch:
 
     def run_fges_mb(self, targets="", max_degree=-1, trimming_style=3,
                     number_of_expansions=2, faithfulness_assumed=False):
-        alg = cpdag.Fges(self.SCORE)
+        alg = cpdag.FgesMb(self.SCORE)
         alg.setKnowledge(self.knowledge)
 
         self.params.set(Params.TARGETS, targets)
@@ -203,7 +204,7 @@ class TetradSearch:
 
     def run_restricted_boss(self,  targets="", use_bes=False, num_starts=1,
                             allow_internal_randomness=True):
-        alg = cpdag.Boss(self.SCORE)
+        alg = cpdag.RestrictedBoss(self.SCORE)
 
         self.params.set(Params.TARGETS, targets)
         self.params.set(Params.USE_BES, use_bes)
@@ -215,8 +216,7 @@ class TetradSearch:
 
     def run_cstar(self, targets="", selection_min_effect=0, num_samples=50,
                             q=1, parallelized=False, cpdag_algorithm=1):
-        alg = cpdag.Cstar(self.TEST, self.SCORE)
-        alg.setKnowledge(self.knowledge)
+        alg = pattern.Cstar(self.TEST, self.SCORE)
 
         self.params.set(Params.SELECTION_MIN_EFFECT, selection_min_effect)
         self.params.set(Params.NUM_SUBSAMPLES, num_samples)
@@ -226,7 +226,7 @@ class TetradSearch:
         self.params.set(Params.CSTAR_CPDAG_ALGORITHM, cpdag_algorithm)
 
         self.java = alg.search(self.data, self.params)
-        self.bootstrap_graphs = alg.getBootstrapGraphs()
+        # self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_sp(self):
         alg = cpdag.Sp(self.SCORE)
