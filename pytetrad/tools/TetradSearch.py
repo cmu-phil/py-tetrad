@@ -214,7 +214,7 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_cstar(self, targets="", selection_min_effect=0, num_samples=50,
+    def run_cstar(self, targets="", file_out_path = "", selection_min_effect=0, num_samples=50,
                             q=1, parallelized=False, cpdag_algorithm=1):
         alg = pattern.Cstar(self.TEST, self.SCORE)
 
@@ -224,9 +224,9 @@ class TetradSearch:
         self.params.set(Params.CSTAR_Q, q)
         self.params.set(Params.PARALLELIZED, parallelized)
         self.params.set(Params.CSTAR_CPDAG_ALGORITHM, cpdag_algorithm)
+        self.params.set(Params.FILE_OUT_PATH, file_out_path)
 
         self.java = alg.search(self.data, self.params)
-        # self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_sp(self):
         alg = cpdag.Sp(self.SCORE)
