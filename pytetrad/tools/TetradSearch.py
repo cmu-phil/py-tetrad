@@ -235,8 +235,8 @@ class TetradSearch:
     # into the top set of variables by minimum IDA effect. This gives the number q of
     # variables to include in the top bracket, where 1 <= q <= # possible causes.
     # Parallelized. Yes, if the search should be parallelized, no if not. Default no.
-    def run_cstar(self, targets="", file_out_path = "", selection_min_effect=0, num_samples=50,
-                            top_bracket=10, parallelized=False, cpdag_algorithm=1):
+    def run_cstar(self, targets="", file_out_path = "cstar-out", selection_min_effect=0.0,
+                  num_samples=50, top_bracket=10, parallelized=False, cpdag_algorithm=4):
         alg = pattern.Cstar(self.TEST, self.SCORE)
 
         self.params.set(Params.SELECTION_MIN_EFFECT, selection_min_effect)
