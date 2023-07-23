@@ -214,14 +214,35 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
+    #Algorithm. This is the algorithm to use to calculate bootstrapped CPDAGs.
+    # Current options are PC Stable, FGES, BOSS, or Restricted BOSS. For large
+    # datasets, we recommend Restricted BOSS, which calculates variables with
+    # marginal effect on one of the targets and then runs BOSS over this restricted
+    # set.
+    # Results Output Path. A default is “cstar-out”, which will place result-files
+    # in a subdirectory of the current directory named path = “cstar-out”.[n], where
+    # n is the first index for which no such directory exists. If a directory already
+    # exists at the path, then any information available in path directory will be
+    # used to generate results in the path-.[n] directory.
+    # Number of Subsamples. CStaR finds CPDAGs over subsampled data of size n / 2; this
+    # specifies how many subsamples to use.
+    # Minimum effect size. This allows a shorter table to be produced. It this is set
+    # to a value m > 0, then only records with PI > m will be displayed.
+    # Target Names. A list of names of variables (comma or space separated) can be
+    # given that are considered possible effects. These will be excluded from the list
+    # of possible causes, which will be all other variables in the dataset.
+    # Top Bracket. The CStaR algorithm tries to find possible causes that regularly sort
+    # into the top set of variables by minimum IDA effect. This gives the number q of
+    # variables to include in the top bracket, where 1 <= q <= # possible causes.
+    # Parallelized. Yes, if the search should be parallelized, no if not. Default no.
     def run_cstar(self, targets="", file_out_path = "", selection_min_effect=0, num_samples=50,
-                            q=1, parallelized=False, cpdag_algorithm=1):
+                            top_bracket=10, parallelized=False, cpdag_algorithm=1):
         alg = pattern.Cstar(self.TEST, self.SCORE)
 
         self.params.set(Params.SELECTION_MIN_EFFECT, selection_min_effect)
         self.params.set(Params.NUM_SUBSAMPLES, num_samples)
         self.params.set(Params.TARGETS, targets)
-        self.params.set(Params.CSTAR_Q, q)
+        self.params.set(Params.CSTAR_Q, top_bracket)
         self.params.set(Params.PARALLELIZED, parallelized)
         self.params.set(Params.CSTAR_CPDAG_ALGORITHM, cpdag_algorithm)
         self.params.set(Params.FILE_OUT_PATH, file_out_path)
