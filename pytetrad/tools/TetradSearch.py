@@ -52,11 +52,11 @@ class TetradSearch:
         self.SCORE = score_.SemBicScore()
 
     def use_ebic(self, gamma=0.8, precompute_covariances=True):
-        self.params.set(Params.PENALTY_DISCOUNT, gamma)
+        self.params.set(Params.EBIC_GAMMA, gamma)
         self.params.set(Params.PRECOMPUTE_COVARIANCES, precompute_covariances)
         self.SCORE = score_.EbicScore()
 
-    def use_kim_score(self, rule_type=4, penalty_discount=1, sem_gic_rule=4):
+    def use_kim_score(self, penalty_discount=1, sem_gic_rule=4):
         self.params.set(Params.SEM_GIC_RULE, sem_gic_rule)
         self.params.set(Params.PENALTY_DISCOUNT_ZS, penalty_discount)
         self.SCORE = score_.KimEtAlScores()
@@ -204,13 +204,12 @@ class TetradSearch:
 
     def run_restricted_boss(self,  targets="", use_bes=False, num_starts=1,
                             allow_internal_randomness=True):
-        alg = cpdag.RestrictedBoss(self.SCORE)
-
         self.params.set(Params.TARGETS, targets)
         self.params.set(Params.USE_BES, use_bes)
         self.params.set(Params.NUM_STARTS, num_starts)
         self.params.set(Params.ALLOW_INTERNAL_RANDOMNESS, allow_internal_randomness)
 
+        alg = cpdag.RestrictedBoss(self.SCORE)
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
@@ -237,8 +236,7 @@ class TetradSearch:
     # Parallelized. Yes, if the search should be parallelized, no if not. Default no.
     def run_cstar(self, targets="", file_out_path = "cstar-out", selection_min_effect=0.0,
                   num_subsamples=50, top_bracket=10, parallelized=False, cpdag_algorithm=4,
-                  remove_effect_nodes = True):
-        alg = pattern.Cstar(self.TEST, self.SCORE)
+                  remove_effect_nodes = True, sample_style=1):
 
         self.params.set(Params.SELECTION_MIN_EFFECT, selection_min_effect)
         self.params.set(Params.NUM_SUBSAMPLES, num_subsamples)
@@ -248,7 +246,9 @@ class TetradSearch:
         self.params.set(Params.CSTAR_CPDAG_ALGORITHM, cpdag_algorithm)
         self.params.set(Params.FILE_OUT_PATH, file_out_path)
         self.params.set(Params.REMOVE_EFFECT_NODES, remove_effect_nodes)
+        self.params.set(Params.SAMPLE_STYLE, sample_style)
 
+        alg = pattern.Cstar(self.TEST, self.SCORE)
         self.java = alg.search(self.data, self.params)
 
     def run_sp(self):
@@ -261,9 +261,6 @@ class TetradSearch:
                   nonsingular_depth=1, ordered_alg=False,
                   raskutti_uhler=False, use_data_order=True,
                   num_starts=1):
-        alg = cpdag.Grasp(self.TEST, self.SCORE)
-        alg.setKnowledge(self.knowledge)
-
         self.params.set(Params.GRASP_DEPTH, covered_depth)
         self.params.set(Params.GRASP_SINGULAR_DEPTH, singular_depth)
         self.params.set(Params.GRASP_NONSINGULAR_DEPTH, nonsingular_depth)
@@ -272,44 +269,47 @@ class TetradSearch:
         self.params.set(Params.GRASP_USE_DATA_ORDER, use_data_order)
         self.params.set(Params.NUM_STARTS, num_starts)
 
+        alg = cpdag.Grasp(self.TEST, self.SCORE)
+        alg.setKnowledge(self.knowledge)
+
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_pc(self, conflict_rule=1, depth=-1, stable_fas=True):
-        alg = cpdag.Pc(self.TEST)
-        alg.setKnowledge(self.knowledge)
-
         self.params.set(Params.CONFLICT_RULE, conflict_rule)
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.STABLE_FAS, stable_fas)
+
+        alg = cpdag.Pc(self.TEST)
+        alg.setKnowledge(self.knowledge)
 
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_cpc(self, conflict_rule=1, depth=-1, use_heuristic=True, max_path_length=-1,
                 stable_fas=True):
-        alg = cpdag.Cpc(self.TEST)
-        alg.setKnowledge(self.knowledge)
-
         self.params.set(Params.CONFLICT_RULE, conflict_rule)
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.USE_MAX_P_ORIENTATION_HEURISTIC, use_heuristic)
         self.params.set(Params.MAX_P_ORIENTATION_MAX_PATH_LENGTH, max_path_length)
         self.params.set(Params.STABLE_FAS, stable_fas)
+
+        alg = cpdag.Cpc(self.TEST)
+        alg.setKnowledge(self.knowledge)
 
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_pcmax(self, conflict_rule=1, depth=-1, use_heuristic=True, max_path_length=-1,
                   stable_fas=True):
-        alg = cpdag.PcMax(self.TEST)
-        alg.setKnowledge(self.knowledge)
-
         self.params.set(Params.CONFLICT_RULE, conflict_rule)
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.USE_MAX_P_ORIENTATION_HEURISTIC, use_heuristic)
         self.params.set(Params.MAX_P_ORIENTATION_MAX_PATH_LENGTH, max_path_length)
         self.params.set(Params.STABLE_FAS, stable_fas)
+
+        alg = cpdag.PcMax(self.TEST)
+        alg.setKnowledge(self.knowledge)
 
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
@@ -318,41 +318,41 @@ class TetradSearch:
                 max_path_length=-1, possible_dsep=True,
                 do_discriminating_path_rule=True,
                 complete_rule_set_used=True):
-        alg = pag.Fci(self.TEST)
-        alg.setKnowledge(self.knowledge)
-
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.STABLE_FAS, stable_fas)
         self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
         self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
 
+        alg = pag.Fci(self.TEST)
+        alg.setKnowledge(self.knowledge)
+
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_gfci(self, depth=-1, max_degree=-1, max_path_length=-1,
                  complete_rule_set_used=True, do_discriminating_path_rule=True):
-        alg = pag.Gfci(self.TEST, self.SCORE)
-        alg.setKnowledge(self.knowledge)
-
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.MAX_DEGREE, max_degree)
         self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
         self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
 
+        alg = pag.Gfci(self.TEST, self.SCORE)
+        alg.setKnowledge(self.knowledge)
+
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_bfci(self, depth=-1, max_path_length=-1,
                  complete_rule_set_used=True, do_discriminating_path_rule=True):
-        alg = pag.Bfci(self.TEST, self.SCORE)
-        alg.setKnowledge(self.knowledge)
-
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
         self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
+
+        alg = pag.Bfci(self.TEST, self.SCORE)
+        alg.setKnowledge(self.knowledge)
 
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
@@ -365,9 +365,6 @@ class TetradSearch:
                       nonsingular_depth=1, ordered_alg=False,
                       raskutti_uhler=False, use_data_order=True,
                       num_starts=1):
-        alg = pag.GraspFci(self.TEST, self.SCORE)
-        alg.setKnowledge(self.knowledge)
-
         # GRaSP
         self.params.set(Params.GRASP_DEPTH, covered_depth)
         self.params.set(Params.GRASP_SINGULAR_DEPTH, singular_depth)
@@ -386,38 +383,44 @@ class TetradSearch:
         self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
 
+        alg = pag.GraspFci(self.TEST, self.SCORE)
+        alg.setKnowledge(self.knowledge)
+
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_spfci(self, max_path_length=-1, complete_rule_set_used=True,
                   do_discriminating_path_rule=True, depth=-1):
-        alg = pag.SpFci(self.TEST, self.SCORE)
-        alg.setKnowledge(self.knowledge)
         self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
         self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
         self.params.set(Params.DEPTH, depth)
 
+        alg = pag.SpFci(self.TEST, self.SCORE)
+        alg.setKnowledge(self.knowledge)
+
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_ica_lingam(self, ica_a=1.1, ica_max_iter=5000, ica_tolerance=1e-8, threshold_b=0.1, threshold_spine=0.6):
-        alg = dag.IcaLingam()
         self.params.set(Params.FAST_ICA_A, ica_a)
         self.params.set(Params.FAST_ICA_MAX_ITER, ica_max_iter)
         self.params.set(Params.FAST_ICA_TOLERANCE, ica_tolerance)
         self.params.set(Params.THRESHOLD_B, threshold_b)
         self.params.set(Params.THRESHOLD_SPINE, threshold_spine)
+
+        alg = dag.IcaLingam()
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_ica_lingd(self, ica_a=1.1, ica_max_iter=5000, ica_tolerance=1e-8, threshold_b=0.1, threshold_spine=0.6):
-        alg = dag.IcaLingD()
         self.params.set(Params.FAST_ICA_A, ica_a)
         self.params.set(Params.FAST_ICA_MAX_ITER, ica_max_iter)
         self.params.set(Params.FAST_ICA_TOLERANCE, ica_tolerance)
         self.params.set(Params.THRESHOLD_B, threshold_b)
         self.params.set(Params.THRESHOLD_SPINE, threshold_spine)
+
+        alg = dag.IcaLingD()
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
