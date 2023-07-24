@@ -236,11 +236,11 @@ class TetradSearch:
     # variables to include in the top bracket, where 1 <= q <= # possible causes.
     # Parallelized. Yes, if the search should be parallelized, no if not. Default no.
     def run_cstar(self, targets="", file_out_path = "cstar-out", selection_min_effect=0.0,
-                  num_samples=50, top_bracket=10, parallelized=False, cpdag_algorithm=4):
+                  num_subsamples=50, top_bracket=10, parallelized=False, cpdag_algorithm=4):
         alg = pattern.Cstar(self.TEST, self.SCORE)
 
         self.params.set(Params.SELECTION_MIN_EFFECT, selection_min_effect)
-        self.params.set(Params.NUM_SUBSAMPLES, num_samples)
+        self.params.set(Params.NUM_SUBSAMPLES, num_subsamples)
         self.params.set(Params.TARGETS, targets)
         self.params.set(Params.TOP_BRACKET, top_bracket)
         self.params.set(Params.PARALLELIZED, parallelized)
