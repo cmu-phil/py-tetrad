@@ -242,7 +242,7 @@ class TetradSearch:
         self.params.set(Params.SELECTION_MIN_EFFECT, selection_min_effect)
         self.params.set(Params.NUM_SUBSAMPLES, num_samples)
         self.params.set(Params.TARGETS, targets)
-        self.params.set(Params.CSTAR_Q, top_bracket)
+        self.params.set(Params.TOP_BRACKET, top_bracket)
         self.params.set(Params.PARALLELIZED, parallelized)
         self.params.set(Params.CSTAR_CPDAG_ALGORITHM, cpdag_algorithm)
         self.params.set(Params.FILE_OUT_PATH, file_out_path)
