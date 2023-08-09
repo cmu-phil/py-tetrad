@@ -116,7 +116,7 @@ graph = ts.Fges(score).search()
 print('FGES w/ BGS', graph)
 
 data = tr.pandas_data_to_tetrad(df)
-score = ts.SemBicScore(data)
+score = ts.SemBicScore(data, True)
 score.setPenaltyDiscount(1)
 score.setStructurePrior(0)
 

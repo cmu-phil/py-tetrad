@@ -42,7 +42,7 @@ reps= 100
 for rep in range(reps):
     data = tr.pandas_data_to_tetrad(df.sample(frac=1, replace=True))
 
-    score = ts.score.DegenerateGaussianScore(data)
+    score = ts.score.DegenerateGaussianScore(data, True)
     score.setPenaltyDiscount(2)
 
     test = ts.test.ScoreIndTest(score, data)

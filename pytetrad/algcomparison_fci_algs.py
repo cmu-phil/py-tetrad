@@ -28,7 +28,7 @@ params = Parameters()
 params.set(Params.ALPHA, 1e-5, 0.0001, 0.001, 0.01, 0.1)
 params.set(Params.PENALTY_DISCOUNT, 1, 2, 4)
 
-params.set(Params.SAMPLE_SIZE, 1000, 10000)
+params.set(Params.SAMPLE_SIZE, 1000) #, 10000)
 params.set(Params.NUM_MEASURES, 30)
 params.set(Params.AVG_DEGREE, 6)
 params.set(Params.NUM_LATENTS, 8)

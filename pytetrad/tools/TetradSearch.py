@@ -452,7 +452,7 @@ class TetradSearch:
         num_lags = 2
         lagged_data = ts.utils.TsUtils.createLagData(self.data, num_lags)
         ts_test = ts.test.IndTestFisherZ(lagged_data, 0.01)
-        ts_score = ts.score.SemBicScore(lagged_data)
+        ts_score = ts.score.SemBicScore(lagged_data, True)
         ts_score.setPenaltyDiscount(penalty_discount)
         svar_fci = ts.SvarGfci(ts_test, ts_score)
         svar_fci.setKnowledge(lagged_data.getKnowledge())
