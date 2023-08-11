@@ -5,7 +5,7 @@ import sys
 import jpype
 import jpype.imports
 
-BASE_DIR = "/Users/bryanandrews/Documents/py-tetrad"
+BASE_DIR = ".."
 sys.path.append(BASE_DIR)
 jpype.startJVM(classpath=[f"{BASE_DIR}/pytetrad/resources/tetrad-gui-current-launch.jar"])
 
