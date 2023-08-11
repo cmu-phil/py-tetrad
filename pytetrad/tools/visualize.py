@@ -37,7 +37,7 @@ def write_gdot(gdot, probs, threshold=0, weight=1, length=1, power=1, hidden=lam
 
     for pair in probs:
         if hidden(pair): continue
-        adj = np.sum([probs[pair][edge] for edge in probs[pair]])
+        adj = round(np.sum([probs[pair][edge] for edge in probs[pair]]))
         if adj < threshold: continue
 
         for edge in probs[pair]:
