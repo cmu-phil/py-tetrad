@@ -1,3 +1,4 @@
+
 def graphs_to_probs(graphs):
     probs = {}
     reverse = {"---": "---", "o-o": "o-o", "o--": "--o",
