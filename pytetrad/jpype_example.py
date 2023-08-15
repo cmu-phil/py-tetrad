@@ -5,10 +5,10 @@ import sys
 import jpype
 import jpype.imports
 
-try:
-    jpype.startJVM(classpath=[f"resources/tetrad-gui-current-launch.jar"])
-except OSError:
-    print("JVM already started")
+# BASE_DIR = "/Users/bryanandrews/Documents/py-tetrad"
+BASE_DIR = ".."
+sys.path.append(BASE_DIR)
+jpype.startJVM(classpath=[f"{BASE_DIR}/pytetrad/resources/tetrad-gui-current-launch.jar"])
 
 import tools.translate as ptt
 import tools.visualize as ptv
