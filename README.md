@@ -16,11 +16,11 @@ We added [a method to use Tetrad algorithms in R via py-tetrad](https://github.c
 
 # Install
 
-1. It is necessary to install a JDK. See our Wiki article, [Setting up Java for Tetrad](https://github.com/cmu-phil/tetrad/wiki/Setting-up-Java-for-Tetrad).
+1. It is necessary to have a JDK installed for version 9+. See our Wiki article, [Setting up Java for Tetrad](https://github.com/cmu-phil/tetrad/wiki/Setting-up-Java-for-Tetrad).
 
 1. type ``echo $JAVA_HOME``in a terminal to see if this is already set to your JDK. On Windows, it should already be set if you've installed Java. On Mac, it should be set to the latest JDK installed. If it's not set, you'll need to [set JAVA_HOME](https://www.baeldung.com/java-home-on-windows-7-8-10-mac-os-x-linux#:~:text=On%20the%20Desktop%2C%20right%2Dclick,Variable%20value%20and%20click%20OK.) to the path of the Java installation you want to use for py-tetrad.
 
-1. Make sure you are using the latest Python--at least 3.5--as required by JPype; if not, [update it](https://www.pythoncentral.io/how-to-update-python/). 
+1. It is also necessary (for JPype) to have Python 3.5+ installed. Here is how to [update Python](https://www.pythoncentral.io/how-to-update-python/) if you need to.
 
 1. We use causal-learn. For installation instructions, see the [Docs for the causal-learn package](https://causal-learn.readthedocs.io/en/latest/).
 
@@ -39,6 +39,8 @@ python run_continuous.py
 If everything is set up right, the last command should cause this example module to run various algorithms in Tetrad and print out result graphs. Feel free to explore other example modules in that directory.
 
 Feel free to use your favorite method for editing and running modules.
+
+We realize these install instructions are a bit cumbersome and have ideas for how to simplify them, whicih we will do soon.
 
 # Citation
 
