@@ -1,5 +1,7 @@
 # py-tetrad
 
+Please visit our Tetrad web page for current links for downloadables, a list of contributors, some history, documentation, descriptions, links for our various projects, Javadocs, and more!
+
 This package shows how to make arbitrary code in [Tetrad](https://github.com/cmu-phil/tetrad) directly available in Python via [JPype](https://github.com/jpype-project/jpype) as part of a Python workflow. We do this by giving [reusable examples](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad) of how it can be done, along with [API Javadoc documentation](https://www.phil.cmu.edu/tetrad-javadocs/7.5.0/) to allow further exploration of the entire Tetrad codebase.
 
 It also gives some simple tools that can be used in both Python and R to hide the JPype facilities for those who don't want to (or can't, in the case of R) deal directly with the Tetrad codebase.
