@@ -8,7 +8,7 @@ import jpype
 import jpype.imports
 
 try:
-    jpype.startJVM(jpype.getDefaultJVMPath(), "-Xmx40g", classpath=[f"resources/tetrad-gui-current-launch.jar"])
+    jpype.startJVM(jpype.getDefaultJVMPath(), "-Xmx40g", classpath=[f"resources/tetrad-current.jar"])
 except OSError:
     pass
 
@@ -266,7 +266,7 @@ class TetradSearch:
         self.params.set(Params.GRASP_NONSINGULAR_DEPTH, nonsingular_depth)
         self.params.set(Params.GRASP_ORDERED_ALG, ordered_alg)
         self.params.set(Params.GRASP_USE_RASKUTTI_UHLER, raskutti_uhler)
-        self.params.set(Params.GRASP_USE_DATA_ORDER, use_data_order)
+        self.params.set(Params.USE_DATA_ORDER, use_data_order)
         self.params.set(Params.NUM_STARTS, num_starts)
 
         alg = cpdag.Grasp(self.TEST, self.SCORE)
@@ -371,7 +371,7 @@ class TetradSearch:
         self.params.set(Params.GRASP_NONSINGULAR_DEPTH, nonsingular_depth)
         self.params.set(Params.GRASP_ORDERED_ALG, ordered_alg)
         self.params.set(Params.GRASP_USE_RASKUTTI_UHLER, raskutti_uhler)
-        self.params.set(Params.GRASP_USE_DATA_ORDER, use_data_order)
+        self.params.set(Params.USE_DATA_ORDER, use_data_order)
         self.params.set(Params.NUM_STARTS, num_starts)
 
         # FCI

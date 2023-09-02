@@ -5,8 +5,8 @@
 import jpype.imports
 
 try:
-    jpype.startJVM(classpath=[f"resources/tetrad-gui-current-launch.jar"])
-    # jpype.startJVM("-Xmx40g", classpath=[f"resources/tetrad-gui-current-launch.jar"])
+    jpype.startJVM(classpath=[f"resources/tetrad-current.jar"])
+    # jpype.startJVM("-Xmx40g", classpath=[f"resources/tetrad-current.jar"])
 except OSError:
     print("JVM already started")
 

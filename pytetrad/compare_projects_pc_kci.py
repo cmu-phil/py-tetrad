@@ -3,7 +3,7 @@ import time
 
 # this needs to happen before import pytetrad (otherwise lib cant be found)
 try:
-    jpype.startJVM(classpath=[f"resources/tetrad-gui-current-launch.jar"])
+    jpype.startJVM(classpath=[f"resources/tetrad-current.jar"])
 except OSError:
     print("JVM already started")
 

@@ -8,7 +8,7 @@ import jpype.imports
 # BASE_DIR = "/Users/bryanandrews/Documents/py-tetrad"
 BASE_DIR = ".."
 sys.path.append(BASE_DIR)
-jpype.startJVM(classpath=[f"{BASE_DIR}/pytetrad/resources/tetrad-gui-current-launch.jar"])
+jpype.startJVM(classpath=[f"{BASE_DIR}/pytetrad/resources/tetrad-current.jar"])
 
 import tools.translate as ptt
 import tools.visualize as ptv

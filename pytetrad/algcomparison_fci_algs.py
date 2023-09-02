@@ -5,7 +5,7 @@
 import jpype.imports
 
 try:
-    jpype.startJVM(classpath=[f"resources/tetrad-gui-current-launch.jar"])
+    jpype.startJVM(classpath=[f"resources/tetrad-current.jar"])
 except OSError:
     print("JVM already started")
 
@@ -50,7 +50,7 @@ params.set(Params.DO_DISCRIMINATING_PATH_TAIL_RULE, True)
 # Flags
 params.set(Params.GRASP_USE_RASKUTTI_UHLER, False)
 params.set(Params.GRASP_USE_SCORE, True)
-params.set(Params.GRASP_USE_DATA_ORDER, True)
+params.set(Params.USE_DATA_ORDER, True)
 params.set(Params.NUM_STARTS, 1)
 
 # default
