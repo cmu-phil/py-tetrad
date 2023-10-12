@@ -24,6 +24,7 @@ import edu.cmu.tetrad.algcomparison.algorithm.oracle.pattern as pattern
 import edu.cmu.tetrad.algcomparison.algorithm.continuous.dag as dag
 import edu.cmu.tetrad.algcomparison.score as score_
 import edu.cmu.tetrad.algcomparison.independence as ind_
+import edu.cmu.tetrad.search.utils as search_utils
 
 import java.io as io
 
@@ -565,3 +566,9 @@ class TetradSearch:
             raise ValueError("index out of bounds")
         java = self.bootstrap_graphs[i]
         return str(gp.graphToDot(java))
+
+    def is_legal_pag(self, graph):
+        return search_utils.GraphSearchUtils.isLegalPag(graph).isLegalPag()
+
+    def is_legal_pag_reason(self, graph):
+        print(search_utils.GraphSearchUtils.isLegalPag(graph).getReason())
