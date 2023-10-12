@@ -448,6 +448,22 @@ class TetradSearch:
         self.java = svar_fci.search()
         # self.bootstrap_graphs = svar_fci.getBootstrapGraphs()
 
+    def run_direct_lingam(self):
+        alg = dag.DirectLingam(self.SCORE)
+
+        self.java = alg.search(self.data, self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
+    def run_dagma(self, lambda1=0.05, w_threshold=0.1, cpdag=True):
+        alg = dag.Dagma()
+
+        self.params.set(Params.LAMBDA1, lambda1)
+        self.params.set(Params.W_THRESHOLD, w_threshold)
+        self.params.set(Params.CPDAG, cpdag)
+
+        self.java = alg.search(self.data, self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
     def run_svar_gfci(self, penalty_discount=2):
         num_lags = 2
         lagged_data = ts.utils.TsUtils.createLagData(self.data, num_lags)
