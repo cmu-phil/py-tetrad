@@ -26,6 +26,13 @@ search.add_to_tier(1, "Pressure")
 
 ## Run the search
 search.run_fges()
-
-## Print the graph
 print(search.get_string())
+
+search.run_dagma()
+print(search.get_string())
+
+search.run_direct_lingam()
+print(search.get_string())
+
+## Print all subsets independence facts.
+search.print_all_subsets_independence_facts(search.get_java())
