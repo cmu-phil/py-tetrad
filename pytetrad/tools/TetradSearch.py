@@ -574,4 +574,7 @@ class TetradSearch:
         print(search_utils.GraphSearchUtils.isLegalPag(graph).getReason())
 
     def print_all_subsets_independence_facts(self, graph):
-        print(ts.MarkovCheck.getAllSubsetsIndependenceFacts(graph).toString())
+        print(ts.MarkovCheck.getAllSubsetsIndependenceFacts(graph).toStringIndep())
+
+    def print_all_subsets_dependence_facts(self, graph):
+        print(ts.MarkovCheck.getAllSubsetsIndependenceFacts(graph).toStringDep())
