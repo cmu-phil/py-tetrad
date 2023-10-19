@@ -18,8 +18,8 @@ data <- read.table("./resources/bridges.data.version211_rev.txt", header=TRUE)
 # ## integer columns will still be interpreted as discrete, so we have to
 # ## specify in the data frame for this data that they are to be interpreted
 # ## as continuous (i.e., 'numeric').
-#  i <- c(1, 6)
-#  data[ , i] <- apply(data[ , i], 2, function(x) as.numeric(x))
+ # i <- c(1, 11)
+ # data[ , i] <- apply(data[ , i], 2, function(x) as.integer(x))
 
 ## Make a TetradSearch object.
 source_python("tools/TetradSearch.py")
@@ -27,7 +27,7 @@ ts <- TetradSearch(data)
 
 ## Use the SEM BIC score.
 ts$use_bdeu()
-ts$use_g_square()
+ts$use_chi_square()
 
 # RIVER	ERECTED	PURPOSE	LENGTH	LANES	CLEAR_G	T_OR_D	MATERIAL	SPAN	REL_L	TYPE
 

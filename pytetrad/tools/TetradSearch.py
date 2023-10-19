@@ -287,13 +287,11 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_cpc(self, conflict_rule=1, depth=-1, use_heuristic=True, max_path_length=-1,
-                stable_fas=True):
+    def run_cpc(self, conflict_rule=1, depth=-1, stable_fas=True, meek_prevent_cycles=True):
         self.params.set(Params.CONFLICT_RULE, conflict_rule)
         self.params.set(Params.DEPTH, depth)
-        self.params.set(Params.USE_MAX_P_ORIENTATION_HEURISTIC, use_heuristic)
-        self.params.set(Params.MAX_P_ORIENTATION_MAX_PATH_LENGTH, max_path_length)
         self.params.set(Params.STABLE_FAS, stable_fas)
+        self.params.set(Params.MEEK_PREVENT_CYCLES, meek_prevent_cycles)
 
         alg = cpdag.Cpc(self.TEST)
         alg.setKnowledge(self.knowledge)
@@ -462,6 +460,11 @@ class TetradSearch:
         self.params.set(Params.W_THRESHOLD, w_threshold)
         self.params.set(Params.CPDAG, cpdag)
 
+        self.java = alg.search(self.data, self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
+    def run_pc_lingam(self):
+        alg = dag.PcLingam()
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 

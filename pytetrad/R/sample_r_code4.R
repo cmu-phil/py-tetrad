@@ -56,7 +56,7 @@ dot <- ts$get_dot()
 ## Plot matrix of variables to show evil distributions.
 library(psych)
 pairs.panels(data, method = "pearson") 
-# correlation method hist.col = "#00AFBB", density = TRUE, 
+# correlation method hist.col = "#00AFBB",x density = TRUE, 
 # show density plots ellipses = TRUE # show correlation ellipses )
 
 ## Allows RStudio to render graphs in the Viewer window.
