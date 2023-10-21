@@ -313,10 +313,8 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_fci(self, depth=-1, stable_fas=True,
-                max_path_length=-1, possible_dsep=True,
-                do_discriminating_path_rule=True,
-                complete_rule_set_used=True):
+    def run_fci(self, depth=-1, stable_fas=True, max_path_length=-1,
+                do_discriminating_path_rule=True, complete_rule_set_used=True):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.STABLE_FAS, stable_fas)
         self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
@@ -324,6 +322,19 @@ class TetradSearch:
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
 
         alg = pag.Fci(self.TEST)
+        alg.setKnowledge(self.knowledge)
+
+        self.java = alg.search(self.data, self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
+    def run_cfci(self, depth=-1, max_path_length=-1, do_discriminating_path_rule=True,
+                complete_rule_set_used=True):
+        self.params.set(Params.DEPTH, depth)
+        self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
+        self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
+        self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
+
+        alg = pag.Cfci(self.TEST)
         alg.setKnowledge(self.knowledge)
 
         self.java = alg.search(self.data, self.params)

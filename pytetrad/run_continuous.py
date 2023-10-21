@@ -31,6 +31,13 @@ print('BOSS')
 search.run_boss()
 print(search.get_string())
 
+import numpy as np
+
+search.run_boss()
+adj = search.get_causal_learn()
+
+print(adj)
+
 print('SP')
 search.run_sp()
 print(search.get_string())
@@ -45,6 +52,10 @@ print(search.get_string())
 
 print('FCI')
 search.run_fci()
+print(search.get_string())
+
+print('CFCI')
+search.run_cfci()
 print(search.get_string())
 
 print('GFCI')
