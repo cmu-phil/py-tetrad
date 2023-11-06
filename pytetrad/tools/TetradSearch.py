@@ -1,7 +1,7 @@
 ## Provides a simple wrapper for many of the Tetrad searches that can be used
 ## either from Python (for the lazy) or from R. All of the JPype code is
 ## safely hidden away. The inputs are all pandas data frames
-## and the outputs are PCALG-formatted graphs, also data frames. (In a
+## and the outputs are endpoint-matrix-formatted graphs, also data frames. (In a
 ## future version, we may allow the outputs to be given other formats.)
 
 import jpype
@@ -544,11 +544,11 @@ class TetradSearch:
         else:
             tr.tetrad_graph_to_causal_learn(java)
 
-    def get_pcalg(self, java=None):
+    def get_graph_to_matrix(self, java=None, nullEpt = 0, circleEpt = 1, arrowEpt = 2, tailEpt = 3):
         if (java == None):
-            return tr.tetrad_graph_to_pcalg(self.java)
+            return tr.graph_to_matrix(self.java, nullEpt, circleEpt, arrowEpt, tailEpt)
         else:
-            tr.tetrad_graph_to_pcalg(java)
+            tr.graph_to_matrix(java)
 
     def get_dot(self, java=None):
         if (java == None):

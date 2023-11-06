@@ -12,7 +12,7 @@ import tools.simulate as sim
 D, G = sim.simulateLeeHastie(num_meas=100, samp_size=1000)
 
 D = tr.tetrad_data_to_pandas(D)
-G = tr.tetrad_graph_to_pcalg(G)
+G = tr.graph_to_matrix(G)
 
 # Save data to a file
 D.to_csv('../mydata.csv', index=False)

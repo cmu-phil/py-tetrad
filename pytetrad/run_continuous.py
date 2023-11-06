@@ -25,16 +25,14 @@ search.use_fisher_z(alpha=0.05)
 ## Run various algorithms and print their results. For now (for compability with R)
 print('FGES')
 search.run_fges()
-print(search.get_pcalg())
+print(search.get_graph_to_matrix())
 
 print('BOSS')
 search.run_boss()
 print(search.get_string())
 
-import numpy as np
-
 search.run_boss()
-adj = search.get_causal_learn()
+adj = search.get_graph_to_matrix()
 
 print(adj)
 
