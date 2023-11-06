@@ -12,8 +12,11 @@ import tools.translate as tr
 import edu.cmu.tetrad.search as ts
 import edu.cmu.tetrad.search.test as test
 
-from causallearn.search.ConstraintBased.PC import pc
-from causallearn.utils.cit import fisherz
+try:
+    from causallearn.search.ConstraintBased.PC import pc
+    from causallearn.utils.cit import fisherz
+except ImportError as e:
+    print('Could not import a causal-learn module: ', e)
 
 df = pd.read_csv(f"resources/airfoil-self-noise.continuous.txt", sep="\t")
 df = df.astype({col: "float64" for col in df.columns})

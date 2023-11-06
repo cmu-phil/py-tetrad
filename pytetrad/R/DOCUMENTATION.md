@@ -8,7 +8,7 @@ For information on specific algorithms, tests, or scores, or if you'd like to wa
 
 if you are familiar with Tetrad, these are the same algorithms, tests, and scores that are available in the Search box in the current Tetrad interface, and in the current Python package [py-tetrad](https://github.com/cmu-phil/py-tetrad), and will work exactly the same way in each case.
 
-These algorithms output graphs in several formats, which we will document. Currently supported graph types are Java object (Tetrad EdgeListGraph), Python object (Causal-learn GeneralGraph), DOT, PCALG, , and Lavaan.
+These algorithms output graphs in several formats, which we will document. Currently supported graph types are Java object (Tetrad EdgeListGraph), DOT, PCALG, , and Lavaan.
 
 The PCALG general graph format, as R data frames, in particular, is a square edge matrix; see the docs for FCI in the PCALG package. The endpoints are recorded as follows:
 

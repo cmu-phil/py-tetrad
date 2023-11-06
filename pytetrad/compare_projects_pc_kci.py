@@ -10,8 +10,12 @@ except OSError:
 import pandas as pd
 import numpy as np
 
-from causallearn.search.ConstraintBased.PC import pc
-from causallearn.utils.cit import kci
+try:
+    from causallearn.search.ConstraintBased.PC import pc
+    from causallearn.utils.cit import kci
+except ImportError as e:
+    print('Could not import a causal-learn module: ', e)
+
 import edu.cmu.tetrad.search as ts
 import edu.cmu.tetrad.search.test as test
 import tools.translate as tr

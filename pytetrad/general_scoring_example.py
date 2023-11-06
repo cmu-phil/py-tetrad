@@ -8,7 +8,6 @@ except OSError:
     print("JVM already started")
 
 import pandas as pd
-import numpy as np
 
 import tools.translate as tr
 
@@ -17,8 +16,12 @@ import edu.cmu.tetrad.data as td
 import edu.cmu.tetrad.search as ts
 import edu.cmu.tetrad.search.score as score
 
-from causallearn.score.LocalScoreFunction import local_score_marginal_general
-from causallearn.score.LocalScoreFunction import local_score_cv_general
+try:
+    from causallearn.score.LocalScoreFunction import local_score_marginal_general
+    from causallearn.score.LocalScoreFunction import local_score_cv_general
+except ImportError as e:
+    print('Could not import a causal-learn module: ', e)
+
 
 # Can use this as a template for defining scores in Python for use with
 # Java Tetrad algorithms.

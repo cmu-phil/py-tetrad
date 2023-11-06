@@ -16,7 +16,6 @@ setuptools.setup(
         'numpy',
         'pandas',
         'JPype1',
-        'causal-learn'
     ],
     url='https://github.com/cmu-phil/py-tetrad',
     packages=setuptools.find_packages(),

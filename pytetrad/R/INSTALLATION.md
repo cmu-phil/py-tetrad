@@ -50,7 +50,7 @@ python run_continuous.py
 ```
 This last command should cause various algorithms to run in Tetrad and print out result graphs.
 
-(Here are docs for [causal learn](https://causal-learn.readthedocs.io/en/latest/), [JPype](https://jpype.readthedocs.io/en/latest/index.html), and [git](https://git-scm.com/doc).)
+(Here are docs for [JPype](https://jpype.readthedocs.io/en/latest/index.html), and [git](https://git-scm.com/doc).)
 
 #### (6) Now, open RStudio and do some setup there.
 

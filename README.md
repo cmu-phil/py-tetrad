@@ -6,7 +6,7 @@ This package shows how to make arbitrary code in [Tetrad](https://github.com/cmu
 
 It also gives some simple tools that can be used in both Python and R to hide the JPype facilities for those who don't want to (or can't, in the case of R) deal directly with the Tetrad codebase.
 
-Part of our code uses the [causal-learn Python package](https://github.com/py-why/causal-learn) in [py-why](https://github.com/py-why) to show how it can be integrated.
+Some of our code uses the [causal-learn Python package](https://github.com/py-why/causal-learn) in [py-why](https://github.com/py-why), though this is not part of this package; to use this code the causal-learn Python pakcage should be separate installed. These imports are in try-except blocks where they occur.
 
 You can also integrate Tetrad code into Python by making os.system (..) calls to [Causal Command](https://github.com/bd2kccd/causal-cmd); here are [some examples](https://github.com/cmu-phil/algocompy/blob/main/old/causalcmd/tetrad_cmd_algs.py) of how to do it.
 
@@ -23,8 +23,6 @@ We added [a method to use Tetrad algorithms in R via py-tetrad](https://github.c
 1. type ``echo $JAVA_HOME``in a terminal to see if this is already set to your JDK. On Windows, it should already be set if you've installed Java. On Mac, it should be set to the latest JDK installed. If it's not set, you'll need to [set JAVA_HOME](https://www.baeldung.com/java-home-on-windows-7-8-10-mac-os-x-linux#:~:text=On%20the%20Desktop%2C%20right%2Dclick,Variable%20value%20and%20click%20OK.) to the path of the Java installation you want to use for py-tetrad.
 
 1. It is also necessary (for JPype) to have Python 3.5+ installed. Here is how to [update Python](https://www.pythoncentral.io/how-to-update-python/) if you need to.
-
-1. We use causal-learn. For installation instructions, see the [Docs for the causal-learn package](https://causal-learn.readthedocs.io/en/latest/).
 
 1. We use the JPype package to interface Python with Java. For installation instructions, see the [Docs for the JPype box](https://jpype.readthedocs.io/en/latest/).
 

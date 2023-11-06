@@ -18,10 +18,8 @@ except OSError:
 from edu.cmu.tetrad.util import Params, Parameters
 import edu.cmu.tetrad.algcomparison.simulation as sim
 import edu.cmu.tetrad.algcomparison.graph as graph
-import pytetrad.tools.translate as tr
 
-# Simuolates a continuous dataset with the given arguments and returns the dataset as a pandas dataframe
-# along with the graph as a causal-learn GeneralGraph.
+# Simuolates a continuous dataset with the given arguments and returns the dataset as a pandas datafram
 def simulateContinuous(num_meas = 20, num_lat = 0, avg_deg = 4, samp_size = 200, coef_low = 0, coef_high = 1, var_low = 1, var_high = 3):
     # Set the parameters for the simulation
     params = Parameters()
@@ -53,7 +51,6 @@ def simulateContinuous(num_meas = 20, num_lat = 0, avg_deg = 4, samp_size = 200,
     return D, G
 
 # Simuolates a discrete dataset with the given arguments and returns the dataset as a pandas dataframe
-# along with the graph as a causal-learn GeneralGraph.
 def simulateDiscrete(num_meas = 20, num_lat = 0, avg_deg = 4, min_cat=3, max_cat=3, samp_size=1000):
     # Set the parameters for the simulation
     params = Parameters()
@@ -83,13 +80,8 @@ def simulateDiscrete(num_meas = 20, num_lat = 0, avg_deg = 4, min_cat=3, max_cat
 
     return D, G
 
-    # D_ = tr.tetrad_to_pandas(D)
-    # G_ = tr.tetrad_graph_to_causal_learn(G)
-    #
-    # return D_, G_
-
 # Simuolates a mixed continuous/discrete dataset using the Lee-Hastic method with the given arguments
-# and returns the dataset as a pandas dataframe along with the graph as a causal-learn GeneralGraph.
+# and returns the dataset as a pandas dataframe.
 def simulateLeeHastie(num_meas = 20, num_lat = 0, avg_deg = 4, min_cat=3, max_cat=3, perc_disc=50, samp_size=1000):
 
     # Set the parameters for the simulation
