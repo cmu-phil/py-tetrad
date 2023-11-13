@@ -8,6 +8,7 @@ except OSError:
 import pandas as pd
 
 import tools.TetradSearch as search
+import edu.cmu.tetrad.graph as graph
 
 data = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
 data = data.astype({col: "float64" for col in data.columns})
@@ -28,8 +29,10 @@ search.run_fges()
 print(search.get_graph_to_matrix())
 
 print('BOSS')
-search.run_boss()
+search.run_boss(num_starts=1, use_bes=True, time_lag=0, use_data_order=True)
 print(search.get_string())
+dag=search.get_dag_string()
+print(dag)
 
 search.run_boss()
 adj = search.get_graph_to_matrix()

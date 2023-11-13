@@ -15,6 +15,7 @@ except OSError:
 import tools.translate as tr
 import edu.cmu.tetrad.search as ts
 import edu.cmu.tetrad.data as td
+import edu.cmu.tetrad.graph as gr
 import edu.cmu.tetrad.graph.GraphSaveLoadUtils as gp
 import java.lang as lang
 import java.util as util
@@ -201,7 +202,6 @@ class TetradSearch:
         alg.setKnowledge(self.knowledge)
 
         self.params.set(Params.NUM_STARTS, num_starts)
-        self.params.set(Params.DEPTH, depth)
 
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
@@ -540,6 +540,14 @@ class TetradSearch:
             return lang.String @ self.java.toString()
         else:
             lang.String @ java.toString()
+
+    def get_dag_string(self, java=None):
+        if (java == None):
+            dag = gr.GraphTransforms().dagFromCPDAG(self.java)
+            return lang.String @ dag.toString()
+        else:
+            dag = gr.GraphTransforms().dagFromCPDAG(java)
+            lang.String @ dag.toString()
 
     def get_causal_learn(self, java=None):
         if (java == None):
