@@ -34,61 +34,61 @@ print(search.get_string())
 dag=search.get_dag_java()
 print(dag)
 
-# search.run_boss()
-# adj = search.get_graph_to_matrix()
-#
-# print(adj)
-#
-# print('SP')
-# search.run_sp()
-# print(search.get_string())
-#
-# print('GRaSP')
-# search.run_grasp()
-# print(search.get_string())
-#
-# print('PC')
-# search.run_pc()
-# print(search.get_string())
-#
-# print('FCI')
-# search.run_fci()
-# print(search.get_string())
-#
-# print('CFCI')
-# search.run_cfci()
-# print(search.get_string())
-#
-# print('GFCI')
-# search.run_gfci()
-# print(search.get_string())
-#
-# print('BFCI')
-# search.run_bfci()
-# print(search.get_string())
-#
-# print('GRaSP-FCI')
-# search.run_grasp_fci()
-# print(search.get_string())
-#
-# print('CCD')
-# search.run_ccd()
-# print(search.get_string())
-#
-# print('SVAR-GFCI')
-# search.run_svar_gfci()
-# print(search.get_string())
-#
-# print('SP-FCI')
-# search.run_spfci()
-# print(search.get_string())
-#
-# print('ICA-LiNGAM')
-# search.run_ica_lingam(threshold_b=0.4, threshold_spine=0)
-# print(search.get_string())
-#
-# print('ICA-LiNG-D')
-# search.run_ica_lingd(threshold_b=0.4, threshold_spine=0)
-# print(search.get_string())
-#
-#
+search.run_boss()
+adj = search.get_graph_to_matrix()
+
+print(adj)
+
+print('SP')
+search.run_sp()
+print(search.get_string())
+
+print('GRaSP')
+search.run_grasp()
+print(search.get_string())
+
+print('PC')
+search.run_pc()
+print(search.get_string())
+
+print('FCI')
+search.run_fci()
+print(search.get_string())
+
+print('CFCI')
+search.run_cfci()
+print(search.get_string())
+
+print('GFCI')
+search.run_gfci()
+print(search.get_string())
+
+print('BFCI')
+search.run_bfci()
+print(search.get_string())
+
+print('GRaSP-FCI')
+search.run_grasp_fci()
+print(search.get_string())
+
+print('CCD')
+search.run_ccd()
+print(search.get_string())
+
+print('SVAR-GFCI')
+search.run_svar_gfci()
+print(search.get_string())
+
+print('SP-FCI')
+search.run_spfci()
+print(search.get_string())
+
+print('ICA-LiNGAM')
+search.run_ica_lingam(threshold_b=0.4, threshold_spine=0)
+print(search.get_string())
+
+print('ICA-LiNG-D')
+search.run_ica_lingd(threshold_b=0.4, threshold_spine=0)
+print(search.get_string())
+
+
