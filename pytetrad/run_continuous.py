@@ -8,7 +8,6 @@ except OSError:
 import pandas as pd
 
 import tools.TetradSearch as search
-import edu.cmu.tetrad.graph as graph
 
 data = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
 data = data.astype({col: "float64" for col in data.columns})
