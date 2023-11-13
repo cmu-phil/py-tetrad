@@ -547,7 +547,15 @@ class TetradSearch:
             return lang.String @ dag.toString()
         else:
             dag = gr.GraphTransforms().dagFromCPDAG(java)
-            lang.String @ dag.toString()
+            return lang.String @ dag.toString()
+
+    def get_dag_java(self, java=None):
+        if (java == None):
+            dag = gr.GraphTransforms().dagFromCPDAG(self.java)
+            return dag
+        else:
+            dag = gr.GraphTransforms().dagFromCPDAG(java)
+            return dag
 
     def get_causal_learn(self, java=None):
         if (java == None):
