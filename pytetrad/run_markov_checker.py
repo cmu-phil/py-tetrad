@@ -12,7 +12,6 @@ import pandas as pd
 import tools.translate as tr
 import tools.TetradSearch as search
 import edu.cmu.tetrad.search as ts
-import edu.cmu.tetrad.search.ConditioningSetType as cst
 import edu.cmu.tetrad.algcomparison.independence as ind_
 from edu.cmu.tetrad.util import Params, Parameters
 
@@ -31,7 +30,7 @@ search.set_verbose(False)
 search.use_sem_bic(penalty_discount=1)
 search.use_fisher_z(alpha=0.05)
 
-# Aun an algorithm and grab the CPCDAG
+# Run an algorithm and grab the CPCDAG
 print('BOSS')
 search.run_boss(num_starts=1, use_bes=True, time_lag=0, use_data_order=True)
 print(search.get_string())
@@ -55,7 +54,7 @@ params = Parameters()
 params.set(Params.ALPHA, 0.01)
 _test = ind_.FisherZ().getTest(tr.pandas_data_to_tetrad(data), params)
 
-mc = ts.MarkovCheck(dag, _test, cst.LOCAL_MARKOV)
+mc = ts.MarkovCheck(dag, _test, ts.ConditioningSetType.LOCAL_MARKOV)
 mc.generateResults()    
 p_ks_indep = mc.getKsPValue(True)
 fd_indep = mc.getFractionDependent(True)
