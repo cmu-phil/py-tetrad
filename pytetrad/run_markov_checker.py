@@ -58,9 +58,9 @@ print(cpdag)
 # cancellations.
 params = Parameters()
 params.set(Params.ALPHA, alpha)
-_test = ind_.FisherZ().getTest(tr.pandas_data_to_tetrad(data), params)
+test = ind_.FisherZ().getTest(tr.pandas_data_to_tetrad(data), params)
 
-mc = ts.MarkovCheck(cpdag, _test, ts.ConditioningSetType.LOCAL_MARKOV)
+mc = ts.MarkovCheck(cpdag, test, ts.ConditioningSetType.LOCAL_MARKOV)
 mc.generateResults()    
 p_ks_indep = mc.getKsPValue(True)
 fd_indep = mc.getFractionDependent(True)
