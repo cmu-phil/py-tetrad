@@ -24,7 +24,6 @@ data = data.astype({col: "float64" for col in data.columns})
 # the use of Tetrad search algorithms and hides the JPype code for those who
 # don't want to deal with it.
 search = search.TetradSearch(data)
-search.set_verbose(False)
 
 # Pick the score to use, in this case a continuous linear, Gaussian score.
 search.use_sem_bic(penalty_discount=1.5)
