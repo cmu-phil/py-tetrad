@@ -27,8 +27,7 @@ search = search.TetradSearch(data)
 search.set_verbose(False)
 
 # Pick the score to use, in this case a continuous linear, Gaussian score.
-search.use_sem_bic(penalty_discount=1)
-search.use_fisher_z(alpha=0.05)
+search.use_sem_bic(penalty_discount=1.5)
 
 # Run an algorithm and grab the CPCDAG
 print('BOSS')
