@@ -67,5 +67,7 @@ p_ks_indep = mc.getKsPValue(True)
 fd_indep = mc.getFractionDependent(True)
 fd_dep = mc.getFractionDependent(False)
 
-print("Kolmogorov-Smirnov p-value Indep = ", p_ks_indep)
+p_exceeds_alpha = p_ks_indep > alpha
+
+print("Kolmogorov-Smirnov p-value Indep = ", p_ks_indep, "Uniform" if p_exceeds_alpha else "Non-Uniform")
 print("Fraction dependent for Indep = ", fd_indep, " fraction dependent Dep = ", fd_dep)
