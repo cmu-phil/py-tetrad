@@ -25,12 +25,21 @@ data = data.astype({col: "float64" for col in data.columns})
 # don't want to deal with it.
 search = search.TetradSearch(data)
 
+# Hyperparameter settings
+num_starts = 1
+use_bes = True
+time_lag = 0
+use_data_order = True
+penalty_discount = 1
+alpha = 0.01
+
 # Pick the score to use, in this case a continuous linear, Gaussian score.
-search.use_sem_bic(penalty_discount=1)
+search.use_sem_bic(penalty_discount=penalty_discount)
 
 # Run an algorithm and grab the CPCDAG
 print('BOSS')
-search.run_boss(num_starts=1, use_bes=True, time_lag=0, use_data_order=True)
+search.run_boss(num_starts=num_starts, use_bes=use_bes, time_lag=time_lag,
+                use_data_order=use_data_order)
 cpdag=search.get_java()
 print(cpdag)
 
@@ -48,7 +57,7 @@ print(cpdag)
 # be high, though not necessarily 1, since there may be some path
 # cancellations.
 params = Parameters()
-params.set(Params.ALPHA, 0.01)
+params.set(Params.ALPHA, alpha)
 _test = ind_.FisherZ().getTest(tr.pandas_data_to_tetrad(data), params)
 
 mc = ts.MarkovCheck(cpdag, _test, ts.ConditioningSetType.LOCAL_MARKOV)
