@@ -31,7 +31,6 @@ search.use_sem_bic(penalty_discount=1)
 # Run an algorithm and grab the CPCDAG
 print('BOSS')
 search.run_boss(num_starts=1, use_bes=True, time_lag=0, use_data_order=True)
-print(search.get_string())
 cpdag=search.get_java()
 print(cpdag)
 
@@ -49,7 +48,7 @@ print(cpdag)
 # be high, though not necessarily 1, since there may be some path
 # cancellations.
 params = Parameters()
-params.set(Params.ALPHA, 0.05)
+params.set(Params.ALPHA, 0.01)
 _test = ind_.FisherZ().getTest(tr.pandas_data_to_tetrad(data), params)
 
 mc = ts.MarkovCheck(cpdag, _test, ts.ConditioningSetType.LOCAL_MARKOV)
