@@ -52,7 +52,7 @@ params = Parameters()
 params.set(Params.ALPHA, 0.05)
 _test = ind_.FisherZ().getTest(tr.pandas_data_to_tetrad(data), params)
 
-mc = ts.MarkovCheck(dag, _test, ts.ConditioningSetType.LOCAL_MARKOV)
+mc = ts.MarkovCheck(cpdag, _test, ts.ConditioningSetType.LOCAL_MARKOV)
 mc.generateResults()    
 p_ks_indep = mc.getKsPValue(True)
 fd_indep = mc.getFractionDependent(True)
