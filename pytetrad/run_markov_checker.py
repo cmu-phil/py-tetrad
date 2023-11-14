@@ -7,6 +7,7 @@ except OSError:
 
 import pandas as pd
 
+# This is an example of how to use the Markov Checker.
 # We will wrap the Markov Checker in a nicer Python class at some point. -JR
 
 import tools.translate as tr
