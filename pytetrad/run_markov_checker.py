@@ -17,7 +17,8 @@ import edu.cmu.tetrad.algcomparison.independence as ind_
 from edu.cmu.tetrad.util import Params, Parameters
 
 # Load in the data and make sure all columns are being interpreted as continuous.
-data = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
+data = pd.read_csv("resources/airfoil-self-noise.continuous.txt",
+                   sep="\t")
 data = data.astype({col: "float64" for col in data.columns})
 
 # Make a TetradSearch instance to run searches against. This helps to organize
