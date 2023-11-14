@@ -26,14 +26,14 @@ data = data.astype({col: "float64" for col in data.columns})
 search = search.TetradSearch(data)
 
 # Pick the score to use, in this case a continuous linear, Gaussian score.
-search.use_sem_bic(penalty_discount=1.5)
+search.use_sem_bic(penalty_discount=1)
 
 # Run an algorithm and grab the CPCDAG
 print('BOSS')
 search.run_boss(num_starts=1, use_bes=True, time_lag=0, use_data_order=True)
 print(search.get_string())
-dag=search.get_java()
-print(dag)
+cpdag=search.get_java()
+print(cpdag)
 
 # Get the test used for the Markov Checker--this test will be used to look
 # to see whether p-values for conditional independence tests are distributed
@@ -49,7 +49,7 @@ print(dag)
 # be high, though not necessarily 1, since there may be some path
 # cancellations.
 params = Parameters()
-params.set(Params.ALPHA, 0.01)
+params.set(Params.ALPHA, 0.05)
 _test = ind_.FisherZ().getTest(tr.pandas_data_to_tetrad(data), params)
 
 mc = ts.MarkovCheck(dag, _test, ts.ConditioningSetType.LOCAL_MARKOV)
