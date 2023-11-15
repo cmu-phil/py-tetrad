@@ -25,21 +25,17 @@ ts$add_to_tier(1, "Frequency")
 ts$add_to_tier(2, "Pressure")
 
 ts$use_sem_bic(penalty_discount=2)
-ts$use_fisher_z()
-ts$run_grasp()
-
+ts$run_boss()
 print(ts$get_string())
-
-library(DiagrammeR)
-dot <- ts$get_dot()
-grViz(dot)
-
-ts$set_bootstrapping(numberResampling = 30)
-ts$run_grasp()
-dot <- ts$get_dot()
-grViz(dot)
 
 cpdag <- ts$get_java()
 
-print(cpdag$getNumEdges()
+facts <- ts$all_subsets_independence_facts(cpdag)
+
+print(facts)
+
+# for (fact in msep_facts)
+#   print(fact)
+
+
 
