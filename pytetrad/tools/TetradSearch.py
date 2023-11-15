@@ -606,8 +606,47 @@ class TetradSearch:
     def is_legal_pag_reason(self, graph):
         print(search_utils.GraphSearchUtils.isLegalPag(graph).getReason())
 
-    def print_all_subsets_independence_facts(self, graph):
-        print(ts.MarkovCheck.getAllSubsetsIndependenceFacts(graph).toStringIndep())
 
-    def print_all_subsets_dependence_facts(self, graph):
-        print(ts.MarkovCheck.getAllSubsetsIndependenceFacts(graph).toStringDep())
+    def all_subsets_independence_facts(self, graph):
+        msep = ts.MarkovCheck.getAllSubsetsIndependenceFacts(graph).getMsep()
+
+        facts = []
+
+        for i in range(0, msep.size()):
+            fact = msep.get(i)
+            x = fact.getX().toString()
+            y = fact.getY().toString()
+            zlist = util.ArrayList(fact.getZ())
+
+            _fact = []
+            _fact.append(x)
+            _fact.append(y)
+
+            for j in range(0, zlist.size()):
+                _fact.append(zlist.get(j).toString())
+
+            facts.append(_fact)
+
+        return facts
+
+    def all_subsets_dependence_facts(self, graph):
+        mconn = ts.MarkovCheck.getAllSubsetsIndependenceFacts(graph).getMconn()
+
+        facts = []
+
+        for i in range(0, mconn.size()):
+            fact = mconn.get(i)
+            x = fact.getX().toString()
+            y = fact.getY().toString()
+            zlist = util.ArrayList(fact.getZ())
+
+            _fact = []
+            _fact.append(x)
+            _fact.append(y)
+
+            for j in range(0, zlist.size()):
+                _fact.append(zlist.get(j).toString())
+
+            facts.append(_fact)
+
+        return facts
