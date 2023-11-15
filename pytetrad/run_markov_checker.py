@@ -24,7 +24,7 @@ data = data.astype({col: "float64" for col in data.columns})
 # Make a TetradSearch instance to run searches against. This helps to organize
 # the use of Tetrad search algorithms and hides the JPype code for those who
 # don't want to deal with it.
-search = search.TetradSearch(data)
+_search = search.TetradSearch(data)
 
 # Hyperparameter settings
 num_starts = 1
@@ -35,14 +35,17 @@ penalty_discount = 1
 alpha = 0.01
 
 # Pick the score to use, in this case a continuous linear, Gaussian score.
-search.use_sem_bic(penalty_discount=penalty_discount)
+_search.use_sem_bic(penalty_discount=penalty_discount)
 
 # Run an algorithm and grab the CPCDAG
 print('BOSS')
-search.run_boss(num_starts=num_starts, use_bes=use_bes, time_lag=time_lag,
+_search.run_boss(num_starts=num_starts, use_bes=use_bes, time_lag=time_lag,
                 use_data_order=use_data_order)
-cpdag=search.get_java()
+cpdag=_search.get_java()
 print(cpdag)
+
+bic = cpdag.getAttribute("BIC")
+print("bic", bic)
 
 # Get the test used for the Markov Checker--this test will be used to look
 # to see whether p-values for conditional independence tests are distributed
