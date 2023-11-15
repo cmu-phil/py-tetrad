@@ -34,8 +34,6 @@ facts <- ts$all_subsets_independence_facts(cpdag)
 
 print(facts)
 
-# for (fact in msep_facts)
-#   print(fact)
 
 
 
