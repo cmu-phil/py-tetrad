@@ -6,12 +6,12 @@ except OSError:
     pass
 
 import pandas as pd
-import tools.TetradSearch as search
+import tools.TetradSearch as ts
 
 df = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
 df = df.astype({col: "float64" for col in df.columns})
 
-search = search.TetradSearch(df)
+search = ts.TetradSearch(df)
 
 ## Use a SEM BIC score
 search.use_sem_bic(penalty_discount=2)
@@ -35,4 +35,4 @@ search.run_direct_lingam()
 print(search.get_string())
 
 ## Print all subsets independence facts.
-search.print_all_subsets_independence_facts(search.get_java())
+print(search.all_subsets_independence_facts(search.get_java()))

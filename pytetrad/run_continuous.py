@@ -8,6 +8,7 @@ except OSError:
 import pandas as pd
 
 import tools.translate as tr
+import tools.TetradSearch as ts
 
 data = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
 data = data.astype({col: "float64" for col in data.columns})
@@ -15,7 +16,7 @@ data = data.astype({col: "float64" for col in data.columns})
 ## Make a TetradSearch instance to run searches against. This helps to organize
 ## the use of Tetrad search algorithms and hides the JPype code for those who
 ## don't want to deal with it.
-search = tr.TetradSearch(data)
+search = ts.TetradSearch(data)
 search.set_verbose(False)
 
 ## Pick the score to use, in this case a continuous linear, Gaussian score.

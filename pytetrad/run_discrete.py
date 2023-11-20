@@ -7,14 +7,14 @@ except OSError:
 
 import pandas as pd
 
-import tools.TetradSearch as search
+import tools.TetradSearch as ts
 
 data = pd.read_csv("resources/bridges.data.version211_rev.txt", sep="\t")
 
 ## Make a TetradSearch instance to run searches against. This helps to organize
 ## the use of Tetrad search algorithms and hides the JPype code for those who
 ## don't want to deal with it.
-search = search.TetradSearch(data)
+search = ts.TetradSearch(data)
 search.set_verbose(False)
 
 ## Pick the score to use, in this case a continuous linear, Gaussian score.
