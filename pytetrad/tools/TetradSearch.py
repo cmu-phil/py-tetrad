@@ -137,7 +137,7 @@ class TetradSearch:
     def add_to_tier(self, tier, var_name):
         self.knowledge.addToTier(lang.Integer(tier), lang.String(var_name))
 
-    def set_tier_forbidden_within(self, tier, forbiddenWithin = True):
+    def set_tier_forbidden_within(self, tier, forbiddenWithin=True):
         self.knowledge.setTierForbiddenWithin(lang.Integer(tier), forbiddenWithin)
 
     def add_fobidden(self, var_name_1, var_name_2):
@@ -206,7 +206,7 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_restricted_boss(self,  targets="", use_bes=False, num_starts=1,
+    def run_restricted_boss(self, targets="", use_bes=False, num_starts=1,
                             allow_internal_randomness=True):
         self.params.set(Params.TARGETS, targets)
         self.params.set(Params.USE_BES, use_bes)
@@ -217,7 +217,7 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    #Algorithm. This is the algorithm to use to calculate bootstrapped CPDAGs.
+    # Algorithm. This is the algorithm to use to calculate bootstrapped CPDAGs.
     # Current options are PC Stable, FGES, BOSS, or Restricted BOSS. For large
     # datasets, we recommend Restricted BOSS, which calculates variables with
     # marginal effect on one of the targets and then runs BOSS over this restricted
@@ -238,9 +238,9 @@ class TetradSearch:
     # into the top set of variables by minimum IDA effect. This gives the number q of
     # variables to include in the top bracket, where 1 <= q <= # possible causes.
     # Parallelized. Yes, if the search should be parallelized, no if not. Default no.
-    def run_cstar(self, targets="", file_out_path = "cstar-out", selection_min_effect=0.0,
+    def run_cstar(self, targets="", file_out_path="cstar-out", selection_min_effect=0.0,
                   num_subsamples=50, top_bracket=10, parallelized=False, cpdag_algorithm=4,
-                  remove_effect_nodes = True, sample_style=1):
+                  remove_effect_nodes=True, sample_style=1):
 
         self.params.set(Params.SELECTION_MIN_EFFECT, selection_min_effect)
         self.params.set(Params.NUM_SUBSAMPLES, num_subsamples)
@@ -331,7 +331,7 @@ class TetradSearch:
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_cfci(self, depth=-1, max_path_length=-1, do_discriminating_path_rule=True,
-                complete_rule_set_used=True):
+                 complete_rule_set_used=True):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
         self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
@@ -563,7 +563,7 @@ class TetradSearch:
         else:
             tr.tetrad_graph_to_causal_learn(java)
 
-    def get_graph_to_matrix(self, java=None, nullEpt = 0, circleEpt = 1, arrowEpt = 2, tailEpt = 3):
+    def get_graph_to_matrix(self, java=None, nullEpt=0, circleEpt=1, arrowEpt=2, tailEpt=3):
         if (java == None):
             return tr.graph_to_matrix(self.java, nullEpt, circleEpt, arrowEpt, tailEpt)
         else:
@@ -605,7 +605,6 @@ class TetradSearch:
 
     def is_legal_pag_reason(self, graph):
         print(search_utils.GraphSearchUtils.isLegalPag(graph).getReason())
-
 
     def all_subsets_independence_facts(self, graph):
         msep = ts.MarkovCheck.getAllSubsetsIndependenceFacts(graph).getMsep()
@@ -650,7 +649,3 @@ class TetradSearch:
             facts.append(_fact)
 
         return facts
-
-    def convert(self, adjMatrix):
-        print(adjMatrix)
-

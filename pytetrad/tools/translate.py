@@ -28,6 +28,7 @@ from pandas import DataFrame
 
 import java.util as util
 import edu.cmu.tetrad.data as td
+import edu.cmu.tetrad.graph as tg
 
 
 def pandas_data_to_tetrad(df: DataFrame, int_as_cont=False):
@@ -109,6 +110,28 @@ def graph_to_matrix(g, nullEpt = 0, circleEpt = 1, arrowEpt = 2, tailEpt = 3):
 
     return pd.DataFrame(A, columns=columns_)
 
+def adj_matrix_to_graph(adjMatrix):
+    rows, cols = adjMatrix.shape
+
+    if rows != cols:
+        raise ValueError("The matrix is not square. Rows and columns must be equal.")
+
+    variable_names = ["X" + str(i) for i in range(1, rows + 1)]
+    variables = util.ArrayList()
+
+    for i in range(0, rows):
+        variables.append(tg.GraphNode(variable_names[i]))
+
+    graph = tg.EdgeListGraph(variables)
+
+    for i, row in enumerate(adjMatrix):
+        for j, value in enumerate(row):
+            if (adjMatrix[i][j]):
+                graph.addDirectedEdge(variables.get(i), variables.get(j))
+
+    return graph
+
+
 # PASS ME A GraphViz Graph object and call it gdot!
 def write_gdot(g, gdot):
     endpoint_map = {"TAIL": "none",
@@ -135,3 +158,6 @@ def write_gdot(g, gdot):
                   dir='both', color=color)
 
     return gdot
+
+def print_java(java_graph):
+    print(java_graph)
