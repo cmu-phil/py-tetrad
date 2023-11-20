@@ -650,3 +650,7 @@ class TetradSearch:
             facts.append(_fact)
 
         return facts
+
+    def convert(self, adjMatrix):
+        print(adjMatrix)
+
