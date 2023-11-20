@@ -161,5 +161,6 @@ def write_gdot(g, gdot):
 
     return gdot
 
-def print_java(java_graph):
+# Prints a Java graph object as a Tetrad-style string. Needed from R.
+def print_java(java_graph: tg.Graph):
     print(java_graph)
