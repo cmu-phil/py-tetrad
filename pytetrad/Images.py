@@ -1,6 +1,5 @@
 import sys
 
-import graphviz as gviz
 import jpype.imports
 import pandas as pd
 
