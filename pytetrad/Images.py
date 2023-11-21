@@ -13,11 +13,11 @@ import edu.cmu.tetrad.algcomparison.algorithm.multi as multi
 import edu.cmu.tetrad.util as util
 import java.util as jutil
 
-### Just some boilerplate code to show how to run IMaGES. For a real example,
-### one wouldn't use the same dataset twice but would load multiple datasets
-### with the same variable names and at least approximately the same sample
-### size. Knowledge tiers can be used for lagged data, forbidding edges
-### backward in time, though this is not demoed here.
+### Just some boilerplate code to show how to run IMaGES using JPype. For a
+### real example, one wouldn't use the same dataset twice but would load
+### multiple datasets with the same variable names. Knowledge tiers can be
+### used for lagged data, forbidding edges backward in time, though this is
+### not demoed here.
 print("IMaGES")
 
 # Grabbing some continuous data...
