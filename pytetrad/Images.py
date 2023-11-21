@@ -19,7 +19,7 @@ import java.util as jutil
 ### not demoed here.
 ###
 ### Also, for IMaGES, BOSS could be substituted for FGES for greater accuracy,
-### though this is not implemented with the current jar.
+### though this is not implemented with the current Tetrad jar.
 print("IMaGES")
 
 # Grabbing some continuous data...
