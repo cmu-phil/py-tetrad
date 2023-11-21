@@ -10,10 +10,14 @@ BASE_DIR = ".."
 sys.path.append(BASE_DIR)
 jpype.startJVM(classpath=[f"{BASE_DIR}/pytetrad/resources/tetrad-current.jar"])
 
+import tools.translate as tr
 import tools.translate as ptt
 import tools.visualize as ptv
 import edu.cmu.tetrad.search as ts
 import edu.cmu.tetrad.data as td
+import edu.cmu.tetrad.algcomparison.algorithm.multi as multi
+import edu.cmu.tetrad.util as util
+import java.util as jutil
 
 tiers = [['age', 'gender', 'height', 'weight', 'resting_heart', 'device', 'activity'],
          ['steps', 'heart_rate', 'calories', 'distance']]
@@ -51,3 +55,26 @@ gdot = gviz.Graph(format="pdf", engine="neato",
 gdot = ptv.write_gdot(gdot, probs, length=2)
 gdot.render(filename="apple_fitbit", cleanup=True, quiet=True)
 gdot.clear()
+
+### Just some boilerplate code to show how to run IMaGES. For a real example,
+### one wouldn't use the same dataset twice but would load multiple datasets
+### with the same variable names and at least approximately the same sample
+### size. Knowledge tiers can be used for lagged data, forbidding edges
+### backward in time, though this is not demoed here.
+print("IMaGES")
+
+df2 = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
+df2 = df2.astype({col: "float64" for col in df2.columns})
+
+alg = multi.Images()
+params = util.Parameters()
+params.set(util.Params.PENALTY_DISCOUNT, 2)
+data2 = tr.pandas_data_to_tetrad(df2)
+
+list = jutil.ArrayList()
+list.add(data2)
+list.add(data2)
+
+cpdag = alg.search(list, params)
+
+tr.print_java(cpdag)
