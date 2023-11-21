@@ -17,6 +17,9 @@ import java.util as jutil
 ### multiple datasets with the same variable names. Knowledge tiers can be
 ### used for lagged data, forbidding edges backward in time, though this is
 ### not demoed here.
+###
+### Also, for IMaGES, BOSS could be substituted for FGES for greater accuracy,
+### though this is not implemented with the current jar.
 print("IMaGES")
 
 # Grabbing some continuous data...
