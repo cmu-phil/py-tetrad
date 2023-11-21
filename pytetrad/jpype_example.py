@@ -1,9 +1,8 @@
-import pandas as pd
-import graphviz as gviz
 import sys
 
-import jpype
+import graphviz as gviz
 import jpype.imports
+import pandas as pd
 
 # BASE_DIR = "/Users/bryanandrews/Documents/py-tetrad"
 BASE_DIR = ".."
