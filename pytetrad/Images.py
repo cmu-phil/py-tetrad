@@ -19,7 +19,8 @@ import java.util as jutil
 ### not demoed here.
 ###
 ### Also, for IMaGES, BOSS could be substituted for FGES for greater accuracy,
-### though this is not implemented with the current Tetrad jar.
+### though this is not implemented with the current Tetrad jar. (BOSS is
+### still new, as of Neurips 2023, but it is included in this jar.)
 print("IMaGES")
 
 # Grabbing some continuous data...
