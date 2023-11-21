@@ -62,6 +62,7 @@ gdot.clear()
 ### backward in time, though this is not demoed here.
 print("IMaGES")
 
+# Grabbing some continuous data...
 df2 = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
 df2 = df2.astype({col: "float64" for col in df2.columns})
 
