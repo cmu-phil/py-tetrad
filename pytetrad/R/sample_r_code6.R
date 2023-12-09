@@ -9,7 +9,7 @@ setwd("~/py-tetrad/pytetrad")
 
 library(reticulate)
 
-data <- read.table("./resources/airfoil-self-noise.continuous.txt", header=TRUE)
+data <- read.table("./geresources/airfoil-self-noise.continuous.txt", header=TRUE)
 
 ## The read.table function will read decimal columns as real ('numeric')
 ## and integer columns as discrete. When passing data from R into Python,
