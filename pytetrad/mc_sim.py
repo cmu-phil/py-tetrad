@@ -26,7 +26,7 @@ use_bes = True
 time_lag = 0
 use_data_order = True
 param = 1
-markov_alpha = 0.05
+markov_alpha = 0.01
 
 params = Parameters()
 params.set(Params.ALPHA, markov_alpha)
