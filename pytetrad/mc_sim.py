@@ -18,22 +18,21 @@ import tools.translate as tr
 
 num_measures = 20
 avg_degree = 4
+sample_size = 1000
+num_starts = 3
+ind_test_alpha = 0.01
+markov_alpha_b = 0.1
+markov_alpha_ad = 0.1
+
 penalties = [10, 8, 6, 5, 4, 3.5, 3, 2.5, 2, 1.75, 1.5, 1.25, 1, 0.5]
 alphas = [0.001, 0.01, 0.05, 0.1]
 
-num_starts = 1
-use_bes = True
-time_lag = 0
-use_data_order = True
-param = 1
-markov_alpha = 0.01
-
 params = Parameters()
-params.set(Params.ALPHA, markov_alpha)
-params.set(Params.NUM_MEASURES, 20)
-params.set(Params.AVG_DEGREE, 2)
-params.set(Params.SAMPLE_SIZE, 2000)
-params.set(Params.NUM_STARTS, 3)
+params.set(Params.ALPHA, ind_test_alpha)
+params.set(Params.NUM_MEASURES, num_measures)
+params.set(Params.AVG_DEGREE, avg_degree)
+params.set(Params.SAMPLE_SIZE, sample_size)
+params.set(Params.NUM_STARTS, num_starts)
 
 # paramValue is a range of values for the parameter being used. For score-based
 # algorithms it will be penalty discount; for constraint-based it will be alpha.
@@ -88,9 +87,6 @@ def getData(params):
     return data, graph
 
 def tableLine(alg, param):
-        params.set(Params.NUM_MEASURES, num_measures)
-        params.set(Params.AVG_DEGREE, avg_degree)
-
         data, _graph = getData(params)
         cpdag = getGraph(alg, param, data)
         ap, ar, ahp, ahr = accuracy(_graph, cpdag, data)
@@ -145,6 +141,7 @@ print('-' * 91)
 
 min_edges_ad = 100000
 best_lines_ad = []
+max_p_b = 0
 
 min_edges_b = 100000
 best_lines_b = []
@@ -152,14 +149,14 @@ best_lines_b = []
 for param in alphas:
     p_ad, p_b, edges, line = tableLine('pc', param)
     print(line)
-    if p_b > markov_alpha:
+    if p_b > markov_alpha_b :
         if edges == min_edges_b:
             best_lines_b.append(line)
         elif edges < min_edges_b:
             min_edges_b = edges
             best_lines_b = []
             best_lines_b.append(line)
-    if p_ad > markov_alpha:
+    if p_ad > markov_alpha_ad:
         if edges == min_edges_ad:
             best_lines_ad.append(line)
         elif edges < min_edges_ad:
@@ -170,14 +167,14 @@ for param in alphas:
 for param in penalties:
     p_ad, p_b, edges, line = tableLine('fges', param)
     print(line)
-    if p_b > markov_alpha:
+    if p_b > markov_alpha_b :
         if edges == min_edges_b:
             best_lines_b.append(line)
         elif edges < min_edges_b:
             min_edges_b = edges
             best_lines_b = []
             best_lines_b.append(line)
-    if p_ad > markov_alpha:
+    if p_ad > markov_alpha_ad:
         if edges == min_edges_ad:
             best_lines_ad.append(line)
         elif edges < min_edges_ad:
@@ -188,14 +185,14 @@ for param in penalties:
 for param in penalties:
     p_ad, p_b, edges, line = tableLine('grasp', param)
     print(line)
-    if p_b > markov_alpha:
+    if p_b > markov_alpha_b :
         if edges == min_edges_b:
             best_lines_b.append(line)
         elif edges < min_edges_b:
             min_edges_b = edges
             best_lines_b = []
             best_lines_b.append(line)
-    if p_ad > markov_alpha:
+    if p_ad > markov_alpha_ad:
         if edges == min_edges_ad:
             best_lines_ad.append(line)
         elif edges < min_edges_ad:
@@ -206,14 +203,14 @@ for param in penalties:
 for param in penalties:
     p_ad, p_b, edges, line = tableLine('boss', param)
     print(line)
-    if p_b > markov_alpha:
+    if p_b > markov_alpha_b :
         if edges == min_edges_b:
             best_lines_b.append(line)
         elif edges < min_edges_b:
             min_edges_b = edges
             best_lines_b = []
             best_lines_b.append(line)
-    if p_ad > markov_alpha:
+    if p_ad > markov_alpha_ad:
         if edges == min_edges_ad:
             best_lines_ad.append(line)
         elif edges < min_edges_ad:

@@ -1,6 +1,6 @@
 import sys
 
-import graphviz as gviz
+# import graphviz as gviz
 import jpype.imports
 import pandas as pd
 
@@ -12,6 +12,7 @@ jpype.startJVM(classpath=[f"{BASE_DIR}/pytetrad/resources/tetrad-current.jar"])
 import tools.translate as tr
 import tools.translate as ptt
 import tools.visualize as ptv
+import edu.cmu.tetrad.graph as tg
 import edu.cmu.tetrad.search as ts
 import edu.cmu.tetrad.data as td
 import edu.cmu.tetrad.algcomparison.algorithm.multi as multi
@@ -47,13 +48,13 @@ for rep in range(reps):
     graphs.append(alg.search())
 
 probs = ptv.graphs_to_probs(graphs)
-gdot = gviz.Graph(format="pdf", engine="neato",
-                  graph_attr={"viewport": "600",
-                              "outputorder": "edgesfirst"})
-
-gdot = ptv.write_gdot(gdot, probs, length=2)
-gdot.render(filename="apple_fitbit", cleanup=True, quiet=True)
-gdot.clear()
+# gdot = gviz.Graph(format="pdf", engine="neato",
+#                   graph_attr={"viewport": "600",
+#                               "outputorder": "edgesfirst"})
+#
+# gdot = ptv.write_gdot(gdot, probs, length=2)
+# gdot.render(filename="apple_fitbit", cleanup=True, quiet=True)
+# gdot.clear()
 
 ### Just some boilerplate code to show how to run IMaGES. For a real example,
 ### one wouldn't use the same dataset twice but would load multiple datasets
@@ -78,4 +79,8 @@ list.add(data2)
 
 cpdag = alg.search(list, params)
 
+dag = tg.GraphTransforms.dagFromCPDAG(cpdag)
+c2 = tg.GraphTransforms.cpdagForDag(dag)
+
 tr.print_java(cpdag)
+tr.print_java(c2)
