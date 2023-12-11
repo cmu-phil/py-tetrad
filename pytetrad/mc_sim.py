@@ -19,10 +19,10 @@ import tools.translate as tr
 num_measures = 20
 avg_degree = 4
 sample_size = 1000
-num_starts = 3
+num_starts = 2
 ind_test_alpha = 0.01
-markov_alpha_b = 0.1
-markov_alpha_ad = 0.1
+markov_alpha_b = 0.01
+markov_alpha_ad = 0.01
 
 penalties = [10, 8, 6, 5, 4, 3.5, 3, 2.5, 2, 1.75, 1.5, 1.25, 1, 0.5]
 alphas = [0.001, 0.01, 0.05, 0.1]
@@ -62,7 +62,7 @@ def getGraph(alg, paramValue, data):
 def markov_check(graph, data, params):
     test = ind.FisherZ().getTest(data, params)
     mc = search.MarkovCheck(graph, test, search.ConditioningSetType.LOCAL_MARKOV)
-    mc.setPercentResammple(.7)
+    mc.setPercentResammple(.5)
     mc.generateResults()
     p_ad = mc.getAndersonDarlingP(True)
     p_ks = mc.getKsPValue(True)
@@ -73,10 +73,11 @@ def markov_check(graph, data, params):
 
 def accuracy(true_graph, est_graph, data):
     est_graph = graph.GraphUtils.replaceNodes(est_graph, true_graph.getNodes())
-    ap = st.AdjacencyPrecision().getValue(true_graph, est_graph, data)
-    ar = st.AdjacencyRecall().getValue(true_graph, est_graph, data)
-    ahp = st.ArrowheadPrecision().getValue(true_graph, est_graph, data)
-    ahr = st.ArrowheadRecall().getValue(true_graph, est_graph, data)
+    cpdag = graph.GraphTransforms.cpdagForDag(true_graph)
+    ap = st.AdjacencyPrecision().getValue(cpdag, est_graph, data)
+    ar = st.AdjacencyRecall().getValue(cpdag, est_graph, data)
+    ahp = st.ArrowheadPrecision().getValue(cpdag, est_graph, data)
+    ahr = st.ArrowheadRecall().getValue(cpdag, est_graph, data)
     return ap, ar, ahp, ahr
 
 def getData(params):
@@ -91,7 +92,7 @@ def tableLine(alg, param):
         cpdag = getGraph(alg, param, data)
         ap, ar, ahp, ahr = accuracy(_graph, cpdag, data)
 
-        num_checks = 3
+        num_checks = 1
 
         p_ad = 0
         p_ks = 0
@@ -115,7 +116,7 @@ def tableLine(alg, param):
 
         edges = cpdag.getNumEdges()
 
-        return p_ad, p_b, edges, f"{alg:6} {num_measures:5}   {avg_degree:5} {param:8.3f}  " \
+        return p_ad, p_b, fd_indep, fd_dep, edges, f"{alg:6} {num_measures:5}   {avg_degree:5} {param:8.3f}  " \
              f" {p_ad:.3f} {p_b:.3f}  " \
              f" {fd_indep:1.3f}   {fd_dep:.3f}    {edges:3}  " \
              f"{ap:.3f} {ar:.3f} {ahp:.3f} {ahr:.3f}"
@@ -141,21 +142,24 @@ print('-' * 91)
 
 min_edges_ad = 100000
 best_lines_ad = []
-max_p_b = 0
+
+max_fd_dep_ad2 = -1
+best_lines_ad2 = []
 
 min_edges_b = 100000
 best_lines_b = []
 
+max_fd_dep_b2 = -1
+best_lines_b2 = []
+
+min_fd_indep = 1
+max_fd_dep = 0
+best_lines_max_diff = []
+
+
 for param in alphas:
-    p_ad, p_b, edges, line = tableLine('pc', param)
+    p_ad, p_b, fd_indep, fd_dep, edges, line = tableLine('pc', param)
     print(line)
-    if p_b > markov_alpha_b :
-        if edges == min_edges_b:
-            best_lines_b.append(line)
-        elif edges < min_edges_b:
-            min_edges_b = edges
-            best_lines_b = []
-            best_lines_b.append(line)
     if p_ad > markov_alpha_ad:
         if edges == min_edges_ad:
             best_lines_ad.append(line)
@@ -163,17 +167,39 @@ for param in alphas:
             min_edges_ad = edges
             best_lines_ad = []
             best_lines_ad.append(line)
+    if p_ad > markov_alpha_ad:
+        if fd_dep == max_fd_dep_ad2:
+            best_lines_ad2.append(line)
+        elif fd_dep > max_fd_dep_ad2:
+            max_fd_dep_ad2 = fd_dep
+            best_lines_ad2 = []
+            best_lines_ad2.append(line)
+    if p_b > markov_alpha_b :
+        if edges == min_edges_b:
+            best_lines_b.append(line)
+        elif edges < min_edges_b:
+            min_edges_b = edges
+            best_lines_b = []
+            best_lines_b.append(line)
+    if p_b > markov_alpha_b:
+        if fd_dep == max_fd_dep_b2:
+            best_lines_b2.append(line)
+        elif fd_dep > max_fd_dep_b2:
+            max_fd_dep_b2 = fd_dep
+            best_lines_b2 = []
+            best_lines_b2.append(line)
+    if (fd_indep < min_fd_indep):
+        min_fd_indep = fd_indep
+        best_lines_max_diff = []
+        best_lines_max_diff.append(line)
+    if (fd_dep > max_fd_dep):
+        max_fd_dep = fd_dep
+        best_lines_max_diff = []
+        best_lines_max_diff.append(line)
 
 for param in penalties:
-    p_ad, p_b, edges, line = tableLine('fges', param)
+    p_ad, p_b, fd_indep, fd_dep, edges, line = tableLine('fges', param)
     print(line)
-    if p_b > markov_alpha_b :
-        if edges == min_edges_b:
-            best_lines_b.append(line)
-        elif edges < min_edges_b:
-            min_edges_b = edges
-            best_lines_b = []
-            best_lines_b.append(line)
     if p_ad > markov_alpha_ad:
         if edges == min_edges_ad:
             best_lines_ad.append(line)
@@ -181,17 +207,39 @@ for param in penalties:
             min_edges_ad = edges
             best_lines_ad = []
             best_lines_ad.append(line)
+    if p_ad > markov_alpha_ad:
+        if fd_dep == max_fd_dep_ad2:
+            best_lines_ad2.append(line)
+        elif fd_dep > max_fd_dep_ad2:
+            max_fd_dep_ad2 = fd_dep
+            best_lines_ad2 = []
+            best_lines_ad2.append(line)
+    if p_b > markov_alpha_b :
+        if edges == min_edges_b:
+            best_lines_b.append(line)
+        elif edges < min_edges_b:
+            min_edges_b = edges
+            best_lines_b = []
+            best_lines_b.append(line)
+    if p_b > markov_alpha_b:
+        if fd_dep == max_fd_dep_b2:
+            best_lines_b2.append(line)
+        elif fd_dep > max_fd_dep_b2:
+            max_fd_dep_b2 = fd_dep
+            best_lines_b2 = []
+            best_lines_b2.append(line)
+    if (fd_indep < min_fd_indep):
+        min_fd_indep = fd_indep
+        best_lines_max_diff = []
+        best_lines_max_diff.append(line)
+    if (fd_dep > max_fd_dep):
+        max_fd_dep = fd_dep
+        best_lines_max_diff = []
+        best_lines_max_diff.append(line)
 
 for param in penalties:
-    p_ad, p_b, edges, line = tableLine('grasp', param)
+    p_ad, p_b, fd_indep, fd_dep, edges, line = tableLine('grasp', param)
     print(line)
-    if p_b > markov_alpha_b :
-        if edges == min_edges_b:
-            best_lines_b.append(line)
-        elif edges < min_edges_b:
-            min_edges_b = edges
-            best_lines_b = []
-            best_lines_b.append(line)
     if p_ad > markov_alpha_ad:
         if edges == min_edges_ad:
             best_lines_ad.append(line)
@@ -199,17 +247,39 @@ for param in penalties:
             min_edges_ad = edges
             best_lines_ad = []
             best_lines_ad.append(line)
+    if p_ad > markov_alpha_ad:
+        if fd_dep == max_fd_dep_ad2:
+            best_lines_ad2.append(line)
+        elif fd_dep > max_fd_dep_ad2:
+            max_fd_dep_ad2 = fd_dep
+            best_lines_ad2 = []
+            best_lines_ad2.append(line)
+    if p_b > markov_alpha_b :
+        if edges == min_edges_b:
+            best_lines_b.append(line)
+        elif edges < min_edges_b:
+            min_edges_b = edges
+            best_lines_b = []
+            best_lines_b.append(line)
+    if p_b > markov_alpha_b:
+        if fd_dep == max_fd_dep_b2:
+            best_lines_b2.append(line)
+        elif fd_dep > max_fd_dep_b2:
+            max_fd_dep_b2 = fd_dep
+            best_lines_b2 = []
+            best_lines_b2.append(line)
+    if (fd_indep < min_fd_indep):
+        min_fd_indep = fd_indep
+        best_lines_max_diff = []
+        best_lines_max_diff.append(line)
+    if (fd_dep > max_fd_dep):
+        max_fd_dep = fd_dep
+        best_lines_max_diff = []
+        best_lines_max_diff.append(line)
 
 for param in penalties:
-    p_ad, p_b, edges, line = tableLine('boss', param)
+    p_ad, p_b, fd_indep, fd_dep, edges, line = tableLine('boss', param)
     print(line)
-    if p_b > markov_alpha_b :
-        if edges == min_edges_b:
-            best_lines_b.append(line)
-        elif edges < min_edges_b:
-            min_edges_b = edges
-            best_lines_b = []
-            best_lines_b.append(line)
     if p_ad > markov_alpha_ad:
         if edges == min_edges_ad:
             best_lines_ad.append(line)
@@ -217,10 +287,39 @@ for param in penalties:
             min_edges_ad = edges
             best_lines_ad = []
             best_lines_ad.append(line)
+    if p_ad > markov_alpha_ad:
+        if fd_dep == max_fd_dep_ad2:
+            best_lines_ad2.append(line)
+        elif fd_dep > max_fd_dep_ad2:
+            max_fd_dep_ad2 = fd_dep
+            best_lines_ad2 = []
+            best_lines_ad2.append(line)
+    if p_b > markov_alpha_b :
+        if edges == min_edges_b:
+            best_lines_b.append(line)
+        elif edges < min_edges_b:
+            min_edges_b = edges
+            best_lines_b = []
+            best_lines_b.append(line)
+    if p_b > markov_alpha_b:
+        if fd_dep == max_fd_dep_b2:
+            best_lines_b2.append(line)
+        elif fd_dep > max_fd_dep_b2:
+            max_fd_dep_b2 = fd_dep
+            best_lines_b2 = []
+            best_lines_b2.append(line)
+    if (fd_indep < min_fd_indep):
+        min_fd_indep = fd_indep
+        best_lines_max_diff = []
+        best_lines_max_diff.append(line)
+    if (fd_dep > max_fd_dep):
+        max_fd_dep = fd_dep
+        best_lines_max_diff = []
+        best_lines_max_diff.append(line)
 
 print()
 print()
-print('Best choices for the binomial rule:')
+print('Best choices for the Binomial plus Min Edges:')
 print()
 print(header)
 print('-' * 91)
@@ -230,7 +329,7 @@ for _line in best_lines_b:
 
 print()
 print()
-print('Best choices for the AD rule:')
+print('Best choices for the AD Plus Min Edges:')
 print()
 print(header)
 print('-' * 91)
@@ -238,3 +337,32 @@ print('-' * 91)
 for _line in best_lines_ad:
     print(_line)
 
+print()
+print()
+print('Best choices for the Anderson Darling + Max fd_dep rule:')
+print()
+print(header)
+print('-' * 91)
+
+for _line in best_lines_ad2:
+    print(_line)
+
+print()
+print()
+print('Best choices for the Binomial + Max fd_dep rule:')
+print()
+print(header)
+print('-' * 91)
+
+for _line in best_lines_b2:
+    print(_line)
+
+print()
+print()
+print('Best choices for the Max Diff rule:')
+print()
+print(header)
+print('-' * 91)
+
+for _line in best_lines_max_diff:
+    print(_line)
