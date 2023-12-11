@@ -15,14 +15,15 @@ from edu.cmu.tetrad.util import Params, Parameters
 
 import tools.TetradSearch as ts
 import tools.translate as tr
+import random
 
-num_measures = 20
+num_measures = random.randint(8, 30)
 avg_degree = 4
 sample_size = 1000
 num_starts = 2
-ind_test_alpha = 0.01
-markov_alpha_b = 0.01
-markov_alpha_ad = 0.01
+ind_test_alpha = 0.05
+markov_alpha_b = 0.05
+markov_alpha_ad = 0.05
 
 penalties = [10, 8, 6, 5, 4, 3.5, 3, 2.5, 2, 1.75, 1.5, 1.25, 1, 0.5]
 alphas = [0.001, 0.01, 0.05, 0.1]
@@ -62,7 +63,7 @@ def getGraph(alg, paramValue, data):
 def markov_check(graph, data, params):
     test = ind.FisherZ().getTest(data, params)
     mc = search.MarkovCheck(graph, test, search.ConditioningSetType.LOCAL_MARKOV)
-    mc.setPercentResammple(.5)
+    mc.setPercentResammple(.8)
     mc.generateResults()
     p_ad = mc.getAndersonDarlingP(True)
     p_ks = mc.getKsPValue(True)
@@ -116,7 +117,12 @@ def tableLine(alg, param):
 
         edges = cpdag.getNumEdges()
 
-        return p_ad, p_b, fd_indep, fd_dep, edges, f"{alg:6} {num_measures:5}   {avg_degree:5} {param:8.3f}  " \
+        # return p_ad, p_b, fd_indep, fd_dep, edges, f"{alg:6} {num_measures:5}   {avg_degree:5} {param:8.3f}  " \
+        #      f" {p_ad:.3f} {p_b:.3f}  " \
+        #      f" {fd_indep:1.3f}   {fd_dep:.3f}    {edges:3}  " \
+        #      f"{ap:.3f} {ar:.3f} {ahp:.3f} {ahr:.3f}"
+
+        return p_ad, p_b, fd_indep, fd_dep, edges, f"{alg:6} {0:5}   {0:5} {param:8.3f}  " \
              f" {p_ad:.3f} {p_b:.3f}  " \
              f" {fd_indep:1.3f}   {fd_dep:.3f}    {edges:3}  " \
              f"{ap:.3f} {ar:.3f} {ahp:.3f} {ahr:.3f}"
@@ -152,8 +158,7 @@ best_lines_b = []
 max_fd_dep_b2 = -1
 best_lines_b2 = []
 
-min_fd_indep = 1
-max_fd_dep = 0
+max_fd_diff = -1
 best_lines_max_diff = []
 
 
@@ -188,14 +193,13 @@ for param in alphas:
             max_fd_dep_b2 = fd_dep
             best_lines_b2 = []
             best_lines_b2.append(line)
-    if (fd_indep < min_fd_indep):
-        min_fd_indep = fd_indep
-        best_lines_max_diff = []
-        best_lines_max_diff.append(line)
-    if (fd_dep > max_fd_dep):
-        max_fd_dep = fd_dep
-        best_lines_max_diff = []
-        best_lines_max_diff.append(line)
+    if (p_ad > markov_alpha_ad and p_b > markov_alpha_b):
+        if (fd_dep - fd_indep == max_fd_diff):
+            best_lines_max_diff.append(line)
+        if (fd_dep - fd_indep > max_fd_diff):
+            max_fd_diff = fd_dep - fd_indep
+            best_lines_max_diff = []
+            best_lines_max_diff.append(line)
 
 for param in penalties:
     p_ad, p_b, fd_indep, fd_dep, edges, line = tableLine('fges', param)
@@ -228,14 +232,15 @@ for param in penalties:
             max_fd_dep_b2 = fd_dep
             best_lines_b2 = []
             best_lines_b2.append(line)
-    if (fd_indep < min_fd_indep):
-        min_fd_indep = fd_indep
-        best_lines_max_diff = []
+    if (fd_dep - fd_indep == max_fd_diff):
         best_lines_max_diff.append(line)
-    if (fd_dep > max_fd_dep):
-        max_fd_dep = fd_dep
-        best_lines_max_diff = []
-        best_lines_max_diff.append(line)
+    if (p_ad > markov_alpha_ad and p_b > markov_alpha_b):
+        if (fd_dep - fd_indep == max_fd_diff):
+            best_lines_max_diff.append(line)
+        if (fd_dep - fd_indep > max_fd_diff):
+            max_fd_diff = fd_dep - fd_indep
+            best_lines_max_diff = []
+            best_lines_max_diff.append(line)
 
 for param in penalties:
     p_ad, p_b, fd_indep, fd_dep, edges, line = tableLine('grasp', param)
@@ -268,14 +273,13 @@ for param in penalties:
             max_fd_dep_b2 = fd_dep
             best_lines_b2 = []
             best_lines_b2.append(line)
-    if (fd_indep < min_fd_indep):
-        min_fd_indep = fd_indep
-        best_lines_max_diff = []
-        best_lines_max_diff.append(line)
-    if (fd_dep > max_fd_dep):
-        max_fd_dep = fd_dep
-        best_lines_max_diff = []
-        best_lines_max_diff.append(line)
+    if (p_ad > markov_alpha_ad and p_b > markov_alpha_b):
+        if (fd_dep - fd_indep == max_fd_diff):
+            best_lines_max_diff.append(line)
+        if (fd_dep - fd_indep > max_fd_diff):
+            max_fd_diff = fd_dep - fd_indep
+            best_lines_max_diff = []
+            best_lines_max_diff.append(line)
 
 for param in penalties:
     p_ad, p_b, fd_indep, fd_dep, edges, line = tableLine('boss', param)
@@ -308,24 +312,14 @@ for param in penalties:
             max_fd_dep_b2 = fd_dep
             best_lines_b2 = []
             best_lines_b2.append(line)
-    if (fd_indep < min_fd_indep):
-        min_fd_indep = fd_indep
-        best_lines_max_diff = []
-        best_lines_max_diff.append(line)
-    if (fd_dep > max_fd_dep):
-        max_fd_dep = fd_dep
-        best_lines_max_diff = []
-        best_lines_max_diff.append(line)
+    if (p_ad > markov_alpha_ad and p_b > markov_alpha_b):
+        if (fd_dep - fd_indep == max_fd_diff):
+            best_lines_max_diff.append(line)
+        if (fd_dep - fd_indep > max_fd_diff):
+            max_fd_diff = fd_dep - fd_indep
+            best_lines_max_diff = []
+            best_lines_max_diff.append(line)
 
-print()
-print()
-print('Best choices for the Binomial plus Min Edges:')
-print()
-print(header)
-print('-' * 91)
-
-for _line in best_lines_b:
-    print(_line)
 
 print()
 print()
@@ -337,6 +331,7 @@ print('-' * 91)
 for _line in best_lines_ad:
     print(_line)
 
+
 print()
 print()
 print('Best choices for the Anderson Darling + Max fd_dep rule:')
@@ -346,6 +341,18 @@ print('-' * 91)
 
 for _line in best_lines_ad2:
     print(_line)
+
+
+print()
+print()
+print('Best choices for the Binomial plus Min Edges:')
+print()
+print(header)
+print('-' * 91)
+
+for _line in best_lines_b:
+    print(_line)
+
 
 print()
 print()
@@ -357,9 +364,10 @@ print('-' * 91)
 for _line in best_lines_b2:
     print(_line)
 
+
 print()
 print()
-print('Best choices for the Max Diff rule:')
+print('Best choices for the Markov + Max Diff rule:')
 print()
 print(header)
 print('-' * 91)
