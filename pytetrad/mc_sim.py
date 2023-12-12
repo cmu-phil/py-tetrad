@@ -128,9 +128,9 @@ class EstimateGoodModel:
 
         num_checks = 10
 
-        p_ad = 1.0
-        p_ks = 1.0
-        p_b = 1.0
+        p_ad = 2.0
+        p_ks = 2.0
+        p_b = 2.0
         fd_indep = 10000
         fd_dep = 10000
         num_test_indep = 0
@@ -146,6 +146,9 @@ class EstimateGoodModel:
             if (_fd_indep < fd_indep): fd_indep = _fd_indep
             if (_fd_dep < fd_dep): fd_dep = _fd_dep
 
+        if (p_ad == 2): p_ad = 0
+        if (p_ks == 2): p_ks = 0
+        if (p_b == 2): p_b = 0
         if (fd_indep == 10000): fd_indep = 0
         if (fd_dep == 10000): fd_dep = 0
 
