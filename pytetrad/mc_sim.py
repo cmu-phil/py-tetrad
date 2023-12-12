@@ -18,6 +18,9 @@ import tools.translate as tr
 import random
 import math
 
+## This script tries to pick a good model from a list of models. Various rules are tried.
+## jdramsey 2023-12-11
+
 class EstimateGoodModel:
     def __init__(self, num_measures, density, sample_size):
         self.__num_measures = num_measures
@@ -81,6 +84,9 @@ class EstimateGoodModel:
         elif alg == 'pc':
             _search.use_fisher_z(paramValue)
             _search.run_pc()
+        elif alg == 'cpc':
+            _search.use_fisher_z(paramValue)
+            _search.run_cpc()
 
         return _search.get_java()
 
@@ -125,8 +131,8 @@ class EstimateGoodModel:
         p_ad = 1.0
         p_ks = 1.0
         p_b = 1.0
-        fd_indep = 100000
-        fd_dep = 100000
+        fd_indep = 10000
+        fd_dep = 10000
         num_test_indep = 0
         num_test_dep = 0
 
@@ -145,12 +151,14 @@ class EstimateGoodModel:
 
         edges = cpdag.getNumEdges()
 
-        cpdag_density = cpdag.getNumEdges() / (cpdag.getNumNodes() * cpdag.getNumNodes() - 1) / 2
+        # cpdag_density = cpdag.getNumEdges() / (cpdag.getNumNodes() * cpdag.getNumNodes() - 1) / 2
 
-        return p_ad, p_b, fd_indep, fd_dep, edges, f"{alg:6} {num_measures:5}   {self.__avg_degree:5} {param:8.3f}  " \
-             f" {p_ad:.3f} {p_b:.3f}  " \
-             f" {fd_indep:1.3f}   {fd_dep:.3f}    {edges:3}  " \
-             f"{ap:.3f} {ar:.3f} {ahp:.3f} {ahr:.3f} {num_test_indep:3} {num_test_dep:3}"
+        line = f"{alg:6} {num_measures:5}   {self.__avg_degree:5} {param:8.3f}  " \
+               f" {p_ad:.3f} {p_b:.3f}  " \
+               f" {fd_indep:1.3f}   {fd_dep:.3f}    {edges:3}  " \
+               f"{ap:.3f} {ar:.3f} {ahp:.3f} {ahr:.3f} {num_test_indep:3} {num_test_dep:3}"
+
+        return p_ad, p_b, fd_indep, fd_dep, edges, line
         #
         # return p_ad, p_b, fd_indep, fd_dep, edges, f"{alg:6} {cpdag_density:5.2f}   {0:5} {param:8.3f}  " \
         #      f" {p_ad:.3f} {p_b:.3f}  " \
@@ -276,6 +284,7 @@ est.printParameterDefs()
 est.header()
 
 est.saveBestLines('pc', est.get_alphas())
+est.saveBestLines('cpc', est.get_alphas())
 est.saveBestLines('fges', est.get_penalties())
 est.saveBestLines('grasp', est.get_penalties())
 est.saveBestLines('boss', est.get_penalties())
@@ -283,8 +292,8 @@ est.saveBestLines('boss', est.get_penalties())
 est.printInfo('Best choices for the AD Plus Min Edges:')
 est.printLines(est.get_best_lines_ad())
 
-est.printInfo('Best choices for the Anderson Darling + Max fd_dep rule:')
-est.printLines(est.get_best_lines_ad2())
+# est.printInfo('Best choices for the Anderson Darling + Max fd_dep rule:')
+# est.printLines(est.get_best_lines_ad2())
 
 est.printInfo('Best choices for the Binomial plus Min Edges:')
 est.printLines(est.get_best_lines_b())
@@ -292,5 +301,5 @@ est.printLines(est.get_best_lines_b())
 est.printInfo('Best choices for the Binomial + Max fd_dep rule:')
 est.printLines(est.get_best_lines_b2())
 
-est.printInfo('Best choices for the Markov + Max Diff rule:')
-est.printLines(est.get_best_lines_max_diff())
+# est.printInfo('Best choices for the Markov + Max Diff rule:')
+# est.printLines(est.get_best_lines_max_diff())
