@@ -35,7 +35,7 @@ params.set(Params.NUM_STARTS, num_starts)
 def markov_check(graph, data, params):
     test = ind.FisherZ().getTest(data, params)
     mc = search.MarkovCheck(graph, test, search.ConditioningSetType.LOCAL_MARKOV)
-    mc.setPercentResammple(.7)
+    mc.setPercentResample(.7)
     mc.generateResults()
     p_ad = mc.getAndersonDarlingP(True)
     p_ks = mc.getKsPValue(True)
