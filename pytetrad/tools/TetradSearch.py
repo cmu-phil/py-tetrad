@@ -106,7 +106,7 @@ class TetradSearch:
 
     def use_g_square(self, alpha=0.01):
         self.params.set(Params.ALPHA, alpha)
-        self.TEST = ind_.Gsquare()
+        self.TEST = ind_.GSquare()
 
     def use_conditional_gaussian_test(self, alpha=0.01, discretize=True, num_categories_to_discretize=3):
         self.params.set(Params.ALPHA, alpha)
