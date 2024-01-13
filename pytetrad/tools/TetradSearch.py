@@ -102,7 +102,7 @@ class TetradSearch:
 
     def use_chi_square(self, alpha=0.01):
         self.params.set(Params.ALPHA, alpha)
-        self.params.set(Params.MIN_SUM_ROW_OR_COL, 2)
+        self.params.set(Params.MIN_SUM_ROW_OR_COL, 4)
         self.TEST = ind_.ChiSquare()
 
     def use_g_square(self, alpha=0.01):
