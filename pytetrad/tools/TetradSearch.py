@@ -622,7 +622,8 @@ class TetradSearch:
         print(search_utils.GraphSearchUtils.isLegalPag(graph).getReason())
 
     def all_subsets_independence_facts(self, graph):
-        msep = ts.MarkovCheck.getAllSubsetsIndependenceFacts(graph).getMsep()
+        msep = (ts.MarkovCheck(graph, ts.test.IndTestFisherZ(self.data, 0.01), ts.ConditioningSetType.LOCAL_MARKOV)
+                .getAllSubsetsIndependenceFacts().getMsep())
 
         facts = []
 
@@ -644,7 +645,8 @@ class TetradSearch:
         return facts
 
     def all_subsets_dependence_facts(self, graph):
-        mconn = ts.MarkovCheck.getAllSubsetsIndependenceFacts(graph).getMconn()
+        mconn = ts.MarkovCheck.getAllSubsetsIndependenceFacts(graph, self.test,
+                                                              ts.ConditioningSetType.LOCAL_MARKOV).getMconn()
 
         facts = []
 
