@@ -47,10 +47,11 @@ class TetradSearch:
         display = [self.score, self.test, self.knowledge, self.java]
         return "\n\n".join([str(item) for item in display])
 
-    def use_sem_bic(self, penalty_discount=2, structurePrior=0, sem_bic_rule=1):
+    def use_sem_bic(self, penalty_discount=2, structurePrior=0, sem_bic_rule=1, use_pseudoinverse=False):
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
         self.params.set(Params.SEM_BIC_STRUCTURE_PRIOR, structurePrior)
         self.params.set(Params.SEM_BIC_RULE, sem_bic_rule)
+        self.params.set(Params.USE_PSEUDOINVERSE, use_pseudoinverse)
         self.SCORE = score_.SemBicScore()
 
     def use_ebic(self, gamma=0.8, precompute_covariances=True):
