@@ -1,6 +1,6 @@
 # py-tetrad
 
-Please visit our [Tetrad web page](https://sites.google.com/view/tetradcausal) for current links for downloadables, a list of contributors, some history, documentation, descriptions, links for our various projects, Javadocs, and more!
+Please visit our [Tetrad web page](https://www.cmu.edu/dietrich/philosophy/tetrad/) for current links for downloadables, a list of contributors, some history, documentation, descriptions, links for our various projects, Javadocs, and more!
 
 This package shows how to make arbitrary code in [Tetrad](https://github.com/cmu-phil/tetrad) directly available in Python via [JPype](https://github.com/jpype-project/jpype) as part of a Python workflow. We do this by giving [reusable examples](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad) of how it can be done, along with [API Javadoc documentation](https://www.phil.cmu.edu/tetrad-javadocs/7.6.0/) to allow further exploration of the entire Tetrad codebase.
 
