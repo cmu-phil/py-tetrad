@@ -6,13 +6,11 @@ This package shows how to make arbitrary code in [Tetrad](https://github.com/cmu
 
 It also gives a class, [TetradSearch.py](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/tools/TetradSearch.py) can be used in both Python and R to hide the JPype facilities for those who don't want to (or can't, in the case of R) deal directly with the Tetrad codebase.
 
-You can also integrate Tetrad code into Python by making os.system (..) calls to [Causal Command](https://github.com/bd2kccd/causal-cmd); here are [some examples](https://github.com/cmu-phil/algocompy/blob/main/old/causalcmd/tetrad_cmd_algs.py) of how to do it.
+You can also integrate Tetrad code into Python by making os.system (..) calls to [Causal Command](https://github.com/bd2kccd/causal-cmd); here are [some examples](https://github.com/cmu-phil/algocompy/blob/main/old/causalcmd/tetrad_cmd_algs.py) of how to do it. For R functionality, see [rpy-tetrad](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/), which is located in a subdirectory of the py-tetrad project in GitHub.
 
 Please bear with us as we add and refine example modules and keep our code current. Please submit any problems or suggestions to our [Issue Tracker](https://github.com/cmu-phil/py-tetrad/issues), so that we can resolve them. Sometimes it may not be obvious how to call a Tetrad class or method from Python. Please point out any difficulties you have, so we can make it more intuitive for the next version.
 
 We maintain a [current version of the Tetrad launch jar](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/resources), which is either the [current published version](https://github.com/cmu-phil/tetrad/releases/tag/v7.6.1) or else the current published version with some [adjustments](https://github.com/cmu-phil/tetrad/wiki/Forthcoming-fixes). We will make sure that the example code will work with this current jar. Feel free to use any version of Tetrad though. All artifacts for Tetrad for the last several releases are on [Maven Central](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/), with their corresponding API Javadocs, along wth signatures to verify authenticity.
-
-For R functionality, see [rpy-tetrad](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/), which is located in a subdirectory of the py-tetrad project in GitHub.
 
 # Install
 
