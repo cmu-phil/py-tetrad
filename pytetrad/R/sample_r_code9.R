@@ -39,6 +39,7 @@ ts$use_sem_bic(penalty_discount=2)
 
 ts$run_boss()
 
+# Here we show how to use the Markov checker
 ts$use_fisher_z(0.05)
 results = ts$markov_check(ts$get_java())
 
