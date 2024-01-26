@@ -12,9 +12,7 @@ import pandas as pd
 
 import tools.translate as tr
 import tools.TetradSearch as search
-import edu.cmu.tetrad.search as ts
 import edu.cmu.tetrad.algcomparison.independence as ind_
-from edu.cmu.tetrad.util import Params, Parameters
 
 # Load in the data and make sure all columns are being interpreted as continuous.
 data = pd.read_csv("resources/airfoil-self-noise.continuous.txt",
@@ -40,8 +38,8 @@ _search.use_sem_bic(penalty_discount=penalty_discount)
 # Run an algorithm and grab the CPCDAG
 print('BOSS')
 _search.run_boss(num_starts=num_starts, use_bes=use_bes, time_lag=time_lag,
-                use_data_order=use_data_order)
-cpdag=_search.get_java()
+                 use_data_order=use_data_order)
+cpdag = _search.get_java()
 print(cpdag)
 
 bic = cpdag.getAttribute("BIC")
@@ -52,25 +50,22 @@ print("bic", bic)
 # as U(0, 1). We will also get a fraction dependent number, which should be
 # about equal to the alpha level of the test (if the p-values under the null
 # hypothesis of independence are distributed as U(0, 1)). We can test for this
-# Uniformity using a Kolmogorov-Smirnov test, comparing the actual
-# distriubtion of p-values to U(0, 1). (In the future other tests may be
-# added.)
+# Uniformity using an Anderson-Darling (AD) test or a Binomial (bin) test.
 # 
 # We will also use it to check facts about the distribution for conditional 
-# dependencies; in this case, the fraction of depependence judgments should
+# dependencies; in this case, the fraction of dependence judgments should
 # be high, though not necessarily 1, since there may be some path
 # cancellations.
-params = Parameters()
-params.set(Params.ALPHA, alpha)
-test = ind_.FisherZ().getTest(tr.pandas_data_to_tetrad(data), params)
 
-mc = ts.MarkovCheck(cpdag, test, ts.ConditioningSetType.LOCAL_MARKOV)
-mc.generateResults()    
-p_ks_indep = mc.getKsPValue(True)
-fd_indep = mc.getFractionDependent(True)
-fd_dep = mc.getFractionDependent(False)
+_search = search.TetradSearch(data)
 
-uniform = p_ks_indep > alpha
+# This test is used to check Markov
+_search.use_fisher_z()
+ad_ind, ad_dep, bin_indep, bin_dep, frac_dep_ind, frac_dep_dep, num_tests_ind, num_tests_dep = _search.markov_check(
+    cpdag)
 
-print("Kolmogorov-Smirnov p-value Indep = ", p_ks_indep, "(Uniform)" if uniform else "(Non-Uniform)")
-print("Fraction dependent for Indep = ", fd_indep, " fraction dependent Dep = ", fd_dep)
+print(f"AD p-value Indep = {ad_ind:5.4} Dep = {ad_dep:5.4}")
+print(f"Bin p-value Indep = {bin_indep:5.4} Dep = {bin_dep:5.4}")
+print(f"Fraction dependent Indep = {frac_dep_ind:5.4} Dep = {frac_dep_dep:5.4}")
+print(f"AD p-value Indep = {ad_ind:5.4} Dep = {ad_dep:5.4}")
+print(f"Num tests Indep = {num_tests_ind} Dep = {num_tests_dep}")

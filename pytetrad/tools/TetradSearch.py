@@ -340,7 +340,7 @@ class TetradSearch:
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_rfci(self, depth=-1, stable_fas=True, max_path_length=-1,
-                do_discriminating_path_rule=True, complete_rule_set_used=True):
+                 do_discriminating_path_rule=True, complete_rule_set_used=True):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.STABLE_FAS, stable_fas)
         self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
@@ -674,3 +674,18 @@ class TetradSearch:
             facts.append(_fact)
 
         return facts
+
+    def markov_check(self, graph, percent_resample=0.5, condition_set_type=ts.ConditioningSetType.LOCAL_MARKOV):
+        test = self.TEST.getTest(self.data, self.params)
+        mc = ts.MarkovCheck(graph, test, condition_set_type)
+        mc.setPercentResample(percent_resample)
+        mc.generateResults()
+        ad_ind = mc.getAndersonDarlingP(True)
+        ad_dep = mc.getAndersonDarlingP(False)
+        bin_indep = mc.getBinomialP(True)
+        bin_dep = mc.getBinomialP(False)
+        frac_dep_ind = mc.getFractionDependent(True)
+        frac_dep_dep = mc.getFractionDependent(False)
+        num_tests_ind = mc.getNumTests(True)
+        num_tests_dep = mc.getNumTests(False)
+        return ad_ind, ad_dep, bin_indep, bin_dep, frac_dep_ind, frac_dep_dep, num_tests_ind, num_tests_dep
