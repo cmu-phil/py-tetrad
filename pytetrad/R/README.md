@@ -11,3 +11,5 @@ If you have questions or need more (or different) functionality, or are just flu
 ## NEWS
 
 * The py-tetrad current Tetrad jar used in this project has been updated to the forthcoming Tetrad version 7.6.2.
+* The pseudoinverse option was added to relevant tests and scores--see the TetradSearch.py class.
+* An example file was added to show how to use the Markov checker
