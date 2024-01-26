@@ -12,6 +12,16 @@ Please bear with us as we add and refine example modules and keep our code curre
 
 We maintain a [current version of the Tetrad launch jar](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/resources), which is either the [current published version](https://github.com/cmu-phil/tetrad/releases/tag/v7.6.1) or else the current published version with some [adjustments](https://github.com/cmu-phil/tetrad/wiki/Forthcoming-fixes). We will make sure that the example code will work with this current jar. Feel free to use any version of Tetrad though. All artifacts for Tetrad for the last several releases are on [Maven Central](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/), with their corresponding API Javadocs, along wth signatures to verify authenticity.
 
+# News
+
+2024-1-26
+
+* Updated jar to forthcoming Tetrad version (7.6.2).
+* Added methods in TetradSearch.py to run the Markov checker in Tetrad.
+* Added pseudoinverse options to relevant scores and tests in TetradSearch.py.
+
+We will update the Javadocs once the new version is published on 2024-1-31.
+
 # Install
 
 1. It is necessary to have a JDK installed for version 17+. See our Wiki article, [Setting up Java for Tetrad](https://github.com/cmu-phil/tetrad/wiki/Setting-up-Java-for-Tetrad).
