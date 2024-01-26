@@ -54,14 +54,18 @@ class TetradSearch:
         self.params.set(Params.USE_PSEUDOINVERSE, use_pseudoinverse)
         self.SCORE = score_.SemBicScore()
 
-    def use_ebic(self, gamma=0.8, precompute_covariances=True):
+    def use_ebic(self, gamma=0.8, precompute_covariances=True, use_pseudoinverse=False):
         self.params.set(Params.EBIC_GAMMA, gamma)
         self.params.set(Params.PRECOMPUTE_COVARIANCES, precompute_covariances)
+        self.params.set(Params.USE_PSEUDOINVERSE, use_pseudoinverse)
+
         self.SCORE = score_.EbicScore()
 
-    def use_kim_score(self, penalty_discount=1, sem_gic_rule=4):
+    def use_gic_score(self, penalty_discount=1, sem_gic_rule=4, use_pseudoinverse=False):
         self.params.set(Params.SEM_GIC_RULE, sem_gic_rule)
         self.params.set(Params.PENALTY_DISCOUNT_ZS, penalty_discount)
+        self.params.set(Params.USE_PSEUDOINVERSE, use_pseudoinverse)
+
         self.SCORE = score_.KimEtAlScores()
 
     def use_mixed_variable_polynomial(self, structure_prior=0, f_degree=0, discretize=False):
@@ -70,13 +74,15 @@ class TetradSearch:
         self.params.set(Params.DISCRETIZE), discretize
         self.SCORE = score_.MVPBicScore()
 
-    def use_poisson_prior(self, lambda_=2, precompute_covariances=True):
+    def use_poisson_prior_score(self, lambda_=2, precompute_covariances=True, use_pseudoinverse=False):
         self.params.set(Params.PRECOMPUTE_COVARIANCES, precompute_covariances)
         self.params.set(Params.POISSON_LAMBDA, lambda_)
+        self.params.set(Params.USE_PSEUDOINVERSE, use_pseudoinverse)
         self.SCORE = score_.PoissonPriorScore()
 
-    def use_zhang_shen_bound(self, risk_bound=0.2):
+    def use_zhang_shen_bound(self, risk_bound=0.2, use_pseudoinverse=False):
         self.params.set(Params.ZS_RISK_BOUND, risk_bound)
+        self.params.set(Params.USE_PSEUDOINVERSE, use_pseudoinverse)
         self.SCORE = score_.ZhangShenBoundScore()
 
     def use_bdeu(self, sample_prior=10, structure_prior=0):
@@ -97,8 +103,9 @@ class TetradSearch:
         self.params.set(Params.STRUCTURE_PRIOR, structure_prior)
         self.SCORE = score_.DegenerateGaussianBicScore()
 
-    def use_fisher_z(self, alpha=0.01):
+    def use_fisher_z(self, alpha=0.01, use_pseudoinverse=False):
         self.params.set(Params.ALPHA, alpha)
+        self.params.set(Params.USE_PSEUDOINVERSE, use_pseudoinverse)
         self.TEST = ind_.FisherZ()
 
     def use_chi_square(self, alpha=0.01):
