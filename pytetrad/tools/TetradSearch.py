@@ -1,6 +1,5 @@
 ## Provides a simple wrapper for many of the Tetrad searches that can be used
-## either from Python (for the lazy) or from R. All of the JPype code is
-## safely hidden away. The inputs are all pandas data frames
+## either from Python or from R. The inputs are all pandas data frames
 ## and the outputs are endpoint-matrix-formatted graphs, also data frames. (In a
 ## future version, we may allow the outputs to be given other formats.)
 
