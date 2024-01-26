@@ -108,9 +108,10 @@ class TetradSearch:
         self.params.set(Params.USE_PSEUDOINVERSE, use_pseudoinverse)
         self.TEST = ind_.FisherZ()
 
-    def use_chi_square(self, alpha=0.01):
+    def use_chi_square(self, mim_count=1, alpha=0.01):
+        print(self.data.isDiscrete())
         self.params.set(Params.ALPHA, alpha)
-        self.params.set(Params.MIN_COUNT_PER_CELL, 1)
+        self.params.set(Params.MIN_COUNT_PER_CELL, mim_count)
         self.TEST = ind_.ChiSquare()
 
     def use_g_square(self, alpha=0.01):

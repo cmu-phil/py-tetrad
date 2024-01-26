@@ -11,7 +11,7 @@ library(reticulate)
 
 ## It's best to change hyphens and periods in variable names to underscores
 ## for reading data into R.
-data <- read.table("./resources/bridges.data.version211_rev.txt", header=TRUE)
+data <- read.csv("./resources/bridges.data.version211_rev.txt", , colClasses = "character", sep="\t", header=TRUE)
 
 # ## The read.table function will read decimal columns as real ('numeric')
 # ## and integer columns as discrete. When passing data from R into Python,
@@ -19,19 +19,18 @@ data <- read.table("./resources/bridges.data.version211_rev.txt", header=TRUE)
 # ## specify in the data frame for this data that they are to be interpreted
 # ## as continuous (i.e., 'numeric').
  # i <- c(1, 11)
- # data[ , i] <- apply(data[ , i], 2, function(x) as.integer(x))
+# data[ , i] <- apply(data[ , i], 2, function(x) as.integer(x))
 
 ## Make a TetradSearch object.
 source_python("tools/TetradSearch.py")
 ts <- TetradSearch(data)
 
-## Use the SEM BIC score.
 ts$use_bdeu()
 ts$use_chi_square()
 
 # RIVER	ERECTED	PURPOSE	LENGTH	LANES	CLEAR_G	T_OR_D	MATERIAL	SPAN	REL_L	TYPE
 
-## Set some knowledge--let's try to predict TYPE
+# Set some knowledge--let's try to predict TYPE
 ts$add_to_tier(0, "RIVER")
 ts$add_to_tier(0, "ERECTED")
 ts$add_to_tier(0, "PURPOSE")
@@ -44,17 +43,13 @@ ts$add_to_tier(0, "SPAN")
 ts$add_to_tier(0, "REL_L")
 ts$add_to_tier(1, "TYPE")
 
-## Run the search and return the graph in PCALG format
+# Run the search
 ts$run_grasp()
 
 ## Print the graph and grab the DOT format string (for Grasphviz)
 print(ts$get_string())
 dot <- ts$get_dot()
 
-## Plot matrix of variables to show evil distributions.
-# library(psych)
-# pairs.panels(data, method = "pearson") # correlation method hist.col = "#00AFBB", density = TRUE, # show density plots ellipses = TRUE # show correlation ellipses )
-
-## Allows RStudio to render graphs in the Viewer window.
+# ## Allows RStudio to render graphs in the Viewer window.
 library('DiagrammeR')
 grViz(dot)
