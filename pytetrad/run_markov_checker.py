@@ -67,5 +67,4 @@ ad_ind, ad_dep, bin_indep, bin_dep, frac_dep_ind, frac_dep_dep, num_tests_ind, n
 print(f"AD p-value Indep = {ad_ind:5.4} Dep = {ad_dep:5.4}")
 print(f"Bin p-value Indep = {bin_indep:5.4} Dep = {bin_dep:5.4}")
 print(f"Fraction dependent Indep = {frac_dep_ind:5.4} Dep = {frac_dep_dep:5.4}")
-print(f"AD p-value Indep = {ad_ind:5.4} Dep = {ad_dep:5.4}")
 print(f"Num tests Indep = {num_tests_ind} Dep = {num_tests_dep}")

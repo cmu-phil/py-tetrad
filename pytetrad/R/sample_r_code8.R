@@ -2,7 +2,7 @@ setwd("~/py-tetrad/pytetrad")
 
 install.packages(reticulate)
 install.packages(psych)
-install.packages(DiagrammeR)
+install.packages(DiagrammeR)z
 
 library(reticulate)
 
