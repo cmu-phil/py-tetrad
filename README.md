@@ -2,7 +2,7 @@
 
 Please visit our [Tetrad web page](https://www.cmu.edu/dietrich/philosophy/tetrad/) for current links for downloadables, a list of contributors, some history, documentation, descriptions, links for our various projects, Javadocs, and more.
 
-This package shows how to make arbitrary code in [Tetrad](https://github.com/cmu-phil/tetrad) directly available in Python via [JPype](https://github.com/jpype-project/jpype) as part of a Python workflow. We do this by giving some [tools](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/tools) for translating graphs and dataset from Python to Java and back, proving some [reusable examples](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad) of how it can be done, and giving [API Javadoc documentation](https://www.phil.cmu.edu/tetrad-javadocs/7.6.0/) to allow further exploration of the entire Tetrad codebase.
+This package shows how to make arbitrary code in [Tetrad](https://github.com/cmu-phil/tetrad) directly available in Python via [JPype](https://github.com/jpype-project/jpype) as part of a Python workflow. We do this by giving some [tools](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/tools) for translating graphs and dataset from Python to Java and back, proving some [reusable examples](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad) of how it can be done, and giving [API Javadoc documentation](https://www.phil.cmu.edu/tetrad-javadocs/7.6.2/) to allow further exploration of the entire Tetrad codebase.
 
 It also gives a class, [TetradSearch.py](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/tools/TetradSearch.py) can be used in both Python and R to hide the JPype facilities for those who don't want to (or can't, in the case of R) deal directly with the Tetrad codebase.
 
@@ -14,9 +14,10 @@ We maintain a [current version of the Tetrad launch jar](https://github.com/cmu-
 
 # News
 
-2024-1-26
+2024-2-4
 
-* Updated jar to forthcoming Tetrad version (7.6.2).
+* Updated jar to Tetrad version 7.6.2.
+* Updated javadocs to 7.6.2.
 * Added methods in TetradSearch.py to run the Markov checker in Tetrad.
 * Added pseudoinverse options to relevant scores and tests in TetradSearch.py.
 
