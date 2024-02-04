@@ -16,7 +16,8 @@ We maintain a [current version of the Tetrad launch jar](https://github.com/cmu-
 
 2024-1-26
 
-* Updated jar to forthcoming Tetrad version (7.6.2).
+* Updated jar to Tetrad version 7.6.2.
+* Updated Javadocs to version 7.6.2.
 * Added methods in TetradSearch.py to run the Markov checker in Tetrad.
 * Added pseudoinverse options to relevant scores and tests in TetradSearch.py.
 
