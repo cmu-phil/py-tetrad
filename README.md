@@ -21,8 +21,6 @@ We maintain a [current version of the Tetrad launch jar](https://github.com/cmu-
 * Added methods in TetradSearch.py to run the Markov checker in Tetrad.
 * Added pseudoinverse options to relevant scores and tests in TetradSearch.py.
 
-We will update the Javadocs once the new version is published on 2024-1-31.
-
 # Install
 
 1. It is necessary to have a JDK installed for version 17+. See our Wiki article, [Setting up Java for Tetrad](https://github.com/cmu-phil/tetrad/wiki/Setting-up-Java-for-Tetrad).
