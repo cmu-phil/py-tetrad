@@ -20,7 +20,6 @@ import java.lang as lang
 import java.util as util
 import edu.cmu.tetrad.algcomparison.algorithm.oracle.cpdag as cpdag
 import edu.cmu.tetrad.algcomparison.algorithm.oracle.pag as pag
-import edu.cmu.tetrad.algcomparison.algorithm.oracle.pattern as pattern
 import edu.cmu.tetrad.algcomparison.algorithm.continuous.dag as dag
 import edu.cmu.tetrad.algcomparison.score as score_
 import edu.cmu.tetrad.algcomparison.independence as ind_
@@ -261,7 +260,7 @@ class TetradSearch:
         self.params.set(Params.REMOVE_EFFECT_NODES, remove_effect_nodes)
         self.params.set(Params.SAMPLE_STYLE, sample_style)
 
-        alg = pattern.Cstar(self.TEST, self.SCORE)
+        alg = cpdag.Cstar(self.TEST, self.SCORE)
         self.java = alg.search(self.data, self.params)
 
     def run_sp(self):
