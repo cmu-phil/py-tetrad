@@ -7,7 +7,6 @@ except OSError:
 
 import pandas as pd
 
-import tools.translate as tr
 import tools.TetradSearch as ts
 
 data = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
@@ -89,6 +88,7 @@ print(search.get_string())
 
 print('ICA-LiNG-D')
 search.run_ica_lingd(threshold_b=0.4, threshold_spine=0)
-print(search.get_string())
-
+graph = search.get_java()
+if (graph != None):
+    print(graph)
 
