@@ -30,7 +30,7 @@ print(search.get_graph_to_matrix())
 print('BOSS')
 search.run_boss(num_starts=1, use_bes=True, time_lag=0, use_data_order=True)
 print(search.get_string())
-dag=search.get_dag_java()
+dag = search.get_dag_java()
 print(dag)
 
 search.run_boss()
@@ -83,12 +83,13 @@ search.run_spfci()
 print(search.get_string())
 
 print('ICA-LiNGAM')
-search.run_ica_lingam(threshold_b=0.4, threshold_spine=0)
+search.run_ica_lingam(threshold_b=0.1)
 print(search.get_string())
 
+## Set verbose to True to print unstable models; otherwise, only stable models will be printed.
 print('ICA-LiNG-D')
-search.run_ica_lingd(threshold_b=0.4, threshold_spine=0)
-graph = search.get_java()
-if (graph != None):
-    print(graph)
-
+search.set_verbose(False)
+search.run_ica_lingd(threshold_b=1, threshold_w=1e-4)
+## The algorithm will return one of the stable models, or an empty graph if there is none. But the above should
+## print all of the stable models if verbose is set to False.
+# print(search.get_string())
