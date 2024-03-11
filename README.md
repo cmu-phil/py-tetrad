@@ -22,6 +22,7 @@ We should make it clear that once you see how to use JPype to run Tetrad code in
 * Updated ICA-LiNGAM, ICA-LiNG-D, and DirectLiNGAM.
 * Replaced bootstrapping code with new code.
 * Added documentation that was missing in several places.
+* Added new citation to this page.
 
 # Install
 
@@ -51,4 +52,4 @@ Feel free to use your favorite method for editing and running modules.
 
 Please cite as: 
 
-Bryan Andrews and Joseph Ramsey. https://github.com/cmu-phil/py-tetrad, 2023.
+Ramsey, J., & Andrews, B. (2023, November). Py-Tetrad and RPy-Tetrad: A New Python Interface with R Support for Tetrad Causal Search. In Causal Analysis Workshop Series (pp. 40-51). PMLR.
