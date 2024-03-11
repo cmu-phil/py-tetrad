@@ -16,12 +16,12 @@ We should make it clear that once you see how to use JPype to run Tetrad code in
 
 # News
 
-2024-1-26
+2024-3-11
 
-* Updated jar to Tetrad version 7.6.2.
-* Updated Javadocs to version 7.6.2.
+* Updated jar to Tetrad version 7.6.3 with modifications listed int eh forthcoming fixes.
 * Added methods in TetradSearch.py to run the Markov checker in Tetrad.
-* Added pseudoinverse options to relevant scores and tests in TetradSearch.py.
+* Updated ICA-LiNGAM, ICA-LiNG-D, and DirectLiNGAM.
+* Replaced bootstrapping code with new code.
 
 # Install
 
