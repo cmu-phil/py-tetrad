@@ -564,18 +564,18 @@ class TetradSearch:
 
     def get_dag_string(self, java=None):
         if (java == None):
-            dag = gr.GraphTransforms().dagFromCpdag(self.java)
+            dag = gr.GraphTransforms.dagFromCpdag(self.java)
             return lang.String @ dag.toString()
         else:
-            dag = gr.GraphTransforms().dagFromCpdag(java)
+            dag = gr.GraphTransforms.dagFromCpdag(java)
             return lang.String @ dag.toString()
 
     def get_dag_java(self, java=None):
         if (java == None):
-            dag = gr.GraphTransforms().dagFromCpdag(self.java)
+            dag = gr.GraphTransforms.dagFromCpdag(self.java)
             return dag
         else:
-            dag = gr.GraphTransforms().dagFromCpdag(java)
+            dag = gr.GraphTransforms.dagFromCpdag(java)
             return dag
 
     def get_causal_learn(self, java=None):
