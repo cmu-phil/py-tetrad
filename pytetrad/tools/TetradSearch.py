@@ -7,8 +7,9 @@ import jpype
 import jpype.imports
 
 try:
-    jpype.startJVM(jpype.getDefaultJVMPath(), "-Xmx40g", classpath=[f"resources/tetrad-current.jar"])
+    jpype.startJVM(jpype.getDefaultJVMPath(), "-Xmx2g", classpath=[f"resources/tetrad-current.jar"])
 except OSError:
+    print("can't load jvm")
     pass
 
 import tools.translate as tr
