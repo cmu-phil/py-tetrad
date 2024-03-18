@@ -110,6 +110,20 @@ def graph_to_matrix(g, nullEpt = 0, circleEpt = 1, arrowEpt = 2, tailEpt = 3):
 
     return pd.DataFrame(A, columns=columns_)
 
+def tetrad_matrix_to_numpy(array):
+    np_array = np.zeros((array.getNumRows(), array.getNumColumns()), dtype=float)
+
+    for i in range(array.getNumRows()):
+        for j in range(array.getNumColumns()):
+            np_array[i][j] = array.get(i, j)
+
+    return np_array
+
+def tetrad_matrix_to_pandas(array, variables):
+    np_array = tetrad_matrix_to_numpy(array)
+    columns = [str(variables.get(i)) for i in range(array.getNumColumns())]
+    return pd.DataFrame(np_array, columns=columns)
+
 # Input a square int[][] array with only 0's and 1's, where a[i][j] = 1 just in case
 # j->i. Returns a Java graph object for this.
 def adj_matrix_to_graph(adjMatrix):

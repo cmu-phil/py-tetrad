@@ -446,7 +446,12 @@ class TetradSearch:
 
         alg = dag.IcaLingam()
         self.java = alg.search(self.data, self.params)
+        self.bhat = alg.getBHat()
         self.bootstrap_graphs = alg.getBootstrapGraphs()
+
+    ## Returns the b-hat from the ICA-LiNGAM algorithm as a numpy array.
+    def get_bhat(self):
+        return tr.tetrad_matrix_to_pandas(self.bhat, self.data.getVariableNames())
 
     def run_ica_lingd(self, ica_a=1.1, ica_max_iter=5000, ica_tolerance=1e-8, threshold_b=0.1, threshold_w=0.1):
         self.params.set(Params.FAST_ICA_A, ica_a)
@@ -457,7 +462,31 @@ class TetradSearch:
 
         alg = dag.IcaLingD()
         self.java = alg.search(self.data, self.params)
+        self.unstable_bhats = alg.getUnstableBHats()
+        self.stable_bhats = alg.getStableBHats()
         self.bootstrap_graphs = alg.getBootstrapGraphs()
+
+    ## Returns the unstable b-hats from the ICA-LiNG-D algorithm as a list of numpy arrays.
+    def get_unstable_bhats(self):
+        list_of_matrices = []
+
+        for i in range(self.unstable_bhats.size()):
+            array = self.unstable_bhats.get(i)
+            m = tr.tetrad_matrix_to_pandas(array, self.data.getVariableNames())
+            list_of_matrices.append(m)
+
+        return list_of_matrices
+
+    ## Returns the stable b-hats from the ICA-LiNG-D algorithm as a list of numpy arrays.
+    def get_stable_bhats(self):
+        list_of_matrices = []
+
+        for i in range(self.stable_bhats.size()):
+            array = self.stable_bhats.get(i)
+            m = tr.tetrad_matrix_to_pandas(array, self.data.getVariableNames())
+            list_of_matrices.append(m)
+
+        return list_of_matrices
 
     def run_ccd(self, depth=-1, apply_r1=True):
         if not self.knowledge.isEmpty():

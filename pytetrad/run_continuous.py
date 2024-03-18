@@ -85,11 +85,19 @@ print(search.get_string())
 print('ICA-LiNGAM')
 search.run_ica_lingam(threshold_b=0.1)
 print(search.get_string())
+print('bhat:')
+print(search.get_bhat())
 
 ## Set verbose to True to print unstable models; otherwise, only stable models will be printed.
 print('ICA-LiNG-D')
 search.set_verbose(False)
 search.run_ica_lingd(threshold_b=1, threshold_w=1e-4)
+print('unstable bhats:')
+print(search.get_unstable_bhats())
+print('stable bhats:')
+print(search.get_stable_bhats())
+
+
 ## The algorithm will return one of the stable models, or an empty graph if there is none. But the above should
 ## print all of the stable models if verbose is set to False.
 # print(search.get_string())
