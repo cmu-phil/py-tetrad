@@ -10,7 +10,7 @@ import pandas as pd
 # This is an example of how to use the Markov Checker.
 # We will wrap the Markov Checker in a nicer Python class at some point. -JR
 
-import tools.translate as tr
+import tools.translate as trk
 import tools.TetradSearch as search
 import edu.cmu.tetrad.algcomparison.independence as ind_
 
