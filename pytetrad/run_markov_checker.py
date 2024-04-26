@@ -61,10 +61,27 @@ _search = search.TetradSearch(data)
 
 # This test is used to check Markov
 _search.use_fisher_z()
-ad_ind, ad_dep, bin_indep, bin_dep, frac_dep_ind, frac_dep_dep, num_tests_ind, num_tests_dep = _search.markov_check(
+ad_ind, ad_dep, bin_indep, bin_dep, frac_dep_ind, frac_dep_dep, num_tests_ind, num_tests_dep, mc = _search.markov_check(
     cpdag)
 
 print(f"AD p-value Indep = {ad_ind:5.4} Dep = {ad_dep:5.4}")
 print(f"Bin p-value Indep = {bin_indep:5.4} Dep = {bin_dep:5.4}")
 print(f"Fraction dependent Indep = {frac_dep_ind:5.4} Dep = {frac_dep_dep:5.4}")
 print(f"Num tests Indep = {num_tests_ind} Dep = {num_tests_dep}")
+
+results = mc.getResults(True)
+
+for result in results:
+    print(result)
+    fact = result.getFact()
+    x = fact.getX()
+    y = fact.getY()
+
+    x_name = x.getName()
+    y_name = y.getName()
+
+    p_value = result.getPValue()
+
+    print('x = ', x_name)
+    print('y = ', y_name)
+    print('p-value = ', p_value)

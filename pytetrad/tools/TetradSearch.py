@@ -716,4 +716,4 @@ class TetradSearch:
         frac_dep_dep = mc.getFractionDependent(False)
         num_tests_ind = mc.getNumTests(True)
         num_tests_dep = mc.getNumTests(False)
-        return ad_ind, ad_dep, bin_indep, bin_dep, frac_dep_ind, frac_dep_dep, num_tests_ind, num_tests_dep
+        return ad_ind, ad_dep, bin_indep, bin_dep, frac_dep_ind, frac_dep_dep, num_tests_ind, num_tests_dep, mc
