@@ -12,6 +12,8 @@ import tools.TetradSearch as ts
 data = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
 data = data.astype({col: "float64" for col in data.columns})
 
+print(data)
+
 ## Make a TetradSearch instance to run searches against. This helps to organize
 ## the use of Tetrad search algorithms and hides the JPype code for those who
 ## don't want to deal with it.
@@ -21,6 +23,8 @@ search.set_verbose(False)
 ## Pick the score to use, in this case a continuous linear, Gaussian score.
 search.use_sem_bic()
 search.use_fisher_z(alpha=0.05)
+
+search.set_forbidden("Frequency", "Attack")
 
 ## Run various algorithms and print their results. For now (for compability with R)
 print('FGES')

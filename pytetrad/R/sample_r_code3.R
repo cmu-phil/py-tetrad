@@ -43,6 +43,9 @@ ts$add_to_tier(0, "SPAN")
 ts$add_to_tier(0, "REL_L")
 ts$add_to_tier(1, "TYPE")
 
+ts$set_forbidden("RIVER", "ERECTED")
+ts$set_required("LANES", "MATERIAL")
+
 # Run the search
 ts$run_grasp()
 

@@ -149,11 +149,11 @@ class TetradSearch:
     def set_tier_forbidden_within(self, tier, forbiddenWithin=True):
         self.knowledge.setTierForbiddenWithin(lang.Integer(tier), forbiddenWithin)
 
-    def add_fobidden(self, var_name_1, var_name_2):
-        self.knowledge.addForbidden(lang.String(var_name_1), lang.String(var_name_2))
+    def set_forbidden(self, var_name_1, var_name_2):
+        self.knowledge.setForbidden(lang.String(var_name_1), lang.String(var_name_2))
 
-    def add_required(self, var_name_1, var_name_2):
-        self.knowledge.addRequired(lang.String(var_name_1), lang.String(var_name_2))
+    def set_required(self, var_name_1, var_name_2):
+        self.knowledge.setRequired(lang.String(var_name_1), lang.String(var_name_2))
 
     def set_knowledge(self, knowledge):
         self.knowledge = knowledge
