@@ -80,7 +80,7 @@ list.add(data2)
 cpdag = alg.search(list, params)
 
 dag = tg.GraphTransforms.dagFromCpdag(cpdag)
-c2 = tg.GraphTransforms.cpdagForDag(dag)
+c2 = tg.GraphTransforms.dagToCpdag(dag)
 
 tr.print_java(cpdag)
 tr.print_java(c2)
