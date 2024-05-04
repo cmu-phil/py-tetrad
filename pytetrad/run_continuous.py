@@ -95,7 +95,7 @@ print(search.get_bhat())
 ## Set verbose to True to print unstable models; otherwise, only stable models will be printed.
 print('ICA-LiNG-D')
 search.set_verbose(False)
-search.run_ica_lingd(threshoLowerld_b=1, threshold_w=1e-4)
+search.run_ica_lingd(threshold_w=1e-4)
 print('unstable bhats:')
 print(search.get_unstable_bhats())
 print('stable bhats:')
