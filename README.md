@@ -2,7 +2,7 @@
 
 Please visit our [Tetrad web page](https://www.cmu.edu/dietrich/philosophy/tetrad/) for current links for downloadables, a list of contributors, some history, documentation, descriptions, links for our various projects, Javadocs, and more.
 
-This package shows how to make arbitrary code in [Tetrad](https://github.com/cmu-phil/tetrad) directly available in Python via [JPype](https://github.com/jpype-project/jpype) as part of a Python workflow. We do this by giving some [tools](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/tools) for translating graphs and datasets from Python to Java and back, providing some [reusable examples](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad) of how it can be done, and giving [API Javadoc documentation](https://www.phil.cmu.edu/tetrad-javadocs/7.6.4-snapshot/) to allow further exploration of the entire Tetrad codebase.
+This package shows how to make arbitrary code in [Tetrad](https://github.com/cmu-phil/tetrad) directly available in Python via [JPype](https://github.com/jpype-project/jpype) as part of a Python workflow. We do this by giving some [tools](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/tools) for translating graphs and datasets from Python to Java and back, providing some [reusable examples](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad) of how it can be done, and giving [API Javadoc documentation](https://www.phil.cmu.edu/tetrad-javadocs/7.6.4/) to allow further exploration of the entire Tetrad codebase.
 
 It also provides a class, [TetradSearch.py](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/tools/TetradSearch.py), that can be used in both Python and R to hide the JPype facilities for those who don't want to (or can't, in the case of R) deal directly with the Tetrad codebase.
 
@@ -12,17 +12,14 @@ Please bear with us as we add and refine example modules and keep our code curre
 
 We maintain a [current version of the Tetrad launch jar](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/resources), which is either the [current published version](https://github.com/cmu-phil/tetrad/releases) or else the current published version with some [adjustments](https://github.com/cmu-phil/tetrad/wiki/Forthcoming-fixes). We will make sure that the example code will work with this current jar. Feel free to use any version of Tetrad though. All artifacts for Tetrad for the last several releases are on [Maven Central](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/), with their corresponding API Javadocs, along wth signatures to verify authenticity.
 
-We should make it clear that once you see how to use JPype to run Tetrad code in Python, you do not really even need this repository to do that. All you need is the Tetrad documentation (which we will try to keep up to date) and maybe a little advice here or there, which we are happy to provide. Also, you may want to copy the [data and translation methods](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/tools) from this repository into your own code--feel free to steal those and modity them to your own purposes. This repository, from the point of view of Python, is a ladder really that, once you've climbed a little, you can toss away.  It's just a way of getting started.  From R, using [rpy-tetrad](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/). it's a different story; we can't figure out how to use JPype directly in R, so this repository definitely helps.
+We should make it clear that once you see how to use JPype to run Tetrad code in Python, you do not really even need this repository to do that. All you need is the Tetrad documentation (which we will try to keep up to date) and maybe a little advice here or there, which we are happy to provide. Also, you may want to copy the [data and translation methods](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/tools) from this repository into your own code--feel free to steal those and modify them to your own purposes. This repository, from the point of view of Python, is a ladder really that, once you've climbed a little, you can toss away. From R, using [rpy-tetrad](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/). it's a different story; we can't figure out how to use JPype directly in R, so this repository definitely helps.
 
 # News
 
-2024-3-11
+2024-5-7
 
-* Updated jar to Tetrad version 7.6.3 with modifications listed in the forthcoming fixes.
-* Updated ICA-LiNGAM, ICA-LiNG-D, and DirectLiNGAM.
-* Replaced bootstrapping code with new code.
-* Added documentation that was missing in several places.
-* Added new citation to this page.
+* Updated jar to Tetrad version 7.6.4.
+* Here are the release notes for 7.6.4: https://github.com/cmu-phil/tetrad/releases/tag/v7.6.4
 
 # Install
 
