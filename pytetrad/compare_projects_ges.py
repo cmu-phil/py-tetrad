@@ -19,6 +19,8 @@ import edu.cmu.tetrad.graph as graph
 import java.io as _io
 import edu.cmu.tetrad.algcomparison.statistic as stat
 
+# important to not randomized the variable order here so that the variables will correspond.
+# (CL uses X1, X2,... in order of columns.)
 D, G = sim.simulateContinuous(num_meas=20, avg_deg=4, samp_size=1000, rand_cols=False)
 
 D2 = tr.tetrad_data_to_pandas(D)
