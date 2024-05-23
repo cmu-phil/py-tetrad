@@ -20,7 +20,8 @@ import edu.cmu.tetrad.algcomparison.simulation as sim
 import edu.cmu.tetrad.algcomparison.graph as graph
 
 # Simuolates a continuous dataset with the given arguments and returns the dataset as a pandas datafram
-def simulateContinuous(num_meas = 20, num_lat = 0, avg_deg = 4, samp_size = 200, coef_low = 0, coef_high = 1, var_low = 1, var_high = 3):
+def simulateContinuous(num_meas = 20, num_lat = 0, avg_deg = 4, samp_size = 200, coef_low = 0, coef_high = 1,
+                       var_low = 1, var_high = 3, rand_cols=False):
     # Set the parameters for the simulation
     params = Parameters()
 
@@ -28,15 +29,13 @@ def simulateContinuous(num_meas = 20, num_lat = 0, avg_deg = 4, samp_size = 200,
     params.set(Params.NUM_MEASURES, num_meas)
     params.set(Params.AVG_DEGREE, avg_deg)
     params.set(Params.NUM_LATENTS, num_lat)
-    params.set(Params.RANDOMIZE_COLUMNS, True) # Preents some algorithsm from taking advantage of true causal order
+    params.set(Params.RANDOMIZE_COLUMNS, rand_cols) # Prevents some algorithsm from taking advantage of true causal order
     params.set(Params.COEF_LOW, coef_low)
     params.set(Params.COEF_HIGH, coef_high)
     params.set(Params.VAR_LOW, var_low)
     params.set(Params.VAR_HIGH, var_high)
     params.set(Params.INTERVAL_BETWEEN_SHOCKS, 30)
     params.set(Params.INTERVAL_BETWEEN_RECORDINGS, 30)
-
-    params.set(Params.RANDOMIZE_COLUMNS, True)
     params.set(Params.VERBOSE, False)
     params.set(Params.NUM_RUNS, 1)
     # params.set(Params.SEED, 29483)
