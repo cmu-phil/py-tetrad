@@ -466,6 +466,17 @@ class TetradSearch:
         self.stable_bhats = alg.getStableBHats()
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
+    def run_fask(self, alpha=0.05, depth=-1, fask_delta=-0.3, left_right_rule = 1, skew_edge_threshold=0.3):
+        self.params.set(Params.ALPHA, alpha)
+        self.params.set(Params.DEPTH, depth)
+        self.params.set(Params.FASK_DELTA, fask_delta)
+        self.params.set(Params.FASK_LEFT_RIGHT_RULE, left_right_rule)
+        self.params.set(Params.SKEW_EDGE_THRESHOLD, skew_edge_threshold)
+
+        alg = dag.Fask(self.SCORE)
+        self.java = alg.search(self.data, self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
     ## Returns the unstable b-hats from the ICA-LiNG-D algorithm as a list of numpy arrays.
     def get_unstable_bhats(self):
         list_of_matrices = []

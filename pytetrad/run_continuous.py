@@ -92,6 +92,10 @@ print(search.get_string())
 print('bhat:')
 print(search.get_bhat())
 
+print('FASK')
+search.run_fask()
+print(search.get_string())
+
 ## Set verbose to True to print unstable models; otherwise, only stable models will be printed.
 print('ICA-LiNG-D')
 search.set_verbose(False)
