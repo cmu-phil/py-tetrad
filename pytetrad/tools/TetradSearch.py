@@ -727,10 +727,12 @@ class TetradSearch:
 
         return facts
 
-    def markov_check(self, graph, percent_resample=0.5, condition_set_type=ts.ConditioningSetType.LOCAL_MARKOV):
+    def markov_check(self, graph, percent_resample=0.5, condition_set_type=ts.ConditioningSetType.LOCAL_MARKOV,
+                     removeExtraneous=False):
         test = self.TEST.getTest(self.data, self.params)
         mc = ts.MarkovCheck(graph, test, condition_set_type)
         mc.setPercentResample(percent_resample)
+        mc.setRemoveExtraneousVariables(removeExtraneous)
         mc.generateResults(True)
         ad_ind = mc.getAndersonDarlingP(True)
         ad_dep = mc.getAndersonDarlingP(False)
