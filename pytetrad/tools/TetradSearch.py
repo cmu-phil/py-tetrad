@@ -326,11 +326,13 @@ class TetradSearch:
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_fci(self, depth=-1, stable_fas=True, max_path_length=-1,
-                do_discriminating_path_rule=True, complete_rule_set_used=True):
+                do_discriminating_path_tail_rule=True, do_discriminating_path_collider_rule=True,
+                complete_rule_set_used=True):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.STABLE_FAS, stable_fas)
         self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
-        self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
+        self.params.set(Params.DO_DISCRIMINATING_PATH_TAIL_RULE, do_discriminating_path_tail_rule)
+        self.params.set(Params.DO_DISCRIMINATING_PATH_COLLIDER_RULE, do_discriminating_path_collider_rule)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
 
         alg = pag.Fci(self.TEST)
@@ -353,11 +355,13 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_cfci(self, depth=-1, max_path_length=-1, do_discriminating_path_rule=True,
+    def run_cfci(self, depth=-1, max_path_length=-1, do_discriminating_path_tail_rule=True,
+                 do_discriminating_path_collider_rule=True,
                  complete_rule_set_used=True):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
-        self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
+        self.params.set(Params.DO_DISCRIMINATING_PATH_TAIL_RULE, do_discriminating_path_tail_rule)
+        self.params.set(Params.DO_DISCRIMINATING_PATH_COLLIDER_RULE, do_discriminating_path_collider_rule)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
 
         alg = pag.Cfci(self.TEST)
@@ -367,12 +371,14 @@ class TetradSearch:
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_gfci(self, depth=-1, max_degree=-1, max_path_length=-1,
-                 complete_rule_set_used=True, do_discriminating_path_rule=True):
+                 complete_rule_set_used=True, do_discriminating_path_tail_rule=True,
+                 do_discriminating_path_collider_rule=True):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.MAX_DEGREE, max_degree)
         self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
-        self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
-        self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
+        self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used),
+        self.params.set(Params.DO_DISCRIMINATING_PATH_TAIL_RULE, do_discriminating_path_tail_rule)
+        self.params.set(Params.DO_DISCRIMINATING_PATH_COLLIDER_RULE, do_discriminating_path_collider_rule)
 
         alg = pag.Gfci(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
@@ -381,11 +387,13 @@ class TetradSearch:
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_bfci(self, depth=-1, max_path_length=-1,
-                 complete_rule_set_used=True, do_discriminating_path_rule=True):
+                 complete_rule_set_used=True, do_discriminating_path_tail_rule=True,
+                 do_discriminating_path_collider_rule=True):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
-        self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
+        self.params.set(Params.DO_DISCRIMINATING_PATH_TAIL_RULE, do_discriminating_path_tail_rule)
+        self.params.set(Params.DO_DISCRIMINATING_PATH_COLLIDER_RULE, do_discriminating_path_collider_rule)
 
         alg = pag.Bfci(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
@@ -393,9 +401,10 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_grasp_fci(self, fas_heuristic=1, depth=-1, stable_fas=True,
-                      max_path_length=-1, possible_dsep=True,
-                      do_discriminating_path_rule=True,
+    def run_grasp_fci(self, depth=-1, stable_fas=True,
+                      max_path_length=-1,
+                      do_discriminating_path_tail_rule=True,
+                      do_discriminating_path_collider_rule=True,
                       complete_rule_set_used=True,
                       covered_depth=4, singular_depth=1,
                       nonsingular_depth=1, ordered_alg=False,
@@ -416,7 +425,8 @@ class TetradSearch:
         self.params.set(Params.STABLE_FAS, stable_fas)
         self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
         # self.params.set(Params.POSSIBLE_DSEP_DONE, possible_dsep)
-        self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
+        self.params.set(Params.DO_DISCRIMINATING_PATH_TAIL_RULE, do_discriminating_path_tail_rule)
+        self.params.set(Params.DO_DISCRIMINATING_PATH_COLLIDER_RULE, do_discriminating_path_collider_rule)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
 
         alg = pag.GraspFci(self.TEST, self.SCORE)
@@ -426,10 +436,13 @@ class TetradSearch:
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_spfci(self, max_path_length=-1, complete_rule_set_used=True,
-                  do_discriminating_path_rule=True, depth=-1):
+                  do_discriminating_path_tail_rule=True,
+                  do_discriminating_path_collider_rule=True,
+                  depth=-1):
         self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
-        self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
+        self.params.set(Params.DO_DISCRIMINATING_PATH_TAIL_RULE, do_discriminating_path_tail_rule)
+        self.params.set(Params.DO_DISCRIMINATING_PATH_COLLIDER_RULE, do_discriminating_path_collider_rule)
         self.params.set(Params.DEPTH, depth)
 
         alg = pag.SpFci(self.TEST, self.SCORE)
