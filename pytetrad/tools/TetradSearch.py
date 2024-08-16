@@ -300,11 +300,11 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_cpc(self, conflict_rule=1, depth=-1, stable_fas=True, meek_prevent_cycles=True):
+    def run_cpc(self, conflict_rule=1, depth=-1, stable_fas=True, guarantee_cpdag=True):
         self.params.set(Params.CONFLICT_RULE, conflict_rule)
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.STABLE_FAS, stable_fas)
-        self.params.set(Params.MEEK_PREVENT_CYCLES, meek_prevent_cycles)
+        self.params.set(Params.GUARANTEE_CPDAG, guarantee_cpdag)
 
         alg = cpdag.Cpc(self.TEST)
         alg.setKnowledge(self.knowledge)
