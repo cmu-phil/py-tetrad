@@ -16,7 +16,7 @@ If you have questions or need more (or different) functionality, or are just flu
 
 ## SOME PLANS
 
-* We are going to try to make Rpy-Tetrad to install.
+* We are going to try to make Rpy-Tetrad easier to install.
     * The first step (soon) will be to make all paths _relative_ to the project path, which will be the py-tetrad directory.
     * It is also possible to automatically install the Java JDK from R locally. As soon as we can get this work on all platforms we will include that.
 
