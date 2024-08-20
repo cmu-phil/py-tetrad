@@ -50,7 +50,7 @@ if (!requireNamespace("rJava", quietly = TRUE)) {
 library(rJava)
 
 .jinit()
-.jaddClassPath("/Users/josephramsey/IdeaProjects/py-tetrad/pytetrad/resources/tetrad-current.jar")
+.jaddClassPath("resources/tetrad-current.jar")
 
 print('java version')
 java_version <- .jcall("java/lang/System", "S", "getProperty", "java.version")
