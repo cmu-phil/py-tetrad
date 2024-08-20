@@ -1,3 +1,7 @@
+## THIS SCRIPT IS NOT FULLY TESTED (IT HAS ONLY BEEN TESTED ON ONE MAC
+## LAPTOP). USE AT YOUR OWN RISK. IF YOU USE IT AND HAVE COMMENTS, PLEASE
+## LET US KNOW.
+
 # Load the reticulate package
 if (!requireNamespace("reticulate", quietly = TRUE)) {
   install.packages("reticulate")

@@ -9,6 +9,10 @@
 ## returning a Graph. This graph is then converted into .dot format and
 ## displayed.
 ##
+## THIS SCRIPT IS NOT FULLY TESTED (IT HAS ONLY BEEN TESTED ON ONE MAC
+## LAPTOP). USE AT YOUR OWN RISK. IF YOU USE IT AND HAVE COMMENTS, PLEASE
+## LET US KNOW.
+##
 ## We may use this script to revive the old r-causal package to run Tetrad
 ## searches in parallel to rpy-tetrad but without reference to Python.
 ## rJava appears to be WAY more verbose than JPype, but for R users, the
