@@ -68,20 +68,7 @@ data <- read.table("resources/example_sim_100-6-1000.txt", header=TRUE)
 ## as continuous (i.e., 'numeric'); some of them are integer columns.
 i <- c(1, ncol(data))
 data[ , i] <- apply(data[ , i], 2, function(x) as.numeric(x))
-
-## Now make a covariance matrix using the data.
-
-# Create the variable list (ArrayList<Node>)
-vars <- .jnew("java/util/ArrayList")
-
-# Assuming data frame column names represent your variables
-for (name in colnames(data)) {
-  variable <- .jnew("edu/cmu/tetrad/data/ContinuousVariable", name)
-  node <- .jcast(variable, "edu/cmu/tetrad/graph/Node")
-  .jcall(vars, "Z", "add", .jcast(node, "java/lang/Object"))
-}
-
-vars <- .jcast(vars, "java/util/List")
+vars <- create_variables(data)
 
 # This web site should how to pass a matrix as a double[][] array.
 # https://www.rforge.net/rJava/docs/reference/jarray.html

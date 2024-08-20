@@ -63,3 +63,19 @@ set_java_home <- function(java_home) {
   Sys.setenv(PATH = paste0(java_home, "/bin:", Sys.getenv("PATH")))
   print(paste("JAVA_HOME is set to:", Sys.getenv("JAVA_HOME")))
 }
+
+# Create the variable list (ArrayList<Node>)
+create_variables <- function(data) {
+  # .jinit()
+  vars <- .jnew("java/util/ArrayList")
+  
+  # Assuming data frame column names represent your variables
+  for (name in colnames(data)) {
+  variable <- .jnew("edu/cmu/tetrad/data/ContinuousVariable", name)
+  node <- .jcast(variable, "edu/cmu/tetrad/graph/Node")
+  .jcall(vars, "Z", "add", .jcast(node, "java/lang/Object"))
+  }
+  
+  vars <- .jcast(vars, "java/util/List")
+  return(vars)
+}
