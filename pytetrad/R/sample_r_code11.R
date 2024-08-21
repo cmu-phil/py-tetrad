@@ -9,6 +9,10 @@
 ## returning a Graph. This graph is then converted into .dot format and
 ## displayed.
 ##
+## THIS SCRIPT IS NOT FULLY TESTED (IT HAS ONLY BEEN TESTED ON ONE MAC
+## LAPTOP). USE AT YOUR OWN RISK. IF YOU USE IT AND HAVE COMMENTS, PLEASE
+## LET US KNOW.
+##
 ## We may use this script to revive the old r-causal package to run Tetrad
 ## searches in parallel to rpy-tetrad but without reference to Python.
 ## rJava appears to be WAY more verbose than JPype, but for R users, the
@@ -20,8 +24,8 @@
 
 ## For purposes of these example scripts, we will assume that in RStudio one
 ## has loaded the py-tetrad directory as the project, so that the project
-## directory is the py-tetrad directory. For your own scripts, these paths
-## can be adjusted.
+## directory is the py-tetrad/pytetrad directory. For your own scripts, these 
+## paths can be adjusted.
 if (!requireNamespace("here", quietly = TRUE)) {
   install.packages("here")
 }
@@ -46,7 +50,7 @@ if (!requireNamespace("rJava", quietly = TRUE)) {
 library(rJava)
 
 .jinit()
-.jaddClassPath("/Users/josephramsey/IdeaProjects/py-tetrad/pytetrad/resources/tetrad-current.jar")
+.jaddClassPath("resources/tetrad-current.jar")
 
 print('java version')
 java_version <- .jcall("java/lang/System", "S", "getProperty", "java.version")
@@ -64,20 +68,7 @@ data <- read.table("resources/example_sim_100-6-1000.txt", header=TRUE)
 ## as continuous (i.e., 'numeric'); some of them are integer columns.
 i <- c(1, ncol(data))
 data[ , i] <- apply(data[ , i], 2, function(x) as.numeric(x))
-
-## Now make a covariance matrix using the data.
-
-# Create the variable list (ArrayList<Node>)
-vars <- .jnew("java/util/ArrayList")
-
-# Assuming data frame column names represent your variables
-for (name in colnames(data)) {
-  variable <- .jnew("edu/cmu/tetrad/data/ContinuousVariable", name)
-  node <- .jcast(variable, "edu/cmu/tetrad/graph/Node")
-  .jcall(vars, "Z", "add", .jcast(node, "java/lang/Object"))
-}
-
-vars <- .jcast(vars, "java/util/List")
+vars <- create_variables(data)
 
 # This web site should how to pass a matrix as a double[][] array.
 # https://www.rforge.net/rJava/docs/reference/jarray.html
