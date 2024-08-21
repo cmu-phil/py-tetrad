@@ -6,6 +6,9 @@
 import jpype
 import jpype.imports
 
+import os
+print('cwd = ', os.getcwd())
+
 try:
     jpype.startJVM(jpype.getDefaultJVMPath(), "-Xmx2g", classpath=[f"resources/tetrad-current.jar"])
 except OSError:

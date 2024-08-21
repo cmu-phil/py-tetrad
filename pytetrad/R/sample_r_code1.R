@@ -15,12 +15,23 @@
 ## Please make your own copy of this R file if you want to make sure your
 ## changes don't get overwritten by future `git pull's.
 ##
-## You will need to adjust this path to your path for py-tetrad.
-setwd("~/py-tetrad/pytetrad")
+## For purposes of these example scripts, we will assume that in RStudio one
+## has loaded the py-tetrad directory as the project, so that the project
+## directory is the py-tetrad/pytetrad directory. For your own scripts, these 
+## paths can be adjusted.
+if (!requireNamespace("here", quietly = TRUE)) {
+  install.packages("here")
+}
+
+library(here)
+project_root <- here()
+setwd(project_root)
+
+print(project_root)
 
 library(reticulate)
 source_python("run_continuous.py")
-tr <- import("pytetrad.tools.translate")
+tr <- import("tools.translate")
 
 ## All of the variables in this file appear in the R environment and can be
 ## accessed there. If you're in RStudio, click to the Environment tab and 

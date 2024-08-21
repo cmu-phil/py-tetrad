@@ -1,4 +1,14 @@
-setwd("~/py-tetrad/pytetrad")
+## For purposes of these example scripts, we will assume that in RStudio one
+## has loaded the py-tetrad directory as the project, so that the project
+## directory is the py-tetrad/pytetrad directory. For your own scripts, these 
+## paths can be adjusted.
+if (!requireNamespace("here", quietly = TRUE)) {
+  install.packages("here")
+}
+
+library(here)
+project_root <- here()
+setwd(project_root)
 
 install.packages(reticulate)
 install.packages(psych)
