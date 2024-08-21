@@ -110,6 +110,10 @@ class TetradSearch:
         self.params.set(Params.USE_PSEUDOINVERSE, use_pseudoinverse)
         self.TEST = ind_.FisherZ()
 
+    # The supplied test should iplement edu.cmu.tetrad.algcomparison.independence.IndependenceWrapper in Tetrad.
+    def use_test(self, test):
+        self.TEST = test
+
     def use_chi_square(self, mim_count=1, alpha=0.01):
         print(self.data.isDiscrete())
         self.params.set(Params.ALPHA, alpha)
