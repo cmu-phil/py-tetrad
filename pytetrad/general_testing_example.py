@@ -22,8 +22,6 @@ try:
 except ImportError as e:
     print('Could not import a causal-learn module: ', e)
 
-# Can use this as a template for defining scores in Python for use with
-# Java Tetrad algorithms.
 @JImplements(ts.IndependenceTest)
 class KciWrapper:
     def __init__(self, df, alpha = 0.01):
@@ -32,12 +30,10 @@ class KciWrapper:
         self.alpha = alpha
         self.kci_obj = CIT(self.data, "kci")
 
-        # p = self.kci_obj(0, 2, [3])
-        # print("p", p)
-
         self.variables = util.ArrayList()
         self.variable_map = {}
         self.reverse_variable_map = {}
+
         for col in df.columns:
             col = str(col)
             variable = td.ContinuousVariable(col)
