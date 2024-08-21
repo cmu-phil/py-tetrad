@@ -1,3 +1,8 @@
+# This script runs the Markov Checker on a dataset using the BOSS algorithm to find a CPDAG and the KCI test from
+# causal-learn, or Fisher Z, as the test for the Markov Checker. The Markov Checker is run in parallel. The script
+# also prints out the results of the Markov Checker, including the p-values for each conditional independence test,
+# the fraction of dependent judgments, and the number of tests run. -JR
+
 import jpype.imports
 from jpype import JImplements, JOverride
 
@@ -15,12 +20,8 @@ except ImportError as e:
 
 import pandas as pd
 
-# This is an example of how to use the Markov Checker.
-# We will wrap the Markov Checker in a nicer Python class at some point. -JR
-
 import tools.translate as tr
 import tools.TetradSearch as search
-import edu.cmu.tetrad.algcomparison.independence as ind_
 import edu.cmu.tetrad.data as td
 import edu.cmu.tetrad.graph as tg
 import edu.cmu.tetrad.search as ts
@@ -28,7 +29,6 @@ import edu.cmu.tetrad.search.test as tt
 import edu.cmu.tetrad.util as util
 import edu.cmu.tetrad.algcomparison.independence as agind
 import java.util as ju
-
 
 # Load in the data and make sure all columns are being interpreted as continuous.
 data = pd.read_csv("resources/airfoil-self-noise.continuous.txt",
@@ -61,28 +61,16 @@ print(cpdag)
 bic = cpdag.getAttribute("BIC")
 print("bic", bic)
 
-# Get the test used for the Markov Checker--this test will be used to look
-# to see whether p-values for conditional independence tests are distributed
-# as U(0, 1). We will also get a fraction dependent number, which should be
-# about equal to the alpha level of the test (if the p-values under the null
-# hypothesis of independence are distributed as U(0, 1)). We can test for this
-# Uniformity using an Anderson-Darling (AD) test or a Binomial (bin) test.
-# 
-# We will also use it to check facts about the distribution for conditional 
-# dependencies; in this case, the fraction of dependence judgments should
-# be high, though not necessarily 1, since there may be some path
-# cancellations.
-
 _search = search.TetradSearch(data)
-
 alpha_ = 0.01
 
-# Giving the option to use Causal Leearn's KCI test for the Markov Checker. In order to do this, we need to wrap the
-# KCI test in a JPype object so that Tetrad can use it, and we need also to wrap this test as an IndependenceWrapper
-# using JPype as well. This is verbose, but if it works, the functionality can be wrapped up nicely.
+# We are giving the option to use Causal Leearn's KCI test for the Markov Checker. In order to do this, we need to
+# wrap the KCI test in a JPype object so that Tetrad can use it, and we need also to wrap this test as an
+# IndependenceWrapper using JPype as well. This is verbose, but if it works, the functionality can be wrapped up nicely.
+
 @JImplements(ts.IndependenceTest)
 class KciWrapper:
-    def __init__(self, df, alpha = alpha_):
+    def __init__(self, df, alpha=alpha_):
         self.df = df
         self.data = df.values
         self.alpha = alpha
@@ -141,10 +129,11 @@ class KciWrapper:
     def getAlpha(self, *args):
         return self.alpha
 
+
 @JImplements(agind.IndependenceWrapper)
 class WrappedClKci:
 
-    def __init__(self, df, alpha = alpha_):
+    def __init__(self, df, alpha=alpha_):
         self.df = df
         self.alpha = alpha
 
@@ -165,7 +154,9 @@ class WrappedClKci:
     def getParameters(self):
         return util.ArrayList()
 
-# Now we need to choose which test to use for the Markov checker.
+
+# Now we need to choose which test to use for the Markov checker--either Fisher Z or WrappedClKci. We will use
+# WrappedClKci in this example.
 
 # Uncomment this line to use Fisher Z
 # _search.use_fisher_z()
