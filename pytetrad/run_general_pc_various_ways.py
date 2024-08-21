@@ -105,6 +105,17 @@ def run_tetrad_pc_using_cl_kci():
     print("\nTetrad PC w/ JPype wrapper of causal-learn's KCI", graph)
     print("Time taken", end_time - start_time)
 
+
+# Run CL's PC using CL's KCI
+def run_cl_pc_using_cl_kci():
+
+    start_time = time.time()
+    cg = pc(df.values, alpha_, kci, node_names=df.columns)
+    end_time = time.time()
+
+    print("\nCL PC with CL's KCI", cg.G)
+    print("Time taken", end_time - start_time)
+
 # Run Tetrad's PC using Tetrad's KCI
 def run_tetrad_pc_using_tetrad_kci():
 
@@ -118,16 +129,6 @@ def run_tetrad_pc_using_tetrad_kci():
     end_time = time.time()
 
     print("\nTetrad PC with Tetrad's KCI", graph)
-    print("Time taken", end_time - start_time)
-
-# Run CL's PC using CL's KCI
-def run_cl_pc_using_cl_kci():
-
-    start_time = time.time()
-    cg = pc(df.values, alpha_, kci, node_names=df.columns)
-    end_time = time.time()
-
-    print("\nCL PC with CL's KCI", cg.G)
     print("Time taken", end_time - start_time)
 
 run_cl_pc_using_cl_kci()
