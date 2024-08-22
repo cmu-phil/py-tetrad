@@ -159,15 +159,15 @@ class WrappedClKci:
 # WrappedClKci in this example.
 
 # Uncomment this line to use Fisher Z
-# _search.use_fisher_z()
+_search.use_fisher_z()
 
 # Uncomment this line to use WrappedClKci
-_search.use_test(WrappedClKci(data))
+# _search.use_test(WrappedClKci(data))
 
 # Note that we have added an option to control whether parallelism is used in the Markov Checker, as we are not
 # sure whether the Markov Checker is thread-safe when using the WrappedClKci test. We will test this in the future.
 ad_ind, ad_dep, bin_indep, bin_dep, frac_dep_ind, frac_dep_dep, num_tests_ind, num_tests_dep, mc = _search.markov_check(
-    cpdag, parallelized=True)
+    cpdag, parallelized=True, sample_size=500)
 
 print(f"AD p-value Indep = {ad_ind:5.4} Dep = {ad_dep:5.4}")
 print(f"Fraction dependent Indep = {frac_dep_ind:5.4} Dep = {frac_dep_dep:5.4}")
