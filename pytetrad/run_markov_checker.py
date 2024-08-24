@@ -21,8 +21,6 @@ data = data.astype({col: "float64" for col in data.columns})
 
 _search = search.TetradSearch(data)
 
-# Hyperparameter settings
-
 # Pick the score to use, in this case a continuous linear, Gaussian score.
 _search.use_sem_bic(penalty_discount=1)
 
