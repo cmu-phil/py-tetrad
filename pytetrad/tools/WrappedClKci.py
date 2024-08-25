@@ -1,8 +1,9 @@
 # This module wraps the KCI test from causal-learn in a JPype object so that Tetrad can use it.
-# We are not assuming in this repository that causal-learn is installed, as we don't want to have the dependency
-# in our code (since some people can't have it there--it has dependencies that are unhelpful in certain circumstances).
-# So if you want to use the KCI test from causal-learn, you will need to install causal-learn yourself. (See the docs
-# for causal-learn for installation instructions.)
+# We are not assuming in this repository that causal-learn is installed, as we don't want to
+# have the dependencymin our code (since some people can't have it there--it has dependencies
+# that are unhelpful in certain circumstances). mSo if you want to use the KCI test from causal-learn,
+# you will need to install causal-learn yourself. (See the docs for causal-learn for installation
+# instructions.)
 #
 # To use WrappedClKci as a test in py-tetrad, you can do the following:
 # import tools/WrappedClKci as wc

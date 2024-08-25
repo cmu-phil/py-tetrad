@@ -42,8 +42,8 @@ _search.use_fisher_z()
 
 # Note that we have added an option to control whether parallelism is used in the Markov Checker, as we are not
 # sure whether the Markov Checker is thread-safe when using the WrappedClKci test. We will test this in the future.
-ad_ind, ad_dep, bin_indep, bin_dep, frac_dep_ind, frac_dep_dep, num_tests_ind, num_tests_dep, mc = _search.markov_check(
-    cpdag, parallelized=True, sample_size=-1)
+ad_ind, ad_dep, bin_indep, bin_dep, frac_dep_ind, frac_dep_dep, num_tests_ind, num_tests_dep, mc \
+    = _search.markov_check(cpdag, parallelized=True, sample_size=-1)
 
 results = mc.getResults(True)
 
