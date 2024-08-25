@@ -1,4 +1,7 @@
 
+# This script run PC using a general score in various ways: (1) using causal-learn's KCI in Tetrad,
+# (2) using causal-learn's KCI in causal-learn, and (3) using Tetrad's KCI in Tetrad.
+
 from jpype import JImplements, JOverride
 import jpype.imports
 import time
@@ -30,7 +33,7 @@ alpha_ = 0.01
 
 # Grab the airfoil data (a small problem with just 6 variables)
 df = pd.read_csv(f"resources/airfoil-self-noise.continuous.txt", sep="\t")
-df = df.sample(600, replace=True) # bootstrap sample.
+df = df.sample(800, replace=True) # bootstrap sample.
 df = df.astype({col: "float64" for col in df.columns})
 
 # Run Tetrad's PC using causal-learn's KCI
