@@ -45,10 +45,6 @@ _search.use_fisher_z()
 ad_ind, ad_dep, bin_indep, bin_dep, frac_dep_ind, frac_dep_dep, num_tests_ind, num_tests_dep, mc = _search.markov_check(
     cpdag, parallelized=True, sample_size=-1)
 
-print(f"AD p-value Indep = {ad_ind:5.4} Dep = {ad_dep:5.4}")
-print(f"Fraction dependent Indep = {frac_dep_ind:5.4} Dep = {frac_dep_dep:5.4}")
-print(f"Num tests Indep = {num_tests_ind} Dep = {num_tests_dep}")
-
 results = mc.getResults(True)
 
 print("\nResults:\n")
@@ -60,3 +56,9 @@ for result in results:
     # fact = result.getFact()
     # p_value = result.getPValue()
     # print(fact, 'p-value = ', p_value)
+
+print()
+print(f"AD p-value Indep = {ad_ind:5.4} Dep = {ad_dep:5.4}")
+print(f"Fraction dependent Indep = {frac_dep_ind:5.4} Dep = {frac_dep_dep:5.4}")
+print(f"Num tests Indep = {num_tests_ind} Dep = {num_tests_dep}")
+
