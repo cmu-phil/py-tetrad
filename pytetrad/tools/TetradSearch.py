@@ -3,12 +3,9 @@
 ## and the outputs are endpoint-matrix-formatted graphs, also data frames. (In a
 ## future version, we may allow the outputs to be given other formats.)
 
-import jpype
-import jpype.imports
-
 import os
 
-from sympy.stats import sample_iter
+import jpype.imports
 
 print('cwd = ', os.getcwd())
 
@@ -117,14 +114,19 @@ class TetradSearch:
     def use_test(self, test):
         self.TEST = test
 
-    def use_chi_square(self, mim_count=1, alpha=0.01):
+    # cell table type is 1 = AD Tree, 2 = Count Sample. (Optimization.)
+    def use_chi_square(self, min_count=1, alpha=0.01, cell_table_type = 1):
         print(self.data.isDiscrete())
         self.params.set(Params.ALPHA, alpha)
-        self.params.set(Params.MIN_COUNT_PER_CELL, mim_count)
+        self.params.set(Params.MIN_COUNT_PER_CELL, min_count)
+        self.params.set(Params.CELL_TABLE_TYPE, cell_table_type)
         self.TEST = ind_.ChiSquare()
 
-    def use_g_square(self, alpha=0.01):
+    # cell table type is 1 = AD Tree, 2 = Count Sample. (Optimization)
+    def use_g_square(self, min_count=1, alpha=0.01, cell_table_type = 1):
         self.params.set(Params.ALPHA, alpha)
+        self.params.set(Params.MIN_COUNT_PER_CELL, min_count)
+        self.params.set(Params.CELL_TABLE_TYPE, cell_table_type)
         self.TEST = ind_.GSquare()
 
     def use_conditional_gaussian_test(self, alpha=0.01, discretize=True, num_categories_to_discretize=3):
@@ -185,7 +187,7 @@ class TetradSearch:
         print(self.knowledge)
 
     def run_fges(self, symmetric_first_step=False, max_degree=-1, parallelized=False,
-                 faithfulness_assumed=False, meek_verbose=False):
+                 faithfulness_assumed=False):
         alg = cpdag.Fges(self.SCORE)
         alg.setKnowledge(self.knowledge)
 
@@ -193,7 +195,6 @@ class TetradSearch:
         self.params.set(Params.MAX_DEGREE, max_degree)
         self.params.set(Params.PARALLELIZED, parallelized)
         self.params.set(Params.FAITHFULNESS_ASSUMED, faithfulness_assumed)
-        self.params.set(Params.MEEK_VERBOSE, meek_verbose)
 
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
@@ -322,12 +323,12 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_pcmax(self, conflict_rule=1, depth=-1, use_heuristic=True, max_path_length=-1,
+    def run_pcmax(self, conflict_rule=1, depth=-1, use_heuristic=True,max_disc_path_length=-1,
                   stable_fas=True):
         self.params.set(Params.CONFLICT_RULE, conflict_rule)
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.USE_MAX_P_ORIENTATION_HEURISTIC, use_heuristic)
-        self.params.set(Params.MAX_P_ORIENTATION_MAX_PATH_LENGTH, max_path_length)
+        self.params.set(Params.MAX_P_ORIENTATION_MAX_PATH_LENGTH,max_disc_path_length)
         self.params.set(Params.STABLE_FAS, stable_fas)
 
         alg = cpdag.PcMax(self.TEST)
@@ -336,15 +337,13 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_fci(self, depth=-1, stable_fas=True, max_path_length=-1,
-                do_discriminating_path_tail_rule=True, do_discriminating_path_collider_rule=True,
-                complete_rule_set_used=True):
+    def run_fci(self, depth=-1, stable_fas=True,max_disc_path_length=-1, complete_rule_set_used=True,
+                guarantee_pag=False):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.STABLE_FAS, stable_fas)
-        self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
-        self.params.set(Params.DO_DISCRIMINATING_PATH_TAIL_RULE, do_discriminating_path_tail_rule)
-        self.params.set(Params.DO_DISCRIMINATING_PATH_COLLIDER_RULE, do_discriminating_path_collider_rule)
+        self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH,max_disc_path_length)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
+        self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
 
         alg = pag.Fci(self.TEST)
         alg.setKnowledge(self.knowledge)
@@ -352,12 +351,10 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_rfci(self, depth=-1, stable_fas=True, max_path_length=-1,
-                 do_discriminating_path_rule=True, complete_rule_set_used=True):
+    def run_rfci(self, depth=-1, stable_fas=True,max_disc_path_length=-1, complete_rule_set_used=True,):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.STABLE_FAS, stable_fas)
-        self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
-        self.params.set(Params.DO_DISCRIMINATING_PATH_RULE, do_discriminating_path_rule)
+        self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH,max_disc_path_length)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
 
         alg = pag.Rfci(self.TEST)
@@ -366,13 +363,9 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_cfci(self, depth=-1, max_path_length=-1, do_discriminating_path_tail_rule=True,
-                 do_discriminating_path_collider_rule=True,
-                 complete_rule_set_used=True):
+    def run_cfci(self, depth=-1,max_disc_path_length=-1, complete_rule_set_used=True):
         self.params.set(Params.DEPTH, depth)
-        self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
-        self.params.set(Params.DO_DISCRIMINATING_PATH_TAIL_RULE, do_discriminating_path_tail_rule)
-        self.params.set(Params.DO_DISCRIMINATING_PATH_COLLIDER_RULE, do_discriminating_path_collider_rule)
+        self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH,max_disc_path_length)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
 
         alg = pag.Cfci(self.TEST)
@@ -381,15 +374,13 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_gfci(self, depth=-1, max_degree=-1, max_path_length=-1,
-                 complete_rule_set_used=True, do_discriminating_path_tail_rule=True,
-                 do_discriminating_path_collider_rule=True):
+    def run_gfci(self, depth=-1, max_degree=-1,max_disc_path_length=-1, complete_rule_set_used=True,
+                 guarantee_pag=False):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.MAX_DEGREE, max_degree)
-        self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used),
-        self.params.set(Params.DO_DISCRIMINATING_PATH_TAIL_RULE, do_discriminating_path_tail_rule)
-        self.params.set(Params.DO_DISCRIMINATING_PATH_COLLIDER_RULE, do_discriminating_path_collider_rule)
+        self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH,max_disc_path_length)
+        self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
 
         alg = pag.Gfci(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
@@ -397,14 +388,12 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_bfci(self, depth=-1, max_path_length=-1,
-                 complete_rule_set_used=True, do_discriminating_path_tail_rule=True,
-                 do_discriminating_path_collider_rule=True):
+    def run_bfci(self, depth=-1,max_disc_path_length=-1, complete_rule_set_used=True,
+                 guarantee_pag=False):
         self.params.set(Params.DEPTH, depth)
-        self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
-        self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
-        self.params.set(Params.DO_DISCRIMINATING_PATH_TAIL_RULE, do_discriminating_path_tail_rule)
-        self.params.set(Params.DO_DISCRIMINATING_PATH_COLLIDER_RULE, do_discriminating_path_collider_rule)
+        self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used),
+        self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH,max_disc_path_length)
+        self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
 
         alg = pag.Bfci(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
@@ -412,15 +401,31 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
+    def run_lv_lite(self, num_starts=1, max_blocking_path_length=5, depth=5,max_disc_path_length=5,
+                    guarantee_pag=True):
+
+        # BOSS
+        self.params.set(Params.NUM_STARTS, num_starts)
+
+        # LV-Lite
+        self.params.set(Params.MAX_BLOCKING_PATH_LENGTH, max_blocking_path_length)
+        self.params.set(Params.DEPTH, depth)
+        self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
+        self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
+
+        alg = pag.LvLite(self.TEST, self.SCORE)
+        alg.setKnowledge(self.knowledge)
+
+        self.java = alg.search(self.data, self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
     def run_grasp_fci(self, depth=-1, stable_fas=True,
-                      max_path_length=-1,
-                      do_discriminating_path_tail_rule=True,
-                      do_discriminating_path_collider_rule=True,
+                      max_disc_path_length=-1,
                       complete_rule_set_used=True,
                       covered_depth=4, singular_depth=1,
                       nonsingular_depth=1, ordered_alg=False,
                       raskutti_uhler=False, use_data_order=True,
-                      num_starts=1):
+                      num_starts=1, guarantee_pag = False):
         # GRaSP
         self.params.set(Params.GRASP_DEPTH, covered_depth)
         self.params.set(Params.GRASP_SINGULAR_DEPTH, singular_depth)
@@ -429,15 +434,13 @@ class TetradSearch:
         self.params.set(Params.GRASP_USE_RASKUTTI_UHLER, raskutti_uhler)
         self.params.set(Params.USE_DATA_ORDER, use_data_order)
         self.params.set(Params.NUM_STARTS, num_starts)
+        self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
 
         # FCI
         self.params.set(Params.DEPTH, depth)
         # self.params.set(Params.FAS_HEURISTIC, fas_heuristic)
         self.params.set(Params.STABLE_FAS, stable_fas)
-        self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
-        # self.params.set(Params.POSSIBLE_DSEP_DONE, possible_dsep)
-        self.params.set(Params.DO_DISCRIMINATING_PATH_TAIL_RULE, do_discriminating_path_tail_rule)
-        self.params.set(Params.DO_DISCRIMINATING_PATH_COLLIDER_RULE, do_discriminating_path_collider_rule)
+        self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
 
         alg = pag.GraspFci(self.TEST, self.SCORE)
@@ -446,15 +449,12 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_spfci(self, max_path_length=-1, complete_rule_set_used=True,
-                  do_discriminating_path_tail_rule=True,
-                  do_discriminating_path_collider_rule=True,
-                  depth=-1):
-        self.params.set(Params.MAX_PATH_LENGTH, max_path_length)
+    def run_spfci(self, max_disc_path_length=-1, complete_rule_set_used=True, depth=-1,
+                  guarantee_pag = False):
+        self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
-        self.params.set(Params.DO_DISCRIMINATING_PATH_TAIL_RULE, do_discriminating_path_tail_rule)
-        self.params.set(Params.DO_DISCRIMINATING_PATH_COLLIDER_RULE, do_discriminating_path_collider_rule)
         self.params.set(Params.DEPTH, depth)
+        self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
 
         alg = pag.SpFci(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
@@ -490,7 +490,7 @@ class TetradSearch:
         self.stable_bhats = alg.getStableBHats()
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_fask(self, alpha=0.05, depth=-1, fask_delta=-0.3, left_right_rule = 1, skew_edge_threshold=0.3):
+    def run_fask(self, alpha=0.05, depth=-1, fask_delta=-0.3, left_right_rule=1, skew_edge_threshold=0.3):
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.FASK_DELTA, fask_delta)
@@ -543,7 +543,6 @@ class TetradSearch:
         ts_score.setPenaltyDiscount(penalty_discount)
         svar_fci = ts.SvarFci(ts_test)
         svar_fci.setKnowledge(lagged_data.getKnowledge())
-        svar_fci.setVerbose(True)
         self.java = svar_fci.search()
         # self.bootstrap_graphs = svar_fci.getBootstrapGraphs()
 
@@ -739,8 +738,7 @@ class TetradSearch:
         return facts
 
     def markov_check(self, graph, percent_resample=0.5, condition_set_type=ts.ConditioningSetType.LOCAL_MARKOV,
-                     removeExtraneous=False, parallelized=True, sample_size = -1):
-
+                     removeExtraneous=False, parallelized=True, sample_size=-1):
 
         test = self.TEST.getTest(self.data, self.params)
         mc = ts.MarkovCheck(graph, test, condition_set_type)

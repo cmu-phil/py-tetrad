@@ -30,7 +30,7 @@ alpha_ = 0.01
 
 # Grab the airfoil data (a small problem with just 6 variables)
 df = pd.read_csv(f"resources/airfoil-self-noise.continuous.txt", sep="\t")
-df = df.sample(800, replace=True)  # bootstrap sample.
+df = df.sample(500, replace=True)  # bootstrap sample.
 df = df.astype({col: "float64" for col in df.columns})
 
 
