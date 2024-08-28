@@ -63,8 +63,6 @@ statistics.add(stat.ArrowheadRecall())
 statistics.add(stat.ElapsedCpuTime())
 
 comparison = Comparison()
-comparison.setShowAlgorithmIndices(True)
 comparison.setComparisonGraph(Comparison.ComparisonGraph.true_DAG)
-comparison.setParallelized(True)
 
 comparison.compareFromSimulations("../testFges", simulations, algorithms, statistics, params)

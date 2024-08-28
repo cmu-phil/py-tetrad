@@ -16,7 +16,7 @@ import tools.TetradSearch as search
 # from tools import WrappedClKci as wc
 
 # data = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
-data = pd.read_csv("resources/sample_data_joe.txt", sep="\t")
+data = pd.read_csv("resources/sample_lng_data_10_2_1000.txt", sep="\t")
 data = data.astype({col: "float64" for col in data.columns})
 
 _search = search.TetradSearch(data)

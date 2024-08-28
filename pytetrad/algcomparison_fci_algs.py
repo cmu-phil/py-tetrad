@@ -43,9 +43,8 @@ params.set(Params.NUM_RUNS, 10)
 
 params.set(Params.BOSS_ALG, 1)
 params.set(Params.DEPTH, -1)
-params.set(Params.MAX_PATH_LENGTH, 2)
+params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, 2)
 params.set(Params.COMPLETE_RULE_SET_USED, True)
-params.set(Params.DO_DISCRIMINATING_PATH_TAIL_RULE, True)
 
 # Flags
 params.set(Params.GRASP_USE_RASKUTTI_UHLER, False)
@@ -75,11 +74,8 @@ simulations = Simulations()
 simulations.add(sim.SemSimulation(graph.RandomForward()))
 
 statistics = stat.Statistics()
-statistics.add(stat.LegalPag())
 statistics.add(stat.NoAlmostCyclicPathsCondition())
-statistics.add(stat.NoAlmostCyclicPathsInMagCondition())
-statistics.add(stat.NoAlmostCyclicPathsInMagCondition())
-statistics.add(stat.NoCyclicPathsInMagCondition())
+statistics.add(stat.NoCyclicPathsCondition())
 statistics.add(stat.MaximalityCondition())
 
 statistics.add(stat.ParameterColumn(Params.ALPHA))
@@ -114,8 +110,6 @@ statistics.add(stat.NoSemidirectedF1())
 statistics.add(stat.ElapsedCpuTime())
 
 comparison = Comparison()
-comparison.setShowAlgorithmIndices(True)
 comparison.setComparisonGraph(Comparison.ComparisonGraph.true_DAG)
-comparison.setParallelized(True)
 
 comparison.compareFromSimulations("../testFciAlgs", simulations, algorithms, statistics, params)
