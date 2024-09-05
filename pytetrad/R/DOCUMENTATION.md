@@ -1,7 +1,3 @@
-# News
-
-We have gotten extensive user feedback from R users about the required dependencies of rpy-tetrad on Python and Java, which rpy-tetrad requires users to intall themselves and manually coordiante with R. To this end we have started a new wrapping of Tetrad for R that eliminates these requriements, [r-tetrad](https://github.com/cmu-phil/r-tetrad). This project is in its initial stages, but this kind of wrapping is fairly quick, so we anticipate having a usable product in the near future. See that repository for updated details. All comments welcome.
-
 # RPy-Tetrad: Some Initial Documentation
 
 Click here for [Installation Instructions](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/INSTALLATION.md).
