@@ -16,7 +16,7 @@ We should make it clear that once you see how to use JPype to run Tetrad code in
 
 # News
 
-2024-5-7
+2024-9-9
 
 * Updated jar to Tetrad version https://s01.oss.sonatype.org/content/repositories/snapshots/io/github/cmu-phil/tetrad-gui/7.6.5-SNAPSHOT/
 * Here are the release notes for 7.6.5: https://github.com/cmu-phil/tetrad/releases/tag/v7.6.5.
