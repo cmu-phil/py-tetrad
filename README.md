@@ -19,7 +19,8 @@ We should make it clear that once you see how to use JPype to run Tetrad code in
 2024-5-7
 
 * Updated jar to Tetrad version https://s01.oss.sonatype.org/content/repositories/snapshots/io/github/cmu-phil/tetrad-gui/7.6.5-SNAPSHOT/
-* Here are the release notes for 7.6.4: https://github.com/cmu-phil/tetrad/releases/tag/v7.6.4
+* Here are the release notes for 7.6.5: https://github.com/cmu-phil/tetrad/releases/tag/v7.6.5.
+* We have started a new project, r-tetrad, for R users who wish to access Tetrad without installing Python. The r-tetrad project requires only the installation of R; access to Java is handled internally.
 
 # Install
 
