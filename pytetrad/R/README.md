@@ -1,6 +1,6 @@
 ## RPy-Tetrad: Py-Tetrad for R and RStudio
 
-This project is being offered as a way of connecting Tetrad to R through Python. It is intended to replace the older (less maintainable) [r-causal](https://github.com/bd2kccd/r-causal) Python project that uses an outdated version of Tetrad.
+This project is being offered as a way of connecting Tetrad to R through Python. It is intended as an alternative the older (less maintainable) [r-causal](https://github.com/bd2kccd/r-causal) Python project that uses an outdated version of Tetrad.
 
 Here are [INSTALLATION INSTRUCTIONS](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/INSTALLATION.md).
 
