@@ -10,9 +10,9 @@ You can also integrate Tetrad code into Python by making os.system (..) calls to
 
 Please bear with us as we add and refine example modules and keep our code current. Please submit any problems or suggestions to our [Issue Tracker](https://github.com/cmu-phil/py-tetrad/issues), so that we can resolve them. Sometimes it may not be obvious how to call a Tetrad class or method from Python. Please point out any difficulties you have, so we can make it more intuitive for the next version.
 
-We maintain a [current version of the Tetrad launch jar](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/resources), which is either the [current published version](https://github.com/cmu-phil/tetrad/releases) or else the current published version with some [adjustments](https://github.com/cmu-phil/tetrad/wiki/Forthcoming-fixes). We will make sure that the example code will work with this current jar. Feel free to use any version of Tetrad though. All artifacts for Tetrad for the last several releases are on [Maven Central](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/), with their corresponding API Javadocs, along wth signatures to verify authenticity.
+We maintain a [current version of the Tetrad launch jar](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/resources), which is either the [current published version](https://github.com/cmu-phil/tetrad/releases) or else the current published version with some [adjustments](https://github.com/cmu-phil/tetrad/wiki/Forthcoming-fixes). We will make sure that the example code will work with this current jar. Feel free to use any version of Tetrad, though. All artifacts for Tetrad for the last several releases are on [Maven Central](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/), with their corresponding API Javadocs, along wth signatures to verify authenticity.
 
-We should make it clear that once you see how to use JPype to run Tetrad code in Python, you do not really even need this repository to do that. All you need is the Tetrad documentation (which we will try to keep up to date) and maybe a little advice here or there, which we are happy to provide. Also, you may want to copy the [data and translation methods](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/tools) from this repository into your own code--feel free to steal those and modify them to your own purposes. This repository, from the point of view of Python, is a ladder really that, once you've climbed a little, you can toss away. From R, using [rpy-tetrad](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/). it's a different story; we can't figure out how to use JPype directly in R, so this repository definitely helps.
+We should clarify that once you see how to use JPype to run Tetrad code in Python, you do not need this repository to do that. All you need is the Tetrad documentation (which we will try to keep up to date) and a little advice here or there, which we are happy to provide. Also, you may want to copy the [data and translation methods](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/tools) from this repository into your own code--feel free to steal those and modify them to your own purposes. This repository, from the point of view of Python, is a ladder really that, once you've climbed a little, you can toss away. From R, using [rpy-tetrad](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/), it's a different story; we can't figure out how to use JPype directly in R, so this repository helps.
 
 # News
 
@@ -24,7 +24,7 @@ We should make it clear that once you see how to use JPype to run Tetrad code in
 
 # Install
 
-1. It is necessary to have a JDK installed for version 17+. See our Wiki article, [Setting up Java for Tetrad](https://github.com/cmu-phil/tetrad/wiki/Setting-up-Java-for-Tetrad).
+1. A JDK installed for version 21+ is necessary. See our Wiki article, [Setting up Java for Tetrad](https://github.com/cmu-phil/tetrad/wiki/Setting-up-Java-for-Tetrad).
 
 1. type ``echo $JAVA_HOME``in a terminal to see if this is already set to your JDK. On Windows, it should already be set if you've installed Java. On Mac, it should be set to the latest JDK installed. If it's not set, you'll need to [set JAVA_HOME](https://www.baeldung.com/java-home-on-windows-7-8-10-mac-os-x-linux#:~:text=On%20the%20Desktop%2C%20right%2Dclick,Variable%20value%20and%20click%20OK.) to the path of the Java installation you want to use for py-tetrad.
 
@@ -32,7 +32,7 @@ We should make it clear that once you see how to use JPype to run Tetrad code in
 
 1. We use the JPype package to interface Python with Java. For installation instructions, see the [Docs for the JPype box](https://jpype.readthedocs.io/en/latest/).
 
-1. Finally, you will need to clone this GitHub repository, so if you don't have Git installed, google and install that for your machine type.
+1. Finally, you will need to clone this GitHub repository. If you don't have Git installed, Google and install it for your machine type.
 
 Then (for instance, on a Mac) in a terminal window, cd to a directory where you want the cloned project to appear and type the following--again, as above, make sure JAVA_HOME is set correctly to your java path:
     
