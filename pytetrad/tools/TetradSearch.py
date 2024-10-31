@@ -743,7 +743,7 @@ class TetradSearch:
         test = self.TEST.getTest(self.data, self.params)
         mc = ts.MarkovCheck(graph, test, condition_set_type)
         mc.setPercentResample(percent_resample)
-        mc.setRemoveExtraneousVariables(removeExtraneous)
+        mc.setFindSmallestSubset(removeExtraneous)
         mc.generateResults(True)
         mc.setParallelized(parallelized)
 
