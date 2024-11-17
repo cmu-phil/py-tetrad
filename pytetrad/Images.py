@@ -7,7 +7,7 @@ BASE_DIR = ".."
 sys.path.append(BASE_DIR)
 jpype.startJVM(classpath=[f"{BASE_DIR}/pytetrad/resources/tetrad-current.jar"])
 
-import tools.translate as tr
+import pytetrad.tools.translate as tr
 import edu.cmu.tetrad.algcomparison.algorithm.multi as multi
 import edu.cmu.tetrad.util as util
 import java.util as jutil

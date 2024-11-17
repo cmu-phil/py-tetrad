@@ -7,7 +7,7 @@ except OSError:
 
 import pandas as pd
 
-import tools.TetradSearch as ts
+import pytetrad.tools.TetradSearch as ts
 
 data = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
 # data = pd.read_csv("resources/sample_lng_data_10_2_1000.txt", sep="\t")

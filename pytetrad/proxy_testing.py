@@ -10,7 +10,7 @@ except OSError:
 import pandas as pd
 import numpy as np
 
-import tools.translate as tr
+import pytetrad.tools.translate as tr
 
 import java.util as util
 import edu.cmu.tetrad.data as td

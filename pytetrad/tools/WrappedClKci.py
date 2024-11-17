@@ -6,7 +6,7 @@
 # instructions.)
 #
 # To use WrappedClKci as a test in py-tetrad, you can do the following:
-# import tools/WrappedClKci as wc
+# import pytetrad.tools/WrappedClKci as wc
 # ... load data into a pandas DataFrame df ...
 # test = wc.WrappedClKci(df, alpha=0.01)
 #
@@ -30,7 +30,7 @@ try:
 except ImportError as e:
     print('Could not import a causal-learn module: ', e)
 
-import tools.translate as tr
+import pytetrad.tools.translate as tr
 import edu.cmu.tetrad.data as td
 import edu.cmu.tetrad.graph as tg
 import edu.cmu.tetrad.search as ts

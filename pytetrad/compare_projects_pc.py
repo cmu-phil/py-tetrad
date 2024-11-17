@@ -7,7 +7,7 @@ except OSError:
 
 import pandas as pd
 import numpy as np
-import tools.translate as tr
+import pytetrad.tools.translate as tr
 
 import edu.cmu.tetrad.search as ts
 import edu.cmu.tetrad.search.test as test

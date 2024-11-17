@@ -13,7 +13,7 @@ import pandas as pd
 data = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
 data = data.astype({col: "float64" for col in data.columns})
 
-import tools.TetradSearch as search
+import pytetrad.tools.TetradSearch as search
 
 search = search.TetradSearch(data)
 search.use_sem_bic(penalty_discount=2)

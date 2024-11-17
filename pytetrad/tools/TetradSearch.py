@@ -15,7 +15,7 @@ except OSError:
     print("can't load jvm")
     pass
 
-import tools.translate as tr
+import pytetrad.tools.translate as tr
 import edu.cmu.tetrad.search as ts
 import edu.cmu.tetrad.data as td
 import edu.cmu.tetrad.graph as gr

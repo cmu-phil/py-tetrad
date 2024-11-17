@@ -8,8 +8,8 @@ except OSError:
 import pandas as pd
 import graphviz as gviz
 
-import tools.TetradSearch as search
-import tools.translate as tr
+import pytetrad.tools.TetradSearch as search
+import pytetrad.tools.translate as tr
 
 data = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
 data = data.astype({col: "float64" for col in data.columns})

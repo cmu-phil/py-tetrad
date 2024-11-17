@@ -12,8 +12,8 @@ except OSError:
     print("JVM already started")
 
 import pandas as pd
-import tools.TetradSearch as search
-# from tools import WrappedClKci as wc
+import pytetrad.tools.TetradSearch as search
+# from pytetrad.tools import WrappedClKci as wc
 
 # data = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
 data = pd.read_csv("resources/sample_lng_data_10_2_1000.txt", sep="\t")

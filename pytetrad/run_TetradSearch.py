@@ -6,7 +6,7 @@ except OSError:
     pass
 
 import pandas as pd
-import tools.TetradSearch as ts
+import pytetrad.tools.TetradSearch as ts
 
 df = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
 df = df.astype({col: "float64" for col in df.columns})

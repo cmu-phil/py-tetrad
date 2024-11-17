@@ -7,7 +7,7 @@ except OSError:
 
 import pandas as pd
 
-import tools.TetradSearch as ts
+import pytetrad.tools.TetradSearch as ts
 
 data = pd.read_csv("resources/bridges.data.version211_rev.txt", sep="\t")
 

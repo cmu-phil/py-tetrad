@@ -12,11 +12,11 @@ except OSError:
 
 import pandas as pd
 
-import tools.translate as tr
+import pytetrad.tools.translate as tr
 
 import edu.cmu.tetrad.search as ts
 import edu.cmu.tetrad.search.test as tt
-from tools import WrappedClKci as wc
+from pytetrad.tools import WrappedClKci as wc
 
 try:
     from causallearn.utils.cit import CIT

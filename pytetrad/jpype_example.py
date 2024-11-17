@@ -9,9 +9,9 @@ BASE_DIR = ".."
 sys.path.append(BASE_DIR)
 jpype.startJVM(classpath=[f"{BASE_DIR}/pytetrad/resources/tetrad-current.jar"])
 
-import tools.translate as tr
-import tools.translate as ptt
-import tools.visualize as ptv
+import pytetrad.tools.translate as tr
+import pytetrad.tools.translate as ptt
+import pytetrad.tools.visualize as ptv
 import edu.cmu.tetrad.graph as tg
 import edu.cmu.tetrad.search as ts
 import edu.cmu.tetrad.data as td

@@ -5,8 +5,8 @@ try:
 except OSError:
     print("JVM already started")
 
-import tools.translate as tr
-import tools.simulate as sim
+import pytetrad.tools.translate as tr
+import pytetrad.tools.simulate as sim
 
 D, G = sim.simulateDiscrete(num_meas=100, samp_size=1000)
 

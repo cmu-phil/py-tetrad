@@ -7,7 +7,7 @@ except OSError:
 
 import pandas as pd
 
-import tools.TetradSearch as search
+import pytetrad.tools.TetradSearch as search
 
 data = pd.read_csv("resources/auto-mpg.data.mixed.max.3.categories.txt", sep="\t")
 data = data.astype({col: "float64" for col in data.columns if col != "origin"})
