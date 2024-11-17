@@ -19,6 +19,9 @@ setuptools.setup(
     ],
     url='https://github.com/cmu-phil/py-tetrad',
     packages=setuptools.find_packages(include=['pytetrad', 'pytetrad.*']),
+    package_data={
+        'pytetrad': ['resources/*'], 
+    },
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
