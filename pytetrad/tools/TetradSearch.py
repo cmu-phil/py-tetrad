@@ -9,11 +9,14 @@ import jpype.imports
 
 # print('cwd = ', os.getcwd())
 
-try:
-    jpype.startJVM(jpype.getDefaultJVMPath(), "-Xmx2g", classpath=[f"../resources/tetrad-current.jar"])
-except OSError:
-    print("can't load jvm")
-    pass
+import os
+jar_path = os.path.abspath("../resources/tetrad-current.jar")
+if not jpype.isJVMStarted():
+    try:
+        jpype.startJVM(jpype.getDefaultJVMPath(), "-Xmx2g", classpath=[jar_path])
+    except OSError:
+        print("can't load jvm")
+        pass
 
 import pytetrad.tools.translate as tr
 import edu.cmu.tetrad.search as ts

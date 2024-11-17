@@ -4,10 +4,14 @@ import sys
 import jpype.imports
 import pandas as pd
 
-# BASE_DIR = "/Users/bryanandrews/Documents/py-tetrad"
-BASE_DIR = ".."
-sys.path.append(BASE_DIR)
-jpype.startJVM(classpath=[f"{BASE_DIR}/pytetrad/resources/tetrad-current.jar"])
+import os
+jar_path = os.path.abspath("resources/tetrad-current.jar")
+if not jpype.isJVMStarted():
+    try:
+        jpype.startJVM(jpype.getDefaultJVMPath(), "-Xmx2g", classpath=[jar_path])
+    except OSError:
+        print("can't load jvm")
+        pass
 
 import pytetrad.tools.translate as tr
 import pytetrad.tools.translate as ptt
