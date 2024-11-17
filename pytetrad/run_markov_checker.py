@@ -7,7 +7,9 @@
 import jpype.imports
 
 import os
-jar_path = os.path.abspath("resources/tetrad-current.jar")
+import importlib.resources as importlib_resources
+jar_path = importlib_resources.files('pytetrad').joinpath('resources','tetrad-current.jar')
+jar_path = str(jar_path)
 if not jpype.isJVMStarted():
     try:
         jpype.startJVM(jpype.getDefaultJVMPath(), "-Xmx2g", classpath=[jar_path])
