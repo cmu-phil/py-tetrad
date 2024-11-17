@@ -18,10 +18,14 @@
 import jpype.imports
 from jpype import JImplements, JOverride
 
-try:
-    jpype.startJVM(classpath=[f"../resources/tetrad-current.jar"])
-except OSError:
-    print("JVM already started")
+import os
+jar_path = os.path.abspath("../resources/tetrad-current.jar")
+if not jpype.isJVMStarted():
+    try:
+        jpype.startJVM(jpype.getDefaultJVMPath(), "-Xmx2g", classpath=[jar_path])
+    except OSError:
+        print("can't load jvm")
+        pass
 
 try:
     from causallearn.utils.cit import CIT
