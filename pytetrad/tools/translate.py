@@ -6,7 +6,7 @@ import jpype
 import jpype.imports
 
 try:
-    jpype.startJVM(classpath=[f"resources/tetrad-current.jar"])
+    jpype.startJVM(classpath=[f"../resources/tetrad-current.jar"])
 except OSError:
     pass
 
@@ -18,9 +18,9 @@ import sys
 ## and call these functions. will add more named parameters to help one see which 
 ## methods for the the searches can be controlled.
 
-# this needs to happen before import pytetrad (otherwise lib cant be found)
-BASE_DIR = os.path.join(os.path.dirname(__file__), '../..')
-sys.path.append(BASE_DIR)
+# # this needs to happen before import pytetrad (otherwise lib cant be found)
+# BASE_DIR = os.path.join(os.path.dirname(__file__), '../..')
+# sys.path.append(BASE_DIR)
 
 import numpy as np
 import pandas as pd

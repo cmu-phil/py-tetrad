@@ -3,9 +3,9 @@ import sys
 import jpype.imports
 import pandas as pd
 
-BASE_DIR = ".."
-sys.path.append(BASE_DIR)
-jpype.startJVM(classpath=[f"{BASE_DIR}/pytetrad/resources/tetrad-current.jar"])
+# BASE_DIR = ".."
+# sys.path.append(BASE_DIR)
+jpype.startJVM(classpath=[f"resources/tetrad-current.jar"])
 
 import pytetrad.tools.translate as tr
 import edu.cmu.tetrad.algcomparison.algorithm.multi as multi

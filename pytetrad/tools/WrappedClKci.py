@@ -19,7 +19,7 @@ import jpype.imports
 from jpype import JImplements, JOverride
 
 try:
-    jpype.startJVM(classpath=[f"resources/tetrad-current.jar"])
+    jpype.startJVM(classpath=[f"../resources/tetrad-current.jar"])
 except OSError:
     print("JVM already started")
 

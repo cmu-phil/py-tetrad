@@ -7,10 +7,10 @@ import os
 
 import jpype.imports
 
-print('cwd = ', os.getcwd())
+# print('cwd = ', os.getcwd())
 
 try:
-    jpype.startJVM(jpype.getDefaultJVMPath(), "-Xmx2g", classpath=[f"resources/tetrad-current.jar"])
+    jpype.startJVM(jpype.getDefaultJVMPath(), "-Xmx2g", classpath=[f"../resources/tetrad-current.jar"])
 except OSError:
     print("can't load jvm")
     pass
