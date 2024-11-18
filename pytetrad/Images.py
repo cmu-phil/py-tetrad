@@ -1,17 +1,11 @@
-import sys
+## This script assumes that the user has pip-installed the pytetrad package. Here is now:
+## pip install git+https://github.com/cmu-phil/py-tetrad
 
-import jpype.imports
 import pandas as pd
 
 import importlib.resources as importlib_resources
 jar_path = importlib_resources.files('pytetrad').joinpath('resources','tetrad-current.jar')
 jar_path = str(jar_path)
-if not jpype.isJVMStarted():
-    try:
-        jpype.startJVM(jpype.getDefaultJVMPath(), classpath=[jar_path])
-    except OSError:
-        print("can't load jvm")
-        pass
 
 import pytetrad.tools.translate as tr
 import edu.cmu.tetrad.algcomparison.algorithm.multi as multi

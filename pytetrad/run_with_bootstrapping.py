@@ -1,18 +1,8 @@
+## This script assumes that the user has pip-installed the pytetrad package. Here is now:
+## pip install git+https://github.com/cmu-phil/py-tetrad
+
 # This is an example of how to use the algcomparison API in Tetrad
 # through JPype to do bootstrapping.
-
-import jpype.imports
-
-import importlib.resources as importlib_resources
-jar_path = importlib_resources.files('pytetrad').joinpath('resources','tetrad-current.jar')
-jar_path = str(jar_path)
-if not jpype.isJVMStarted():
-    try:
-        jpype.startJVM(jpype.getDefaultJVMPath(), classpath=[jar_path])
-    except OSError:
-        print("can't load jvm")
-        pass
-
 import pandas as pd
 
 data = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")

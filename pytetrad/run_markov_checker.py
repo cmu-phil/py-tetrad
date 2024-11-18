@@ -1,20 +1,11 @@
+# This script assumes that the user has pip-installed the pytetrad package. Here is now:
+## pip install git+https://github.com/cmu-phil/py-tetrad
+
 # This script runs BOSS to find a CPDAG and then runs the Markov Checker on the CPDAG, comparing to the sample data.
 # We show how to use either the Fisher Z test or the WrappedClKci test for the Markov Checker. The WrappedClKci test
 # is a wrapper around the KCI test from causal-learn. We don't import causal-learn in our scripts by default, as some
 # users cannot have it installed because its numerous dependencies. If you want to use the WrappedClKci test, you
 # will need to uncomment those lines in this script and install causal-learn.
-
-import jpype.imports
-
-import importlib.resources as importlib_resources
-jar_path = importlib_resources.files('pytetrad').joinpath('resources','tetrad-current.jar')
-jar_path = str(jar_path)
-if not jpype.isJVMStarted():
-    try:
-        jpype.startJVM(jpype.getDefaultJVMPath(), classpath=[jar_path])
-    except OSError:
-        print("can't load jvm")
-        pass
 
 import pandas as pd
 import pytetrad.tools.TetradSearch as search

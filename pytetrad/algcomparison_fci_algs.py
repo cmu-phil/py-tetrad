@@ -1,3 +1,4 @@
+
 # This is an example of how to write an algcomparison script to do algorithm
 # comparison in Tetrad. Algcomparison allows on to write arbitrary comparison
 # scripts for algorithms in Tetrad.
