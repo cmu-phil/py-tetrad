@@ -3,11 +3,17 @@ import sys
 import jpype.imports
 import pandas as pd
 
-BASE_DIR = ".."
-sys.path.append(BASE_DIR)
-jpype.startJVM(classpath=[f"{BASE_DIR}/pytetrad/resources/tetrad-current.jar"])
+import importlib.resources as importlib_resources
+jar_path = importlib_resources.files('pytetrad').joinpath('resources','tetrad-current.jar')
+jar_path = str(jar_path)
+if not jpype.isJVMStarted():
+    try:
+        jpype.startJVM(jpype.getDefaultJVMPath(), classpath=[jar_path])
+    except OSError:
+        print("can't load jvm")
+        pass
 
-import tools.translate as tr
+import pytetrad.tools.translate as tr
 import edu.cmu.tetrad.algcomparison.algorithm.multi as multi
 import edu.cmu.tetrad.util as util
 import java.util as jutil

@@ -5,10 +5,15 @@
 import jpype
 import jpype.imports
 
-try:
-    jpype.startJVM(classpath=[f"resources/tetrad-current.jar"])
-except OSError:
-    pass
+import importlib.resources as importlib_resources
+jar_path = importlib_resources.files('pytetrad').joinpath('resources','tetrad-current.jar')
+jar_path = str(jar_path)
+if not jpype.isJVMStarted():
+    try:
+        jpype.startJVM(jpype.getDefaultJVMPath(), classpath=[jar_path])
+    except OSError:
+        print("can't load jvm")
+        pass
 
 import os
 import sys
@@ -18,9 +23,9 @@ import sys
 ## and call these functions. will add more named parameters to help one see which 
 ## methods for the the searches can be controlled.
 
-# this needs to happen before import pytetrad (otherwise lib cant be found)
-BASE_DIR = os.path.join(os.path.dirname(__file__), '../..')
-sys.path.append(BASE_DIR)
+# # this needs to happen before import pytetrad (otherwise lib cant be found)
+# BASE_DIR = os.path.join(os.path.dirname(__file__), '../..')
+# sys.path.append(BASE_DIR)
 
 import numpy as np
 import pandas as pd

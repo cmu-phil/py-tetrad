@@ -6,14 +6,19 @@
 
 import jpype.imports
 
-try:
-    jpype.startJVM(classpath=[f"resources/tetrad-current.jar"])
-except OSError:
-    print("JVM already started")
+import importlib.resources as importlib_resources
+jar_path = importlib_resources.files('pytetrad').joinpath('resources','tetrad-current.jar')
+jar_path = str(jar_path)
+if not jpype.isJVMStarted():
+    try:
+        jpype.startJVM(jpype.getDefaultJVMPath(), classpath=[jar_path])
+    except OSError:
+        print("can't load jvm")
+        pass
 
 import pandas as pd
-import tools.TetradSearch as search
-# from tools import WrappedClKci as wc
+import pytetrad.tools.TetradSearch as search
+# from pytetrad.tools import WrappedClKci as wc
 
 # data = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
 data = pd.read_csv("resources/sample_lng_data_10_2_1000.txt", sep="\t")

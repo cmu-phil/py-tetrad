@@ -1,15 +1,20 @@
 import jpype.imports
 
-try:
-    jpype.startJVM(classpath=[f"resources/tetrad-current.jar"])
-except OSError:
-    print("JVM already started")
+import importlib.resources as importlib_resources
+jar_path = importlib_resources.files('pytetrad').joinpath('resources','tetrad-current.jar')
+jar_path = str(jar_path)
+if not jpype.isJVMStarted():
+    try:
+        jpype.startJVM(jpype.getDefaultJVMPath(), classpath=[jar_path])
+    except OSError:
+        print("can't load jvm")
+        pass
 
 import pandas as pd
 import graphviz as gviz
 
-import tools.TetradSearch as search
-import tools.translate as tr
+import pytetrad.tools.TetradSearch as search
+import pytetrad.tools.translate as tr
 
 data = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
 data = data.astype({col: "float64" for col in data.columns})

@@ -5,10 +5,15 @@
 import jpype
 import jpype.imports
 
-try:
-   jpype.startJVM(classpath=[f"resources/tetrad-current.jar"])
-except OSError:
-    pass
+import importlib.resources as importlib_resources
+jar_path = importlib_resources.files('pytetrad').joinpath('resources','tetrad-current.jar')
+jar_path = str(jar_path)
+if not jpype.isJVMStarted():
+    try:
+        jpype.startJVM(jpype.getDefaultJVMPath(), classpath=[jar_path])
+    except OSError:
+        print("can't load jvm")
+        pass
 
 ## Some functions wrapping various classes in Tetrad. Feel free to just steal
 ## the relevant code for your own projects, or 'pip install' this Github directory

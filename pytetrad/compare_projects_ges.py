@@ -5,13 +5,18 @@ import time
 import jpype.imports
 from causallearn.search.ScoreBased.GES import ges
 
-try:
-    jpype.startJVM(classpath=[f"resources/tetrad-current.jar"])
-except OSError:
-    print("JVM already started")
+import importlib.resources as importlib_resources
+jar_path = importlib_resources.files('pytetrad').joinpath('resources','tetrad-current.jar')
+jar_path = str(jar_path)
+if not jpype.isJVMStarted():
+    try:
+        jpype.startJVM(jpype.getDefaultJVMPath(), classpath=[jar_path])
+    except OSError:
+        print("can't load jvm")
+        pass
 
-import tools.translate as tr
-import tools.simulate as sim
+import pytetrad.tools.translate as tr
+import pytetrad.tools.simulate as sim
 
 import edu.cmu.tetrad.search as ts
 import edu.cmu.tetrad.search.score as score
