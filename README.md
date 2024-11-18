@@ -1,13 +1,16 @@
 # NEWS
 
-One of our esteemed users has figured out how to make py-tetrad pip installable. :-D I've merged the changes into the main branch and will work to make sure they are effective for me. So for a brief time thing will be in a state of flux, but hopefully soon it will all be fixed.
+One of our esteemed users has figured out how to make py-tetrad pip installable. Thanks! I've merged the changes into the main branch.
 
-I also need to write up instructions for doing the pip install and think about backward compatibility.
+DONE:
 
-- OK, verified backward compatibility. Old projects should not break.
-- The PIP install is currently from Github; the command it:  pip install git+https://github.com/cmu-phil/py-tetrad
-- PIP install ran and did the install. Next, I need to make a sample script somewhere else that uses it.
+- Verified backward compatibility.
+- Verified on my machine that the pip install works.
+- Converted examples files over to using the pip install where feasible.
 
+TODO:
+
+ - Adjust the documentation.
 
 JR
 
