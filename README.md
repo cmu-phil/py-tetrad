@@ -6,6 +6,7 @@ I also need to write up instructions for doing the pip install and think about b
 
 - OK, verified backward compatibility. Old projects should not break.
 - PIP install ran and did the install. Next, I need to make a sample script somewhere tlese that uses it.
+- The PIP install is currently from Github; the command it:  pip install git+https://github.com/cmu-phil/py-tetrad
 
 JR
 
