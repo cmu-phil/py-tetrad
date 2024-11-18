@@ -13,3 +13,4 @@ G = tr.graph_to_matrix(G)
 # Save data to a file
 D.to_csv('../mydata.csv', index=False)
 G.to_csv('../mygraph.csv', index=False)
+j
