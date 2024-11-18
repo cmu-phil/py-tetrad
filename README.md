@@ -4,6 +4,8 @@ One of our esteemed users has figured out how to make py-tetrad pip installable.
 
 I also need to write up instructions for doing the pip install and think about backward compatibility.
 
+- OK, verified backward compatibility. Old projects should not break.
+
 JR
 
 # py-tetrad
