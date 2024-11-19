@@ -2,6 +2,7 @@
 ## pip install git+https://github.com/cmu-phil/py-tetrad
 
 import pandas as pd
+
 import pytetrad.tools.TetradSearch as ts
 
 data = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
