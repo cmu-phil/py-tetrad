@@ -1,19 +1,3 @@
-# NEWS
-
-One of our esteemed users has figured out how to make py-tetrad pip installable. Thanks! I've merged the changes into the main branch.
-
-DONE:
-
-- Verified backward compatibility.
-- Verified on my machine that the pip install works.
-- Converted examples files over to using the pip install where feasible.
-
-TODO:
-
- - Adjust the documentation.
-
-JR
-
 # py-tetrad
 
 Please visit our [Tetrad web page](https://www.cmu.edu/dietrich/philosophy/tetrad/) for current links for downloadables, a list of contributors, some history, documentation, descriptions, links for our various projects, Javadocs, and more.
