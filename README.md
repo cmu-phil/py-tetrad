@@ -18,7 +18,7 @@ We should clarify that once you see how to use JPype to run Tetrad code in Pytho
 
 2024-11-18
 
-- Added a pip install option and converted examples files to use it where feasible.
+- Added a pip install option and converted examples files to use it where feasible. There may still be some more changes to this and to the instructions for this.
 
 # Install
 
