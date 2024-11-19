@@ -1,3 +1,7 @@
+# Note
+
+These instructions are currently being revised to account for the pip install option. Please check back so see if they have changed.
+
 # py-tetrad
 
 Please visit our [Tetrad web page](https://www.cmu.edu/dietrich/philosophy/tetrad/) for current links for downloadables, a list of contributors, some history, documentation, descriptions, links for our various projects, Javadocs, and more.
