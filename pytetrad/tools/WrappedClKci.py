@@ -76,6 +76,10 @@ class KciWrapper:
         S = [self.reverse_variable_map[si] for si in s]
 
         pValue = self.kci_obj(X, Y, S)
+
+        # print("p = " + pValue)
+        print("Found " + str(pValue) + " for " + str(x) + " and " + str(y) + " given " + str(s))
+
         indep = pValue > self.alpha
 
         result = tt.IndependenceResult(fact, indep, pValue, self.alpha - pValue)

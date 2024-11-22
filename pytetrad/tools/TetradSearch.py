@@ -3,14 +3,13 @@
 ## and the outputs are endpoint-matrix-formatted graphs, also data frames. (In a
 ## future version, we may allow the outputs to be given other formats.)
 
-import os
+import importlib.resources as importlib_resources
 
 import jpype.imports
 
 # print('cwd = ', os.getcwd())
 
-import importlib.resources as importlib_resources
-jar_path = importlib_resources.files('pytetrad').joinpath('resources','tetrad-current.jar')
+jar_path = importlib_resources.files('pytetrad').joinpath('resources', 'tetrad-current.jar')
 jar_path = str(jar_path)
 if not jpype.isJVMStarted():
     try:
@@ -119,7 +118,7 @@ class TetradSearch:
         self.TEST = test
 
     # cell table type is 1 = AD Tree, 2 = Count Sample. (Optimization.)
-    def use_chi_square(self, min_count=1, alpha=0.01, cell_table_type = 1):
+    def use_chi_square(self, min_count=1, alpha=0.01, cell_table_type=1):
         print(self.data.isDiscrete())
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.MIN_COUNT_PER_CELL, min_count)
@@ -127,7 +126,7 @@ class TetradSearch:
         self.TEST = ind_.ChiSquare()
 
     # cell table type is 1 = AD Tree, 2 = Count Sample. (Optimization)
-    def use_g_square(self, min_count=1, alpha=0.01, cell_table_type = 1):
+    def use_g_square(self, min_count=1, alpha=0.01, cell_table_type=1):
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.MIN_COUNT_PER_CELL, min_count)
         self.params.set(Params.CELL_TABLE_TYPE, cell_table_type)
@@ -151,7 +150,7 @@ class TetradSearch:
 
     def use_kci(self, alpha=0.01, approximate=True, width_multipler=1, num_bootstraps=5000, threshold=0.001,
                 epsilon=0.001):
-        self.params.set(Params.KCI_USE_APPROMATION, approximate)
+        self.params.set(Params.KCI_USE_APPROXIMATION, approximate)
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.KERNEL_MULTIPLIER, width_multipler)
         self.params.set(Params.KCI_NUM_BOOTSTRAPS, num_bootstraps)
@@ -327,12 +326,12 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_pcmax(self, conflict_rule=1, depth=-1, use_heuristic=True,max_disc_path_length=-1,
+    def run_pcmax(self, conflict_rule=1, depth=-1, use_heuristic=True, max_disc_path_length=-1,
                   stable_fas=True):
         self.params.set(Params.CONFLICT_RULE, conflict_rule)
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.USE_MAX_P_ORIENTATION_HEURISTIC, use_heuristic)
-        self.params.set(Params.MAX_P_ORIENTATION_MAX_PATH_LENGTH,max_disc_path_length)
+        self.params.set(Params.MAX_P_ORIENTATION_MAX_PATH_LENGTH, max_disc_path_length)
         self.params.set(Params.STABLE_FAS, stable_fas)
 
         alg = cpdag.PcMax(self.TEST)
@@ -341,11 +340,11 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_fci(self, depth=-1, stable_fas=True,max_disc_path_length=-1, complete_rule_set_used=True,
+    def run_fci(self, depth=-1, stable_fas=True, max_disc_path_length=-1, complete_rule_set_used=True,
                 guarantee_pag=False):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.STABLE_FAS, stable_fas)
-        self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH,max_disc_path_length)
+        self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
         self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
 
@@ -355,10 +354,10 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_rfci(self, depth=-1, stable_fas=True,max_disc_path_length=-1, complete_rule_set_used=True,):
+    def run_rfci(self, depth=-1, stable_fas=True, max_disc_path_length=-1, complete_rule_set_used=True, ):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.STABLE_FAS, stable_fas)
-        self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH,max_disc_path_length)
+        self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
 
         alg = pag.Rfci(self.TEST)
@@ -367,9 +366,9 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_cfci(self, depth=-1,max_disc_path_length=-1, complete_rule_set_used=True):
+    def run_cfci(self, depth=-1, max_disc_path_length=-1, complete_rule_set_used=True):
         self.params.set(Params.DEPTH, depth)
-        self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH,max_disc_path_length)
+        self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
 
         alg = pag.Cfci(self.TEST)
@@ -378,12 +377,12 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_gfci(self, depth=-1, max_degree=-1,max_disc_path_length=-1, complete_rule_set_used=True,
+    def run_gfci(self, depth=-1, max_degree=-1, max_disc_path_length=-1, complete_rule_set_used=True,
                  guarantee_pag=False):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.MAX_DEGREE, max_degree)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used),
-        self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH,max_disc_path_length)
+        self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
         self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
 
         alg = pag.Gfci(self.TEST, self.SCORE)
@@ -392,11 +391,11 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_bfci(self, depth=-1,max_disc_path_length=-1, complete_rule_set_used=True,
+    def run_bfci(self, depth=-1, max_disc_path_length=-1, complete_rule_set_used=True,
                  guarantee_pag=False):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used),
-        self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH,max_disc_path_length)
+        self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
         self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
 
         alg = pag.Bfci(self.TEST, self.SCORE)
@@ -405,7 +404,7 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_lv_lite(self, num_starts=1, max_blocking_path_length=5, depth=5,max_disc_path_length=5,
+    def run_lv_lite(self, num_starts=1, max_blocking_path_length=5, depth=5, max_disc_path_length=5,
                     guarantee_pag=True):
 
         # BOSS
@@ -429,7 +428,7 @@ class TetradSearch:
                       covered_depth=4, singular_depth=1,
                       nonsingular_depth=1, ordered_alg=False,
                       raskutti_uhler=False, use_data_order=True,
-                      num_starts=1, guarantee_pag = False):
+                      num_starts=1, guarantee_pag=False):
         # GRaSP
         self.params.set(Params.GRASP_DEPTH, covered_depth)
         self.params.set(Params.GRASP_SINGULAR_DEPTH, singular_depth)
@@ -454,7 +453,7 @@ class TetradSearch:
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_spfci(self, max_disc_path_length=-1, complete_rule_set_used=True, depth=-1,
-                  guarantee_pag = False):
+                  guarantee_pag=False):
         self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
         self.params.set(Params.DEPTH, depth)
@@ -751,8 +750,8 @@ class TetradSearch:
         mc = ts.MarkovCheck(graph, test, condition_set_type)
         mc.setPercentResample(percent_resample)
         mc.setFindSmallestSubset(removeExtraneous)
-        mc.generateResults(True)
         mc.setParallelized(parallelized)
+        mc.generateResults(True)
 
         # Set sample size if specified
         if sample_size != -1:
