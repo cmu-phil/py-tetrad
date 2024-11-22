@@ -69,8 +69,6 @@ def run_tetrad_pc_using_tetrad_kci():
     print("Time taken", end_time - start_time)
 
 
-# run_cl_pc_using_cl_kci()
-# run_tetrad_pc_using_cl_kci()
-
-# Way too slow; need to optimize this.
+run_cl_pc_using_cl_kci()
+run_tetrad_pc_using_cl_kci()
 run_tetrad_pc_using_tetrad_kci()
