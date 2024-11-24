@@ -158,6 +158,16 @@ class TetradSearch:
         self.params.set(Params.KCI_EPSILON, epsilon)
         self.TEST = ind_.Kci()
 
+    def use_cci(self, alpha=0.01, num_basis_function=10, kernel_type=2, kernel_multipler=1, basis_type=1, kernal_regr_sample_size=100):
+        self.params.set(Params.ALPHA, alpha)
+        self.params.set(Params.NUM_BASIS_FUNCTIONS, num_basis_function)
+        self.params.set(Params.KERNEL_TYPE, kernel_type)
+        self.params.set(Params.KERNEL_MULTIPLIER, kernel_multipler)
+        self.params.set(Params.BASIS_TYPE, basis_type)
+        self.params.set(Params.KERNEL_REGRESSION_SAMPLE_SIZE, kernal_regr_sample_size)
+
+        self.TEST = ind_.IndTestConditionalCorrelation()
+
     def add_to_tier(self, tier, var_name):
         self.knowledge.addToTier(lang.Integer(tier), lang.String(var_name))
 
