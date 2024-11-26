@@ -763,16 +763,31 @@ class TetradSearch:
         mc.setParallelized(parallelized)
         mc.generateResults(True)
 
+        self.mc_ind_results = mc.getResults(True)
+
         # Set sample size if specified
         if sample_size != -1:
             mc.setSampleSize(sample_size)
 
         ad_ind = mc.getAndersonDarlingP(True)
         ad_dep = mc.getAndersonDarlingP(False)
+        ks_ind = mc.getKsPValue(True)
+        ks_dep = mc.getKsPValue(False)
         bin_indep = mc.getBinomialPValue(True)
         bin_dep = mc.getBinomialPValue(False)
         frac_dep_ind = mc.getFractionDependent(True)
         frac_dep_dep = mc.getFractionDependent(False)
         num_tests_ind = mc.getNumTests(True)
         num_tests_dep = mc.getNumTests(False)
-        return ad_ind, ad_dep, bin_indep, bin_dep, frac_dep_ind, frac_dep_dep, num_tests_ind, num_tests_dep, mc
+        return (ad_ind, ad_dep, ks_ind, ks_dep, bin_indep, bin_dep, frac_dep_ind, frac_dep_dep, num_tests_ind,
+                num_tests_dep, mc)
+
+    def get_mc_ind_pvalues(self):
+        pvalues = []
+        results = self.mc_ind_results
+
+        for i in range(results.size()):
+            r = results.get(i)
+            pvalues.append(r.getPValue())
+
+        return pvalues
