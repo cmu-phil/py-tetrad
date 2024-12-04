@@ -44,6 +44,26 @@ import edu.cmu.tetrad.util as util
 import edu.cmu.tetrad.algcomparison.independence as agind
 import java.util as ju
 
+# This is the wrapper for the KCI test from causal-learn. It implements the IndependenceTest interface in Tetrad.
+# The KCI test is a kernel-based independence test that can be used in Tetrad.
+#
+# The following parameters can be passed to the KCI test:
+#
+#         kernelX: kernel function for input data x
+#             'Gaussian': Gaussian kernel
+#             'Polynomial': Polynomial kernel
+#             'Linear': Linear kernel
+#         kernelY: kernel function for input data y
+#         est_width: set kernel width for Gaussian kernels
+#             'empirical': set kernel width using empirical rules
+#             'median': set kernel width using the median trick
+#             'manual': set by users
+#         null_ss: sample size in simulating the null distribution
+#         approx: whether to use gamma approximation (default=True)
+#         polyd: polynomial kernel degrees (default=1)
+#         kwidthx: kernel width for data x (standard deviation sigma)
+#         kwidthy: kernel width for data y (standard deviation sigma)
+#
 @JImplements(ts.IndependenceTest)
 class KciWrapper:
     def __init__(self, df, alpha=0.01, **kwargs):
