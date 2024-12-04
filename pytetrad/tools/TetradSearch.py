@@ -108,7 +108,7 @@ class TetradSearch:
         self.params.set(Params.STRUCTURE_PRIOR, structure_prior)
         self.SCORE = score_.DegenerateGaussianBicScore()
 
-    def use_basis_function_score(self, truncation_limit=3, basis_type=4, basis_scale=0.0, precompute_covariances=True,
+    def use_basis_function_score(self, truncation_limit=3, basis_type=4, basis_scale=1, precompute_covariances=True,
                                  penalty_discount=2):
         self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
         self.params.set(Params.BASIS_TYPE, basis_type)
@@ -169,12 +169,12 @@ class TetradSearch:
 
         self.TEST = ind_.Kci()
 
-    def use_cci(self, alpha=0.01, scaling_factor=2, num_basis_functions=3, basis_type=4, basisScale = 0.0):
+    def use_cci(self, alpha=0.01, scaling_factor=2, num_basis_functions=3, basis_type=4, basis_scale = 0.0):
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.SCALING_FACTOR, scaling_factor)
         self.params.set(Params.NUM_BASIS_FUNCTIONS, num_basis_functions)
         self.params.set(Params.BASIS_TYPE, basis_type)
-        self.params.set(Params.BASIS_SCALE, basisScale)
+        self.params.set(Params.BASIS_SCALE, basis_scale)
 
         self.TEST = ind_.CciTest()
 

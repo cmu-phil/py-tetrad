@@ -59,7 +59,7 @@ def run_tetrad_pc_using_tetrad_kci():
     test1 = tt.Kci(tr.pandas_data_to_tetrad(df), alpha_)
     test1.setApproximate(True)
     pc = ts.Pc(test1)
-    pc.setVerbose(False)
+    pc.setVerbose(True)
     pc.setStable(True)
     pc.setDepth(3)
     graph = pc.search()
@@ -69,6 +69,6 @@ def run_tetrad_pc_using_tetrad_kci():
     print("Time taken", end_time - start_time)
 
 
-run_cl_pc_using_cl_kci()
-run_tetrad_pc_using_cl_kci()
+# run_cl_pc_using_cl_kci()
+# run_tetrad_pc_using_cl_kci()
 run_tetrad_pc_using_tetrad_kci()
