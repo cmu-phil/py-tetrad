@@ -108,6 +108,16 @@ class TetradSearch:
         self.params.set(Params.STRUCTURE_PRIOR, structure_prior)
         self.SCORE = score_.DegenerateGaussianBicScore()
 
+    def use_basis_function_score(self, truncation_limit=3, basis_type=4, basis_scale=0.0, precompute_covariances=True,
+                                 penalty_discount=2):
+        self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
+        self.params.set(Params.BASIS_TYPE, basis_type)
+        self.params.set(Params.BASIS_SCALE, basis_scale)
+        self.params.set(Params.PRECOMPUTE_COVARIANCES, precompute_covariances)
+        self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
+
+        self.SCORE = score_.DegenerateGaussianBicScore()
+
     def use_fisher_z(self, alpha=0.01, use_pseudoinverse=False):
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.USE_PSEUDOINVERSE, use_pseudoinverse)
@@ -158,10 +168,13 @@ class TetradSearch:
         self.params.set(Params.KCI_EPSILON, epsilon)
         self.TEST = ind_.Kci()
 
-    def use_cci(self, alpha=0.01, num_basis_functions=4, bandwidth=2):
+    def use_cci(self, alpha=0.01, scaling_factor=2, num_basis_functions=3, basis_type=4, basisScale = 0.0):
         self.params.set(Params.ALPHA, alpha)
+        self.params.set(Params.SCALING_FACTOR, scaling_factor)
         self.params.set(Params.NUM_BASIS_FUNCTIONS, num_basis_functions)
-        self.params.set(Params.BANDWIDTH, bandwidth)
+        self.params.set(Params.BASIS_TYPE, basis_type)
+        self.params.set(Params.BASIS_SCALE, basisScale)
+
         self.TEST = ind_.CciTest()
 
     def add_to_tier(self, tier, var_name):
