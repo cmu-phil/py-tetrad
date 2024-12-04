@@ -46,11 +46,11 @@ import java.util as ju
 
 @JImplements(ts.IndependenceTest)
 class KciWrapper:
-    def __init__(self, df, alpha=0.01):
+    def __init__(self, df, alpha=0.01, **kwargs):
         self.df = df
         self.data = df.values
         self.alpha = alpha
-        self.kci_obj = CIT(self.data, "kci")
+        self.kci_obj = CIT(self.data, "kci", **kwargs)
 
         self.variables = ju.ArrayList()
         self.variable_map = {}
@@ -112,13 +112,14 @@ class KciWrapper:
 
 @JImplements(agind.IndependenceWrapper)
 class WrappedClKci:
-    def __init__(self, df, alpha=0.01):
+    def __init__(self, df, alpha=0.01, **kwargs):
         self.df = df
         self.alpha = alpha
+        self.kwargs = kwargs
 
     @JOverride
     def getTest(self, *args):
-        return KciWrapper(self.df, alpha=self.alpha)
+        return KciWrapper(self.df, **self.kwargs)
 
     @JOverride
     def getDescription(self):
