@@ -158,14 +158,17 @@ class TetradSearch:
         self.params.set(Params.PRIOR_EQUIVALENT_SAMPLE_SIZE, prior_ess)
         self.TEST = ind_.ProbabilisticTest()
 
-    def use_kci(self, alpha=0.01, approximate=True, scaling_factor=1, num_bootstraps=5000, threshold=0.001,
-                epsilon=0.001):
+    def use_kci(self, alpha=0.01, approximate=True, scaling_factor=1, num_bootstraps=5000, threshold=1e-3,
+                epsilon=1e-3, kernel_type=1, polyd=5, polyc=1):
         self.params.set(Params.KCI_USE_APPROXIMATION, approximate)
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.SCALING_FACTOR, scaling_factor)
         self.params.set(Params.KCI_NUM_BOOTSTRAPS, num_bootstraps)
         self.params.set(Params.THRESHOLD_FOR_NUM_EIGENVALUES, threshold)
         self.params.set(Params.KCI_EPSILON, epsilon)
+        self.params.set(Params.KERNEL_TYPE, kernel_type)
+        self.params.set(Params.POLYNOMIAL_DEGREE, polyd)
+        self.params.set(Params.POLYNOMIAL_CONSTANT, polyc)
 
         self.TEST = ind_.Kci()
 
