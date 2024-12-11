@@ -1,7 +1,7 @@
 # This script assumes that the user has pip-installed the pytetrad package. Here is now:
 ## pip install git+https://github.com/cmu-phil/py-tetrad
 
-# This script run PC using a general score in various ways: (1) using causal-learn's KCI in Tetrad,
+# This script runs PC using a general score in various ways: (1) using causal-learn's KCI in Tetrad,
 # (2) using causal-learn's KCI in causal-learn, and (3) using Tetrad's KCI in Tetrad.
 
 import time
