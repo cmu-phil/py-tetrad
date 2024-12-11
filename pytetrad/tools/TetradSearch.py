@@ -304,6 +304,7 @@ class TetradSearch:
         alg = cpdag.Sp(self.SCORE)
         alg.setKnowledge(self.knowledge)
         self.java = alg.search(self.data, self.params)
+        alg.setKnowledge(self.knowledge)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_grasp(self, covered_depth=4, singular_depth=1,
@@ -522,6 +523,7 @@ class TetradSearch:
         self.params.set(Params.SKEW_EDGE_THRESHOLD, skew_edge_threshold)
 
         alg = dag.Fask(self.SCORE)
+        alg.setKnowledge(self.knowledge)
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
