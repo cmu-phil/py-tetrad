@@ -23,6 +23,10 @@ except ImportError as e:
 
 # Set the alpha level for the independence tests
 alpha_ = 0.01
+approx = False
+nullss = 5000
+kernel = 'Gaussian'
+polyd = 2
 
 # Grab the airfoil data (a small problem with just 6 variables)
 df = pd.read_csv(f"resources/airfoil-self-noise.continuous.txt", sep="\t")
@@ -30,16 +34,27 @@ df = df.sample(800, replace=True)  # bootstrap sample.
 df = df.astype({col: "float64" for col in df.columns})
 
 
-# Run Tetrad's PC using causal-learn's KCI
+# Run CL's PC using CL's KCI
+def run_cl_pc_using_cl_kci():
+    start_time = time.time()
+    cg = pc(df.values, alpha_, kci, node_names=df.columns, kernelX=kernel, kernelY=kernel, nullss=nullss,
+            approx=approx, est_width='median', polyd=polyd)
+    end_time = time.time()
+
+    print("\nCL PC with CL's KCI", cg.G)
+    print("Time taken", end_time - start_time)
+
+# Run Tetrad's PC using causal-learn's KCI.
 # For this we'll need to wrap causal-learn's KCI in a JPype object so that
 # Tetrad can use it.
+# We need to use the non-stable version of PC to avoid parallelization.
 def run_tetrad_pc_using_cl_kci():
     start_time = time.time()
-    test1 = wc.KciWrapper(df, alpha=alpha_) #, kernelX='Polynomial', kernelY='Polynomial', nullss=5000,
-                          # approx=True, est_wi#dth='median', polyd=2)
+    test1 = wc.KciWrapper(df, alpha=alpha_, kernelX=kernel, kernelY=kernel, nullss=nullss,
+                          approx=approx, est_width='median', polyd=polyd)
     pc = ts.Pc(test1)
     pc.setVerbose(False)
-    # pc.setStable(False)
+    pc.setStable(False)
     graph = pc.search()
     end_time = time.time()
 
@@ -47,24 +62,24 @@ def run_tetrad_pc_using_cl_kci():
     print("Time taken", end_time - start_time)
 
 
-# Run CL's PC using CL's KCI
-def run_cl_pc_using_cl_kci():
-    start_time = time.time()
-    cg = pc(df.values, alpha_, kci, node_names=df.columns, kernelX='Polynomial', kernelY='Polynomial', nullss=5000,
-            approx=True, est_width='median', polyd=2)
-    end_time = time.time()
-
-    print("\nCL PC with CL's KCI", cg.G)
-    print("Time taken", end_time - start_time)
-
-
 # Run Tetrad's PC using Tetrad's KCI
 def run_tetrad_pc_using_tetrad_kci():
     start_time = time.time()
     test1 = tt.Kci(tr.pandas_data_to_tetrad(df), alpha_)
-    test1.setApproximate(True)
-    test1.setKernelType(tt.Kci.KernelType.POLYNOMIAL)
-    test1.setPolyDegree(2)
+    test1.setApproximate(approx)
+
+    if kernel == 'Gaussian':
+        test1.setKernelType(tt.Kci.KernelType.GAUSSIAN)
+        test1.setScalingFactor(1)
+    elif kernel == 'Linear':
+        test1.setKernelType(tt.Kci.KernelType.LINEAR)
+    elif kernel == 'Polynomial':
+        test1.setKernelType(tt.Kci.KernelType.POLYNOMIAL)
+        test1.setPolyDegree(polyd)
+    else:
+        raise ValueError(f"Unknown kernel type: {kernel}")
+
+    test1.setNumBootstraps(nullss)
     pc = ts.Pc(test1)
     pc.setVerbose(True)
     pc.setStable(True)
@@ -76,6 +91,6 @@ def run_tetrad_pc_using_tetrad_kci():
     print("Time taken", end_time - start_time)
 
 
-# run_cl_pc_using_cl_kci()
+run_cl_pc_using_cl_kci()
 run_tetrad_pc_using_cl_kci()
-# run_tetrad_pc_using_tetrad_kci()
+run_tetrad_pc_using_tetrad_kci()
