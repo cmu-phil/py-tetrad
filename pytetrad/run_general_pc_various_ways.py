@@ -22,14 +22,15 @@ except ImportError as e:
     print('Could not import a causal-learn module: ', e)
 
 # Set the alpha level for the independence tests
-alpha_ = 0.01
-approx = False
+alpha_ = 0.05
+approx = True
 nullss = 5000
-kernel = 'Gaussian'
+kernel = 'Linear'
 polyd = 2
 
 # Grab the airfoil data (a small problem with just 6 variables)
 df = pd.read_csv(f"resources/airfoil-self-noise.continuous.txt", sep="\t")
+# df = pd.read_csv(f"resources/diabetes.data.d.txt", sep="\t")
 df = df.sample(800, replace=True)  # bootstrap sample.
 df = df.astype({col: "float64" for col in df.columns})
 
@@ -58,7 +59,7 @@ def run_tetrad_pc_using_cl_kci():
     graph = pc.search()
     end_time = time.time()
 
-    print("\nTetrad PC w/ JPype wrapper of causal-learn's KCI", graph)
+    print("Tetrad PC w/ JPype wrapper of causal-learn's KCI", graph)
     print("Time taken", end_time - start_time)
 
 
@@ -70,7 +71,7 @@ def run_tetrad_pc_using_tetrad_kci():
 
     if kernel == 'Gaussian':
         test1.setKernelType(tt.Kci.KernelType.GAUSSIAN)
-        test1.setScalingFactor(1)
+        test1.setScalingFactor(.5)
     elif kernel == 'Linear':
         test1.setKernelType(tt.Kci.KernelType.LINEAR)
     elif kernel == 'Polynomial':
@@ -87,10 +88,10 @@ def run_tetrad_pc_using_tetrad_kci():
     graph = pc.search()
     end_time = time.time()
 
-    print("\nTetrad PC with Tetrad's KCI", graph)
+    print("Tetrad PC with Tetrad's KCI", graph)
     print("Time taken", end_time - start_time)
 
 
-run_cl_pc_using_cl_kci()
-run_tetrad_pc_using_cl_kci()
+# run_cl_pc_using_cl_kci()
+# run_tetrad_pc_using_cl_kci()
 run_tetrad_pc_using_tetrad_kci()
