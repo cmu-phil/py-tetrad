@@ -763,7 +763,7 @@ class TetradSearch:
 
         return facts
 
-    def markov_check(self, graph, percent_resample=0.5, condition_set_type=ts.ConditioningSetType.LOCAL_MARKOV,
+    def markov_check(self, graph, percent_resample=1, condition_set_type=ts.ConditioningSetType.ORDERED_LOCAL_MARKOV,
                      removeExtraneous=False, parallelized=True, sample_size=-1):
         test = self.TEST.getTest(self.data, self.params)
         mc = ts.MarkovCheck(graph, test, condition_set_type)
