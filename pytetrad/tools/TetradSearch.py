@@ -537,11 +537,12 @@ class TetradSearch:
         Parameters:
             alpha (float): Significance level for statistical tests. Default is 0.01.
             penalty_discount (float): Penalty discount for score-based methods. Default is 2.0.
-            use_wishart (bool): Whether to use the Wishart distribution. Default is False.
+            use_wishart (bool): Whether to use the Wishart test. Default is False (= use the Delta test).
             significance_checked (bool): Whether to check significance during the search. Default is False.
-            use_gap (bool): Whether to use a gap penalty. Default is False.
+            use_gap (bool): Whether to use a gap penalty. Default is False (= use the sag algorithm).
             include_structure_model (bool): Whether to include the structure model. Default is True.
             check_type (int): Type of checks to perform (e.g., independence tests). Default is 1.
+                1 = Check significance, 2 = Check cliques, 3 = No checks.
             precompute_covariances (bool): Whether to precompute covariances for efficiency. Default is True.
 
         Notes:
@@ -571,7 +572,6 @@ class TetradSearch:
 
         # Run the search algorithm using the data and specified parameters
         self.java = alg.search(self.data, self.params)
-
 
     ## Returns the unstable b-hats from the ICA-LiNG-D algorithm as a list of numpy arrays.
     def get_unstable_bhats(self):
