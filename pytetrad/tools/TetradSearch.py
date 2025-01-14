@@ -28,6 +28,7 @@ import java.util as util
 import edu.cmu.tetrad.algcomparison.algorithm.oracle.cpdag as cpdag
 import edu.cmu.tetrad.algcomparison.algorithm.oracle.pag as pag
 import edu.cmu.tetrad.algcomparison.algorithm.continuous.dag as dag
+import edu.cmu.tetrad.algcomparison.algorithm.cluster as cluster
 import edu.cmu.tetrad.algcomparison.score as score_
 import edu.cmu.tetrad.algcomparison.independence as ind_
 import edu.cmu.tetrad.search.utils as search_utils
@@ -526,6 +527,51 @@ class TetradSearch:
         alg.setKnowledge(self.knowledge)
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
+
+    def run_fofc(self, alpha=0.01, penalty_discount=2.0, use_wishart=False,
+                 significance_checked=False, use_gap=False, include_structure_model=True,
+                 check_type=1, precompute_covariances=True):
+        """
+        Runs the FOFC (Find One Factor Clusters) algorithm with specified parameters.
+
+        Parameters:
+            alpha (float): Significance level for statistical tests. Default is 0.01.
+            penalty_discount (float): Penalty discount for score-based methods. Default is 2.0.
+            use_wishart (bool): Whether to use the Wishart distribution. Default is False.
+            significance_checked (bool): Whether to check significance during the search. Default is False.
+            use_gap (bool): Whether to use a gap penalty. Default is False.
+            include_structure_model (bool): Whether to include the structure model. Default is True.
+            check_type (int): Type of checks to perform (e.g., independence tests). Default is 1.
+            precompute_covariances (bool): Whether to precompute covariances for efficiency. Default is True.
+
+        Notes:
+            The parameter settings below correspond to a successful run in Tetrad:
+            - alpha = 0.01
+            - penaltyDiscount = 2.0
+            - useWishart = False
+            - significanceChecked = False
+            - useGap = False
+            - includeStructureModel = True
+            - checkType = 1
+            - precomputeCovariances = True
+        """
+
+        # Set algorithm parameters in the Params object
+        self.params.set(Params.ALPHA, alpha)
+        self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
+        self.params.set(Params.USE_WISHART, use_wishart)
+        self.params.set(Params.SIGNIFICANCE_CHECKED, significance_checked)
+        self.params.set(Params.USE_GAP, use_gap)
+        self.params.set(Params.INCLUDE_STRUCTURE_MODEL, include_structure_model)
+        self.params.set(Params.CHECK_TYPE, check_type)
+        self.params.set(Params.PRECOMPUTE_COVARIANCES, precompute_covariances)
+
+        # Initialize the FOFC clustering algorithm
+        alg = cluster.Fofc()
+
+        # Run the search algorithm using the data and specified parameters
+        self.java = alg.search(self.data, self.params)
+
 
     ## Returns the unstable b-hats from the ICA-LiNG-D algorithm as a list of numpy arrays.
     def get_unstable_bhats(self):
