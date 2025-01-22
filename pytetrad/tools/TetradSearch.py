@@ -39,7 +39,33 @@ from edu.cmu.tetrad.util import Params, Parameters
 
 
 class TetradSearch:
+    """
+    Represents a wrapper for Tetrad search algorithms, providing functionality to
+    set various scoring and independence testing methods, manage parameters, and
+    establish prior knowledge for causal inference.
 
+    This class serves as an interface to the Tetrad library, which is used for
+    causal discovery and structure learning. It offers methods to configure
+    various scoring criteria, independence tests, and prior knowledge constraints
+    to be applied during causal structure search. The `TetradSearch` class is
+    initialized with the dataset and allows users to execute different scoring and
+    independence testing setups using the underlying Tetrad Java library.
+
+    :ivar data: Transformed dataset compatible with Tetrad.
+    :type data: Any
+    :ivar score: An instance of the current scoring method being used.
+    :type score: Any, optional
+    :ivar test: An instance of the current independence test.
+    :type test: Any, optional
+    :ivar java: Reference to the underlying Java-based Tetrad object.
+    :type java: Any, optional
+    :ivar knowledge: Prior knowledge constraints represented in a Tetrad-compatible format.
+    :type knowledge: edu.cmu.tetrad.util.knowledge.Knowledge, optional
+    :ivar params: Parameters for the scoring and test methods.
+    :type params: Parameters
+    :ivar bootstrap_graphs: Bootstrapped graphs generated during the process.
+    :type bootstrap_graphs: Any, optional
+    """
     def __init__(self, data):
         self.data = tr.pandas_data_to_tetrad(data)
         self.score = None
