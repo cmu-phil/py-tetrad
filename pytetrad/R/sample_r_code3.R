@@ -22,7 +22,7 @@ library(reticulate)
 
 ## It's best to change hyphens and periods in variable names to underscores
 ## for reading data into R.
-data <- read.csv("resources/bridges.data.version211_rev.txt", colClasses = "character", sep="\t", header=TRUE)
+data <- read.csv("pytetrad/resources/bridges.data.version211_rev.txt", colClasses = "character", sep="\t", header=TRUE)
 
 # ## The read.table function will read decimal columns as real ('numeric')
 # ## and integer columns as discrete. When passing data from R into Python,
@@ -33,7 +33,7 @@ data <- read.csv("resources/bridges.data.version211_rev.txt", colClasses = "char
 # data[ , i] <- apply(data[ , i], 2, function(x) as.integer(x))
 
 ## Make a TetradSearch object.
-source_python("tools/TetradSearch.py")
+source_python("pytetrad/tools/TetradSearch.py")
 ts <- TetradSearch(data)
 
 ts$use_bdeu()

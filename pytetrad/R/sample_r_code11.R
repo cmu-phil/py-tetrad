@@ -39,7 +39,7 @@ print(project_root)
 ## Install the version of Java I want locally. Set the JAVA_HOME environment
 ## variables for it so rJava will know to use it.
 
-source("R/my_functions.R")
+source("pytetrad/R/my_functions.R")
 
 java_home <- install_local_java(java_dir = "~/local/java/jdk-21.0.12.jdk")
 set_java_home(java_home)
@@ -50,7 +50,7 @@ if (!requireNamespace("rJava", quietly = TRUE)) {
 library(rJava)
 
 .jinit()
-.jaddClassPath("resources/tetrad-current.jar")
+.jaddClassPath("pytetrad/resources/tetrad-current.jar")
 
 print('java version')
 java_version <- .jcall("java/lang/System", "S", "getProperty", "java.version")
@@ -58,8 +58,8 @@ java_version
 
 ## Make some continuous data.
 
-# data <- read.table("resources/airfoil-self-noise.continuous.txt", header=TRUE)
-data <- read.table("resources/example_sim_100-6-1000.txt", header=TRUE)
+# data <- read.table("pytetrad/resources/airfoil-self-noise.continuous.txt", header=TRUE)
+data <- read.table("pytetrad/resources/example_sim_100-6-1000.txt", header=TRUE)
 
 ## The read.table function will read decimal columns as real ('numeric')
 ## and integer columns as discrete. When passing data from R into Python,

@@ -18,7 +18,7 @@ setwd(project_root)
 
 library(reticulate)
 
-data <- read.table("resources/airfoil-self-noise.continuous.txt", header=TRUE)
+data <- read.table("pytetrad/resources/airfoil-self-noise.continuous.txt", header=TRUE)
 
 ## The read.table function will read decimal columns as real ('numeric')
 ## and integer columns as discrete. When passing data from R into Python,
@@ -29,7 +29,7 @@ i <- c(1, 6)
 data[ , i] <- apply(data[ , i], 2, function(x) as.numeric(x))
 
 ## Make a TetradSearch object.
-source_python("tools/TetradSearch.py")
+source_python("pytetrad/tools/TetradSearch.py")
 ts <- TetradSearch(data)
 
 ## Set some knowledge--we know pressure should be the endogenous variable

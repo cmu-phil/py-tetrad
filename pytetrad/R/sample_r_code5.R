@@ -19,11 +19,11 @@ library(reticulate)
 
 ## This in example of linear, Gaussian data with 100 nodes, average degree 6,
 ## N = 1000
-data <- read.table("resources/example_sim_100-6-1000.txt", 
+data <- read.table("pytetrad/resources/example_sim_100-6-1000.txt", 
                    header=TRUE)
 
 ## Make a TetradSearch object.
-source_python("tools/TetradSearch.py")
+source_python("pytetrad/tools/TetradSearch.py")
 ts <- TetradSearch(data)
 
 ## Use the SEM BIC score.

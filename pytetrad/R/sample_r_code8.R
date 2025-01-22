@@ -16,7 +16,7 @@ install.packages(DiagrammeR)
 
 library(reticulate)
 
-data <- read.table("resources/airfoil-self-noise.continuous.txt",
+data <- read.table("pytetrad/resources/airfoil-self-noise.continuous.txt",
                    header=TRUE)
 i <- c(1, 6)
 data[ , i] <- apply(data[ , i], 2, function(x) as.numeric(x))
@@ -24,7 +24,7 @@ data[ , i] <- apply(data[ , i], 2, function(x) as.numeric(x))
 library(psych)
 pairs.panels(data, method = "pearson")
 
-source_python("tools/TetradSearch.py")
+source_python("pytetrad/tools/TetradSearch.py")
 ts <- TetradSearch(data)
 
 ts$add_to_tier(1, "Attack")

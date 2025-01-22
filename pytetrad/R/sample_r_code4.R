@@ -18,7 +18,7 @@ setwd(project_root)
 
 library(reticulate)
 
-data <- read.table("resources/auto-mpg.data.mixed.max.3.categories.txt", header=TRUE)
+data <- read.table("pytetrad/resources/auto-mpg.data.mixed.max.3.categories.txt", header=TRUE)
 
 data
 
@@ -33,7 +33,7 @@ i <- c(1, 7)
 data[ , i] <- apply(data[ , i], 2, function(x) as.numeric(x))
 
 ## Make a TetradSearch object.
-source_python("tools/TetradSearch.py")
+source_python("pytetrad/tools/TetradSearch.py")
 ts <- TetradSearch(data)
 
 ## Use the SEM BIC score.

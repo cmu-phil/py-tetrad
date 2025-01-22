@@ -30,7 +30,7 @@ setwd(project_root)
 print(project_root)
 
 library(reticulate)
-source_python("run_continuous.py")
+source_python("pytetrad/run_continuous.py")
 tr <- import("tools.translate")
 
 ## All of the variables in this file appear in the R environment and can be
