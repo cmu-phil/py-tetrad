@@ -1,6 +1,3 @@
-## THIS SCRIPT IS NOT FULLY TESTED (IT HAS ONLY BEEN TESTED ON ONE MAC
-## LAPTOP). USE AT YOUR OWN RISK. IF YOU USE IT AND HAVE COMMENTS, PLEASE
-## LET US KNOW.
 
 # Function to create a Python virtual environment and install necessary packages
 create_python_env <- function(envname = "myenv") {
