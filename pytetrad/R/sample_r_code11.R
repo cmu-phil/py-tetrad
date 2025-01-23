@@ -9,19 +9,8 @@
 ## returning a Graph. This graph is then converted into .dot format and
 ## displayed.
 ##
-## THIS SCRIPT IS NOT FULLY TESTED (IT HAS ONLY BEEN TESTED ON ONE MAC
-## LAPTOP). USE AT YOUR OWN RISK. IF YOU USE IT AND HAVE COMMENTS, PLEASE
-## LET US KNOW.
-##
-## We may use this script to revive the old r-causal package to run Tetrad
-## searches in parallel to rpy-tetrad but without reference to Python.
-## rJava appears to be WAY more verbose than JPype, but for R users, the
-## ability to install and run Tetrad algorithms without having to install
-## Python or explicitly installing Java may be attractive, so we will try.
-## Fortunately, once I get the hang of it it's not so bad.
-##
 ## jdramsey 2024-8-20
-
+##
 ## For purposes of these example scripts, we will assume that in RStudio one
 ## has loaded the py-tetrad directory as the project, so that the project
 ## directory is the py-tetrad/pytetrad directory. For your own scripts, these 
