@@ -1,5 +1,6 @@
 import torch.nn as nn
 
+### EXPERIMENTAL ###
 
 class MultiLayerPerceptron(nn.Module):
     """
@@ -72,6 +73,14 @@ class CausalPerceptronNetwork:
     The network uses customizable parameters such as the number of samples, hidden
     layer dimensions, activation functions, input scaling, and noise distributions.
     The generated data can be rescaled to a specified numeric range.
+
+    Zhang, K., Wang, Z., Zhang, J., & Schölkopf, B. (2015). On estimation of functional
+    causal models: general results and application to the post-nonlinear causal model.
+    ACM Transactions on Intelligent Systems and Technology (TIST), 7(2), 1-22.
+
+    Goudet, O., Kalainathan, D., Caillou, P., Guyon, I., Lopez-Paz, D., & Sebag, M. (2018).
+    Learning functional causal models with generative neural networks. Explainable and
+    interpretable models in computer vision and machine learning, 39-80.
 
     :ivar graph: The directed acyclic graph (DAG) defining causal dependencies.
     :type graph: nx.DiGraph

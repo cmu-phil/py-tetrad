@@ -8,6 +8,7 @@ import torch.nn as nn
 
 import CausalPerceptronNetwork as cpn
 
+### EXPERIMENTAL ###
 
 def custom_noise(size):
     return np.random.beta(2, 5, size)
