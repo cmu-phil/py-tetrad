@@ -24,7 +24,7 @@ measure_names = list(df.columns)
 latent_names = ['L1', 'L2', 'L3', 'L4', 'L5']
 
 # Do the search.
-graph = ts.mimbuild(clustering, measure_names, latent_names, cov)
+graph = ts.mimbuild(clustering, measure_names, latent_names, cov, full_graph=False)
 
 # Print the graph.
 print(graph)

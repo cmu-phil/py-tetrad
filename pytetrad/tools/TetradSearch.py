@@ -871,6 +871,11 @@ class TetradSearch:
         return pvalues
 
 
-def mimbuild(clustering, measure_names, latent_names, cov):
+def mimbuild(clustering, measure_names, latent_names, cov, full_graph=False):
     mb = ts.Mimbuild()
-    return mb.search(clustering, measure_names, latent_names, cov)
+    graph = mb.search(clustering, measure_names, latent_names, cov)
+
+    if full_graph:
+        return mb.getFullGraph()
+    else:
+        return graph
