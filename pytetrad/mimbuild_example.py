@@ -4,7 +4,8 @@ import numpy as np
 import pandas as pd
 
 # Load a dataset from a file
-df = pd.read_csv('/Users/josephramsey/Downloads/irvine_markov/diabetes.data.d.txt', sep="\t")
+# df = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
+df = pd.read_csv("resources/sample_lng_data_10_2_1000.txt", sep="\t")
 df = df.astype({col: "float64" for col in df.columns})
 
 # Create a Mimbuild object.
@@ -14,7 +15,7 @@ mb = search.Mimbuild()
 cov = np.cov(df, rowvar=False)
 
 # Make a clustering. This is a list over lists of variable indices.
-clustering = [[0, 1, 3], [4, 5, 6, 7]]
+clustering = [[0, 1, 2], [3, 4, 5]]
 
 # Make a list of measure names. These are the variable names.
 measure_names = list(df.columns)
