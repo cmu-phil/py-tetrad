@@ -869,3 +869,8 @@ class TetradSearch:
             pvalues.append(r.getPValue())
 
         return pvalues
+
+
+def mimbuild(clustering, measure_names, latent_names, cov):
+    mb = ts.Mimbuild()
+    return mb.search(clustering, measure_names, latent_names, cov)
