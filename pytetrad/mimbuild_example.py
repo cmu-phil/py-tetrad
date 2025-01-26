@@ -3,7 +3,6 @@ import numpy as np
 import pandas as pd
 
 # Load a dataset from a file
-# df = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
 df = pd.read_csv("resources/mimbuild_example_data.txt", sep="\t")
 df = df.astype({col: "float64" for col in df.columns})
 
