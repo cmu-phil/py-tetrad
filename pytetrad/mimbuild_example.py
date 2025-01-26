@@ -1,5 +1,4 @@
 import pytetrad.tools.TetradSearch as ts
-import edu.cmu.tetrad.search as search
 import numpy as np
 import pandas as pd
 
@@ -7,9 +6,6 @@ import pandas as pd
 # df = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
 df = pd.read_csv("resources/mimbuild_example_data.txt", sep="\t")
 df = df.astype({col: "float64" for col in df.columns})
-
-# Create a Mimbuild object.
-mb = search.Mimbuild()
 
 # Calculate the covariance matrix of df.
 cov = np.cov(df, rowvar=False)
