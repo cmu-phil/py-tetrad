@@ -11,7 +11,7 @@ df = df.astype({col: "float64" for col in df.columns})
 cov = np.cov(df, rowvar=False)
 
 # Make a clustering. This is a list over lists of variable indices.
-clustering = [[0, 1, 2, 3, 4], [5, 6, 7, 8, 9], [10, 11, 12, 13, 14], [15, 16, 17, 18, 19], [20, 21, 22, 23, 24]]
+clustering = [[1, 2, 3, 4], [5, 6, 8], [10, 11, 12, 13], [16, 17, 18, 19], [20, 21, 22, 23, 24]]
 
 # Make a list of measure names. These are the variable names.
 measure_names = list(df.columns)
