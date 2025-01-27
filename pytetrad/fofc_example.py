@@ -10,6 +10,6 @@ data = data.astype({col: "float64" for col in data.columns})
 print(data)
 
 search = ts.TetradSearch(data)
-search.run_fofc(include_structure_model=False, use_wishart=False)
+search.run_fofc(include_structure_model=True, use_wishart=False)
 
 print(search.get_java())
