@@ -131,7 +131,7 @@ def tetrad_matrix_to_numpy(array):
 
 def tetrad_matrix_to_pandas(array, variables):
     np_array = tetrad_matrix_to_numpy(array)
-    columns = [str(variables.get(i)) for i in range(array.cols())]
+    columns = [str(variables.get(i)) for i in range(array.getNumColumns())]
     return pd.DataFrame(np_array, columns=columns)
 
 # Input a square int[][] array with only 0's and 1's, where a[i][j] = 1 just in case
