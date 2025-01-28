@@ -116,10 +116,15 @@ def graph_to_matrix(g, nullEpt = 0, circleEpt = 1, arrowEpt = 2, tailEpt = 3):
     return pd.DataFrame(A, columns=columns_)
 
 def tetrad_matrix_to_numpy(array):
-    np_array = np.zeros((array.rows(), array.cols()), dtype=float)
+    print(array)
 
-    for i in range(array.rows()):
-        for j in range(array.cols()):
+    print("rows = ", array.getNumRows())
+    print("cols = ", array.getNumColumns())
+
+    np_array = np.zeros((array.getNumRows(), array.getNumColumns()), dtype=float)
+
+    for i in range(array.getNumRows()):
+        for j in range(array.getNumColumns()):
             np_array[i][j] = array.get(i, j)
 
     return np_array
