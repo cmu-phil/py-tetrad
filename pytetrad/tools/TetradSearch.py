@@ -552,8 +552,7 @@ class TetradSearch:
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_fofc(self, alpha=0.01, penalty_discount=2.0, tetrad_test=2,
-                 significance_checked=False, include_structure_model=True,
-                 precompute_covariances=True):
+                 include_structure_model=True, precompute_covariances=True):
         """
         Executes the FOFC (Fast Orientation of Factor Causal) clustering algorithm with the specified
         parameters and data provided to the class instance. This method sets up necessary configurations,
@@ -569,9 +568,6 @@ class TetradSearch:
             statistical test variations in identifying tetrad relations. 1 = Wishart, 2 = Delta
             (Bollen-Ting).
         :type tetrad_test: int
-        :param significance_checked: Flag indicating whether the statistical significance of tetrads
-            should be evaluated.
-        :type significance_checked: bool
         :param include_structure_model: Determines whether the structural model should be considered
             during the clustering process. This applies Mimbuild.
         :type include_structure_model: bool
@@ -587,7 +583,6 @@ class TetradSearch:
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
         self.params.set(Params.TETRAD_TEST, tetrad_test)
-        self.params.set(Params.SIGNIFICANCE_CHECKED, significance_checked)
         self.params.set(Params.INCLUDE_STRUCTURE_MODEL, include_structure_model)
         self.params.set(Params.PRECOMPUTE_COVARIANCES, precompute_covariances)
 

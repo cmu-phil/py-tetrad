@@ -12,6 +12,6 @@ print(data)
 search = ts.TetradSearch(data)
 
 # tetrad_test is 1 for Wishart, 2 for Delta (Bollen-Ting).
-search.run_fofc(include_structure_model=True, tetrad_test=2, alpha=0.001, significance_checked=True)
+search.run_fofc(include_structure_model=True, tetrad_test=2, alpha=0.001)
 
 print(search.get_java())
