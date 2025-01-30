@@ -551,43 +551,44 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_fofc(self, alpha=0.01, penalty_discount=2.0, use_wishart=False,
-                 significance_checked=False, use_gap=False, include_structure_model=True,
-                 check_type=1, precompute_covariances=True):
+    def run_fofc(self, alpha=0.01, penalty_discount=2.0, tetrad_test=2,
+                 significance_checked=False, include_structure_model=True,
+                 precompute_covariances=True):
         """
-        Runs the FOFC (Find One Factor Clusters) algorithm with specified parameters.
+        Executes the FOFC (Fast Orientation of Factor Causal) clustering algorithm with the specified
+        parameters and data provided to the class instance. This method sets up necessary configurations,
+        initializes FOFC, and runs the clustering process based on user inputs.
 
-        Parameters:
-            alpha (float): Significance level for statistical tests. Default is 0.01.
-            penalty_discount (float): Penalty discount for score-based methods. Default is 2.0.
-            use_wishart (bool): Whether to use the Wishart test. Default is False (= use the Delta test).
-            significance_checked (bool): Whether to check significance during the search. Default is False.
-            use_gap (bool): Whether to use a gap penalty. Default is False (= use the sag algorithm).
-            include_structure_model (bool): Whether to include the structure model. Default is True.
-            check_type (int): Type of checks to perform (e.g., independence tests). Default is 1.
-                1 = Check significance, 2 = Check cliques, 3 = No checks.
-            precompute_covariances (bool): Whether to precompute covariances for efficiency. Default is True.
-
-        Notes:
-            The parameter settings below correspond to a successful run in Tetrad:
-            - alpha = 0.01
-            - penaltyDiscount = 2.0
-            - useWishart = False
-            - significanceChecked = False
-            - useGap = False
-            - includeStructureModel = True
-            - checkType = 1
-            - precomputeCovariances = True
+        :param alpha: The significance level used in the FOFC algorithm. Determines the threshold for
+            statistical tests during clustering.
+        :type alpha: float
+        :param penalty_discount: Regulates the penalty applied during the clustering process for
+            handling score-based evaluations.
+        :type penalty_discount: float
+        :param tetrad_test: Specifies the tetrad test to be applied in the algorithm. This governs
+            statistical test variations in identifying tetrad relations. 1 = Wishart, 2 = Delta
+            (Bollen-Ting).
+        :type tetrad_test: int
+        :param significance_checked: Flag indicating whether the statistical significance of tetrads
+            should be evaluated.
+        :type significance_checked: bool
+        :param include_structure_model: Determines whether the structural model should be considered
+            during the clustering process. This applies Mimbuild.
+        :type include_structure_model: bool
+        :param precompute_covariances: If True, precomputes covariance matrices to optimize the algorithm's
+            performance during execution.
+        :type precompute_covariances: bool
+        :return: The result of running the FOFC search algorithm on the given dataset using the specified
+            parameters.
+        :rtype: object or relevant result type
         """
 
         # Set algorithm parameters in the Params object
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
-        self.params.set(Params.USE_WISHART, use_wishart)
+        self.params.set(Params.TETRAD_TEST, tetrad_test)
         self.params.set(Params.SIGNIFICANCE_CHECKED, significance_checked)
-        self.params.set(Params.USE_GAP, use_gap)
         self.params.set(Params.INCLUDE_STRUCTURE_MODEL, include_structure_model)
-        self.params.set(Params.CHECK_TYPE, check_type)
         self.params.set(Params.PRECOMPUTE_COVARIANCES, precompute_covariances)
 
         # Initialize the FOFC clustering algorithm
