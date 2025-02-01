@@ -566,7 +566,7 @@ class TetradSearch:
         :type penalty_discount: float
         :param tetrad_test: Specifies the tetrad test to be applied in the algorithm. This governs
             statistical test variations in identifying tetrad relations. 1 = Wishart, 2 = Delta
-            (Bollen-Ting).
+            (Bollen-Ting), 3 = CCA
         :type tetrad_test: int
         :param include_structure_model: Determines whether the structural model should be considered
             during the clustering process. This applies Mimbuild.
@@ -582,7 +582,7 @@ class TetradSearch:
         # Set algorithm parameters in the Params object
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
-        self.params.set(Params.TETRAD_TEST, tetrad_test)
+        self.params.set(Params.TETRAD_TEST_FOFC, tetrad_test)
         self.params.set(Params.INCLUDE_STRUCTURE_MODEL, include_structure_model)
         self.params.set(Params.PRECOMPUTE_COVARIANCES, precompute_covariances)
 
