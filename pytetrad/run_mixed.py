@@ -1,4 +1,4 @@
-## This script assumes that the user has pip-installed the pytetrad package. Here is now:
+## This script assumes that the user has pip-installed the pytetrad package. Here is how:
 ## pip install git+https://github.com/cmu-phil/py-tetrad
 
 import pandas as pd

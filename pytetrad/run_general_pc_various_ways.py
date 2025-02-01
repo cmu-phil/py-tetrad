@@ -1,4 +1,4 @@
-# This script assumes that the user has pip-installed the pytetrad package. Here is now:
+# This script assumes that the user has pip-installed the pytetrad package. Here is how:
 ## pip install git+https://github.com/cmu-phil/py-tetrad
 
 # This script runs PC using a general score in various ways: (1) using causal-learn's KCI in Tetrad,
