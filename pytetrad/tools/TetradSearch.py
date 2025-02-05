@@ -265,11 +265,13 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_boss(self, num_starts=1, use_bes=False, time_lag=0, use_data_order=True):
+    def run_boss(self, num_starts=1, use_bes=False, time_lag=0, use_data_order=True,
+                 output_cpdag=True):
         self.params.set(Params.USE_BES, use_bes)
         self.params.set(Params.NUM_STARTS, num_starts)
         self.params.set(Params.TIME_LAG, time_lag)
         self.params.set(Params.USE_DATA_ORDER, use_data_order)
+        self.params.set(Params.OUTPUT_CPDAG, output_cpdag)
         alg = cpdag.Boss(self.SCORE)
         alg.setKnowledge(self.knowledge)
 
