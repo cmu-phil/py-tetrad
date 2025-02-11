@@ -153,7 +153,7 @@ class TetradSearch:
 
     # cell table type is 1 = AD Tree, 2 = Count Sample. (Optimization.)
     def use_chi_square(self, min_count=1, alpha=0.01, cell_table_type=1):
-        print(self.data.isDiscrete())
+        print(f"Discrete variables: {self.data.isDiscrete()}")
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.MIN_COUNT_PER_CELL, min_count)
         self.params.set(Params.CELL_TABLE_TYPE, cell_table_type)
