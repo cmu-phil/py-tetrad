@@ -114,10 +114,10 @@ def graph_to_matrix(g, nullEpt = 0, circleEpt = 1, arrowEpt = 2, tailEpt = 3):
     return pd.DataFrame(A, columns=columns_)
 
 def tetrad_matrix_to_numpy(array):
-    print(array)
-
-    print("rows = ", array.getNumRows())
-    print("cols = ", array.getNumColumns())
+    # print(array)
+    #
+    # print("rows = ", array.getNumRows())
+    # print("cols = ", array.getNumColumns())
 
     np_array = np.zeros((array.getNumRows(), array.getNumColumns()), dtype=float)
 
