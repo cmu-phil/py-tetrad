@@ -59,8 +59,6 @@ def pandas_data_to_tetrad(df: DataFrame, int_as_cont=False):
         else:
             variables.add(td.ContinuousVariable(str(col)))
 
-    print(discrete_cols)
-
     if len(discrete_cols) == len(cols):
         databox = td.IntDataBox(n, p)
     elif len(discrete_cols) == 0:
