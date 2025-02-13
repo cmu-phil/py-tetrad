@@ -147,7 +147,7 @@ class TetradSearch:
         self.params.set(Params.BASIS_TYPE, basis_type)
         self.params.set(Params.BASIS_SCALE, basis_scale)
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
-        self.SCORE = score_.BasisFunctionBicScoreTabular()
+        self.SCORE = test.BasisFunctionBicScoreTabular()
 
     def use_basis_function_lrt(self, truncation_limit=3, basis_type=1, basis_scale=1, alpha=0.01):
         self.params.set(Params.ALPHA, alpha)
@@ -155,7 +155,7 @@ class TetradSearch:
         self.params.set(Params.BASIS_TYPE, basis_type)
         self.params.set(Params.BASIS_SCALE, basis_scale)
 
-        self.TEST = score_.BasisFunctionLrt()
+        self.TEST = ind_.BasisFunctionLrt()
 
     def use_fisher_z(self, alpha=0.01, use_pseudoinverse=False):
         self.params.set(Params.ALPHA, alpha)
