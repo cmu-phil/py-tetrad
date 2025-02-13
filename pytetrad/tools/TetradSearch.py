@@ -155,7 +155,7 @@ class TetradSearch:
         self.params.set(Params.BASIS_TYPE, basis_type)
         self.params.set(Params.BASIS_SCALE, basis_scale)
 
-        self.SCORE = score_.BasisFunctionLrt()
+        self.TEST = score_.BasisFunctionLrt()
 
     def use_fisher_z(self, alpha=0.01, use_pseudoinverse=False):
         self.params.set(Params.ALPHA, alpha)
