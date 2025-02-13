@@ -135,12 +135,27 @@ class TetradSearch:
         self.params.set(Params.STRUCTURE_PRIOR, structure_prior)
         self.SCORE = score_.DegenerateGaussianBicScore()
 
-    def use_basis_function_score(self, truncation_limit=3, basis_type=1, basis_scale=1, penalty_discount=2):
+    def use_basis_function_score_cov(self, truncation_limit=3, basis_type=1, basis_scale=1, penalty_discount=2):
         self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
         self.params.set(Params.BASIS_TYPE, basis_type)
         self.params.set(Params.BASIS_SCALE, basis_scale)
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
-        self.SCORE = score_.BasisFunctionBicScore()
+        self.SCORE = score_.BasisFunctionBicScoreCovariance()
+
+    def use_basis_function_score_tab(self, truncation_limit=3, basis_type=1, basis_scale=1, penalty_discount=2):
+        self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
+        self.params.set(Params.BASIS_TYPE, basis_type)
+        self.params.set(Params.BASIS_SCALE, basis_scale)
+        self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
+        self.SCORE = score_.BasisFunctionBicScoreTabular()
+
+    def use_basis_function_lrt(self, truncation_limit=3, basis_type=1, basis_scale=1, alpha=0.01):
+        self.params.set(Params.ALPHA, alpha)
+        self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
+        self.params.set(Params.BASIS_TYPE, basis_type)
+        self.params.set(Params.BASIS_SCALE, basis_scale)
+
+        self.SCORE = score_.BasisFunctionLrt()
 
     def use_fisher_z(self, alpha=0.01, use_pseudoinverse=False):
         self.params.set(Params.ALPHA, alpha)
