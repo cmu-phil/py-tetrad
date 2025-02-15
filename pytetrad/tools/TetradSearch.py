@@ -40,31 +40,27 @@ from edu.cmu.tetrad.util import Params, Parameters
 
 class TetradSearch:
     """
-    Represents a wrapper for Tetrad search algorithms, providing functionality to
-    set various scoring and independence testing methods, manage parameters, and
-    establish prior knowledge for causal inference.
+    Represents a Tetrad-based search class for structure learning and related statistical scoring and testing functionalities.
 
-    This class serves as an interface to the Tetrad library, which is used for
-    causal discovery and structure learning. It offers methods to configure
-    various scoring criteria, independence tests, and prior knowledge constraints
-    to be applied during causal structure search. The `TetradSearch` class is
-    initialized with the dataset and allows users to execute different scoring and
-    independence testing setups using the underlying Tetrad Java library.
+    This class initializes and manages various scoring and independence test mechanisms based on configurations
+    passed via methods. It adapts Tetrad functionalities while offering Pythonic interaction. The usage entails
+    interacting with the attributes and methods to configure the scoring or testing criteria for causal discovery
+    and structure learning.
 
-    :ivar data: Transformed dataset compatible with Tetrad.
-    :type data: Any
-    :ivar score: An instance of the current scoring method being used.
-    :type score: Any, optional
-    :ivar test: An instance of the current independence test.
-    :type test: Any, optional
-    :ivar java: Reference to the underlying Java-based Tetrad object.
-    :type java: Any, optional
-    :ivar knowledge: Prior knowledge constraints represented in a Tetrad-compatible format.
-    :type knowledge: edu.cmu.tetrad.util.knowledge.Knowledge, optional
-    :ivar params: Parameters for the scoring and test methods.
+    :ivar data: Data used for analysis, converted to Tetrad-compatible format.
+    :type data: object
+    :ivar score: The current scoring function in use.
+    :type score: object or None
+    :ivar test: The current independence test in use.
+    :type test: object or None
+    :ivar java: Accessor or object for Java-based dependencies, if any.
+    :type java: object or None
+    :ivar knowledge: Object to manage and store prior knowledge constraints.
+    :type knowledge: Knowledge
+    :ivar params: Parameters object for controlling scoring or testing properties.
     :type params: Parameters
-    :ivar bootstrap_graphs: Bootstrapped graphs generated during the process.
-    :type bootstrap_graphs: Any, optional
+    :ivar bootstrap_graphs: Stores results of any bootstrapped graph estimation run.
+    :type bootstrap_graphs: object or None
     """
     def __init__(self, data):
         self.data = tr.pandas_data_to_tetrad(data)
@@ -135,27 +131,37 @@ class TetradSearch:
         self.params.set(Params.STRUCTURE_PRIOR, structure_prior)
         self.SCORE = score_.DegenerateGaussianBicScore()
 
-    def use_basis_function_score_cov(self, truncation_limit=3, basis_type=1, basis_scale=1, penalty_discount=2):
+    # Uses covariance as a sufficient statistic
+    def use_basis_function_score(self, truncation_limit=3, basis_type=1, basis_scale=1, penalty_discount=2):
         self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
         self.params.set(Params.BASIS_TYPE, basis_type)
         self.params.set(Params.BASIS_SCALE, basis_scale)
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
-        self.SCORE = score_.BasisFunctionBicScoreCovariance()
+        self.SCORE = score_.BasisFunctionBicScore()
 
-    def use_basis_function_score_tab(self, truncation_limit=3, basis_type=1, basis_scale=1, penalty_discount=2):
+    # Full sample.
+    def use_basis_function_score_fs(self, truncation_limit=3, basis_type=1, basis_scale=1, penalty_discount=2):
         self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
         self.params.set(Params.BASIS_TYPE, basis_type)
         self.params.set(Params.BASIS_SCALE, basis_scale)
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
         self.SCORE = score_.BasisFunctionBicScoreTabular()
 
+    # Uses covariance as a sufficient statistic.
     def use_basis_function_lrt(self, truncation_limit=3, basis_type=1, basis_scale=1, alpha=0.01):
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
         self.params.set(Params.BASIS_TYPE, basis_type)
         self.params.set(Params.BASIS_SCALE, basis_scale)
-
         self.TEST = ind_.BasisFunctionLrt()
+
+    # Full sample
+    def use_basis_function_lrt_fs(self, truncation_limit=3, basis_type=1, basis_scale=1, alpha=0.01):
+        self.params.set(Params.ALPHA, alpha)
+        self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
+        self.params.set(Params.BASIS_TYPE, basis_type)
+        self.params.set(Params.BASIS_SCALE, basis_scale)
+        self.TEST = ind_.BasisFunctionLrtFullSample()
 
     def use_fisher_z(self, alpha=0.01, use_pseudoinverse=False):
         self.params.set(Params.ALPHA, alpha)
