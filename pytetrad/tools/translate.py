@@ -15,9 +15,6 @@ if not jpype.isJVMStarted():
         print("can't load jvm")
         pass
 
-import os
-import sys
-
 ## Some functions wrapping various classes in Tetrad. Feel free to just steal
 ## the relevant code for your own projects, or 'pip install' this Github directory
 ## and call these functions. will add more named parameters to help one see which 
