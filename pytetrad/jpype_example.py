@@ -37,7 +37,7 @@ graphs = []
 for rep in range(reps):
     data = ptt.pandas_data_to_tetrad(df.sample(frac=1, replace=True))
 
-    score = ts.score.DegenerateGaussianScore(data, True)
+    score = ts.score.DegenerateGaussianScore(data, True, 0.0)
     score.setPenaltyDiscount(2)
     # test = ts.test.ScoreIndTest(score, data)
 
