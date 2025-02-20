@@ -75,25 +75,20 @@ class TetradSearch:
         display = [self.score, self.test, self.knowledge, self.java]
         return "\n\n".join([str(item) for item in display])
 
-    def use_sem_bic(self, penalty_discount=2, structurePrior=0, sem_bic_rule=1, use_pseudoinverse=False):
+    def use_sem_bic(self, penalty_discount=2, structurePrior=0, sem_bic_rule=1):
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
         self.params.set(Params.SEM_BIC_STRUCTURE_PRIOR, structurePrior)
         self.params.set(Params.SEM_BIC_RULE, sem_bic_rule)
-        self.params.set(Params.USE_PSEUDOINVERSE, use_pseudoinverse)
         self.SCORE = score_.SemBicScore()
 
-    def use_ebic(self, gamma=0.8, precompute_covariances=True, use_pseudoinverse=False):
+    def use_ebic(self, gamma=0.8, precompute_covariances=True):
         self.params.set(Params.EBIC_GAMMA, gamma)
         self.params.set(Params.PRECOMPUTE_COVARIANCES, precompute_covariances)
-        self.params.set(Params.USE_PSEUDOINVERSE, use_pseudoinverse)
-
         self.SCORE = score_.EbicScore()
 
-    def use_gic_score(self, penalty_discount=1, sem_gic_rule=4, use_pseudoinverse=False):
+    def use_gic_score(self, penalty_discount=1, sem_gic_rule=4):
         self.params.set(Params.SEM_GIC_RULE, sem_gic_rule)
         self.params.set(Params.PENALTY_DISCOUNT_ZS, penalty_discount)
-        self.params.set(Params.USE_PSEUDOINVERSE, use_pseudoinverse)
-
         self.SCORE = score_.KimEtAlScores()
 
     def use_mixed_variable_polynomial(self, structure_prior=0, f_degree=0, discretize=False):
@@ -102,15 +97,13 @@ class TetradSearch:
         self.params.set(Params.DISCRETIZE), discretize
         self.SCORE = score_.MVPBicScore()
 
-    def use_poisson_prior_score(self, lambda_=2, precompute_covariances=True, use_pseudoinverse=False):
+    def use_poisson_prior_score(self, lambda_=2, precompute_covariances=True):
         self.params.set(Params.PRECOMPUTE_COVARIANCES, precompute_covariances)
         self.params.set(Params.POISSON_LAMBDA, lambda_)
-        self.params.set(Params.USE_PSEUDOINVERSE, use_pseudoinverse)
         self.SCORE = score_.PoissonPriorScore()
 
-    def use_zhang_shen_bound(self, risk_bound=0.2, use_pseudoinverse=False):
+    def use_zhang_shen_bound(self, risk_bound=0.2):
         self.params.set(Params.ZS_RISK_BOUND, risk_bound)
-        self.params.set(Params.USE_PSEUDOINVERSE, use_pseudoinverse)
         self.SCORE = score_.ZhangShenBoundScore()
 
     def use_bdeu(self, sample_prior=10, structure_prior=0):
@@ -155,9 +148,8 @@ class TetradSearch:
         self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
         self.TEST = ind_.BasisFunctionLrtFullSample()
 
-    def use_fisher_z(self, alpha=0.01, use_pseudoinverse=False):
+    def use_fisher_z(self, alpha=0.01):
         self.params.set(Params.ALPHA, alpha)
-        self.params.set(Params.USE_PSEUDOINVERSE, use_pseudoinverse)
         self.TEST = ind_.FisherZ()
 
     # The supplied test should iplement edu.cmu.tetrad.algcomparison.independence.IndependenceWrapper in Tetrad.
