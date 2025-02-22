@@ -51,8 +51,8 @@ class TetradSearch:
     :type data: object
     :ivar score: The current scoring function in use.
     :type score: object or None
-    :ivar test: The current independence test in use.
-    :type test: object or None
+    :ivar TEST: The current independence test in use.
+    :type TEST: object or None
     :ivar java: Accessor or object for Java-based dependencies, if any.
     :type java: object or None
     :ivar knowledge: Object to manage and store prior knowledge constraints.
@@ -64,15 +64,16 @@ class TetradSearch:
     """
     def __init__(self, df):
         self.data = tr.pandas_data_to_tetrad(df)
-        self.score = None
-        self.test = None
+        self.SCORE = None
+        self.TEST = None
+        self.MC_TEST = None
         self.java = None
         self.knowledge = td.Knowledge()
         self.params = Parameters()
         self.bootstrap_graphs = None
 
     def __str__(self):
-        display = [self.score, self.test, self.knowledge, self.java]
+        display = [self.SCORE, self.TEST, self.knowledge, self.java]
         return "\n\n".join([str(item) for item in display])
 
     def use_sem_bic(self, penalty_discount=2, structurePrior=0, sem_bic_rule=1):
@@ -137,57 +138,95 @@ class TetradSearch:
         self.SCORE = score_.BasisFunctionBicScoreTabular()
 
     # Uses covariance as a sufficient statistic.
-    def use_basis_function_lrt(self, truncation_limit=3, alpha=0.01):
+    def use_basis_function_lrt(self, truncation_limit=3, alpha=0.01, use_for_mc=False):
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
-        self.TEST = ind_.BasisFunctionLrt()
+
+        if use_for_mc:
+            self.MC_TEST = ind_.BasisFunctionLrt()
+        else:
+            self.TEST = ind_.BasisFunctionLrt()
 
     # Full sample
-    def use_basis_function_lrt_fs(self, truncation_limit=3, alpha=0.01):
+    def use_basis_function_lrt_fs(self, truncation_limit=3, alpha=0.01, use_for_mc=False):
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
-        self.TEST = ind_.BasisFunctionLrtFullSample()
 
-    def use_fisher_z(self, alpha=0.01):
+        if use_for_mc:
+            self.MC_TEST = ind_.BasisFunctionLrtFullSample()
+        else:
+            self.TEST = ind_.BasisFunctionLrtFullSample()
+
+    def use_fisher_z(self, alpha=0.01, use_for_mc=False):
         self.params.set(Params.ALPHA, alpha)
-        self.TEST = ind_.FisherZ()
+
+        if use_for_mc:
+            self.MC_TEST = ind_.FisherZ()
+        else:
+            self.TEST = ind_.FisherZ()
+
 
     # The supplied test should iplement edu.cmu.tetrad.algcomparison.independence.IndependenceWrapper in Tetrad.
-    def use_test(self, test):
-        self.TEST = test
+    def use_test(self, test, use_for_mc=False):
+        if use_for_mc:
+            self.MC_TEST = test
+        else:
+            self.TEST = test
 
     # cell table type is 1 = AD Tree, 2 = Count Sample. (Optimization.)
-    def use_chi_square(self, min_count=1, alpha=0.01, cell_table_type=1):
+    def use_chi_square(self, min_count=1, alpha=0.01, cell_table_type=1, use_for_mc=False):
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.MIN_COUNT_PER_CELL, min_count)
         self.params.set(Params.CELL_TABLE_TYPE, cell_table_type)
-        self.TEST = ind_.ChiSquare()
+
+        if use_for_mc:
+            self.MC_TEST = ind_.ChiSquare()
+        else:
+            self.TEST = ind_.ChiSquare()
 
     # cell table type is 1 = AD Tree, 2 = Count Sample. (Optimization)
-    def use_g_square(self, min_count=1, alpha=0.01, cell_table_type=1):
+    def use_g_square(self, min_count=1, alpha=0.01, cell_table_type=1, use_for_mc=False):
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.MIN_COUNT_PER_CELL, min_count)
         self.params.set(Params.CELL_TABLE_TYPE, cell_table_type)
-        self.TEST = ind_.GSquare()
 
-    def use_conditional_gaussian_test(self, alpha=0.01, discretize=True, num_categories_to_discretize=3):
+        if use_for_mc:
+            self.MC_TEST = ind_.GSquare()
+        else:
+            self.TEST = ind_.GSquare()
+
+    def use_conditional_gaussian_test(self, alpha=0.01, discretize=True,
+                                      num_categories_to_discretize=3, use_for_mc=False):
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.DISCRETIZE, discretize)
         self.params.set(Params.NUM_CATEGORIES_TO_DISCRETIZE, num_categories_to_discretize)
         self.TEST = ind_.ConditionalGaussianLRT()
 
-    def use_degenerate_gaussian_test(self, alpha=0.01):
-        self.params.set(Params.ALPHA, alpha)
-        self.TEST = ind_.DegenerateGaussianLRT()
+        if use_for_mc:
+            self.MC_TEST = ind_.ConditionalGaussianLRT()
+        else:
+            self.TEST = ind_.ConditionalGaussianLRT()
 
-    def use_probabilistic_test(self, threshold=False, cutoff=0.5, prior_ess=10):
+    def use_degenerate_gaussian_test(self, alpha=0.01, use_for_mc=False):
+        self.params.set(Params.ALPHA, alpha)
+
+        if use_for_mc:
+            self.MC_TEST = ind_.DegenerateGaussianLRT()
+        else:
+            self.TEST = ind_.DegenerateGaussianLRT()
+
+    def use_probabilistic_test(self, threshold=False, cutoff=0.5, prior_ess=10, use_for_mc=False):
         self.params.set(Params.NO_RANDOMLY_DETERMINED_INDEPENDENCE, threshold)
         self.params.set(Params.CUTOFF_IND_TEST, cutoff)
         self.params.set(Params.PRIOR_EQUIVALENT_SAMPLE_SIZE, prior_ess)
-        self.TEST = ind_.ProbabilisticTest()
+
+        if use_for_mc:
+            self.MC_TEST = ind_.ProbabilisticTest()
+        else:
+            self.TEST = ind_.ProbabilisticTest()
 
     def use_kci(self, alpha=0.01, approximate=True, scaling_factor=1, num_bootstraps=5000, threshold=1e-3,
-                epsilon=1e-3, kernel_type=1, polyd=5, polyc=1):
+                epsilon=1e-3, kernel_type=1, polyd=5, polyc=1, use_for_mc=False):
         self.params.set(Params.KCI_USE_APPROXIMATION, approximate)
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.SCALING_FACTOR, scaling_factor)
@@ -198,16 +237,23 @@ class TetradSearch:
         self.params.set(Params.POLYNOMIAL_DEGREE, polyd)
         self.params.set(Params.POLYNOMIAL_CONSTANT, polyc)
 
-        self.TEST = ind_.Kci()
+        if use_for_mc:
+            self.MC_TEST = ind_.Kci()
+        else:
+            self.TEST = ind_.Kci()
 
-    def use_cci(self, alpha=0.01, scaling_factor=2, num_basis_functions=3, basis_type=4, basis_scale=0.0):
+    def use_cci(self, alpha=0.01, scaling_factor=2, num_basis_functions=3, basis_type=4,
+                basis_scale=0.0, use_for_mc=False):
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.SCALING_FACTOR, scaling_factor)
         self.params.set(Params.NUM_BASIS_FUNCTIONS, num_basis_functions)
         self.params.set(Params.BASIS_TYPE, basis_type)
         self.params.set(Params.BASIS_SCALE, basis_scale)
 
-        self.TEST = ind_.CciTest()
+        if use_for_mc:
+            self.MC_TEST = ind_.CciTest()
+        else:
+            self.TEST = ind_.CciTest()
 
     def add_to_tier(self, tier, var_name):
         self.knowledge.addToTier(lang.Integer(tier), lang.String(var_name))
@@ -667,7 +713,7 @@ class TetradSearch:
     def run_svar_gfci(self, penalty_discount=2):
         num_lags = 2
         lagged_data = ts.utils.TsUtils.createLagData(self.data, num_lags)
-        ts_test = ts.test.IndTestFisherZ(lagged_data, 0.01)
+        ts_test = ts.TEST.IndTestFisherZ(lagged_data, 0.01)
         ts_score = ts.score.SemBicScore(lagged_data, True)
         ts_score.setPenaltyDiscount(penalty_discount)
         svar_fci = ts.SvarGfci(ts_test, ts_score)
@@ -789,7 +835,7 @@ class TetradSearch:
         print(search_utils.GraphSearchUtils.isLegalPag(graph).getReason())
 
     def all_subsets_independence_facts(self, graph):
-        msep = (ts.MarkovCheck(graph, ts.test.IndTestFisherZ(self.data, 0.01), ts.ConditioningSetType.LOCAL_MARKOV)
+        msep = (ts.MarkovCheck(graph, ts.TEST.IndTestFisherZ(self.data, 0.01), ts.ConditioningSetType.LOCAL_MARKOV)
                 .getAllSubsetsIndependenceFacts().getMsep())
 
         facts = []
@@ -812,7 +858,7 @@ class TetradSearch:
         return facts
 
     def all_subsets_dependence_facts(self, graph):
-        mconn = ts.MarkovCheck.getAllSubsetsIndependenceFacts(graph, self.test,
+        mconn = ts.MarkovCheck.getAllSubsetsIndependenceFacts(graph, self.TEST,
                                                               ts.ConditioningSetType.LOCAL_MARKOV).getMconn()
 
         facts = []
@@ -836,7 +882,10 @@ class TetradSearch:
 
     def markov_check(self, graph, percent_resample=1, condition_set_type=ts.ConditioningSetType.ORDERED_LOCAL_MARKOV,
                      removeExtraneous=False, parallelized=True, sample_size=-1):
-        test = self.TEST.getTest(self.data, self.params)
+        if self.MC_TEST == None:
+            raise Exception("A test for the Markov Checker has not been set. Please call as use_{test name} method setting the parmaeter 'use_for_mc' to True")
+
+        test = self.MC_TEST.getTest(self.data, self.params)
         mc = ts.MarkovCheck(graph, test, condition_set_type)
         mc.setKnowledge(self.knowledge)
         mc.setPercentResample(percent_resample)
