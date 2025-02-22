@@ -93,5 +93,5 @@ def run_tetrad_pc_using_tetrad_kci():
 
 
 # run_cl_pc_using_cl_kci()
-# run_tetrad_pc_using_cl_kci()
-run_tetrad_pc_using_tetrad_kci()
+run_tetrad_pc_using_cl_kci()
+# run_tetrad_pc_using_tetrad_kci()

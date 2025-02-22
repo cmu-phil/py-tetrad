@@ -166,12 +166,13 @@ class TetradSearch:
             self.TEST = ind_.FisherZ()
 
 
-    # The supplied test should iplement edu.cmu.tetrad.algcomparison.independence.IndependenceWrapper in Tetrad.
-    def use_test(self, test, use_for_mc=False):
-        if use_for_mc:
-            self.MC_TEST = test
-        else:
-            self.TEST = test
+    # This conflicts--to use a particular test like this, you should do the whole thing in JPype.
+    # # The supplied test should implement edu.cmu.tetrad.algcomparison.independence.IndependenceWrapper in Tetrad.
+    # def use_test(self, test, use_for_mc=False):
+    #     if use_for_mc:
+    #         self.MC_TEST = test
+    #     else:
+    #         self.TEST = test
 
     # cell table type is 1 = AD Tree, 2 = Count Sample. (Optimization.)
     def use_chi_square(self, min_count=1, alpha=0.01, cell_table_type=1, use_for_mc=False):
