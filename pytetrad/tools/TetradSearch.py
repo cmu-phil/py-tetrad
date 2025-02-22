@@ -713,7 +713,7 @@ class TetradSearch:
     def run_svar_gfci(self, penalty_discount=2):
         num_lags = 2
         lagged_data = ts.utils.TsUtils.createLagData(self.data, num_lags)
-        ts_test = ts.TEST.IndTestFisherZ(lagged_data, 0.01)
+        ts_test = ts.test.IndTestFisherZ(lagged_data, 0.01)
         ts_score = ts.score.SemBicScore(lagged_data, True)
         ts_score.setPenaltyDiscount(penalty_discount)
         svar_fci = ts.SvarGfci(ts_test, ts_score)
