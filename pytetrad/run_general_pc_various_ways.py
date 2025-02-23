@@ -27,6 +27,7 @@ approx = True
 nullss = 5000
 kernel = 'Linear'
 polyd = 2
+timeout=180
 
 # Grab the airfoil data (a small problem with just 6 variables)
 df = pd.read_csv(f"resources/airfoil-self-noise.continuous.txt", sep="\t")
@@ -49,13 +50,16 @@ def run_cl_pc_using_cl_kci():
 # For this we'll need to wrap causal-learn's KCI in a JPype object so that
 # Tetrad can use it.
 # We need to use the non-stable version of PC to avoid parallelization.
-def run_tetrad_pc_using_cl_kci():
+def run_tetrad_pc_using_cl_kci(timeout=-1):
     start_time = time.time()
-    test1 = wc.KciWrapper(df, alpha=alpha_, kernelX=kernel, kernelY=kernel, nullss=nullss,
+
+    test1 = wc.KciWrapper(df, start_time=start_time, timeout=timeout,
+                          alpha=alpha_, kernelX=kernel, kernelY=kernel, nullss=nullss,
                           approx=approx, est_width='median', polyd=polyd)
     pc = ts.Pc(test1)
     pc.setVerbose(False)
     pc.setStable(False)
+    pc.setTimeout(timeout * 1000)
     graph = pc.search()
     end_time = time.time()
 
@@ -93,5 +97,5 @@ def run_tetrad_pc_using_tetrad_kci():
 
 
 # run_cl_pc_using_cl_kci()
-run_tetrad_pc_using_cl_kci()
+run_tetrad_pc_using_cl_kci(timeout=timeout)
 # run_tetrad_pc_using_tetrad_kci()

@@ -15,10 +15,15 @@
 #
 # jdramsey 2024-08-24
 
+import time as tm
+
 import jpype.imports
 from jpype import JImplements, JOverride
 
 import importlib.resources as importlib_resources
+
+from pytetrad.compare_projects_ges import start_time
+
 jar_path = importlib_resources.files('pytetrad').joinpath('resources','tetrad-current.jar')
 jar_path = str(jar_path)
 if not jpype.isJVMStarted():
@@ -66,11 +71,14 @@ import java.util as ju
 #
 @JImplements(ts.IndependenceTest)
 class KciWrapper:
-    def __init__(self, df, alpha=0.01, **kwargs):
+    def __init__(self, df, alpha=0.01, start_time=-1, timeout=-1, **kwargs):
         self.df = df
         self.data = df.values
         self.alpha = alpha
         self.kci_obj = CIT(self.data, "kci", **kwargs)
+
+        self.start_time = start_time
+        self.timeout = timeout
 
         self.variables = ju.ArrayList()
         self.variable_map = {}
@@ -85,6 +93,9 @@ class KciWrapper:
 
     @JOverride
     def checkIndependence(self, *args):
+        if self.start_time != -1 and self.timeout != -1 and tm.time() > self.start_time + self.timeout:
+            raise Exception("Timeout")
+
         x = args[0]
         y = args[1]
         s = args[2]
