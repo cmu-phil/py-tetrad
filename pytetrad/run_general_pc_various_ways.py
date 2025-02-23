@@ -51,9 +51,15 @@ def run_cl_pc_using_cl_kci():
 # Tetrad can use it.
 # We need to use the non-stable version of PC to avoid parallelization.
 def run_tetrad_pc_using_cl_kci(timeout=-1):
+
+    import numpy as np
+
+    shuffled_columns = np.random.permutation(df.columns)
+    df_ = df[shuffled_columns]
+
     start_time = time.time()
 
-    test1 = wc.KciWrapper(df, start_time=start_time, timeout=timeout,
+    test1 = wc.KciWrapper(df_, start_time=start_time, timeout=timeout,
                           alpha=alpha_, kernelX=kernel, kernelY=kernel, nullss=nullss,
                           approx=approx, est_width='median', polyd=polyd)
     pc = ts.Pc(test1)
