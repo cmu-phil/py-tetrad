@@ -84,9 +84,8 @@ class KciWrapper:
         self.variable_map = {}
         self.reverse_variable_map = {}
 
-        for col_ in df.columns:
-            col = col_ #str(col_)
-            variable = td.ContinuousVariable(col)
+        for col in df.columns:
+            variable = td.ContinuousVariable(str(col))
             self.variables.add(variable)
             self.variable_map[col] = variable
             self.reverse_variable_map[variable] = df.columns.get_loc(col)
