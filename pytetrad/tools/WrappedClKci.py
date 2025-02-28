@@ -22,8 +22,6 @@ from jpype import JImplements, JOverride
 
 import importlib.resources as importlib_resources
 
-from pytetrad.compare_projects_ges import start_time
-
 jar_path = importlib_resources.files('pytetrad').joinpath('resources','tetrad-current.jar')
 jar_path = str(jar_path)
 if not jpype.isJVMStarted():

@@ -63,7 +63,7 @@ def run_tetrad_pc_using_cl_kci(timeout=-1):
                           alpha=alpha_, kernelX=kernel, kernelY=kernel, nullss=nullss,
                           approx=approx, est_width='median', polyd=polyd)
     pc = ts.Pc(test1)
-    pc.setVerbose(False)
+    pc.setVerbose(True)
     pc.setStable(False)
     pc.setTimeout(timeout * 1000)
     graph = pc.search()
