@@ -18,30 +18,30 @@ search.run_boss()
 graph = search.get_java()
 print(graph)
 
-# graph = G # Uncomment to check true graph
-
 nodes = graph.getNodes()
 
 max_num_sets=10
 max_distance_from_point=5
-near_which_endpoint=1
+near_which_endpoint=3
 max_path_length=20
 
 for i in range(0, nodes.size()):
-    for j in range(i, nodes.size()):
-        print(f"Adjustment sets for source = {nodes.get(i).getName()} target = {nodes.get(j).getName()}")
-
+    for j in range(0, nodes.size()):
         try:
             adj_sets = search.get_adjustment_sets(graph, nodes.get(i), nodes.get(j),
                                                   max_num_sets=max_num_sets,
                                                   max_distance_from_point=max_distance_from_point,
                                                   near_which_endpoint=near_which_endpoint,
                                                   max_path_length=max_path_length)
+            print(f"Adjustment sets for source = {nodes.get(i).getName()} target = {nodes.get(j).getName()}")
 
             for adj_set in adj_sets:
                 print(adj_set)
-        except Exception as e:
-            print(e)
 
-        print()
+            print()
+        except Exception:
+
+            # Either there are no amenable paths or source == target.
+            pass
+
 
