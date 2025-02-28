@@ -6,7 +6,6 @@ import pandas as pd
 import pytetrad.tools.TetradSearch as ts
 import pytetrad.tools.simulate as sim
 import pytetrad.tools.translate as tr
-import edu.cmu.tetrad.graph as tg
 
 D, G = sim.simulateContinuous(num_meas=10, avg_deg=4, samp_size=1000)
 data = tr.tetrad_data_to_pandas(D)

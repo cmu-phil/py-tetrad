@@ -76,15 +76,19 @@ class TetradSearch:
         display = [self.SCORE, self.TEST, self.knowledge, self.java]
         return "\n\n".join([str(item) for item in display])
 
-    def use_sem_bic(self, penalty_discount=2, structurePrior=0, sem_bic_rule=1):
+    # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
+    def use_sem_bic(self, penalty_discount=2, structurePrior=0, sem_bic_rule=1, singularity_lambda=0.0):
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
         self.params.set(Params.SEM_BIC_STRUCTURE_PRIOR, structurePrior)
         self.params.set(Params.SEM_BIC_RULE, sem_bic_rule)
+        self.params.set(Params.SINGULARITY_LAMBDA, singularity_lambda)
         self.SCORE = score_.SemBicScore()
 
-    def use_ebic(self, gamma=0.8, precompute_covariances=True):
+    # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
+    def use_ebic(self, gamma=0.8, precompute_covariances=True, singularity_lambda=0.0):
         self.params.set(Params.EBIC_GAMMA, gamma)
         self.params.set(Params.PRECOMPUTE_COVARIANCES, precompute_covariances)
+        self.params.set(Params.SINGULARITY_LAMBDA, singularity_lambda)
         self.SCORE = score_.EbicScore()
 
     def use_gic_score(self, penalty_discount=1, sem_gic_rule=4):
@@ -98,13 +102,17 @@ class TetradSearch:
         self.params.set(Params.DISCRETIZE), discretize
         self.SCORE = score_.MVPBicScore()
 
-    def use_poisson_prior_score(self, lambda_=2, precompute_covariances=True):
+    # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
+    def use_poisson_prior_score(self, poisson_lambda=2, precompute_covariances=True, singularity_lambda=0.0):
         self.params.set(Params.PRECOMPUTE_COVARIANCES, precompute_covariances)
-        self.params.set(Params.POISSON_LAMBDA, lambda_)
+        self.params.set(Params.POISSON_LAMBDA, poisson_lambda)
+        self.params.set(Params.SINGULARITY_LAMBDA, singularity_lambda)
         self.SCORE = score_.PoissonPriorScore()
 
-    def use_zhang_shen_bound(self, risk_bound=0.2):
+    # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
+    def use_zhang_shen_bound(self, risk_bound=0.2, singularity_lambda=0.0):
         self.params.set(Params.ZS_RISK_BOUND, risk_bound)
+        self.params.set(Params.SINGULARITY_LAMBDA, singularity_lambda)
         self.SCORE = score_.ZhangShenBoundScore()
 
     def use_bdeu(self, sample_prior=10, structure_prior=0):
@@ -120,27 +128,35 @@ class TetradSearch:
         self.params.set(Params.NUM_CATEGORIES_TO_DISCRETIZE, num_categories_to_discretize)
         self.SCORE = score_.ConditionalGaussianBicScore()
 
-    def use_degenerate_gaussian_score(self, penalty_discount=1, structure_prior=0):
+    # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
+    def use_degenerate_gaussian_score(self, penalty_discount=1, structure_prior=0, singularity_lambda=0.0):
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
         self.params.set(Params.STRUCTURE_PRIOR, structure_prior)
+        self.params.set(Params.SINGULARITY_LAMBDA, singularity_lambda)
         self.SCORE = score_.DegenerateGaussianBicScore()
 
     # Uses covariance as a sufficient statistic
-    def use_basis_function_bic(self, truncation_limit=3, penalty_discount=2):
+    # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
+    def use_basis_function_bic(self, truncation_limit=3, penalty_discount=2, singularity_lambda=0.0):
         self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
+        self.params.set(Params.SINGULARITY_LAMBDA, singularity_lambda)
         self.SCORE = score_.BasisFunctionBicScore()
 
     # Full sample.
-    def use_basis_function_bic_fs(self, truncation_limit=3, penalty_discount=2):
+    # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
+    def use_basis_function_bic_fs(self, truncation_limit=3, penalty_discount=2, singularity_lambda=0.0):
         self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
+        self.params.set(Params.SINGULARITY_LAMBDA, singularity_lambda)
         self.SCORE = score_.BasisFunctionBicScoreTabular()
 
     # Uses covariance as a sufficient statistic.
-    def use_basis_function_lrt(self, truncation_limit=3, alpha=0.01, use_for_mc=False):
+    # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
+    def use_basis_function_lrt(self, truncation_limit=3, alpha=0.01, use_for_mc=False, singularity_lambda=0.0):
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
+        self.params.set(Params.SINGULARITY_LAMBDA, singularity_lambda)
 
         if use_for_mc:
             self.MC_TEST = ind_.BasisFunctionLrt()
@@ -148,17 +164,21 @@ class TetradSearch:
             self.TEST = ind_.BasisFunctionLrt()
 
     # Full sample
-    def use_basis_function_lrt_fs(self, truncation_limit=3, alpha=0.01, use_for_mc=False):
+    # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
+    def use_basis_function_lrt_fs(self, truncation_limit=3, alpha=0.01, use_for_mc=False, singularity_lambda=0.0):
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
+        self.params.set(Params.SINGULARITY_LAMBDA, singularity_lambda)
 
         if use_for_mc:
             self.MC_TEST = ind_.BasisFunctionLrtFullSample()
         else:
             self.TEST = ind_.BasisFunctionLrtFullSample()
 
-    def use_fisher_z(self, alpha=0.01, use_for_mc=False):
+    # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
+    def use_fisher_z(self, alpha=0.01, use_for_mc=False, singularity_lambda=0.0):
         self.params.set(Params.ALPHA, alpha)
+        self.params.set(Params.SINGULARITY_LAMBDA, singularity_lambda)
 
         if use_for_mc:
             self.MC_TEST = ind_.FisherZ()
@@ -208,8 +228,10 @@ class TetradSearch:
         else:
             self.TEST = ind_.ConditionalGaussianLRT()
 
-    def use_degenerate_gaussian_test(self, alpha=0.01, use_for_mc=False):
+    # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
+    def use_degenerate_gaussian_test(self, alpha=0.01, use_for_mc=False, singularity_lambda=0.0):
         self.params.set(Params.ALPHA, alpha)
+        self.params.set(Params.SINGULARITY_LAMBDA, singularity_lambda)
 
         if use_for_mc:
             self.MC_TEST = ind_.DegenerateGaussianLRT()
@@ -696,10 +718,10 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_dagma(self, lambda1=0.05, w_threshold=0.1, cpdag=True):
+    def run_dagma(self, dagma_lambda=0.05, w_threshold=0.1, cpdag=True):
         alg = dag.Dagma()
 
-        self.params.set(Params.LAMBDA1, lambda1)
+        self.params.set(Params.LAMBDA1, dagma_lambda)
         self.params.set(Params.W_THRESHOLD, w_threshold)
         self.params.set(Params.CPDAG, cpdag)
 
@@ -836,7 +858,7 @@ class TetradSearch:
         print(search_utils.GraphSearchUtils.isLegalPag(graph).getReason())
 
     def all_subsets_independence_facts(self, graph):
-        msep = (ts.MarkovCheck(graph, ts.TEST.IndTestFisherZ(self.data, 0.01), ts.ConditioningSetType.LOCAL_MARKOV)
+        msep = (ts.MarkovCheck(graph, ts.test.IndTestFisherZ(self.data, 0.01), ts.ConditioningSetType.LOCAL_MARKOV)
                 .getAllSubsetsIndependenceFacts().getMsep())
 
         facts = []
