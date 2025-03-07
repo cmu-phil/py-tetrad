@@ -40,7 +40,8 @@ from edu.cmu.tetrad.util import Params, Parameters
 
 class TetradSearch:
     """
-    Represents a Tetrad-based search class for structure learning and related statistical scoring and testing functionalities.
+    Represents a Tetrad-based search class for structure learning and related statistical scoring and testing 
+    functionalities.
 
     This class initializes and manages various scoring and independence test mechanisms based on configurations
     passed via methods. It adapts Tetrad functionalities while offering Pythonic interaction. The usage entails
@@ -69,6 +70,7 @@ class TetradSearch:
         self.MC_TEST = None
         self.java = None
         self.knowledge = td.Knowledge()
+        self.mc_knowledge = None
         self.params = Parameters()
         self.bootstrap_graphs = None
 
@@ -221,12 +223,12 @@ class TetradSearch:
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.DISCRETIZE, discretize)
         self.params.set(Params.NUM_CATEGORIES_TO_DISCRETIZE, num_categories_to_discretize)
-        self.TEST = ind_.ConditionalGaussianLRT()
+        self.TEST = ind_.ConditionalGaussianLrt()
 
         if use_for_mc:
-            self.MC_TEST = ind_.ConditionalGaussianLRT()
+            self.MC_TEST = ind_.ConditionalGaussianLrt()
         else:
-            self.TEST = ind_.ConditionalGaussianLRT()
+            self.TEST = ind_.ConditionalGaussianLrt()
 
     # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
     def use_degenerate_gaussian_test(self, alpha=0.01, use_for_mc=False, singularity_lambda=0.0):
@@ -234,9 +236,9 @@ class TetradSearch:
         self.params.set(Params.SINGULARITY_LAMBDA, singularity_lambda)
 
         if use_for_mc:
-            self.MC_TEST = ind_.DegenerateGaussianLRT()
+            self.MC_TEST = ind_.DegenerateGaussianLrt()
         else:
-            self.TEST = ind_.DegenerateGaussianLRT()
+            self.TEST = ind_.DegenerateGaussianLrt()
 
     def use_probabilistic_test(self, threshold=False, cutoff=0.5, prior_ess=10, use_for_mc=False):
         self.params.set(Params.NO_RANDOMLY_DETERMINED_INDEPENDENCE, threshold)
@@ -296,10 +298,32 @@ class TetradSearch:
     def clear_knowledge(self):
         self.knowledge.clear()
 
-    def load_knowledge(self, path):
-        know_file = io.File(path)
-        know_delim = td.DelimiterType.WHITESPACE
-        self.knowledge = td.SimpleDataLoader.loadKnowledge(know_file, know_delim, "//")
+    def load_knowledge(self, path, use_for_mc=False):
+        """
+        Loads knowledge from the specified file and sets it in the appropriate knowledge object (either
+        the main knowledge or the Monte Carlo (MC) knowledge) depending on the use_for_mc flag.
+
+        Note that knowledge for the algorithm is a different type of knowledge from what you use for the Markov checker.
+        Here is the doc for Markov checker knowledge: "Sets the knowledge object for the Markov checker. The knowledge
+        object should contain the tier knowledge for the Markov checker. The last tier contains the possible X and Y for
+        X _||_ Y | Z1,...,Zn, and the previous tiers contain the possible Z1,...,Zn for X _||_ Y | Z1,...,Zn.
+        Additional forbidden or required edges are ignored.
+    
+        :param path: The file path to the knowledge file that contains prior constraints.
+        :type path: str
+        :param use_for_mc: If True, loads the knowledge into the Monte Carlo (MC) knowledge object;
+                           otherwise, loads it into the main knowledge object.
+        :type use_for_mc: bool
+        :return: None
+        """
+        if use_for_mc:
+            know_file = io.File(path)
+            know_delim = td.DelimiterType.WHITESPACE
+            self.mc_knowledge = td.SimpleDataLoader.loadKnowledge(know_file, know_delim, "#")
+        else:
+            know_file = io.File(path)
+            know_delim = td.DelimiterType.WHITESPACE
+            self.knowledge = td.SimpleDataLoader.loadKnowledge(know_file, know_delim, "#")
 
     def check_knowledge(self):
         X = [str(x) for x in self.knowledge.getVariables()]
@@ -908,12 +932,14 @@ class TetradSearch:
         if self.MC_TEST == None:
             raise Exception("A test for the Markov Checker has not been set. Please call as use_{test name} method setting the parmaeter 'use_for_mc' to True")
 
-        test = self.MC_TEST.getTest(self.data, self.params)
-        mc = ts.MarkovCheck(graph, test, condition_set_type)
-        mc.setKnowledge(self.knowledge)
+        mc = ts.MarkovCheck(graph, self.MC_TEST.getTest(self.data, self.params), condition_set_type)
         mc.setPercentResample(percent_resample)
         mc.setFindSmallestSubset(removeExtraneous)
         mc.setParallelized(parallelized)
+
+        if self.mc_knowledge is not None:
+            mc.setKnowledge(self.mc_knowledge)
+
         mc.generateResults(True)
 
         self.mc_ind_results = mc.getResults(True)
