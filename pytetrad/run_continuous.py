@@ -51,6 +51,14 @@ print('PC')
 search.run_pc()
 print(search.get_string())
 
+print('PC-Max')
+search.run_pc_max()
+print(search.get_string())
+
+print('CPC')
+search.run_cpc()
+print(search.get_string())
+
 print('FCI')
 search.run_fci()
 print(search.get_string())
