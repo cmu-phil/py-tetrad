@@ -535,6 +535,7 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
+    # This is GFCI with the possible d-sep step.
     def run_gfci(self, depth=-1, max_degree=-1, max_disc_path_length=-1, complete_rule_set_used=True,
                  guarantee_pag=False):
         self.params.set(Params.DEPTH, depth)
@@ -549,14 +550,29 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_bfci(self, depth=-1, max_disc_path_length=-1, complete_rule_set_used=True,
+    # This is GFCI without the possible d-sep step
+    def run_fges_fci(self, depth=-1, max_degree=-1, max_disc_path_length=-1, complete_rule_set_used=True,
+                 guarantee_pag=False):
+        self.params.set(Params.DEPTH, depth)
+        self.params.set(Params.MAX_DEGREE, max_degree)
+        self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used),
+        self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
+        self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
+
+        alg = pag.Gfci(self.TEST, self.SCORE)
+        alg.setKnowledge(self.knowledge)
+
+        self.java = alg.search(self.data, self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
+    def run_boss_fci(self, depth=-1, max_disc_path_length=-1, complete_rule_set_used=True,
                  guarantee_pag=False):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used),
         self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
         self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
 
-        alg = pag.Bfci(self.TEST, self.SCORE)
+        alg = pag.BossFci(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
         self.java = alg.search(self.data, self.params)

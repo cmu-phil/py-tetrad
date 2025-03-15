@@ -71,8 +71,8 @@ print('GFCI')
 search.run_gfci()
 print(search.get_string())
 
-print('BFCI')
-search.run_bfci()
+print('BOSS-FCI')
+search.run_boss_fci()
 print(search.get_string())
 
 print('LV-Lite')
