@@ -448,7 +448,7 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_pc(self, conflict_rule=1, depth=-1, stable_fas=True, guarantee_cpdag=True):
+    def run_pc(self, conflict_rule=1, depth=-1, stable_fas=True, guarantee_cpdag=False):
         self.params.set(Params.CONFLICT_RULE, conflict_rule)
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.STABLE_FAS, stable_fas)
