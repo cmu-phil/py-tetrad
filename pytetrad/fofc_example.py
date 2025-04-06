@@ -15,3 +15,11 @@ search = ts.TetradSearch(data)
 search.run_fofc(include_structure_model=True, tetrad_test=1, alpha=0.001)
 
 print(search.get_java())
+
+search.run_bpc(include_structure_model=False, alpha=0.01)
+
+print(search.get_java())
+
+search.run_factor_analysis()
+
+print(search.get_java())

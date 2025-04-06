@@ -9,14 +9,14 @@ import jpype.imports
 
 # print('cwd = ', os.getcwd())
 
-jar_path = importlib_resources.files('pytetrad').joinpath('resources', 'tetrad-current.jar')
-jar_path = str(jar_path)
-if not jpype.isJVMStarted():
-    try:
-        jpype.startJVM(jpype.getDefaultJVMPath(), classpath=[jar_path])
-    except OSError:
-        print("can't load jvm")
-        pass
+# jar_path = importlib_resources.files('pytetrad').joinpath('resources', 'tetrad-current.jar')
+# jar_path = str(jar_path)
+# if not jpype.isJVMStarted():
+#     try:
+#         jpype.startJVM(jpype.getDefaultJVMPath(), classpath=[jar_path])
+#     except OSError:
+#         print("can't load jvm")
+#         pass
 
 import pytetrad.tools.translate as tr
 import edu.cmu.tetrad.search as ts
@@ -32,6 +32,7 @@ import edu.cmu.tetrad.algcomparison.algorithm.cluster as cluster
 import edu.cmu.tetrad.algcomparison.score as score_
 import edu.cmu.tetrad.algcomparison.independence as ind_
 import edu.cmu.tetrad.search.utils as search_utils
+import edu.cmu.tetrad.algcomparison.algorithm.other as alg_other
 
 import java.io as io
 
@@ -679,7 +680,7 @@ class TetradSearch:
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_fofc(self, alpha=0.001, penalty_discount=2.0, tetrad_test=1,
-                 include_structure_model=True, precompute_covariances=True):
+                 include_structure_model=True, precompute_covariances=True, include_all_nodes=False):
         """
         Executes the FOFC (Fast Orientation of Factor Causal) clustering algorithm with the specified
         parameters and data provided to the class instance. This method sets up necessary configurations,
@@ -701,9 +702,10 @@ class TetradSearch:
         :param precompute_covariances: If True, precomputes covariance matrices to optimize the algorithm's
             performance during execution.
         :type precompute_covariances: bool
-        :return: The result of running the FOFC search algorithm on the given dataset using the specified
-            parameters.
-        :rtype: object or relevant result type
+        :param include_all_nodes: If True, all variables are included in the returned graph; if
+            false, only clustered variables. (Default = false)
+        :type include_all_nodes: boolean
+        :rtype: A graph indicating clusters
         """
 
         # Set algorithm parameters in the Params object
@@ -711,10 +713,76 @@ class TetradSearch:
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
         self.params.set(Params.TETRAD_TEST_FOFC, tetrad_test)
         self.params.set(Params.INCLUDE_STRUCTURE_MODEL, include_structure_model)
+        self.params.set(Params.INCLUDE_ALL_NODES, include_all_nodes)
         self.params.set(Params.PRECOMPUTE_COVARIANCES, precompute_covariances)
 
         # Initialize the FOFC clustering algorithm
         alg = cluster.Fofc()
+
+        # Run the search algorithm using the data and specified parameters
+        self.java = alg.search(self.data, self.params)
+
+    def run_bpc(self, alpha=0.001, penalty_discount=2.0, check_type=3,
+                 include_structure_model=True, precompute_covariances=True):
+        """
+        Executes the BPC (Bayesian Profile Clustering) algorithm using the specified
+        parameters. The function configures algorithm parameters, initializes the BPC
+        clustering algorithm, and performs the search process using the provided data
+        and configured options.
+
+        :param alpha: Significance level parameter used in the algorithm.
+        :type alpha: float
+        :param penalty_discount: Discounting factor for penalization in the algorithm.
+        :type penalty_discount: float
+        :param check_type: 1 = Significance, 2 = Clique (default), 3 = None
+        :type check_type: int
+        :param include_structure_model: Specifies whether to include structural model
+            considerations during computation.
+        :type include_structure_model: bool
+        :param precompute_covariances: Specifies whether to precompute covariance
+            matrices for efficiency in calculations.
+        :type precompute_covariances: bool
+        :return: Returns a graph indicating clusters
+        :rtype: object
+        """
+        # Set algorithm parameters in the Params object
+        self.params.set(Params.ALPHA, alpha)
+        self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
+        self.params.set(Params.INCLUDE_STRUCTURE_MODEL, include_structure_model)
+        self.params.set(Params.CHECK_TYPE, check_type)
+        self.params.set(Params.PRECOMPUTE_COVARIANCES, precompute_covariances)
+
+        # Initialize the BPC clustering algorithm
+        alg = cluster.Bpc()
+
+        # Run the search algorithm using the data and specified parameters
+        self.java = alg.search(self.data, self.params)
+
+    def run_factor_analysis(self, fa_threshold=0.001, num_factors=2.0, use_varimax=True,
+                convergence_threshold=0.001):
+        """
+        Run factor analysis using specified parameters and a predefined dataset.
+
+        This method initializes and configures the factor analysis algorithm with the
+        provided parameter values and executes it using the given data and parameter
+        configuration. Factor analysis is used to identify potential underlying
+        factors that may explain the observed relationships among variables.
+
+        :param fa_threshold: Threshold for factor analysis convergence criterion.
+        :param num_factors: The number of factors to extract during analysis.
+        :param use_varimax: Flag indicating whether to apply Varimax rotation to the
+            extracted factors.
+        :param convergence_threshold: Minimum threshold for algorithm convergence.
+        :return: None
+        """
+        # Set algorithm parameters in the Params object
+        self.params.set("fa_threshold", fa_threshold)
+        self.params.set("numFactors", num_factors)
+        self.params.set("useVarimax", use_varimax)
+        self.params.set("convergenceThreshold", convergence_threshold)
+
+        # Initialize the BPC clustering algorithm
+        alg = alg_other.FactorAnalysis()
 
         # Run the search algorithm using the data and specified parameters
         self.java = alg.search(self.data, self.params)
