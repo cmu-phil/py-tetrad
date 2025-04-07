@@ -145,7 +145,7 @@ class TetradSearch:
         self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
         self.params.set(Params.SINGULARITY_LAMBDA, singularity_lambda)
-        self.params.set(Params.DO_ONE_EQUATION_ONY, do_one_equation_only)
+        self.params.set(Params.DO_ONE_EQUATION_ONLY, do_one_equation_only)
         self.SCORE = score_.BasisFunctionBicScore()
 
     # Full sample.
@@ -155,7 +155,7 @@ class TetradSearch:
         self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
         self.params.set(Params.SINGULARITY_LAMBDA, singularity_lambda)
-        self.params.set(Params.DO_ONE_EQUATION_ONY, do_one_equation_only)
+        self.params.set(Params.DO_ONE_EQUATION_ONLY, do_one_equation_only)
         self.SCORE = score_.BasisFunctionBicScoreTabular()
 
     # Uses covariance as a sufficient statistic.
@@ -179,7 +179,7 @@ class TetradSearch:
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
         self.params.set(Params.SINGULARITY_LAMBDA, singularity_lambda)
-        self.params.set(Params.DO_ONE_EQUATION_ONY, do_one_equation_only)
+        self.params.set(Params.DO_ONE_EQUATION_ONLY, do_one_equation_only)
 
         if use_for_mc:
             self.MC_TEST = ind_.BasisFunctionLrtFullSample()
