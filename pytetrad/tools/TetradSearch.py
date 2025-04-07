@@ -140,26 +140,32 @@ class TetradSearch:
 
     # Uses covariance as a sufficient statistic
     # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
-    def use_basis_function_bic(self, truncation_limit=3, penalty_discount=2, singularity_lambda=0.0):
+    def use_basis_function_bic(self, truncation_limit=3, penalty_discount=2, singularity_lambda=0.0,
+                               do_one_equation_only=True):
         self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
         self.params.set(Params.SINGULARITY_LAMBDA, singularity_lambda)
+        self.params.set(Params.DO_ONE_EQUATION_ONY, do_one_equation_only)
         self.SCORE = score_.BasisFunctionBicScore()
 
     # Full sample.
     # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
-    def use_basis_function_bic_fs(self, truncation_limit=3, penalty_discount=2, singularity_lambda=0.0):
+    def use_basis_function_bic_fs(self, truncation_limit=3, penalty_discount=2, singularity_lambda=0.0,
+                                  do_one_equation_only=True):
         self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
         self.params.set(Params.SINGULARITY_LAMBDA, singularity_lambda)
+        self.params.set(Params.DO_ONE_EQUATION_ONY, do_one_equation_only)
         self.SCORE = score_.BasisFunctionBicScoreTabular()
 
     # Uses covariance as a sufficient statistic.
     # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
-    def use_basis_function_lrt(self, truncation_limit=3, alpha=0.01, use_for_mc=False, singularity_lambda=0.0):
+    def use_basis_function_lrt(self, truncation_limit=3, alpha=0.01, use_for_mc=False, singularity_lambda=0.0,
+                               do_one_equation_only=True):
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
         self.params.set(Params.SINGULARITY_LAMBDA, singularity_lambda)
+        self.params.set(Params.DO_ONE_EQUATION_ONLY, do_one_equation_only)
 
         if use_for_mc:
             self.MC_TEST = ind_.BasisFunctionLrt()
@@ -168,10 +174,12 @@ class TetradSearch:
 
     # Full sample
     # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
-    def use_basis_function_lrt_fs(self, truncation_limit=3, alpha=0.01, use_for_mc=False, singularity_lambda=0.0):
+    def use_basis_function_lrt_fs(self, truncation_limit=3, alpha=0.01, use_for_mc=False, singularity_lambda=0.0,
+                                  do_one_equation_only=True):
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
         self.params.set(Params.SINGULARITY_LAMBDA, singularity_lambda)
+        self.params.set(Params.DO_ONE_EQUATION_ONY, do_one_equation_only)
 
         if use_for_mc:
             self.MC_TEST = ind_.BasisFunctionLrtFullSample()
