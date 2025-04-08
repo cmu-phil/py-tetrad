@@ -587,18 +587,18 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_lv_lite(self, num_starts=1, max_blocking_path_length=5, depth=5, max_disc_path_length=5,
+    def run_fci_tt(self, num_starts=1, max_blocking_path_length=5, depth=5, max_disc_path_length=5,
                     guarantee_pag=True):
         # BOSS
         self.params.set(Params.NUM_STARTS, num_starts)
 
-        # LV-Lite
+        # FCI-TT
         self.params.set(Params.MAX_BLOCKING_PATH_LENGTH, max_blocking_path_length)
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
         self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
 
-        alg = pag.LvLite(self.TEST, self.SCORE)
+        alg = pag.FciTt(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
         self.java = alg.search(self.data, self.params)

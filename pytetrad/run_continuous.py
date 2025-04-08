@@ -71,12 +71,8 @@ print('GFCI')
 search.run_gfci()
 print(search.get_string())
 
-print('BOSS-FCI')
-search.run_boss_fci()
-print(search.get_string())
-
-print('LV-Lite')
-search.run_lv_lite()
+print('FCI-TT')
+search.run_fci_tt()
 print(search.get_string())
 
 print('GRaSP-FCI')
