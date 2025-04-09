@@ -8,15 +8,9 @@ import importlib.resources as importlib_resources
 jar_path = importlib_resources.files('pytetrad').joinpath('resources','tetrad-current.jar')
 jar_path = str(jar_path)
 
-import pytetrad.tools.translate as tr
 import pytetrad.tools.translate as ptt
-import pytetrad.tools.visualize as ptv
-import edu.cmu.tetrad.graph as tg
 import edu.cmu.tetrad.search as ts
 import edu.cmu.tetrad.data as td
-import edu.cmu.tetrad.algcomparison.algorithm.multi as multi
-import edu.cmu.tetrad.util as util
-import java.util as jutil
 
 tiers = [['age', 'gender', 'height', 'weight', 'resting_heart', 'device', 'activity'],
          ['steps', 'heart_rate', 'calories', 'distance']]
