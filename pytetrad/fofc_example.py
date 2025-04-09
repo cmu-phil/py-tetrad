@@ -12,7 +12,7 @@ data = data.astype({col: "float64" for col in data.columns})
 search = ts.TetradSearch(data)
 search.set_verbose(False)
 
-# tetrad_test is 1 for CCA, 2 Bollen-Ting 3 for Wishart
+# # tetrad_test is 1 for CCA, 2 Bollen-Ting 3 for Wishart
 search.run_fofc(include_structure_model=True, tetrad_test=1, alpha=0.001)
 
 print(search.get_java())

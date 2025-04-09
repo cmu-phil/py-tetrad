@@ -74,6 +74,7 @@ cov <- .jnew("edu/cmu/tetrad/data/CovarianceMatrix",
 
 score <- .jnew("edu.cmu.tetrad.search.score.SemBicScore", .jcast(cov, "edu.cmu.tetrad.data.ICovarianceMatrix"))
 .jcall(score, "V", "setPenaltyDiscount", 2)
+.jcall(score, "V", "setLambda", -1)
 
 ## Construct a BOSS search and return a Tetrad Graph object.
 
