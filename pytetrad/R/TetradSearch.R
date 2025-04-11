@@ -10,7 +10,8 @@ TetradSearch <- setRefClass(
     test = "ANY",                 # IndependenceTest object
     knowledge = "ANY",            # Background knowledge object
     graph = "ANY",                # Resulting graph
-    search = "ANY"                # Search object
+    search = "ANY",               # Search object
+    params = "ANY"                # Parameters object
   ),
 
   methods = list(
@@ -41,6 +42,8 @@ TetradSearch <- setRefClass(
                          as.integer(.self$sample_size))
       cat("Covariance matrix created.\n")
 
+      .self$params <- .jnew("edu.cmu.tetrad.util.Parameters")
+
       .self$knowledge <- .jnew("edu/cmu/tetrad/data/Knowledge")
       cat("Knowledge instance created.\n")
       cat("TetradSearch object initialized successfully.\n")
@@ -52,6 +55,14 @@ TetradSearch <- setRefClass(
         stop("Error: The 'score' field has not been initialized yet. Please \
                  set a score before running the algorithm.")
       }
+    },
+
+    .setParam = function(key, value) {
+      .jcall(.self$params, "V", "set", key, .jcast(.jnew("java/lang/Boolean", value), "java/lang/Object"))
+    },
+
+    .setParamInt = function(key, value) {
+      .jcall(.self$params, "V", "set", key, .jcast(.jnew("java/lang/Integer", as.integer(value)), "java/lang/Object"))
     },
 
     .set_knowledge = function() {
@@ -92,11 +103,9 @@ TetradSearch <- setRefClass(
     #
     # @param penalty_discount The penalty discount to use in the SemBicScore calculation.
     use_sem_bic = function(penalty_discount = 2) {
-      score1 <- .jnew("edu.cmu.tetrad.search.score.SemBicScore",
-                      .jcast(.self$cov, "edu.cmu.tetrad.data.ICovarianceMatrix"))
-      .self$score <- .jcast(score1, "edu.cmu.tetrad.search.score.Score")
-      .jcall(.self$score, "V", "setPenaltyDiscount", penalty_discount)
-
+      .self$.setParamDouble("penaltyDiscount", penalty_discount)
+      .self$score <- .jnew("edu.cmu.tetrad.algcomparison.score.SemBicScore")
+      .self$score <- .jcast(.self$score, "edu.cmu.tetrad.algcomparison.score.ScoreWrapper")
       cat("SemBicScore object created with penalty discount set.\n")
     },
 
@@ -104,128 +113,157 @@ TetradSearch <- setRefClass(
     #
     # @param alpha The significance cutoff.
     use_fisher_z = function(alpha = 0.01) {
-      test1 <- .jnew("edu.cmu.tetrad.search.test.IndTestFisherZ",
-                     .jcast(.self$cov, "edu.cmu.tetrad.data.ICovarianceMatrix"),
-                     alpha)
-      .self$test <- .jcast(test1, "edu.cmu.tetrad.search.IndependenceTest")
-      # .jcall(.self$test, "V", "setAlpha", alpha)
+      .self$.setParamDouble("alpha", alpha)
+      .self$test <- .jnew("edu.cmu.tetrad.algcomparison.independence.FisherZ")
+      .self$test <- .jcast(.self$test, "edu.cmu.tetrad.algcomparison.independence.IndependenceWrapper")
 
       cat("Fisher Z object created with alpha set.\n")
     },
 
-    # Run the PC algorithm
-    #
-    # @return The resulting graph from the PC algorithm.
-    run_pc = function() {
+    run_pc = function(conflict_rule=1, depth=-1, stable_fas=TRUE, guarantee_cpdag=FALSE) {
       cat("Running PC algorithm...\n")
-      tryCatch({
-        .self$.check_test()
-        .self$search <- .jnew("edu.cmu.tetrad.search.Pc",
-                              .jcast(.self$test, "edu.cmu.tetrad.search.IndependenceTest"))
-        .self$.set_knowledge()
-        .self$.run_search()
-        cat("PC algorithm completed. Graph generated.\n")
-      }, error = function(e) {
-        stop("Error during PC algorithm execution:", e$message, "\n")
-      })
 
+      .self$.setParamInt("conflictRule", conflict_rule)
+      .self$.setParamInt("depth", depth)
+      .self$.setParam("stableFas", stable_fas)
+      .self$.setParam("guaranteePag", guarantee_cpdag)
+
+      dataModel <- .jcast(.self$cov, "edu.cmu.tetrad.data.DataModel")
+
+      pc <- .jnew("edu.cmu.tetrad.algcomparison.algorithm.oracle.cpdag.Pc", .self$test)
+      .jcall(pc, "V", "setKnowledge", .self$knowledge)
+
+      graph <- .jcall(pc, "Ledu/cmu/tetrad/graph/Graph;", "search", dataModel, .self$params)
+      .self$graph <- graph
+
+      cat("PC search completed.\n")
       return(.self$graph)
     },
 
     # Run the FGES algorithm
     #
     # @return The resulting graph from the FGES algorithm.
-    run_fges = function() {
+    run_fges = function(symmetric_first_step = FALSE, max_degree = -1, parallelized = FALSE, faithfulness_assumed = FALSE) {
       cat("Running FGES algorithm...\n")
 
-      tryCatch({
-        .self$.check_score()
-        .self$search <- .jnew("edu.cmu.tetrad.search.Fges", .self$score)
-        .self$.run_search()
-        cat("FGES algorithm completed. Graph generated.\n")
-      }, error = function(e) {
-        # Print the error message for debugging
-        stop("Error during FGES algorithm execution: ", e$message, "\n")
-      })
+      .self$.setParam("symmetricFirstStep", symmetric_first_step)
+      .self$.setParamInt("maxDegree", max_degree)
+      .self$.setParam("parallelized", parallelized)
+      .self$.setParam("faithfulnessAssumed", faithfulness_assumed)
 
+      dataModel <- .jcast(.self$cov, "edu.cmu.tetrad.data.DataModel")
+
+      fges <- .jnew("edu.cmu.tetrad.algcomparison.algorithm.oracle.cpdag.Fges", .self$score)
+      .jcall(fges, "V", "setKnowledge", .self$knowledge)
+
+      graph <- .jcall(fges, "Ledu/cmu/tetrad/graph/Graph;", "search", dataModel, .self$params)
+      .self$graph <- graph
+
+      cat("FGES search completed.\n")
       return(.self$graph)
     },
-    
+
+    # --- Internal parameter helpers ---
+
+    .setParamDouble = function(key, value) {
+      .jcall(.self$params, "V", "set", key, .jcast(.jnew("java/lang/Double", as.double(value)), "java/lang/Object"))
+    },
+
+    # --- Run BOSS using algcomparison wrapper ---
+
     run_boss = function(num_starts = 1, use_bes = FALSE, time_lag = 0, use_data_order = TRUE, output_cpdag = TRUE) {
       cat("Running BOSS algorithm...\n")
-      
-      params <- .jnew("edu.cmu.tetrad.util.Parameters")
-      .jcall(params, "V", "set", "useBes", .jcast(.jnew("java/lang/Boolean", use_bes), "java/lang/Object"))
-      .jcall(params, "V", "set", "numStarts", .jcast(.jnew("java/lang/Integer", as.integer(num_starts)), "java/lang/Object"))
-      .jcall(params, "V", "set", "timeLag", .jcast(.jnew("java/lang/Integer", as.integer(time_lag)), "java/lang/Object"))
-      .jcall(params, "V", "set", "useDataOrder", .jcast(.jnew("java/lang/Boolean", use_data_order), "java/lang/Object"))
-      .jcall(params, "V", "set", "outputCpdag", .jcast(.jnew("java/lang/Boolean", output_cpdag), "java/lang/Object"))
-      
+
+      .self$.setParam("useBes", use_bes)
+      .self$.setParamInt("numStarts", num_starts)
+      .self$.setParamInt("timeLag", time_lag)
+      .self$.setParam("useDataOrder", use_data_order)
+      .self$.setParam("outputCpdag", output_cpdag)
+
       dataModel <- .jcast(.self$cov, "edu.cmu.tetrad.data.DataModel")
-      score <- .jnew("edu.cmu.tetrad.algcomparison.score.SemBicScore")
-      score <- .jcast(score, "edu.cmu.tetrad.algcomparison.score.ScoreWrapper")
-      boss <- .jnew("edu.cmu.tetrad.algcomparison.algorithm.oracle.cpdag.Boss", score)
+
+      boss <- .jnew("edu.cmu.tetrad.algcomparison.algorithm.oracle.cpdag.Boss", .self$score)
       .jcall(boss, "V", "setKnowledge", .self$knowledge)
-      graph <<- .jcall(boss, "Ledu/cmu/tetrad/graph/Graph;", "search", dataModel, params)
+
+      graph <- .jcall(boss, "Ledu/cmu/tetrad/graph/Graph;", "search", dataModel, .self$params)
       .self$graph <- graph
-      
+
       cat("BOSS search completed.\n")
-      return(.self$graph)
     },
-    
 
     # Run the FCI algorithm
     #
     # @return The resulting graph from the FCI algorithm.
-    run_fci = function() {
+    run_fci = function(depth = -1, stable_fas = TRUE, max_disc_path_length = -1, complete_rule_set_used = TRUE, guarantee_pag = FALSE) {
       cat("Running FCI algorithm...\n")
 
-      tryCatch({
-        .self$.check_test()
-        .self$search <- .jnew("edu.cmu.tetrad.search.Fci", .self$test)
-        .self$.run_search()
-      }, error = function(e) {
-        stop("Error during FCI algorithm execution:", e$message, "\n")
-      })
+      .self$.setParamInt("depth", depth)
+      .self$.setParam("stableFas", stable_fas)
+      .self$.setParamInt("maxDiscriminatingPathLength", max_disc_path_length)
+      .self$.setParam("completeRuleSetUsed", complete_rule_set_used)
+      .self$.setParam("guaranteePag", guarantee_pag)
 
-      return(.self$graph)
+      dataModel <- .jcast(.self$cov, "edu.cmu.tetrad.data.DataModel")
+
+      fci <- .jnew("edu.cmu.tetrad.algcomparison.algorithm.oracle.pag.Fci", .self$test)
+      .jcall(fci, "V", "setKnowledge", .self$knowledge)
+
+      graph <- .jcall(fci, "Ledu/cmu/tetrad/graph/Graph;", "search", dataModel, .self$params)
+      .self$graph <- graph
+
+      cat("FCI search completed.\n")
     },
 
     # Run the BFCI algorithm
     #
     # @return The resulting graph from the BFCI algorithm.
-    run_bfci = function() {
-      cat("Running BFCI algorithm...\n")
+    run_boss_fci = function(depth = -1, max_disc_path_length = -1, complete_rule_set_used = TRUE, guarantee_pag = FALSE) {
+      cat("Running BOSS-FCI algorithm...\n")
 
-      tryCatch({
-        .self$.check_score()
-        .self$.check_test()
-        .self$search <- .jnew("edu.cmu.tetrad.search.BFci", .self$test, .self$score)
-        .self$.run_search()
-        cat("BFCI algorithm completed. Graph generated.\n")
-      }, error = function(e) {
-        stop("Error during BFCI algorithm execution:", e$message, "\n")
-      })
+      .self$.setParamInt("depth", depth)
+      .self$.setParamInt("maxDiscriminatingPathLength", max_disc_path_length)
+      .self$.setParam("completeRuleSetUsed", complete_rule_set_used)
+      .self$.setParam("guaranteePag", guarantee_pag)
 
-      return(.self$graph)
+      dataModel <- .jcast(.self$cov, "edu.cmu.tetrad.data.DataModel")
+
+      boss_fci <- .jnew("edu.cmu.tetrad.algcomparison.algorithm.oracle.pag.BossFci", .self$test, .self$score)
+      .jcall(boss_fci, "V", "setKnowledge", .self$knowledge)
+
+      graph <- .jcall(boss_fci, "Ledu/cmu/tetrad/graph/Graph;", "search", dataModel, .self$params)
+      .self$graph <- graph
+
+      cat("BOSS-FCI search completed.\n")
     },
 
-    # Run the LV-Lite algorithm
+
+    # Run the FCIT algorithm
     #
     # @return The resulting graph from the BFCI algorithm.
-    run_lvlite = function() {
-      cat("Running LV-Lite algorithm...\n")
+    run_fcit = function(num_starts = 1, max_blocking_path_length = 5, depth = 5, max_disc_path_length = 5, guarantee_pag = TRUE) {
+      cat("Running FCIT algorithm...\n")
 
-      tryCatch({
-        .self$.check_score()
-        .self$.check_test()
-        .self$search <- .jnew("edu.cmu.tetrad.search.LvLite",.self$test, .self$score)
-        .self$.run_search()
-        cat("LV-Lite algorithm completed. Graph generated.\n")
-      }, error = function(e) {
-        stop("Error during LV-Lite algorithm execution:", e$message, "\n")
-      })
+      # BOSS parameters
+      .self$.setParamInt("numStarts", num_starts)
 
+      # FCIT parameters
+      .self$.setParamInt("maxBlockingPathLength", max_blocking_path_length)
+      .self$.setParamInt("depth", depth)
+      .self$.setParamInt("maxDiscriminatingPathLength", max_disc_path_length)
+      .self$.setParam("guaranteePag", guarantee_pag)
+
+      dataModel <- .jcast(.self$cov, "edu.cmu.tetrad.data.DataModel")
+
+      fcit <- .jnew("edu.cmu.tetrad.algcomparison.algorithm.oracle.pag.Fcit", .self$test, .self$score)
+      .jcall(fcit, "V", "setKnowledge", .self$knowledge)
+
+      graph <- .jcall(fcit, "Ledu/cmu/tetrad/graph/Graph;", "search", dataModel, .self$params)
+      .self$graph <- graph
+
+      cat("FCIT search completed.\n")
+    },
+
+    get_java = function() {
       return(.self$graph)
     },
 
@@ -234,12 +272,12 @@ TetradSearch <- setRefClass(
     # This method prints the structure of the resulting graph.
     # @param graph A Tetrad graph object.
     # @return The graph object.
-    print_graph = function(graph) {
+    print_graph = function() {
       cat("Attempting to print the graph...\n")
-      if (is.null(graph)) {
-        cat("No graph generated yet. Please run the BOSS algorithm first.\n")
+      if (is.null(.self$graph)) {
+        cat("No graph generated yet. Please run an algorithm first.\n")
       } else {
-        cat("Graph structure:\n", graph$toString(), "\n")
+        cat("Graph structure:\n", .self$graph$toString(), "\n")
       }
       invisible(.self$graph)
     }

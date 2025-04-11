@@ -48,8 +48,8 @@ java_version
 
 ## Make some continuous data.
 
-# data <- read.table("pytetrad/resources/airfoil-self-noise.continuous.txt", header=TRUE)
-data <- read.table("pytetrad/resources/example_sim_100-6-1000.txt", header=TRUE)
+data <- read.table("pytetrad/resources/airfoil-self-noise.continuous.txt", header=TRUE)
+# data <- read.table("pytetrad/resources/example_sim_100-6-1000.txt", header=TRUE)
 
 ## The read.table function will read decimal columns as real ('numeric')
 ## and integer columns as discrete. When passing data from R into Python,
@@ -99,7 +99,16 @@ score <- .jnew("edu.cmu.tetrad.search.score.SemBicScore", .jcast(cov, "edu.cmu.t
 
 ts <- TetradSearch$new(data)
 ts$use_sem_bic()
-g2 = ts$run_boss()
+ts$use_fisher_z()
+ts$run_fcit()
+g2 <- ts$get_java()
 
-print("BIC")
-print(g2$getAttribute("BIC"))
+ts$print_graph()
+
+# print("BIC")
+# print(g2$getAttribute("BIC"))
+
+# ts$use_fisher_z()
+# g3 <- ts$run_pc()
+
+# print(g3)
