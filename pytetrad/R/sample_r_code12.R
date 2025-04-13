@@ -51,6 +51,8 @@ java_version
 data <- read.table("pytetrad/resources/airfoil-self-noise.continuous.txt", header=TRUE)
 # data <- read.table("pytetrad/resources/example_sim_100-6-1000.txt", header=TRUE)
 
+print(data)
+
 ## The read.table function will read decimal columns as real ('numeric')
 ## and integer columns as discrete. When passing data from R into Python,
 ## integer columns will still be interpreted as discrete, so we have to
@@ -112,3 +114,13 @@ ts$print_graph()
 # g3 <- ts$run_pc()
 
 # print(g3)
+
+adj_sets <- ts$get_adjustment_sets(g2, "Attack", "Pressure")
+print(adj_sets)
+
+ts$print_adjustment_sets(adj_sets)
+
+ts$use_fisher_z()
+ret <- ts$markov_check(g2)
+
+print(ret)

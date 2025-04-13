@@ -1,3 +1,6 @@
+# This class translates some select methods from TetradSearch.py in py-tetrad
+# for use in R using rJava.
+
 TetradSearch <- setRefClass(
   "TetradSearch",
 
@@ -8,6 +11,8 @@ TetradSearch <- setRefClass(
     cov = "ANY",                  # Covariance matrix
     score = "ANY",                # Score object
     test = "ANY",                 # IndependenceTest object
+    mc_test = "ANY",              # IndependenceTest for the Markov Checker
+    mc_ind_results = "ANY",       # Markov Checker independence test results
     knowledge = "ANY",            # Background knowledge object
     graph = "ANY",                # Resulting graph
     search = "ANY",               # Search object
@@ -116,6 +121,8 @@ TetradSearch <- setRefClass(
       .self$.setParamDouble("alpha", alpha)
       .self$test <- .jnew("edu.cmu.tetrad.algcomparison.independence.FisherZ")
       .self$test <- .jcast(.self$test, "edu.cmu.tetrad.algcomparison.independence.IndependenceWrapper")
+
+      .self$mc_test <- .self$test
 
       cat("Fisher Z object created with alpha set.\n")
     },
@@ -280,6 +287,133 @@ TetradSearch <- setRefClass(
         cat("Graph structure:\n", .self$graph$toString(), "\n")
       }
       invisible(.self$graph)
+    },
+
+    get_adjustment_sets = function(graph, source, target, max_num_sets = 10, max_distance_from_point = 5,
+                                   near_which_endpoint = 1, max_path_length = 20) {
+      cat("Getting adjustment sets for:", source, "->", target, "\n")
+
+      # Look up Node objects by name
+      source_node <- .jcall(graph, "Ledu/cmu/tetrad/graph/Node;", "getNode", source)
+      target_node <- .jcall(graph, "Ledu/cmu/tetrad/graph/Node;", "getNode", target)
+
+      if (is.jnull(source_node)) stop(paste("Source node", source, "not found in the graph."))
+      if (is.jnull(target_node)) stop(paste("Target node", target, "not found in the graph."))
+
+      # Get Paths object from Graph
+      paths <- .jcall(graph, "Ledu/cmu/tetrad/graph/Paths;", "paths")
+
+      # Java List<Set<Node>>
+      sets_list <- .jcall(paths,
+                          "Ljava/util/List;",
+                          "adjustmentSets",
+                          source_node,
+                          target_node,
+                          as.integer(max_num_sets),
+                          as.integer(max_distance_from_point),
+                          as.integer(near_which_endpoint),
+                          as.integer(max_path_length))
+
+
+      size <- .jcall(sets_list, "I", "size")
+      cat("Number of adjustment sets:", size, "\n")
+
+      # Convert Java List<Set<Node>> to R list of character vectors
+      size <- .jcall(sets_list, "I", "size")
+      result <- vector("list", size)
+
+      for (i in seq_len(size)) {
+        jset <- .jcall(sets_list, "Ljava/lang/Object;", "get", as.integer(i - 1))
+        jarray <- .jcall(jset, "[Ljava/lang/Object;", "toArray")
+        result[[i]] <- sapply(jarray, function(n) .jcall(n, "S", "getName"))
+      }
+
+      return(result)
+    },
+
+    print_adjustment_sets = function(adjustment_sets) {
+      if (length(adjustment_sets) == 0) {
+        cat("No adjustment sets found.\n")
+        return()
+      }
+
+      for (i in seq_along(adjustment_sets)) {
+        set <- adjustment_sets[[i]]
+        cat(sprintf("Adjustment set %d: ", i))
+        if (length(set) == 0) {
+          cat("(empty set)\n")
+        } else {
+          cat(paste(set, collapse = ", "), "\n")
+        }
+      }
+    },
+
+    markov_check = function(graph, percent_resample = 1, condition_set_type = NULL,
+                            remove_extraneous = FALSE, parallelized = TRUE, sample_size = -1) {
+      cat("Running Markov check...\n")
+
+      if (is.null(.self$mc_test)) {
+        stop("A test for the Markov Checker has not been set. Please call a `use_*` method with `use_for_mc = TRUE`.")
+      }
+
+      # Set default ConditioningSetType if not specified
+      if (is.null(condition_set_type)) {
+        condition_set_type <- .jfield("edu.cmu.tetrad.search.ConditioningSetType",
+                                      name = "ORDERED_LOCAL_MARKOV",
+                                      sig = "Ledu/cmu/tetrad/search/ConditioningSetType;")
+      }
+
+      dataModel <- .jcast(.self$cov, "edu.cmu.tetrad.data.DataModel")
+
+      test_ <- .jcall(.self$mc_test, "Ledu/cmu/tetrad/search/IndependenceTest;",
+                     "getTest", dataModel, .self$params)
+
+      mc <- .jnew("edu.cmu.tetrad.search.MarkovCheck", graph, test_, condition_set_type)
+
+      # Configure it
+      .jcall(mc, "V", "setPercentResample", as.double(percent_resample))
+      .jcall(mc, "V", "setFindSmallestSubset", remove_extraneous)
+      .jcall(mc, "V", "setParallelized", parallelized)
+
+      if (!is.null(.self$knowledge)) {
+        .jcall(mc, "V", "setKnowledge", .self$knowledge)
+      }
+
+      # Generate results
+      .jcall(mc, "V", "generateResults", TRUE)
+      .self$mc_ind_results <- .jcall(mc, "Ljava/util/List;", "getResults", TRUE)
+
+      # Set sample size if specified
+      if (sample_size != -1) {
+        .jcall(mc, "V", "setSampleSize", as.integer(sample_size))
+      }
+
+      # Extract statistics
+      ad_ind <- .jcall(mc, "D", "getAndersonDarlingP", TRUE)
+      ad_dep <- .jcall(mc, "D", "getAndersonDarlingP", FALSE)
+      ks_ind <- .jcall(mc, "D", "getKsPValue", TRUE)
+      ks_dep <- .jcall(mc, "D", "getKsPValue", FALSE)
+      bin_indep <- .jcall(mc, "D", "getBinomialPValue", TRUE)
+      bin_dep <- .jcall(mc, "D", "getBinomialPValue", FALSE)
+      frac_dep_ind <- .jcall(mc, "D", "getFractionDependent", TRUE)
+      frac_dep_dep <- .jcall(mc, "D", "getFractionDependent", FALSE)
+      num_tests_ind <- .jcall(mc, "I", "getNumTests", TRUE)
+      num_tests_dep <- .jcall(mc, "I", "getNumTests", FALSE)
+
+      # Return as a named list
+      return(list(
+        ad_ind = ad_ind,
+        ad_dep = ad_dep,
+        ks_ind = ks_ind,
+        ks_dep = ks_dep,
+        bin_indep = bin_indep,
+        bin_dep = bin_dep,
+        frac_dep_ind = frac_dep_ind,
+        frac_dep_dep = frac_dep_dep,
+        num_tests_ind = num_tests_ind,
+        num_tests_dep = num_tests_dep,
+        mc = mc
+      ))
     }
   )
 )
