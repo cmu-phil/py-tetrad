@@ -468,32 +468,18 @@ TetradSearch <- setRefClass(
         name <- colnames(df)[j]
         col <- df[[j]]
 
-        variable <- .jnew("edu/cmu/tetrad/data/ContinuousVariable", name)
-        node <- .jcast(variable, "edu/cmu/tetrad/graph/Node")
-        .jcall(vars, "Z", "add", .jcast(node, "java/lang/Object"))
-
         if (is.numeric(col)) {
           variable <- .jnew("edu/cmu/tetrad/data/ContinuousVariable", name)
           node <- .jcast(variable, "edu/cmu/tetrad/graph/Node")
           .jcall(var_list, "Z", "add", .jcast(node, "java/lang/Object"))
-
-          # .jcall(var_list, "Z", "add",
-          #        .jcast(.jnew("edu/cmu/tetrad/data/ContinuousVariable", name),
-          #               "edu/cmu/tetrad/graph/Node"))
-          # Convert R vector to Java double[]
           cont_data[[j]] <- .jarray(as.numeric(col), dispatch = TRUE)
           disc_data[[j]] <- .jnull("[I")  # null int[] for discrete
         } else if (is.integer(col) || is.factor(col)) {
-          variable <- .jnew("edu/cmu/tetrad/data/DiscreteVariable", name)
+          num_categories <- length(unique(na.omit(col)))
+          variable <- .jnew("edu/cmu/tetrad/data/DiscreteVariable", name, as.integer(num_categories))
           node <- .jcast(variable, "edu/cmu/tetrad/graph/Node")
           .jcall(var_list, "Z", "add", .jcast(node, "java/lang/Object"))
-
-          # .jcall(var_list, "Z", "add",
-          #        .jcast(.jnew("edu/cmu/tetrad/data/DiscreteVariable", name,
-          #                     as.integer(length(unique(na.omit(col))))),
-          #               "edu/cmu/tetrad/graph/Node"))
           cont_data[[j]] <- .jnull("[D")  # null double[] for continuous
-          # Convert R vector to Java int[]
           disc_data[[j]] <- .jarray(as.integer(col), dispatch = TRUE)
         } else {
           stop(paste("Unsupported column type:", name))
@@ -504,66 +490,16 @@ TetradSearch <- setRefClass(
       j_cont_data <- .jarray(cont_data, dispatch = TRUE)
       j_disc_data <- .jarray(disc_data, dispatch = TRUE)
 
-      print("here")
-
-      # 1. Get number of rows
-      nrows <- nrow(data)
-
-      # 2. Create the Java variable list (same as before)
-      var_list <- .jnew("java/util/ArrayList")
-      for (j in seq_len(ncol(data))) {
-        name <- colnames(data)[j]
-        col <- data[[j]]
-        if (is.numeric(col)) {
-          var <- .jnew("edu/cmu/tetrad/data/ContinuousVariable", name)
-        } else {
-          var <- .jnew("edu/cmu/tetrad/data/DiscreteVariable", name, length(unique(na.omit(col))))
-        }
-        .jcall(var_list, "Z", "add", .jcast(var, "java/lang/Object"))
-      }
-
-      # 3. Build the column-major Java arrays
-      cont_data <- vector("list", ncol(data))
-      disc_data <- vector("list", ncol(data))
-
-      for (j in seq_len(ncol(data))) {
-        col <- data[[j]]
-        if (is.numeric(col)) {
-          cont_data[[j]] <- .jarray(as.numeric(col), dispatch = TRUE)
-          disc_data[[j]] <- .jnull("[I")
-        } else {
-          cont_data[[j]] <- .jnull("[D")
-          disc_data[[j]] <- .jarray(as.integer(col), dispatch = TRUE)
-        }
-      }
-
-      # 4. Final 2D Java arrays
-      j_cont_data <- .jarray(cont_data, dispatch = TRUE)
-      j_disc_data <- .jarray(disc_data, dispatch = TRUE)
-
-      # 5. Diagnostics
-      cat("j_cont_data class: ", .jclass(j_cont_data), "\n")  # should be [[D
-      cat("j_disc_data class: ", .jclass(j_disc_data), "\n")  # should be [[I
-
-      # Check element classes
-      cat("First non-null cont column class: ", .jclass(cont_data[[which(!sapply(cont_data, is.null))[1]]]), "\n")
-      cat("First non-null disc column class: ", .jclass(disc_data[[which(!sapply(disc_data, is.null))[1]]]), "\n")
-
-
-      ds <- .jcall("edu.cmu.tetrad.util.DataSetHelper", "Ledu/cmu/tetrad/data/DataSet;",
+      # Call static Java helper method
+      ds <- .jcall("edu.cmu.tetrad.util.DataSetHelper",
+                   "Ledu/cmu/tetrad/data/DataSet;",
                    "fromR",
                    .jcast(var_list, "java.util.List"),
                    as.integer(nrows),
                    .jcast(j_cont_data, "[[D"),
                    .jcast(j_disc_data, "[[I"))
 
-      print(ds)
-
-      print("here2")
-
       return(ds)
     }
-
-
   )
 )

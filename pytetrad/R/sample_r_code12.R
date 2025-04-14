@@ -125,25 +125,25 @@ ret <- ts$markov_check(g2)
 
 print(ret)
 
-#
-# data <- read.table("pytetrad/resources/example_sim_100-2-1000.txt", header=TRUE)
-# data[ , i] <- apply(data[ , i], 2, function(x) as.numeric(x))
-# vars <- create_variables(data)
-#
-# ts <- TetradSearch$new(data)
-# ts$use_sem_bic()
-# # ts$use_fisher_z()
-#
-# ts$run_boss()
-#
-# g4 <- ts$get_java()
-#
-# print(g4)
-#
-# ts$use_fisher_z(use_for_mc=TRUE)
-#
-# ret <- ts$markov_check(g4, condition_set_type="ORDERED_LOCAL_MARKOV")
-# # ret <- ts$markov_check(g4, condition_set_type="PARENTS_AND_NEIGHBORS")
-#
-# print(ret)
+
+data <- read.table("pytetrad/resources/example_sim_100-2-1000.txt", header=TRUE)
+data[ , i] <- apply(data[ , i], 2, function(x) as.numeric(x))
+vars <- create_variables(data)
+
+ts <- TetradSearch$new(data)
+ts$use_sem_bic()
+ts$use_fisher_z()
+
+ts$run_boss()
+
+g4 <- ts$get_java()
+
+print(g4)
+
+ts$use_fisher_z(use_for_mc=TRUE)
+
+ret <- ts$markov_check(g4, condition_set_type="ORDERED_LOCAL_MARKOV")
+# ret <- ts$markov_check(g4, condition_set_type="PARENTS_AND_NEIGHBORS")
+
+print(ret)
 
