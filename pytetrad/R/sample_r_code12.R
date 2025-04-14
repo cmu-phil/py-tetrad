@@ -1,3 +1,4 @@
+##
 ## This is an example of a script to use rJava to run BOSS on some loaded
 ## data. The script starts by downloading a local version of Java so that
 ## the user doesn't need to install Java. JAVA_HOME is set, and rJava is
@@ -9,14 +10,18 @@
 ## returning a Graph. This graph is then converted into .dot format and
 ## displayed.
 ##
-## jdramsey 2025-4-14
-##
-## This may be moved to a separate repository at some point.
+## Note that a separate (better) project allowing Tetrad algorihtms and
+## algorihtms from other projects to be run in R is underway, so this
+## script may be temporary.
 ##
 ## For purposes of these example scripts, we will assume that in RStudio one
 ## has loaded the py-tetrad directory as the project, so that the project
 ## directory is the py-tetrad/pytetrad directory. For your own scripts, these 
 ## paths can be adjusted.
+##
+## jdramsey 2025-4-14
+##
+
 if (!requireNamespace("here", quietly = TRUE)) {
   install.packages("here")
 }
@@ -98,9 +103,9 @@ print("========== RUNNING ALGORITHM ============")
 ts$use_sem_bic()
 ts$use_fisher_z()
 ts$set_verbose(FALSE)
-ts$run_pc()
+ts$run_boss()
 g4 <- ts$get_java()
-print(g4)
+ts$print_graph()
 
 print("========== MARKOV CHECK ==================")
 
