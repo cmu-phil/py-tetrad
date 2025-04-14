@@ -252,8 +252,15 @@ TetradSearch <- setRefClass(
 
     # Run the FCI algorithm
     #
+    # @param depth The maximum size of any conditioning set for independence testing.
+    # @param stable_fas Whether the stable version of the PC adjacency search should be used.
+    # @param max_disc_path_length The maximum length of any discriminating path considered, or -1 if unlimited.
+    # @param complete_rule_set_used TRUE if the tail and arrow complete (Zhang) FCI final orienation rule set
+    #   should be used, FALSE if the arrow-complete rule set from Causation, Prediction and Search should be used.
+    # @param guarangee_pag TRUE if a final pipeline should be run to guarantee a legal PAG estimated graph.
     # @return The estimated graph
-    run_fci = function(depth = -1, stable_fas = TRUE, max_disc_path_length = -1, complete_rule_set_used = TRUE, guarantee_pag = FALSE) {
+    run_fci = function(depth = -1, stable_fas = TRUE, max_disc_path_length = -1, complete_rule_set_used = TRUE,
+                       guarantee_pag = FALSE) {
       cat("Running FCI algorithm...\n")
 
       .self$.setParamInt("depth", depth)
@@ -273,7 +280,13 @@ TetradSearch <- setRefClass(
 
     # Run the BFCI algorithm
     #
-    # @return The resulting graph from the BFCI algorithm.
+    # @param depth The maximum size of any conditioning set for independence testing.
+    # @param stable_fas Whether the stable version of the PC adjacency search should be used.
+    # @param max_disc_path_length The maximum length of any discriminating path considered, or -1 if unlimited.
+    # @param complete_rule_set_used TRUE if the tail and arrow complete (Zhang) FCI final orienation rule set
+    #   should be used, FALSE if the arrow-complete rule set from Causation, Prediction and Search should be used.
+    # @param guarangee_pag TRUE if a final pipeline should be run to guarantee a legal PAG estimated graph.
+    # @return The estimated graph
     run_boss_fci = function(depth = -1, max_disc_path_length = -1, complete_rule_set_used = TRUE, guarantee_pag = FALSE) {
       cat("Running BOSS-FCI algorithm...\n")
 
@@ -294,10 +307,15 @@ TetradSearch <- setRefClass(
     },
 
 
-    # Run the FCIT algorithm
+    # Run the FCI algorithm
     #
-    # @return The resulting graph from the BFCI algorithm.
-    run_fcit = function(num_starts = 1, max_blocking_path_length = 5, depth = 5, max_disc_path_length = 5, guarantee_pag = TRUE) {
+    # @param num_starts The number initial random starts for the initial CPDAG search; the one with the best
+    #   BIC score is used.
+    # @param max_blocking_path_length The maximum length of any blocking path length for the testing phase.
+    # @param max_disc_path_length The maximum length of any discriminating path considered, or -1 if unlimited.
+    # @param depth The maximum size of any conditioning set for independence testing or -1 if unlimited.
+    # @return The estimated graph
+    run_fcit = function(num_starts = 1, max_blocking_path_length = 5, depth = 5, max_disc_path_length = -1) {
       cat("Running FCIT algorithm...\n")
 
       # BOSS parameters
@@ -307,7 +325,6 @@ TetradSearch <- setRefClass(
       .self$.setParamInt("maxBlockingPathLength", max_blocking_path_length)
       .self$.setParamInt("depth", depth)
       .self$.setParamInt("maxDiscriminatingPathLength", max_disc_path_length)
-      .self$.setParam("guaranteePag", guarantee_pag)
 
       dataModel <- .jcast(.self$data_model, "edu.cmu.tetrad.data.DataModel")
 
