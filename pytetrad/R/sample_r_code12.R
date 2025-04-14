@@ -10,8 +10,8 @@
 ## returning a Graph. This graph is then converted into .dot format and
 ## displayed.
 ##
-## Note that a separate (better) project allowing Tetrad algorihtms and
-## algorihtms from other projects to be run in R is underway, so this
+## Note that a separate (better) project allowing Tetrad algorithms and
+## algorithms from other projects to be run in R is underway, so this
 ## script may be temporary.
 ##
 ## For purposes of these example scripts, we will assume that in RStudio one
