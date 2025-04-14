@@ -352,6 +352,33 @@ TetradSearch <- setRefClass(
       invisible(.self$graph)
     },
 
+    # An adjustment set for a pair of nodes <source, target> for a CPDAG is a set of nodes that blocks
+    # all paths from the source to the target that cannot contribute to a calculation for the total effect
+    # of the source on the target in any DAG in a CPDAG while not blocking any path from the source to the target
+    # that could be causal. In typical causal graphs, multiple adjustment sets may exist for a given pair of
+    # nodes. This method returns up to maxNumSets adjustment sets for the pair of nodes <source, target>
+    # fitting a certain description.
+    #
+    # The description is as follows. We look for adjustment sets of variables that are close to either the
+    # source or the target (or either) in the graph. We take all possibly causal paths from the source to the
+    # target into account but only consider other paths up to a certain specified length. (This maximum length
+    # can be unlimited for small graphs.)
+    #
+    # Within this description, we list adjustment sets in order or increasing size. Hopefully, these parameters
+    # along with the size ordering can help to give guidance for the user to choose the best adjustment set for
+    # their purposes when multiple adjustment sets are possible.
+    #
+    # @param source                  The source node whose sets will be used for adjustment.
+    # @param target                  The target node whose sets will be adjusted to match the source node.
+    # @param maxNumSets              The maximum number of sets to be adjusted. If this value is less than or equal to
+    #                                0, all sets in the target node will be adjusted to match the source node.
+    # @param maxDistanceFromEndpoint The maximum distance from the endpoint of the trek to consider for adjustment.
+    # @param nearWhichEndpoint       The endpoint(s) to consider for adjustment; 1 = near the source, 2 = near the
+    #                                target, 3 = near either.
+    # @param maxPathLength           The maximum length of the path to consider for backdoor paths. If a value of -1 is
+    #                                given, all paths will be considered.
+    # @return A list of adjustment sets for the pair of nodes &lt;source, target&gt;. Return an smpty
+    # list if source == target or there is no amenable path from source to target.
     get_adjustment_sets = function(graph, source, target, max_num_sets = 10, max_distance_from_point = 5,
                                    near_which_endpoint = 1, max_path_length = 20) {
       cat("Getting adjustment sets for:", source, "->", target, "\n")
