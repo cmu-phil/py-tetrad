@@ -367,17 +367,10 @@ TetradSearch <- setRefClass(
       .jcall(mc, "V", "setPercentResample", as.double(percent_resample))
       .jcall(mc, "V", "setFindSmallestSubset", remove_extraneous)
       .jcall(mc, "V", "setParallelized", parallelized)
-      .jcall(mc, "V", "setSetType", condition_set_type_)
-
-      # if (!is.null(.self$knowledge)) {
-      #   .jcall(mc, "V", "setKnowledge", .self$knowledge)
-      # }
 
       # Generate results
       .jcall(mc, "V", "generateAllResults")
       .self$mc_ind_results <- .jcall(mc, "Ljava/util/List;", "getResults", TRUE)
-
-      # print(.self$mc_ind_results)
 
       # Set sample size if specified
       if (sample_size != -1) {

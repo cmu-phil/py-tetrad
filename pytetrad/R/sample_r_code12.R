@@ -49,7 +49,7 @@ print('java version')
 java_version <- .jcall("java/lang/System", "S", "getProperty", "java.version")
 java_version
 
-print("========== LOADING SMALL DATASET ==========")
+print("========== LOADING SMALL DATASET =======")
 
 data <- read.table("pytetrad/resources/airfoil-self-noise.continuous.txt", header=TRUE)
 
