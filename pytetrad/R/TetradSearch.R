@@ -1,5 +1,8 @@
 # This class translates some select methods from TetradSearch.py in py-tetrad
 # for use in R using rJava.
+#
+# This is a temporary class, as a much better effort at translating these
+# methods is underway by another group.
 
 TetradSearch <- setRefClass(
   "TetradSearch",
