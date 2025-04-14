@@ -438,8 +438,21 @@ TetradSearch <- setRefClass(
       }
     },
 
+    # Performs a Markov check on a graph with respect to the supplied dataset and returns statistics
+    # showing performance on that check.
+    #
+    # @param graph The graph to perform the Markov check on. This may be a DAG, CPDAG, MAG or PAG.
+    # @param percent_resample Tests are done using random subsamples of the data per test, if this is
+    #   less than 1, or all of the data, if it is equal to 1.
+    # @param condition_set_type The type of conditioning set to use for the Markov check, one of:
+    #   GLOBAL_MARKOV, LOCAL_MARKOV, PARENTS_AND_NEIGHBORS, MARKOV_BLANKET, RECURSIVE_MSEP, NONCOLLIDERS_ONLY,
+    #   ORDERED_LOCAL_MARKOV, or ORDERED_LOCAL_MARKOV_MAG
+    # @param find_smallest_subset Whether to find the smallest subset for a given set that yields independence.
+    # @param parallelized TRUE if conditional independencies should be checked in parallel.
+    # @effective_sample_size The effective sample size to use for calculations, or -1 if the actual sample size.
+    # @return Marov checker statistics as a named list.
     markov_check = function(graph, percent_resample = 1, condition_set_type = "ORDERED_LOCAL_MARKOV",
-                            remove_extraneous = FALSE, parallelized = TRUE, sample_size = -1) {
+                            find_smallest_subset = FALSE, parallelized = TRUE, effective_sample_size = -1) {
       cat("Running Markov check...\n")
 
       if (is.null(.self$mc_test)) {
@@ -459,7 +472,7 @@ TetradSearch <- setRefClass(
 
       # Configure it
       .jcall(mc, "V", "setPercentResample", as.double(percent_resample))
-      .jcall(mc, "V", "setFindSmallestSubset", remove_extraneous)
+      .jcall(mc, "V", "setFindSmallestSubset", find_smallest_subset)
       .jcall(mc, "V", "setParallelized", parallelized)
 
       # Generate results
@@ -499,6 +512,7 @@ TetradSearch <- setRefClass(
       ))
     },
 
+    # Converts the given R data frame to a (possibly mixed) Tetrad DataSet.
     data_frame_to_tetrad_dataset = function(df) {
       stopifnot(require(rJava))
 
