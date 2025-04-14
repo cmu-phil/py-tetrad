@@ -9,7 +9,9 @@
 ## returning a Graph. This graph is then converted into .dot format and
 ## displayed.
 ##
-## jdramsey 2024-8-20
+## jdramsey 2025-4-14
+##
+## This may be moved to a separate repository at some point.
 ##
 ## For purposes of these example scripts, we will assume that in RStudio one
 ## has loaded the py-tetrad directory as the project, so that the project
@@ -37,6 +39,7 @@ set_java_home(java_home)
 if (!requireNamespace("rJava", quietly = TRUE)) {
   install.packages("rJava")
 }
+
 library(rJava)
 
 .jinit()
@@ -46,15 +49,12 @@ print('java version')
 java_version <- .jcall("java/lang/System", "S", "getProperty", "java.version")
 java_version
 
-## Make some continuous data.
+print("========== LOADING SMALL DATASET ==========")
 
 data <- read.table("pytetrad/resources/airfoil-self-noise.continuous.txt", header=TRUE)
-# data <- read.table("pytetrad/resources/example_sim_100-6-1000.txt", header=TRUE)
-
-# print(data)
 
 ## The read.table function will read decimal columns as real ('numeric')
-## and integer columns as discrete. When passing data from R into Python,
+## and integer columns as discrete. When passing data from R into JAVA,
 ## integer columns will still be interpreted as discrete, so we have to
 ## specify in the data frame for this data in columns 1-5 are to be interpreted
 ## as continuous (i.e., 'numeric'); some of them are integer columns.
@@ -62,88 +62,48 @@ i <- c(1, ncol(data))
 data[ , i] <- apply(data[ , i], 2, function(x) as.numeric(x))
 vars <- create_variables(data)
 
-# This web site should how to pass a matrix as a double[][] array.
-# https://www.rforge.net/rJava/docs/reference/jarray.html
-
-# Get the sample size
-sample_size <- nrow(data)
-
-cov <- .jnew("edu/cmu/tetrad/data/CovarianceMatrix", 
-             vars, 
-             .jarray(as.matrix(data), dispatch = TRUE), 
-             as.integer(sample_size))
-
-## Use cov to make a SemBicScore...
-
-score <- .jnew("edu.cmu.tetrad.search.score.SemBicScore", .jcast(cov, "edu.cmu.tetrad.data.ICovarianceMatrix"))
-.jcall(score, "V", "setPenaltyDiscount", 2)
-.jcall(score, "V", "setLambda", -1)
-
-## Construct a BOSS search and return a Tetrad Graph object.
-
-# suborder_search <- .jnew("edu.cmu.tetrad.search.Boss", 
-#                          .jcast(score, "edu.cmu.tetrad.search.score.Score"))
-# perm_search <- .jnew("edu.cmu.tetrad.search.PermutationSearch", 
-#                      .jcast(suborder_search, "edu.cmu.tetrad.search.SuborderSearch"))
-# graph <- .jcall(perm_search, 
-#               "Ledu/cmu/tetrad/graph/Graph;",
-#               "search", 
-#               FALSE)
-
-## Convert the graph to DOT format and display it.
-# dot <- .jcall("edu/cmu/tetrad/graph/GraphSaveLoadUtils", 
-#                      "Ljava/lang/String;",
-#                      "graphToDot", 
-#                      graph)
-
-# library('DiagrammeR')
-# grViz(dot)
+print("========== RUNNING BOSS ================")
 
 ts <- TetradSearch$new(data)
 ts$use_sem_bic()
-ts$use_fisher_z()
-ts$run_fcit()
+ts$run_boss()
 g2 <- ts$get_java()
-
 ts$print_graph()
 
-# print("BIC")
-# print(g2$getAttribute("BIC"))
+print("========== PRINTING BIC =================")
 
-# ts$use_fisher_z()
-# g3 <- ts$run_pc()
+print(g2$getAttribute("BIC"))
 
-# print(g3)
+print("========== ADJUSTMENT SETS ==============")
 
 adj_sets <- ts$get_adjustment_sets(g2, "Attack", "Pressure")
-# print(adj_sets)
-
 ts$print_adjustment_sets(adj_sets)
+
+print("========== MARKOV CHECK ==================")
 
 ts$use_fisher_z(use_for_mc=TRUE)
 ret <- ts$markov_check(g2)
-
 print(ret)
 
+print("========== LOADING LARGE DATASET ==========")
 
 data <- read.table("pytetrad/resources/example_sim_100-2-1000.txt", header=TRUE)
 data[ , i] <- apply(data[ , i], 2, function(x) as.numeric(x))
 vars <- create_variables(data)
 
 ts <- TetradSearch$new(data)
+
+print("========== RUNNING ALGORITHM ============")
+
 ts$use_sem_bic()
 ts$use_fisher_z()
-
 ts$run_boss()
-
 g4 <- ts$get_java()
-
 print(g4)
 
+print("========== MARKOV CHECK ==================")
+
 ts$use_fisher_z(use_for_mc=TRUE)
-
 ret <- ts$markov_check(g4, condition_set_type="ORDERED_LOCAL_MARKOV")
-# ret <- ts$markov_check(g4, condition_set_type="PARENTS_AND_NEIGHBORS")
-
 print(ret)
 
