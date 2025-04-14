@@ -252,7 +252,7 @@ TetradSearch <- setRefClass(
 
     # Run the FCI algorithm
     #
-    # @return The resulting graph from the FCI algorithm.
+    # @return The estimated graph
     run_fci = function(depth = -1, stable_fas = TRUE, max_disc_path_length = -1, complete_rule_set_used = TRUE, guarantee_pag = FALSE) {
       cat("Running FCI algorithm...\n")
 
