@@ -107,6 +107,10 @@ ts$run_boss()
 g4 <- ts$get_java()
 ts$print_graph()
 
+print("========== PRINTING BIC =================")
+
+print(g4$getAttribute("BIC"))
+
 print("========== MARKOV CHECK ==================")
 
 ts$use_fisher_z(use_for_mc=TRUE)
