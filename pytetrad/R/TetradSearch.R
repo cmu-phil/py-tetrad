@@ -63,7 +63,7 @@ TetradSearch <- setRefClass(
       cat("Data frame dimensions:", dim(data), "\n")
       cat("Sample size set to:", .self$sample_size, "\n")
 
-      .self$data_model <- .self$convert_to_mixed_dataset(data)
+      .self$data_model <- .self$data_frame_to_tetrad_dataset(data)
       .self$data_model <- .jcast(.self$data_model, "edu.cmu.tetrad.data.DataModel")
 
       cat("Tetrad DataSet created.\n")
@@ -161,10 +161,12 @@ TetradSearch <- setRefClass(
 
     # Runs the PC algorithm.
     #
-    # @param conflict_rule The rule used for resolving collider conflicts.
+    # @param conflict_rule The rule used for resolving collider conflicts: 1 = prioritize existing
+    #   colliders, 2 = orient bidirected edges, 3 = overwrite existing colliders.
     # @param depth The maximum number of conditioning variables per test.
     # @stable_fas TRUE is the stable FAS should be used.
     # @guarantee_cpdag TRUE is a legal CPDAG output should be guaranteed.
+    # @return The estimated graph.
     run_pc = function(conflict_rule=1, depth=-1, stable_fas=TRUE, guarantee_cpdag=FALSE) {
       cat("Running PC algorithm...\n")
 
@@ -187,7 +189,11 @@ TetradSearch <- setRefClass(
 
     # Run the FGES algorithm
     #
-    # @return The resulting graph from the FGES algorithm.
+    # @param symmetric_first_step TRUE just in case the first step in scoring should be treated symmetricaly.
+    # @param max_degree The maximum degree of the graph, -1 if unlimited.
+    # @param parallelized TRUE is parallelization should be used.
+    # @oaram faithfulness_assumed TRUE if one-edge faithfulness should be assumed.
+    # @return The estimated graph.
     run_fges = function(symmetric_first_step = FALSE, max_degree = -1, parallelized = FALSE, faithfulness_assumed = FALSE) {
       cat("Running FGES algorithm...\n")
 
@@ -214,8 +220,16 @@ TetradSearch <- setRefClass(
       .jcall(.self$params, "V", "set", key, .jcast(.jnew("java/lang/Double", as.double(value)), "java/lang/Object"))
     },
 
-    # --- Run BOSS using algcomparison wrapper ---
-
+    # Run the BOSS algorithm
+    #
+    # @param num_starts The number of random restarts to do; the model with the best BIC score overall is returned.
+    # @param use_bes TRUE if the algorithm should finish up with a call to BES (Backward Equivalence Search from
+    #   the FGES algorithm) to guarantee correctness under Faithfulness.
+    # @param time_lag Default 0; if > 1, a time lag model of this order is constructed.
+    # @param use_data_order TRUE if the original data order should be used for the initial permutation. If
+    #   num_starts > 1, random permuatations are used for subsequent restarts.
+    # @param output_cpdag TRUE if a CPDAG should be output, FALSE if a DAG should be output.
+    # @return The estimated graph.
     run_boss = function(num_starts = 1, use_bes = FALSE, time_lag = 0, use_data_order = TRUE, output_cpdag = TRUE) {
       cat("Running BOSS algorithm...\n")
 
@@ -310,11 +324,7 @@ TetradSearch <- setRefClass(
       return(.self$graph)
     },
 
-    # Print the resulting graph
-    #
-    # This method prints the structure of the resulting graph.
-    # @param graph A Tetrad graph object.
-    # @return The graph object.
+    # This method prints the structure of the graph estimated by the most recent algorithm call.
     print_graph = function() {
       cat("Attempting to print the graph...\n")
       if (is.null(.self$graph)) {
@@ -445,7 +455,7 @@ TetradSearch <- setRefClass(
       ))
     },
 
-    convert_to_mixed_dataset = function(df) {
+    data_frame_to_tetrad_dataset = function(df) {
       stopifnot(require(rJava))
 
       nrows <- nrow(df)
