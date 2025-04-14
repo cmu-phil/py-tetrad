@@ -513,6 +513,9 @@ TetradSearch <- setRefClass(
     },
 
     # Converts the given R data frame to a (possibly mixed) Tetrad DataSet.
+    #
+    # @param df The R data frame to translate. Continuous columns should be of type 'numeric' and the
+    #   discrete columns of type 'integer'.
     data_frame_to_tetrad_dataset = function(df) {
       stopifnot(require(rJava))
 
