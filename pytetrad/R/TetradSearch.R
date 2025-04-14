@@ -7,7 +7,6 @@ TetradSearch <- setRefClass(
   fields = list(
     data = "data.frame",          # Input dataset
     sample_size = "numeric",      # Sample size
-    vars = "ANY",                 # Variables for the covariance matrix
     data_model = "ANY",           # Data Model (Tabular data or Covariance Matrix)
     score = "ANY",                # Score object
     test = "ANY",                 # IndependenceTest object
@@ -37,20 +36,10 @@ TetradSearch <- setRefClass(
       cat("Data frame dimensions:", dim(data), "\n")
       cat("Sample size set to:", .self$sample_size, "\n")
 
-      i <- c(1, ncol(data))
-      data[, i] <<- apply(data[, i], 2, as.numeric)
-      .self$vars <- create_variables(data)
-
-      # .self$data_model <- .jnew("edu/cmu/tetrad/data/CovarianceMatrix",
-      #                    .self$vars,
-      #                    .jarray(as.matrix(cov(data)), dispatch = TRUE),
-      #                    as.integer(.self$sample_size))
-      #
       .self$data_model <- .self$convert_to_mixed_dataset(data)
       .self$data_model <- .jcast(.self$data_model, "edu.cmu.tetrad.data.DataModel")
 
-
-      cat("Covariance matrix created.\n")
+      cat("Tetrad DataSet created.\n")
 
       .self$params <- .jnew("edu.cmu.tetrad.util.Parameters")
 
@@ -421,34 +410,6 @@ TetradSearch <- setRefClass(
         num_tests_dep = num_tests_dep,
         mc = mc
       ))
-    },
-
-    # Generalized function to create a variable list for tabular (mixed) data
-    # Returns a Java ArrayList<Variable>
-    create_variables_mixed = function(data) {
-
-      cat("Creating variable list from mixed data...\n")
-
-      var_list <- .jnew("java/util/ArrayList")
-
-      for (name in colnames(data)) {
-        col <- data[[name]]
-
-        if (is.numeric(col)) {
-          cat("Adding continuous variable:", name, "\n")
-          variable <- .jnew("edu/cmu/tetrad/data/ContinuousVariable", name)
-        } else if (is.integer(col) || is.factor(col)) {
-          num_categories <- length(unique(na.omit(col)))
-          cat("Adding discrete variable:", name, "with", num_categories, "categories.\n")
-          variable <- .jnew("edu/cmu/tetrad/data/DiscreteVariable", name, as.integer(num_categories))
-        } else {
-          stop(paste("Unsupported column type for variable:", name))
-        }
-
-        .jcall(var_list, "Z", "add", .jcast(variable, "edu/cmu/tetrad/data/Variable"))
-      }
-
-      return(var_list)
     },
 
     convert_to_mixed_dataset = function(df) {
