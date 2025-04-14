@@ -51,7 +51,7 @@ java_version
 data <- read.table("pytetrad/resources/airfoil-self-noise.continuous.txt", header=TRUE)
 # data <- read.table("pytetrad/resources/example_sim_100-6-1000.txt", header=TRUE)
 
-print(data)
+# print(data)
 
 ## The read.table function will read decimal columns as real ('numeric')
 ## and integer columns as discrete. When passing data from R into Python,
@@ -116,11 +116,34 @@ ts$print_graph()
 # print(g3)
 
 adj_sets <- ts$get_adjustment_sets(g2, "Attack", "Pressure")
-print(adj_sets)
+# print(adj_sets)
 
 ts$print_adjustment_sets(adj_sets)
 
-ts$use_fisher_z()
+ts$use_fisher_z(use_for_mc=TRUE)
 ret <- ts$markov_check(g2)
 
 print(ret)
+
+#
+# data <- read.table("pytetrad/resources/example_sim_100-2-1000.txt", header=TRUE)
+# data[ , i] <- apply(data[ , i], 2, function(x) as.numeric(x))
+# vars <- create_variables(data)
+#
+# ts <- TetradSearch$new(data)
+# ts$use_sem_bic()
+# # ts$use_fisher_z()
+#
+# ts$run_boss()
+#
+# g4 <- ts$get_java()
+#
+# print(g4)
+#
+# ts$use_fisher_z(use_for_mc=TRUE)
+#
+# ret <- ts$markov_check(g4, condition_set_type="ORDERED_LOCAL_MARKOV")
+# # ret <- ts$markov_check(g4, condition_set_type="PARENTS_AND_NEIGHBORS")
+#
+# print(ret)
+

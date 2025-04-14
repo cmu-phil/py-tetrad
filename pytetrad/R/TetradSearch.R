@@ -8,7 +8,7 @@ TetradSearch <- setRefClass(
     data = "data.frame",          # Input dataset
     sample_size = "numeric",      # Sample size
     vars = "ANY",                 # Variables for the covariance matrix
-    cov = "ANY",                  # Covariance matrix
+    data_model = "ANY",           # Data Model (Tabular data or Covariance Matrix)
     score = "ANY",                # Score object
     test = "ANY",                 # IndependenceTest object
     mc_test = "ANY",              # IndependenceTest for the Markov Checker
@@ -41,10 +41,15 @@ TetradSearch <- setRefClass(
       data[, i] <<- apply(data[, i], 2, as.numeric)
       .self$vars <- create_variables(data)
 
-      .self$cov <- .jnew("edu/cmu/tetrad/data/CovarianceMatrix",
-                         .self$vars,
-                         .jarray(as.matrix(cov(data)), dispatch = TRUE),
-                         as.integer(.self$sample_size))
+      # .self$data_model <- .jnew("edu/cmu/tetrad/data/CovarianceMatrix",
+      #                    .self$vars,
+      #                    .jarray(as.matrix(cov(data)), dispatch = TRUE),
+      #                    as.integer(.self$sample_size))
+      #
+      .self$data_model <- .self$convert_to_mixed_dataset(data)
+      .self$data_model <- .jcast(.self$data_model, "edu.cmu.tetrad.data.DataModel")
+
+
       cat("Covariance matrix created.\n")
 
       .self$params <- .jnew("edu.cmu.tetrad.util.Parameters")
@@ -117,12 +122,16 @@ TetradSearch <- setRefClass(
     # Set the test to Fisher Z
     #
     # @param alpha The significance cutoff.
-    use_fisher_z = function(alpha = 0.01) {
+    use_fisher_z = function(alpha = 0.01, use_for_mc = FALSE) {
       .self$.setParamDouble("alpha", alpha)
-      .self$test <- .jnew("edu.cmu.tetrad.algcomparison.independence.FisherZ")
-      .self$test <- .jcast(.self$test, "edu.cmu.tetrad.algcomparison.independence.IndependenceWrapper")
 
-      .self$mc_test <- .self$test
+      if (use_for_mc) {
+        .self$mc_test <- .jnew("edu.cmu.tetrad.algcomparison.independence.FisherZ")
+        .self$mc_test <- .jcast(.self$mc_test, "edu.cmu.tetrad.algcomparison.independence.IndependenceWrapper")
+      } else {
+        .self$test <- .jnew("edu.cmu.tetrad.algcomparison.independence.FisherZ")
+        .self$test <- .jcast(.self$test, "edu.cmu.tetrad.algcomparison.independence.IndependenceWrapper")
+      }
 
       cat("Fisher Z object created with alpha set.\n")
     },
@@ -135,7 +144,7 @@ TetradSearch <- setRefClass(
       .self$.setParam("stableFas", stable_fas)
       .self$.setParam("guaranteePag", guarantee_cpdag)
 
-      dataModel <- .jcast(.self$cov, "edu.cmu.tetrad.data.DataModel")
+      dataModel <- .jcast(.self$data_model, "edu.cmu.tetrad.data.DataModel")
 
       pc <- .jnew("edu.cmu.tetrad.algcomparison.algorithm.oracle.cpdag.Pc", .self$test)
       .jcall(pc, "V", "setKnowledge", .self$knowledge)
@@ -158,7 +167,7 @@ TetradSearch <- setRefClass(
       .self$.setParam("parallelized", parallelized)
       .self$.setParam("faithfulnessAssumed", faithfulness_assumed)
 
-      dataModel <- .jcast(.self$cov, "edu.cmu.tetrad.data.DataModel")
+      dataModel <- .jcast(.self$data_model, "edu.cmu.tetrad.data.DataModel")
 
       fges <- .jnew("edu.cmu.tetrad.algcomparison.algorithm.oracle.cpdag.Fges", .self$score)
       .jcall(fges, "V", "setKnowledge", .self$knowledge)
@@ -187,7 +196,7 @@ TetradSearch <- setRefClass(
       .self$.setParam("useDataOrder", use_data_order)
       .self$.setParam("outputCpdag", output_cpdag)
 
-      dataModel <- .jcast(.self$cov, "edu.cmu.tetrad.data.DataModel")
+      dataModel <- .jcast(.self$data_model, "edu.cmu.tetrad.data.DataModel")
 
       boss <- .jnew("edu.cmu.tetrad.algcomparison.algorithm.oracle.cpdag.Boss", .self$score)
       .jcall(boss, "V", "setKnowledge", .self$knowledge)
@@ -209,13 +218,11 @@ TetradSearch <- setRefClass(
       .self$.setParamInt("maxDiscriminatingPathLength", max_disc_path_length)
       .self$.setParam("completeRuleSetUsed", complete_rule_set_used)
       .self$.setParam("guaranteePag", guarantee_pag)
-
-      dataModel <- .jcast(.self$cov, "edu.cmu.tetrad.data.DataModel")
-
+      
       fci <- .jnew("edu.cmu.tetrad.algcomparison.algorithm.oracle.pag.Fci", .self$test)
       .jcall(fci, "V", "setKnowledge", .self$knowledge)
 
-      graph <- .jcall(fci, "Ledu/cmu/tetrad/graph/Graph;", "search", dataModel, .self$params)
+      graph <- .jcall(fci, "Ledu/cmu/tetrad/graph/Graph;", "search", .self$data_model, .self$params)
       .self$graph <- graph
 
       cat("FCI search completed.\n")
@@ -232,7 +239,7 @@ TetradSearch <- setRefClass(
       .self$.setParam("completeRuleSetUsed", complete_rule_set_used)
       .self$.setParam("guaranteePag", guarantee_pag)
 
-      dataModel <- .jcast(.self$cov, "edu.cmu.tetrad.data.DataModel")
+      dataModel <- .jcast(.self$data_model, "edu.cmu.tetrad.data.DataModel")
 
       boss_fci <- .jnew("edu.cmu.tetrad.algcomparison.algorithm.oracle.pag.BossFci", .self$test, .self$score)
       .jcall(boss_fci, "V", "setKnowledge", .self$knowledge)
@@ -259,7 +266,7 @@ TetradSearch <- setRefClass(
       .self$.setParamInt("maxDiscriminatingPathLength", max_disc_path_length)
       .self$.setParam("guaranteePag", guarantee_pag)
 
-      dataModel <- .jcast(.self$cov, "edu.cmu.tetrad.data.DataModel")
+      dataModel <- .jcast(.self$data_model, "edu.cmu.tetrad.data.DataModel")
 
       fcit <- .jnew("edu.cmu.tetrad.algcomparison.algorithm.oracle.pag.Fcit", .self$test, .self$score)
       .jcall(fcit, "V", "setKnowledge", .self$knowledge)
@@ -348,7 +355,7 @@ TetradSearch <- setRefClass(
       }
     },
 
-    markov_check = function(graph, percent_resample = 1, condition_set_type = NULL,
+    markov_check = function(graph, percent_resample = 1, condition_set_type = "ORDERED_LOCAL_MARKOV",
                             remove_extraneous = FALSE, parallelized = TRUE, sample_size = -1) {
       cat("Running Markov check...\n")
 
@@ -356,32 +363,32 @@ TetradSearch <- setRefClass(
         stop("A test for the Markov Checker has not been set. Please call a `use_*` method with `use_for_mc = TRUE`.")
       }
 
-      # Set default ConditioningSetType if not specified
-      if (is.null(condition_set_type)) {
-        condition_set_type <- .jfield("edu.cmu.tetrad.search.ConditioningSetType",
-                                      name = "ORDERED_LOCAL_MARKOV",
-                                      sig = "Ledu/cmu/tetrad/search/ConditioningSetType;")
-      }
+      condition_set_type_ <- .jfield("edu.cmu.tetrad.search.ConditioningSetType",
+                                    name = condition_set_type,
+                                    sig = "Ledu/cmu/tetrad/search/ConditioningSetType;")
 
-      dataModel <- .jcast(.self$cov, "edu.cmu.tetrad.data.DataModel")
+      dataModel <- .jcast(.self$data_model, "edu.cmu.tetrad.data.DataModel")
 
       test_ <- .jcall(.self$mc_test, "Ledu/cmu/tetrad/search/IndependenceTest;",
                      "getTest", dataModel, .self$params)
 
-      mc <- .jnew("edu.cmu.tetrad.search.MarkovCheck", graph, test_, condition_set_type)
+      mc <- .jnew("edu.cmu.tetrad.search.MarkovCheck", graph, test_, condition_set_type_)
 
       # Configure it
       .jcall(mc, "V", "setPercentResample", as.double(percent_resample))
       .jcall(mc, "V", "setFindSmallestSubset", remove_extraneous)
       .jcall(mc, "V", "setParallelized", parallelized)
+      .jcall(mc, "V", "setSetType", condition_set_type_)
 
-      if (!is.null(.self$knowledge)) {
-        .jcall(mc, "V", "setKnowledge", .self$knowledge)
-      }
+      # if (!is.null(.self$knowledge)) {
+      #   .jcall(mc, "V", "setKnowledge", .self$knowledge)
+      # }
 
       # Generate results
-      .jcall(mc, "V", "generateResults", TRUE)
+      .jcall(mc, "V", "generateAllResults")
       .self$mc_ind_results <- .jcall(mc, "Ljava/util/List;", "getResults", TRUE)
+
+      # print(.self$mc_ind_results)
 
       # Set sample size if specified
       if (sample_size != -1) {
@@ -414,6 +421,149 @@ TetradSearch <- setRefClass(
         num_tests_dep = num_tests_dep,
         mc = mc
       ))
+    },
+
+    # Generalized function to create a variable list for tabular (mixed) data
+    # Returns a Java ArrayList<Variable>
+    create_variables_mixed = function(data) {
+
+      cat("Creating variable list from mixed data...\n")
+
+      var_list <- .jnew("java/util/ArrayList")
+
+      for (name in colnames(data)) {
+        col <- data[[name]]
+
+        if (is.numeric(col)) {
+          cat("Adding continuous variable:", name, "\n")
+          variable <- .jnew("edu/cmu/tetrad/data/ContinuousVariable", name)
+        } else if (is.integer(col) || is.factor(col)) {
+          num_categories <- length(unique(na.omit(col)))
+          cat("Adding discrete variable:", name, "with", num_categories, "categories.\n")
+          variable <- .jnew("edu/cmu/tetrad/data/DiscreteVariable", name, as.integer(num_categories))
+        } else {
+          stop(paste("Unsupported column type for variable:", name))
+        }
+
+        .jcall(var_list, "Z", "add", .jcast(variable, "edu/cmu/tetrad/data/Variable"))
+      }
+
+      return(var_list)
+    },
+
+    convert_to_mixed_dataset = function(df) {
+      stopifnot(require(rJava))
+
+      nrows <- nrow(df)
+      ncols <- ncol(df)
+
+      # Create Java ArrayList<Node>
+      var_list <- .jnew("java/util/ArrayList")
+
+      # Prepare empty double[][] and int[][] (as Java arrays)
+      cont_data <- vector("list", ncols)
+      disc_data <- vector("list", ncols)
+
+      for (j in seq_len(ncols)) {
+        name <- colnames(df)[j]
+        col <- df[[j]]
+
+        variable <- .jnew("edu/cmu/tetrad/data/ContinuousVariable", name)
+        node <- .jcast(variable, "edu/cmu/tetrad/graph/Node")
+        .jcall(vars, "Z", "add", .jcast(node, "java/lang/Object"))
+
+        if (is.numeric(col)) {
+          variable <- .jnew("edu/cmu/tetrad/data/ContinuousVariable", name)
+          node <- .jcast(variable, "edu/cmu/tetrad/graph/Node")
+          .jcall(var_list, "Z", "add", .jcast(node, "java/lang/Object"))
+
+          # .jcall(var_list, "Z", "add",
+          #        .jcast(.jnew("edu/cmu/tetrad/data/ContinuousVariable", name),
+          #               "edu/cmu/tetrad/graph/Node"))
+          # Convert R vector to Java double[]
+          cont_data[[j]] <- .jarray(as.numeric(col), dispatch = TRUE)
+          disc_data[[j]] <- .jnull("[I")  # null int[] for discrete
+        } else if (is.integer(col) || is.factor(col)) {
+          variable <- .jnew("edu/cmu/tetrad/data/DiscreteVariable", name)
+          node <- .jcast(variable, "edu/cmu/tetrad/graph/Node")
+          .jcall(var_list, "Z", "add", .jcast(node, "java/lang/Object"))
+
+          # .jcall(var_list, "Z", "add",
+          #        .jcast(.jnew("edu/cmu/tetrad/data/DiscreteVariable", name,
+          #                     as.integer(length(unique(na.omit(col))))),
+          #               "edu/cmu/tetrad/graph/Node"))
+          cont_data[[j]] <- .jnull("[D")  # null double[] for continuous
+          # Convert R vector to Java int[]
+          disc_data[[j]] <- .jarray(as.integer(col), dispatch = TRUE)
+        } else {
+          stop(paste("Unsupported column type:", name))
+        }
+      }
+
+      # Convert R lists of arrays to Java double[][] and int[][]
+      j_cont_data <- .jarray(cont_data, dispatch = TRUE)
+      j_disc_data <- .jarray(disc_data, dispatch = TRUE)
+
+      print("here")
+
+      # 1. Get number of rows
+      nrows <- nrow(data)
+
+      # 2. Create the Java variable list (same as before)
+      var_list <- .jnew("java/util/ArrayList")
+      for (j in seq_len(ncol(data))) {
+        name <- colnames(data)[j]
+        col <- data[[j]]
+        if (is.numeric(col)) {
+          var <- .jnew("edu/cmu/tetrad/data/ContinuousVariable", name)
+        } else {
+          var <- .jnew("edu/cmu/tetrad/data/DiscreteVariable", name, length(unique(na.omit(col))))
+        }
+        .jcall(var_list, "Z", "add", .jcast(var, "java/lang/Object"))
+      }
+
+      # 3. Build the column-major Java arrays
+      cont_data <- vector("list", ncol(data))
+      disc_data <- vector("list", ncol(data))
+
+      for (j in seq_len(ncol(data))) {
+        col <- data[[j]]
+        if (is.numeric(col)) {
+          cont_data[[j]] <- .jarray(as.numeric(col), dispatch = TRUE)
+          disc_data[[j]] <- .jnull("[I")
+        } else {
+          cont_data[[j]] <- .jnull("[D")
+          disc_data[[j]] <- .jarray(as.integer(col), dispatch = TRUE)
+        }
+      }
+
+      # 4. Final 2D Java arrays
+      j_cont_data <- .jarray(cont_data, dispatch = TRUE)
+      j_disc_data <- .jarray(disc_data, dispatch = TRUE)
+
+      # 5. Diagnostics
+      cat("j_cont_data class: ", .jclass(j_cont_data), "\n")  # should be [[D
+      cat("j_disc_data class: ", .jclass(j_disc_data), "\n")  # should be [[I
+
+      # Check element classes
+      cat("First non-null cont column class: ", .jclass(cont_data[[which(!sapply(cont_data, is.null))[1]]]), "\n")
+      cat("First non-null disc column class: ", .jclass(disc_data[[which(!sapply(disc_data, is.null))[1]]]), "\n")
+
+
+      ds <- .jcall("edu.cmu.tetrad.util.DataSetHelper", "Ledu/cmu/tetrad/data/DataSet;",
+                   "fromR",
+                   .jcast(var_list, "java.util.List"),
+                   as.integer(nrows),
+                   .jcast(j_cont_data, "[[D"),
+                   .jcast(j_disc_data, "[[I"))
+
+      print(ds)
+
+      print("here2")
+
+      return(ds)
     }
+
+
   )
 )

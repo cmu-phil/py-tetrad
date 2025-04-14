@@ -228,5 +228,7 @@ visualize_graph <- function(graph) {
       cat("No graph generated. Please check the BOSS execution.\n")
     }
   }
+
+
 }
 
