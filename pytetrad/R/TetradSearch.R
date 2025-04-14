@@ -98,6 +98,10 @@ TetradSearch <- setRefClass(
       })
     },
 
+    set_verbose = function(verbose) {
+      .self$.setParam("verbose", verbose)
+    },
+
     # Set the score to the SEM BIC.
     #
     # @param penalty_discount The penalty discount to use in the SemBicScore calculation.

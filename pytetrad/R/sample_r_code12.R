@@ -97,7 +97,8 @@ print("========== RUNNING ALGORITHM ============")
 
 ts$use_sem_bic()
 ts$use_fisher_z()
-ts$run_boss()
+ts$set_verbose(FALSE)
+ts$run_pc()
 g4 <- ts$get_java()
 print(g4)
 
