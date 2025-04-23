@@ -452,7 +452,7 @@ TetradSearch <- setRefClass(
     # @effective_sample_size The effective sample size to use for calculations, or -1 if the actual sample size.
     # @return Marov checker statistics as a named list.
     markov_check = function(graph, percent_resample = 1, condition_set_type = "ORDERED_LOCAL_MARKOV",
-                            find_smallest_subset = FALSE, parallelized = TRUE) {
+                            find_smallest_subset = FALSE, parallelized = TRUE, effective_sample_size = -1) {
       cat("Running Markov check...\n")
 
       if (is.null(.self$mc_test)) {
@@ -479,10 +479,10 @@ TetradSearch <- setRefClass(
       .jcall(mc, "V", "generateAllResults")
       .self$mc_ind_results <- .jcall(mc, "Ljava/util/List;", "getResults", TRUE)
 
-      # # Set effective sample size if specified
-      # if (effective_sample_size != -1) {
-      #   .jcall(mc, "V", "setSampleSize", as.integer(effective_sample_size))
-      # }
+      # Set effective sample size if specified
+      if (effective_sample_size != -1) {
+        .jcall(mc, "V", "setEffectiveSampleSize", as.integer(effective_sample_size))
+      }
 
       # Extract statistics
       ad_ind <- .jcall(mc, "D", "getAndersonDarlingP", TRUE)
