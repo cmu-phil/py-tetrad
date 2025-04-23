@@ -479,7 +479,7 @@ TetradSearch <- setRefClass(
       .jcall(mc, "V", "generateAllResults")
       .self$mc_ind_results <- .jcall(mc, "Ljava/util/List;", "getResults", TRUE)
 
-      # # Set sample size if specified
+      # # Set effective sample size if specified
       # if (effective_sample_size != -1) {
       #   .jcall(mc, "V", "setSampleSize", as.integer(effective_sample_size))
       # }
