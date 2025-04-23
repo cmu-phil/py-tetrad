@@ -49,7 +49,7 @@ ts$use_sem_bic(penalty_discount=2)
 ts$run_boss()
 
 # Here we show how to use the Markov checker
-ts$use_fisher_z(0.05)
+ts$use_fisher_z(0.05, use_for_mc=TRUE)
 results = ts$markov_check(ts$get_java())
 
 # Returns ad_ind, ad_dep, bin_indep, bin_dep, frac_dep_ind, frac_dep_dep, num_tests_ind, num_tests_dep

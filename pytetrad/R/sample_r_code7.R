@@ -10,10 +10,6 @@ library(here)
 project_root <- here()
 setwd(project_root)
 
-install.packages(reticulate)
-install.packages(psych)
-install.packages(DiagrammeR)
-
 library(reticulate)
 
 data <- read.table("pytetrad/resources/airfoil-self-noise.continuous.txt",
