@@ -58,9 +58,9 @@ print('GRaSP-FCI')
 search.run_grasp_fci()
 print(search.get_string())
 
-print('CCD')
-search.run_ccd()
-print(search.get_string())
+# print('CCD')
+# search.run_ccd()
+# print(search.get_string())
 
 # print('SVAR-FCI')
 # search.run_svar_fci()

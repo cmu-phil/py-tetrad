@@ -71,8 +71,8 @@ print('GFCI')
 search.run_gfci()
 print(search.get_string())
 
-print('FCI-TT')
-search.run_fci_tt()
+print('FCIT')
+search.run_fcit()
 print(search.get_string())
 
 print('GRaSP-FCI')

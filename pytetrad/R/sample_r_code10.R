@@ -49,6 +49,6 @@ ts$use_fisher_z(0.05)
 ts$run_ica_lingam()
 print(ts$get_bhat())
 
-ts$run_ica_lingd(threshold_w = 0.0001, threshold_b = 1)
-print(ts$get_stable_bhats())
+# ts$run_ica_lingd(threshold_w = 0.0001, threshold_b = 1)
+# print(ts$get_stable_bhats())
 
