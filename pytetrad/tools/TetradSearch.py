@@ -1037,14 +1037,14 @@ class TetradSearch:
             raise Exception("A test for the Markov Checker has not been set. Please call as use_{test name} method setting the parmaeter 'use_for_mc' to True")
 
         mc = ts.MarkovCheck(graph, self.MC_TEST.getTest(self.data, self.params), condition_set_type)
-        mc.setPercentResample(percent_resample)
+        mc.setFractionResample(percent_resample)
         mc.setFindSmallestSubset(removeExtraneous)
         mc.setParallelized(parallelized)
 
         if self.mc_knowledge is not None:
             mc.setKnowledge(self.mc_knowledge)
 
-        mc.generateResults(True, True)
+        mc.generateAllResults()
 
         self.mc_ind_results = mc.getResults(True)
 
