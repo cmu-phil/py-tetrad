@@ -1031,13 +1031,13 @@ class TetradSearch:
 
         return facts
 
-    def markov_check(self, graph, percent_resample=1, condition_set_type=ts.ConditioningSetType.ORDERED_LOCAL_MARKOV,
+    def markov_check(self, graph, fraction_resample=1, condition_set_type=ts.ConditioningSetType.ORDERED_LOCAL_MARKOV,
                      removeExtraneous=False, parallelized=True, effective_sample_size=-1):
         if self.MC_TEST == None:
             raise Exception("A test for the Markov Checker has not been set. Please call as use_{test name} method setting the parmaeter 'use_for_mc' to True")
 
         mc = ts.MarkovCheck(graph, self.MC_TEST.getTest(self.data, self.params), condition_set_type)
-        mc.setFractionResample(percent_resample)
+        mc.setFractionResample(fraction_resample)
         mc.setFindSmallestSubset(removeExtraneous)
         mc.setParallelized(parallelized)
 
