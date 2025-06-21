@@ -1,6 +1,6 @@
 # Note
 
-These instructions are currently being revised to account for the pip install option. Please check back so see if they have changed.
+These instructions were being revised some time ago to account for the pip install option. Please, if you're not using the pip install method, check the instructions below to switch to it.
 
 # py-tetrad
 
