@@ -18,12 +18,6 @@ We maintain a [current version of the Tetrad launch jar](https://github.com/cmu-
 
 We should clarify that once you see how to use JPype to run Tetrad code in Python, you do not need this repository to do that. All you need is the Tetrad documentation (which we will try to keep up to date) and a little advice here or there, which we are happy to provide. Also, you may want to copy the [data and translation methods](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/tools) from this repository into your own code--feel free to steal those and modify them to your own purposes. This repository, from the point of view of Python, is a ladder really that, once you've climbed a little, you can toss away. From R, using [rpy-tetrad](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/), it's a different story; we can't figure out how to use JPype directly in R, so this repository helps.
 
-# News
-
-2024-11-18
-
-- Added a pip install option and converted examples files to use it where feasible. There may still be some more changes to this and to the instructions for this.
-
 # Install
 
 1. A JDK installed for version 21+ is necessary. See our Wiki article, [Setting up Java for Tetrad](https://github.com/cmu-phil/tetrad/wiki/Setting-up-Java-for-Tetrad).
