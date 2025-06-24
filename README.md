@@ -1,6 +1,6 @@
 # Note
 
-These instructions are currently being revised to account for the pip install option. Please check back so see if they have changed.
+These instructions were being revised some time ago to account for the pip install option. Please, if you're not using the pip install method, check the instructions below to switch to it.
 
 # py-tetrad
 
@@ -17,12 +17,6 @@ Please bear with us as we add and refine example modules and keep our code curre
 We maintain a [current version of the Tetrad launch jar](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/resources), which is either the [current published version](https://github.com/cmu-phil/tetrad/releases) or else the current published version with some [adjustments](https://github.com/cmu-phil/tetrad/wiki/Forthcoming-fixes). We will make sure that the example code will work with this current jar. Feel free to use any version of Tetrad, though. All artifacts for Tetrad for the last several releases are on [Maven Central](https://s01.oss.sonatype.org/content/repositories/releases/io/github/cmu-phil/), with their corresponding API Javadocs, along wth signatures to verify authenticity.
 
 We should clarify that once you see how to use JPype to run Tetrad code in Python, you do not need this repository to do that. All you need is the Tetrad documentation (which we will try to keep up to date) and a little advice here or there, which we are happy to provide. Also, you may want to copy the [data and translation methods](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/tools) from this repository into your own code--feel free to steal those and modify them to your own purposes. This repository, from the point of view of Python, is a ladder really that, once you've climbed a little, you can toss away. From R, using [rpy-tetrad](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/R/), it's a different story; we can't figure out how to use JPype directly in R, so this repository helps.
-
-# News
-
-2024-11-18
-
-- Added a pip install option and converted examples files to use it where feasible. There may still be some more changes to this and to the instructions for this.
 
 # Install
 
