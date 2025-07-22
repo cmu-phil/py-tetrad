@@ -379,8 +379,6 @@ class TetradSearch:
         alg = cpdag.Boss(self.SCORE)
         alg.setKnowledge(self.knowledge)
 
-        self.params.set(Params.NUM_STARTS, num_starts)
-
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
@@ -582,6 +580,22 @@ class TetradSearch:
         self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
 
         alg = pag.BossFci(self.TEST, self.SCORE)
+        alg.setKnowledge(self.knowledge)
+
+        self.java = alg.search(self.data, self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
+    def run_boss_pod(self, num_starts=1, use_bes=False, time_lag=0, use_data_order=True,
+                     output_cpdag=True, complete_rule_set_used=True):
+        self.params.set(Params.USE_BES, use_bes)
+        self.params.set(Params.NUM_STARTS, num_starts)
+        self.params.set(Params.TIME_LAG, time_lag)
+        self.params.set(Params.USE_DATA_ORDER, use_data_order)
+        self.params.set(Params.OUTPUT_CPDAG, output_cpdag)
+        self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used),
+
+        alg = cpdag.BossPod(self.SCORE)
+
         alg.setKnowledge(self.knowledge)
 
         self.java = alg.search(self.data, self.params)
