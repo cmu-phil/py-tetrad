@@ -594,7 +594,7 @@ class TetradSearch:
         self.params.set(Params.OUTPUT_CPDAG, output_cpdag)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used),
 
-        alg = cpdag.BossPod(self.SCORE)
+        alg = pag.BossPod(self.SCORE)
 
         alg.setKnowledge(self.knowledge)
 

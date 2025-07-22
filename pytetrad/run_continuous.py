@@ -79,6 +79,14 @@ print('GRaSP-FCI')
 search.run_grasp_fci()
 print(search.get_string())
 
+print('BOSS-FCI')
+search.run_boss_fci()
+print(search.get_string)
+
+print('BOSS-POD')
+search.run_boss_pod()
+print(search.get_string)
+
 print('CCD')
 search.run_ccd()
 print(search.get_string())
