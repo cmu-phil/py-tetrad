@@ -519,6 +519,20 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
+    def run_fci_max(self, depth=-1, stable_fas=True, max_disc_path_length=-1, complete_rule_set_used=True,
+                    guarantee_pag=False):
+        self.params.set(Params.DEPTH, depth)
+        self.params.set(Params.STABLE_FAS, stable_fas)
+        self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
+        self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
+        self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
+
+        alg = pag.FciMax(self.TEST)
+        alg.setKnowledge(self.knowledge)
+
+        self.java = alg.search(self.data, self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
     def run_rfci(self, depth=-1, stable_fas=True, max_disc_path_length=-1, complete_rule_set_used=True, ):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.STABLE_FAS, stable_fas)
