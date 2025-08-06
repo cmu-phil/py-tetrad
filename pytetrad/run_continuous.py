@@ -100,7 +100,7 @@ search.run_svar_gfci()
 print(search.get_string())
 
 print('SP-FCI')
-search.run_spfci()
+search.run_sp_fci()
 print(search.get_string())
 
 print('ICA-LiNGAM')

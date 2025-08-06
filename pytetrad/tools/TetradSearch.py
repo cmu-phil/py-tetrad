@@ -491,20 +491,6 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_pcmax(self, conflict_rule=1, depth=-1, use_heuristic=True, max_disc_path_length=-1,
-                  stable_fas=True):
-        self.params.set(Params.CONFLICT_RULE, conflict_rule)
-        self.params.set(Params.DEPTH, depth)
-        self.params.set(Params.USE_MAX_P_ORIENTATION_HEURISTIC, use_heuristic)
-        self.params.set(Params.MAX_P_ORIENTATION_MAX_PATH_LENGTH, max_disc_path_length)
-        self.params.set(Params.STABLE_FAS, stable_fas)
-
-        alg = cpdag.PcMax(self.TEST)
-        alg.setKnowledge(self.knowledge)
-
-        self.java = alg.search(self.data, self.params)
-        self.bootstrap_graphs = alg.getBootstrapGraphs()
-
     def run_fci(self, depth=-1, stable_fas=True, max_disc_path_length=-1, complete_rule_set_used=True,
                 guarantee_pag=False):
         self.params.set(Params.DEPTH, depth)
@@ -662,8 +648,8 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_spfci(self, max_disc_path_length=-1, complete_rule_set_used=True, depth=-1,
-                  guarantee_pag=False):
+    def run_sp_fci(self, max_disc_path_length=-1, complete_rule_set_used=True, depth=-1,
+                   guarantee_pag=False):
         self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
         self.params.set(Params.DEPTH, depth)
