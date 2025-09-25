@@ -8,11 +8,13 @@ import time
 
 import pytetrad.tools.translate as tr
 from pytetrad.tools import WrappedClKci as wc
+import pytetrad.tools.TetradSearch as tetrads
 
 import edu.cmu.tetrad.search as ts
 import edu.cmu.tetrad.search.test as tt
 import pandas as pd
 
+from pytetrad.tools import WrappedClKci as wc
 
 try:
     from causallearn.utils.cit import CIT
@@ -22,10 +24,10 @@ except ImportError as e:
     print('Could not import a causal-learn module: ', e)
 
 # Set the alpha level for the independence tests
-alpha_ = 0.05
+alpha_ = 0.2
 approx = True
-nullss = 5000
-kernel = 'Linear'
+nullss = 1000
+kernel = 'Polynomial'
 polyd = 2
 timeout=180
 
@@ -36,6 +38,19 @@ df = df.sample(800, replace=True)  # bootstrap sample.
 df = df.astype({col: "float64" for col in df.columns})
 
 
+# Run Tetrad's PC using Tetrad's KCI
+def printMcResult(graph, data):
+    _search = tetrads.TetradSearch(data)
+    _search.use_kci(use_for_mc=True)
+    _search.use_test(wc.WrappedClKci(data, alpha=0.01), use_for_mc=True)
+    ad_ind, ad_dep, ks_ind, ks_dep, bin_indep, bin_dep, frac_dep_ind, frac_dep_dep, num_tests_ind, num_tests_dep, mc \
+        = _search.markov_check(graph, parallelized=True, effective_sample_size=-1)
+
+    print()
+    print(f"AD p-value Indep = {ad_ind:5.4} Dep = {ad_dep:5.4}")
+    print(f"Fraction dependent Indep = {frac_dep_ind:5.4} Dep = {frac_dep_dep:5.4}")
+    print(f"Num tests Indep = {num_tests_ind} Dep = {num_tests_dep}")
+
 # Run CL's PC using CL's KCI
 def run_cl_pc_using_cl_kci():
     start_time = time.time()
@@ -45,6 +60,10 @@ def run_cl_pc_using_cl_kci():
 
     print("\nCL PC with CL's KCI", cg.G)
     print("Time taken", end_time - start_time)
+
+    # ad_p = getMarkovCheckerP(cg, df)
+    #
+    # print("AD P = " + str(ad_p))
 
 # Run Tetrad's PC using causal-learn's KCI.
 # For this we'll need to wrap causal-learn's KCI in a JPype object so that
@@ -72,11 +91,13 @@ def run_tetrad_pc_using_cl_kci(timeout=-1):
     print("Tetrad PC w/ JPype wrapper of causal-learn's KCI", graph)
     print("Time taken", end_time - start_time)
 
+    printMcResult(graph, df)
 
-# Run Tetrad's PC using Tetrad's KCI
 def run_tetrad_pc_using_tetrad_kci():
     start_time = time.time()
-    test1 = tt.Kci(tr.pandas_data_to_tetrad(df), alpha_)
+    data = tr.pandas_data_to_tetrad(df)
+    test1 = tt.Kci(data)
+    test1.setAlpha(alpha_)
     test1.setApproximate(approx)
 
     if kernel == 'Gaussian':
@@ -90,18 +111,19 @@ def run_tetrad_pc_using_tetrad_kci():
     else:
         raise ValueError(f"Unknown kernel type: {kernel}")
 
-    test1.setNumBootstraps(nullss)
+    test1.setNumPermutations(nullss)
     pc = ts.Pc(test1)
     pc.setVerbose(True)
     pc.setStable(True)
-    pc.setDepth(3)
+    pc.setDepth(-1)
     graph = pc.search()
     end_time = time.time()
 
     print("Tetrad PC with Tetrad's KCI", graph)
     print("Time taken", end_time - start_time)
 
+    ad_p = printMcResult(graph, df)
 
 # run_cl_pc_using_cl_kci()
-run_tetrad_pc_using_cl_kci(timeout=timeout)
-# run_tetrad_pc_using_tetrad_kci()
+# run_tetrad_pc_using_cl_kci(timeout=timeout)
+run_tetrad_pc_using_tetrad_kci()

@@ -9,7 +9,7 @@
 
 import pandas as pd
 import pytetrad.tools.TetradSearch as search
-# from pytetrad.tools import WrappedClKci as wc
+from pytetrad.tools import WrappedClKci as wc
 
 # data = pd.read_csv("resources/airfoil-self-noise.continuous.txt", sep="\t")
 data = pd.read_csv("resources/sample_lng_data_10_2_1000.txt", sep="\t")
@@ -34,7 +34,7 @@ _search = search.TetradSearch(data)
 # We need to choose which test to use for the Markov checker--either Fisher Z or WrappedClKci.
 
 _search.use_fisher_z(use_for_mc=True)
-# _search.use_test(wc.WrappedClKci(data, alpha=0.01), use_for_mc=True)
+# _search.use_test(wc.WrappedClKci(data, alpha=0.01, verbose=True), use_for_mc=True)
 
 # Note that we have added an option to control whether parallelism is used in the Markov Checker, as we are not
 # sure whether the Markov Checker is thread-safe when using the WrappedClKci test. We will test this in the future.

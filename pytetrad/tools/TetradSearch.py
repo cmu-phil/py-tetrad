@@ -28,7 +28,6 @@ import java.util as util
 import edu.cmu.tetrad.algcomparison.algorithm.oracle.cpdag as cpdag
 import edu.cmu.tetrad.algcomparison.algorithm.oracle.pag as pag
 import edu.cmu.tetrad.algcomparison.algorithm.continuous.dag as dag
-import edu.cmu.tetrad.algcomparison.algorithm.cluster as cluster
 import edu.cmu.tetrad.algcomparison.score as score_
 import edu.cmu.tetrad.algcomparison.independence as ind_
 import edu.cmu.tetrad.search.utils as search_utils
@@ -271,6 +270,12 @@ class TetradSearch:
         self.params.set(Params.POLYNOMIAL_DEGREE, polyd)
         self.params.set(Params.POLYNOMIAL_CONSTANT, polyc)
 
+        if use_for_mc:
+            self.MC_TEST = ind_.Kci()
+        else:
+            self.TEST = ind_.Kci()
+
+    def use_test(self, test, use_for_mc):
         if use_for_mc:
             self.MC_TEST = ind_.Kci()
         else:
