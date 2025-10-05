@@ -706,85 +706,6 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_fofc(self, alpha=0.001, penalty_discount=2.0, tetrad_test=1,
-                 include_structure_model=True, precompute_covariances=True, include_all_nodes=False):
-        """
-        Executes the FOFC (Fast Orientation of Factor Causal) clustering algorithm with the specified
-        parameters and data provided to the class instance. This method sets up necessary configurations,
-        initializes FOFC, and runs the clustering process based on user inputs.
-
-        :param alpha: The significance level used in the FOFC algorithm. Determines the threshold for
-            statistical tests during clustering.
-        :type alpha: float
-        :param penalty_discount: Regulates the penalty applied during the clustering process for
-            handling score-based evaluations.
-        :type penalty_discount: float
-        :param tetrad_test: Specifies the tetrad test to be applied in the algorithm. This governs
-            statistical test variations in identifying tetrad relations. 1 = CCA, 2 = Bollen-Ting,
-            3 = Wishart
-        :type tetrad_test: int
-        :param include_structure_model: Determines whether the structural model should be considered
-            during the clustering process. This applies Mimbuild.
-        :type include_structure_model: bool
-        :param precompute_covariances: If True, precomputes covariance matrices to optimize the algorithm's
-            performance during execution.
-        :type precompute_covariances: bool
-        :param include_all_nodes: If True, all variables are included in the returned graph; if
-            false, only clustered variables. (Default = false)
-        :type include_all_nodes: boolean
-        :rtype: A graph indicating clusters
-        """
-
-        # Set algorithm parameters in the Params object
-        self.params.set(Params.ALPHA, alpha)
-        self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
-        self.params.set(Params.TETRAD_TEST_FOFC, tetrad_test)
-        self.params.set(Params.INCLUDE_STRUCTURE_MODEL, include_structure_model)
-        self.params.set(Params.INCLUDE_ALL_NODES, include_all_nodes)
-        self.params.set(Params.PRECOMPUTE_COVARIANCES, precompute_covariances)
-
-        # Initialize the FOFC clustering algorithm
-        alg = cluster.Fofc()
-
-        # Run the search algorithm using the data and specified parameters
-        self.java = alg.search(self.data, self.params)
-
-    def run_bpc(self, alpha=0.001, penalty_discount=2.0, check_type=3,
-                 include_structure_model=True, precompute_covariances=True):
-        """
-        Executes the BPC (Bayesian Profile Clustering) algorithm using the specified
-        parameters. The function configures algorithm parameters, initializes the BPC
-        clustering algorithm, and performs the search process using the provided data
-        and configured options.
-
-        :param alpha: Significance level parameter used in the algorithm.
-        :type alpha: float
-        :param penalty_discount: Discounting factor for penalization in the algorithm.
-        :type penalty_discount: float
-        :param check_type: 1 = Significance, 2 = Clique (default), 3 = None
-        :type check_type: int
-        :param include_structure_model: Specifies whether to include structural model
-            considerations during computation.
-        :type include_structure_model: bool
-        :param precompute_covariances: Specifies whether to precompute covariance
-            matrices for efficiency in calculations.
-        :type precompute_covariances: bool
-        :return: Returns a graph indicating clusters
-        :rtype: object
-        """
-        # Set algorithm parameters in the Params object
-        self.params.set(Params.ALPHA, alpha)
-        self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
-        self.params.set(Params.INCLUDE_STRUCTURE_MODEL, include_structure_model)
-        self.params.set(Params.CHECK_TYPE, check_type)
-        self.params.set(Params.PRECOMPUTE_COVARIANCES, precompute_covariances)
-
-        # Initialize the BPC clustering algorithm
-        alg = cluster.Bpc()
-
-        # Run the search algorithm using the data and specified parameters
-        self.java = alg.search(self.data, self.params)
-
     def run_factor_analysis(self, fa_threshold=0.001, num_factors=2.0, use_varimax=True,
                 convergence_threshold=0.001):
         """
@@ -845,6 +766,7 @@ class TetradSearch:
         self.params.set(Params.APPLY_R1, apply_r1)
 
         alg = pag.Ccd(self.TEST)
+        alg.setFasStable(self.knowledge)
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
@@ -879,18 +801,6 @@ class TetradSearch:
         alg = dag.PcLingam()
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
-
-    def run_svar_gfci(self, penalty_discount=2):
-        num_lags = 2
-        lagged_data = ts.utils.TsUtils.createLagData(self.data, num_lags)
-        ts_test = ts.test.IndTestFisherZ(lagged_data, 0.01)
-        ts_score = ts.score.SemBicScore(lagged_data, True)
-        ts_score.setPenaltyDiscount(penalty_discount)
-        svar_fci = ts.SvarGfci(ts_test, ts_score)
-        svar_fci.setKnowledge(lagged_data.getKnowledge())
-        svar_fci.setVerbose(True)
-        self.java = svar_fci.search()
-        # self.bootstrap_graphs = svar_fci.getBootstrapGraphs()
 
     def run_gango(self, score, data):
         fges_graph = TetradSearch.run_fges(score)
@@ -1102,12 +1012,3 @@ class TetradSearch:
         return graph.paths().adjustmentSets(source, target, max_num_sets, max_distance_from_point,
                                              near_which_endpoint, max_path_length)
 
-
-def mimbuild(clustering, measure_names, latent_names, cov, full_graph=False):
-    mb = ts.Mimbuild()
-    graph = mb.search(clustering, measure_names, latent_names, cov)
-
-    if full_graph:
-        return mb.getFullGraph()
-    else:
-        return graph

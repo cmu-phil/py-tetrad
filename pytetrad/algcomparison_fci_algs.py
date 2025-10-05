@@ -74,7 +74,7 @@ algorithms = Algorithms()
 algorithms.add(pag.Fci(test))
 algorithms.add(pag.Rfci(test))
 algorithms.add(pag.Gfci(test, score))
-algorithms.add(pag.Bfci(test, score))
+algorithms.add(pag.BossFci(test, score))
 
 simulations = Simulations()
 simulations.add(sim.SemSimulation(graph.RandomForward()))

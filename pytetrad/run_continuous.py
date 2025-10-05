@@ -95,10 +95,6 @@ print('CCD')
 search.run_ccd()
 print(search.get_string())
 
-print('SVAR-GFCI')
-search.run_svar_gfci()
-print(search.get_string())
-
 print('SP-FCI')
 search.run_sp_fci()
 print(search.get_string())

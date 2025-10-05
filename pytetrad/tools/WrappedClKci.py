@@ -67,7 +67,7 @@ import java.util as ju
 #         kwidthx: kernel width for data x (standard deviation sigma)
 #         kwidthy: kernel width for data y (standard deviation sigma)
 #
-@JImplements(ts.IndependenceTest)
+@JImplements(ts.test.IndependenceTest)
 class KciWrapper:
     def __init__(self, df, alpha=0.01, start_time=-1, timeout=-1, **kwargs):
         self.df = df

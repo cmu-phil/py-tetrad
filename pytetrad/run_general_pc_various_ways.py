@@ -114,7 +114,7 @@ def run_tetrad_pc_using_tetrad_kci():
     test1.setNumPermutations(nullss)
     pc = ts.Pc(test1)
     pc.setVerbose(True)
-    pc.setStable(True)
+    pc.setFasStable(True)
     pc.setDepth(-1)
     graph = pc.search()
     end_time = time.time()
