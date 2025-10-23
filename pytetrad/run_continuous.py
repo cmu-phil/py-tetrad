@@ -87,8 +87,8 @@ print('BOSS-FCI')
 search.run_boss_fci()
 print(search.get_string)
 
-print('BOSS-POD')
-search.run_boss_pod()
+print('LV-Dumb')
+search.run_lv_dumb()
 print(search.get_string)
 
 print('CCD')
