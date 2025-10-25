@@ -460,8 +460,7 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_pc(self, conflict_rule=1, depth=-1, stable_fas=True, allow_bidirected=False):
-        self.params.set(Params.CONFLICT_RULE, conflict_rule)
+    def run_pc(self, depth=-1, stable_fas=True, allow_bidirected=False):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.STABLE_FAS, stable_fas)
         self.params.set(Params.ALLOW_BIDIRECTED, allow_bidirected)
@@ -473,8 +472,7 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_pc_max(self, conflict_rule=1, depth=-1, stable_fas=True, allow_bidirected=False):
-        self.params.set(Params.CONFLICT_RULE, conflict_rule)
+    def run_pc_max(self, depth=-1, stable_fas=True, allow_bidirected=False):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.STABLE_FAS, stable_fas)
         self.params.set(Params.ALLOW_BIDIRECTED, allow_bidirected)
@@ -486,8 +484,7 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_cpc(self, conflict_rule=1, depth=-1, stable_fas=True, allow_bidirected=False):
-        self.params.set(Params.CONFLICT_RULE, conflict_rule)
+    def run_cpc(self, depth=-1, stable_fas=True, allow_bidirected=False):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.STABLE_FAS, stable_fas)
         self.params.set(Params.ALLOW_BIDIRECTED, allow_bidirected)

@@ -29,7 +29,7 @@ setwd(project_root)
 
 print(project_root)
 
-setwd("pytetrad")
+# setwd("pytetrad")
 list.files()
 
 library(reticulate)
