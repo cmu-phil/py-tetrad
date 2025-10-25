@@ -45,7 +45,8 @@ ts$add_to_tier(2, "Pressure")
 ## Run the search and return the graph in PCALG format
 ts$use_sem_bic(penalty_discount=2)
 ts$use_fisher_z(0.05)
-ts$run_fges()
+ts$set_verbose(TRUE)
+ts$run_pc()
 
 ## Print the graph and grab the DOT format string (for Grasphviz)
 print(ts$get_string())
