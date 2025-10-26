@@ -42,7 +42,18 @@ def pandas_data_to_tetrad(df: DataFrame, int_as_cont=False):
     cols = df.columns
     discrete_cols = [col for col in cols if df[col].dtypes not in dtypes]
     category_map = {col: {val: i for i, val in enumerate(df[col].unique())} for col in discrete_cols}
-    df = df.replace(category_map)
+    # df = df.replace(category_map) // Deprecated
+
+    category_map = {
+        col: {val: i for i, val in enumerate(df[col].unique())}
+        for col in discrete_cols
+    }
+
+    df = df.copy()
+    for col in discrete_cols:
+        s = df[col].map(category_map[col])
+        df[col] = s.astype("int64")  # or "Int64" if you want pandas NA support
+
     values = df.values
     n, p = df.shape
 
