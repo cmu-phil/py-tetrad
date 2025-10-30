@@ -28,6 +28,7 @@ for i in range(0, nodes.size()):
     for j in range(0, nodes.size()):
         try:
             adj_sets = search.get_adjustment_sets(graph, nodes.get(i), nodes.get(j),
+                                                  "PDAG",
                                                   max_num_sets=max_num_sets,
                                                   max_distance_from_point=max_distance_from_point,
                                                   near_which_endpoint=near_which_endpoint,
@@ -38,9 +39,8 @@ for i in range(0, nodes.size()):
                 print(adj_set)
 
             print()
-        except Exception:
-
-            # Either there are no amenable paths or source == target.
+        except Exception as e:
+            print(e)
             pass
 
 

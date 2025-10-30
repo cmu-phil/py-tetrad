@@ -460,11 +460,11 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_pc(self, conflict_rule=1, depth=-1, stable_fas=True, guarantee_cpdag=False):
-        self.params.set(Params.CONFLICT_RULE, conflict_rule)
+    def run_pc(self, depth=-1, stable_fas=True, allow_bidirected=False):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.STABLE_FAS, stable_fas)
-        self.params.set(Params.GUARANTEE_CPDAG, guarantee_cpdag)
+        self.params.set(Params.ALLOW_BIDIRECTED, allow_bidirected)
+        self.params.set(Params.COLLIDER_ORIENTATION_STYLE, 1)
 
         alg = cpdag.Pc(self.TEST)
         alg.setKnowledge(self.knowledge)
@@ -472,25 +472,25 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_pc_max(self, conflict_rule=1, depth=-1, stable_fas=True, guarantee_cpdag=True):
-        self.params.set(Params.CONFLICT_RULE, conflict_rule)
+    def run_pc_max(self, depth=-1, stable_fas=True, allow_bidirected=False):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.STABLE_FAS, stable_fas)
-        self.params.set(Params.GUARANTEE_CPDAG, guarantee_cpdag)
+        self.params.set(Params.ALLOW_BIDIRECTED, allow_bidirected)
+        self.params.set(Params.COLLIDER_ORIENTATION_STYLE, 2)
 
-        alg = cpdag.PcMax(self.TEST)
+        alg = cpdag.Pc(self.TEST)
         alg.setKnowledge(self.knowledge)
 
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_cpc(self, conflict_rule=1, depth=-1, stable_fas=True, guarantee_cpdag=False):
-        self.params.set(Params.CONFLICT_RULE, conflict_rule)
+    def run_cpc(self, depth=-1, stable_fas=True, allow_bidirected=False):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.STABLE_FAS, stable_fas)
-        self.params.set(Params.GUARANTEE_CPDAG, guarantee_cpdag)
+        self.params.set(Params.ALLOW_BIDIRECTED, allow_bidirected)
+        self.params.set(Params.COLLIDER_ORIENTATION_STYLE, 3)
 
-        alg = cpdag.Cpc(self.TEST)
+        alg = cpdag.Pc(self.TEST)
         alg.setKnowledge(self.knowledge)
 
         self.java = alg.search(self.data, self.params)
@@ -766,7 +766,6 @@ class TetradSearch:
         self.params.set(Params.APPLY_R1, apply_r1)
 
         alg = pag.Ccd(self.TEST)
-        alg.setFasStable(self.knowledge)
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
@@ -1007,8 +1006,8 @@ class TetradSearch:
     # Returns a (tetrad-format) List of Sets of Nodes. Each set of nodes in the list is an adjustment set
     # for the source/target pair.f
     # near_which_endpoint: The endpoint(s) to consider for adjustment; 1 = near the source, 2 = near the target, 3 = near either.
-    def get_adjustment_sets(self, graph, source, target, max_num_sets=10, max_distance_from_point=5,
+    def get_adjustment_sets(self, graph, graph_type, source, target, max_num_sets=10, max_distance_from_point=5,
                             near_which_endpoint=1, max_path_length=20):
-        return graph.paths().adjustmentSets(source, target, max_num_sets, max_distance_from_point,
+        return graph.paths().adjustmentSets(source, graph_type, target, max_num_sets, max_distance_from_point,
                                              near_which_endpoint, max_path_length)
 
