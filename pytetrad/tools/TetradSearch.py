@@ -599,7 +599,7 @@ class TetradSearch:
         self.params.set(Params.OUTPUT_CPDAG, output_cpdag)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used),
 
-        alg = pag.LvDumb(self.SCORE)
+        alg = pag.LvLite(self.SCORE)
 
         alg.setKnowledge(self.knowledge)
 
@@ -766,6 +766,7 @@ class TetradSearch:
         self.params.set(Params.APPLY_R1, apply_r1)
 
         alg = pag.Ccd(self.TEST)
+        alg.setKnowledge(self.knowledge)
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 

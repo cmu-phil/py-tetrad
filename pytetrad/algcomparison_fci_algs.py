@@ -49,7 +49,7 @@ params.set(Params.NUM_RUNS, 10)
 
 params.set(Params.BOSS_ALG, 1)
 params.set(Params.DEPTH, -1)
-params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, 2)
+params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, 4)
 params.set(Params.COMPLETE_RULE_SET_USED, True)
 
 # Flags
