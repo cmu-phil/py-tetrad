@@ -26,6 +26,9 @@ max_path_length=20
 
 for i in range(0, nodes.size()):
     for j in range(0, nodes.size()):
+        if i == j:
+            continue
+
         try:
             adj_sets = search.get_adjustment_sets(graph, nodes.get(i), nodes.get(j),
                                                   "PDAG",
