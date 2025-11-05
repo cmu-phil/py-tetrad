@@ -3,12 +3,9 @@
 ## and the outputs are endpoint-matrix-formatted graphs, also data frames. (In a
 ## future version, we may allow the outputs to be given other formats.)
 
-import importlib.resources as importlib_resources
-
-import jpype.imports
-
+# import importlib.resources as importlib_resources
+# import jpype.imports
 # print('cwd = ', os.getcwd())
-
 # jar_path = importlib_resources.files('pytetrad').joinpath('resources', 'tetrad-current.jar')
 # jar_path = str(jar_path)
 # if not jpype.isJVMStarted():
