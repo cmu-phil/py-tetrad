@@ -599,7 +599,7 @@ class TetradSearch:
         self.params.set(Params.OUTPUT_CPDAG, output_cpdag)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used),
 
-        alg = pag.LvLite(self.SCORE)
+        alg = pag.LvDumb(self.SCORE)
 
         alg.setKnowledge(self.knowledge)
 
