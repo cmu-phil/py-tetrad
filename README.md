@@ -2,6 +2,10 @@
 
 These instructions were being revised some time ago to account for the pip install option. Please, if you're not using the pip install method, check the instructions below to switch to it.
 
+# News
+
+We are trying out a new Tetrad [ReadTheDocs manual](https://tetrad-manual.readthedocs.io/en/latest/). Let us know if you can think of improvements we can make. All algorithms, tests, scores, and parameters are documented here.
+
 # py-tetrad
 
 Please visit our [Tetrad web page](https://www.cmu.edu/dietrich/philosophy/tetrad/) for current links for downloadables, a list of contributors, some history, documentation, descriptions, links for our various projects, Javadocs, and more.
