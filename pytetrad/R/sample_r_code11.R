@@ -80,6 +80,7 @@ score <- .jnew("edu.cmu.tetrad.search.score.SemBicScore", .jcast(cov, "edu.cmu.t
 
 suborder_search <- .jnew("edu.cmu.tetrad.search.Boss", 
                          .jcast(score, "edu.cmu.tetrad.search.score.Score"))
+.jcall(suborder_search, "V", "setNumStarts", as.integer(5))                    
 perm_search <- .jnew("edu.cmu.tetrad.search.PermutationSearch", 
                      .jcast(suborder_search, "edu.cmu.tetrad.search.SuborderSearch"))
 graph <- .jcall(perm_search, 

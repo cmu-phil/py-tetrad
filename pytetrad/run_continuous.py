@@ -88,7 +88,7 @@ search.run_boss_fci()
 print(search.get_string)
 
 print('LV-Dumb')
-search.run_lv_dumb()
+search.run_lv_heuristic()
 print(search.get_string)
 
 print('CCD')
