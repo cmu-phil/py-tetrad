@@ -977,7 +977,7 @@ class TetradSearch:
 
         self.mc_ind_results = mc.getResults(True)
 
-        # Set sample size if specified
+        # Set the sample size if specified
         if effective_sample_size != -1:
             mc.setEffectiveSampleSize(effective_sample_size)
 
