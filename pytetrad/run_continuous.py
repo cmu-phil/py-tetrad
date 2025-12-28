@@ -87,7 +87,7 @@ print('BOSS-FCI')
 search.run_boss_fci()
 print(search.get_string)
 
-print('LV-Dumb')
+print('LV-Heuristic')
 search.run_lv_heuristic()
 print(search.get_string)
 
