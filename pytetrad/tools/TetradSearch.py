@@ -817,7 +817,9 @@ class TetradSearch:
     # bootstrap information by keeping all information in the graph, 2 = "highest", which will
     # only keep the edge for each node pair <x, y> that occurred with the highest frequency, and
     # 3 = "majority", which will keep all edges that occurred in the bootstraps with
-    # probability > 0.5.
+    # probability > 0.5. This affects which node pairs <x, y> are given in the bootstrapping
+    # ensemble graph; only one edge will appear for each node pair, and this will be the pair
+    # with the highest frequency.
     def set_bootstrapping(self, numberResampling=0, percent_resample_size=100, add_original=True,
                           with_replacement=True, resampling_ensemble=1, seed=-1):
         self.params.set(Params.NUMBER_RESAMPLING, numberResampling)
