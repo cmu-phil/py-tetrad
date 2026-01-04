@@ -813,6 +813,11 @@ class TetradSearch:
         return gango_graph
 
     # Set numberResampling to 0 to turn off bootstrapping.
+    # For resampling ensemble, 1 = "preserved" which means the graph will summarize the edge
+    # bootstrap information by keeping all information in the graph, 2 = "highest", which will
+    # only keep the edge for each node pair <x, y> that occurred with the highest frequency, and
+    # 3 = "majority", which will keep all edges that occurred in the bootstraps with
+    # probability > 0.5.
     def set_bootstrapping(self, numberResampling=0, percent_resample_size=100, add_original=True,
                           with_replacement=True, resampling_ensemble=1, seed=-1):
         self.params.set(Params.NUMBER_RESAMPLING, numberResampling)
