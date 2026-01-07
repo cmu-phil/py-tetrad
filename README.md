@@ -4,13 +4,13 @@ These instructions were being revised some time ago to account for the pip insta
 
 # News
 
-We are trying out a new Tetrad [ReadTheDocs manual](https://tetrad-manual.readthedocs.io/en/latest/). Let us know if you can think of improvements we can make. All algorithms, tests, scores, and parameters are documented here.
+We have a new Tetrad manual [ReadTheDocs manual](https://tetrad-manual.readthedocs.io/en/latest/). Let us know if you can think of improvements we can make. All algorithms, tests, scores, and parameters are documented here.
 
 # py-tetrad
 
 Please visit our [Tetrad web page](https://www.cmu.edu/dietrich/philosophy/tetrad/) for current links for downloadables, a list of contributors, some history, documentation, descriptions, links for our various projects, Javadocs, and more.
 
-This package shows how to make arbitrary code in [Tetrad](https://github.com/cmu-phil/tetrad) directly available in Python via [JPype](https://github.com/jpype-project/jpype) as part of a Python workflow. We do this by giving some [tools](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/tools) for translating graphs and datasets from Python to Java and back, providing some [reusable examples](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad) of how it can be done, and giving [API Javadoc documentation](https://www.phil.cmu.edu/tetrad-javadocs/7.6.8/) to allow further exploration of the entire Tetrad codebase.
+This package shows how to make arbitrary code in [Tetrad](https://github.com/cmu-phil/tetrad) directly available in Python via [JPype](https://github.com/jpype-project/jpype) as part of a Python workflow. We do this by giving some [tools](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad/tools) for translating graphs and datasets from Python to Java and back, providing some [reusable examples](https://github.com/cmu-phil/py-tetrad/tree/main/pytetrad) of how it can be done, and giving [API Javadoc documentation](https://www.phil.cmu.edu/tetrad-javadocs/7.6.9/) to allow further exploration of the entire Tetrad codebase.
 
 It also provides a class, [TetradSearch.py](https://github.com/cmu-phil/py-tetrad/blob/main/pytetrad/tools/TetradSearch.py), that can be used in both Python and R to hide the JPype facilities for those who don't want to (or can't, in the case of R) deal directly with the Tetrad codebase.
 
