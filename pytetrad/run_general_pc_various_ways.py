@@ -24,7 +24,7 @@ except ImportError as e:
     print('Could not import a causal-learn module: ', e)
 
 # Set the alpha level for the independence tests
-alpha_ = 0.001
+alpha_ = 0.01
 approx = True
 nullss = 1000
 kernel = 'Gaussian'
@@ -32,10 +32,10 @@ polyd = 2
 timeout=500
 
 # Grab the airfoil data (a small problem with just 6 variables)
-df = pd.read_csv(f"resources/airfoil-self-noise.continuous.txt", sep="\t")
-# df = pd.read_csv(f"/Users/josephramsey/Downloads/data_nonlinear.csv")
+# df = pd.read_csv(f"resources/airfoil-self-noise.continuous.txt", sep="\t")
+df = pd.read_csv(f"/Users/josephramsey/Downloads/data_nonlinear.csv")
 # df = pd.read_csv(f"resources/diabetes.data.d.txt", sep="\t")
-df = df.sample(800, replace=True)  # bootstrap sample.
+# df = df.sample(800, replace=True)  # bootstrap sample.
 df = df.astype({col: "float64" for col in df.columns})
 
 
@@ -126,6 +126,6 @@ def run_tetrad_pc_using_tetrad_kci():
 
     ad_p = printMcResult(graph, df)
 
-# run_cl_pc_using_cl_kci()
+run_cl_pc_using_cl_kci()
 # run_tetrad_pc_using_cl_kci(timeout=timeout)
-run_tetrad_pc_using_tetrad_kci()
+# run_tetrad_pc_using_tetrad_kci()
