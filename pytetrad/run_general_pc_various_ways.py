@@ -33,7 +33,7 @@ timeout=500
 
 # Grab the airfoil data (a small problem with just 6 variables)
 df = pd.read_csv(f"resources/airfoil-self-noise.continuous.txt", sep="\t")
-# df = pd.read_csv(f"/Users/josephramsey/Downloads/data_nonlinear.csv")
+# df = pd.read_csv(f"/Users/josephramsey/Downloads/auto-mpg.data.mixed.max.no.origin.txt", sep="\t")
 # df = pd.read_csv(f"resources/diabetes.data.d.txt", sep="\t")
 df = df.sample(800, replace=True)  # bootstrap sample.
 df = df.astype({col: "float64" for col in df.columns})
