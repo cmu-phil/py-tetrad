@@ -108,10 +108,17 @@ class KciWrapper:
         # print("p = " + pValue)
         print("Found " + str(pValue) + " for " + str(x) + " and " + str(y) + " given " + str(s))
 
-        indep = pValue > self.alpha
+        # indep = pValue > self.alpha
 
-        result = tt.IndependenceResult(fact, indep, pValue, self.alpha - pValue)
+        pValue = float(self.kci_obj(X, Y, S))
+        indep = bool(pValue > self.alpha)
+        delta = float(self.alpha - pValue)
+
+        result = tt.IndependenceResult(fact, indep, pValue, delta)
         return result
+
+        # result = tt.IndependenceResult(fact, indep, pValue, self.alpha - pValue)
+        # return result
 
     @JOverride
     def getVariables(self, *arg):
