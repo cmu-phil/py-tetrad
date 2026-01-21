@@ -124,7 +124,7 @@ def run_tetrad_pc_using_tetrad_kci():
     print("Tetrad PC with Tetrad's KCI", graph)
     print("Time taken", end_time - start_time)
 
-    ad_p = printMcResult(graph, df)
+    printMcResult(graph, df)
 
 run_cl_pc_using_cl_kci()
 # run_tetrad_pc_using_cl_kci(timeout=timeout)
