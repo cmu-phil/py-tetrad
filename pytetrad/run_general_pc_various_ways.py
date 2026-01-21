@@ -126,6 +126,6 @@ def run_tetrad_pc_using_tetrad_kci():
 
     ad_p = printMcResult(graph, df)
 
-# run_cl_pc_using_cl_kci()
-run_tetrad_pc_using_cl_kci(timeout=timeout)
+run_cl_pc_using_cl_kci()
+# run_tetrad_pc_using_cl_kci(timeout=timeout)
 # run_tetrad_pc_using_tetrad_kci()
