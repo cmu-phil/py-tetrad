@@ -54,7 +54,7 @@ def simulateContinuous(num_meas = 20, num_lat = 0, avg_deg = 4, samp_size = 200,
 
     return D, G
 
-# Simuolates a discrete dataset with the given arguments and returns the dataset as a pandas dataframe
+# Simulates a discrete dataset with the given arguments and returns the dataset as a pandas dataframe
 def simulateDiscrete(num_meas = 20, num_lat = 0, avg_deg = 4, min_cat=3, max_cat=3, samp_size=1000):
     # Set the parameters for the simulation
     params = Parameters()
@@ -69,7 +69,7 @@ def simulateDiscrete(num_meas = 20, num_lat = 0, avg_deg = 4, min_cat=3, max_cat
     params.set(Params.MAX_CATEGORIES, max_cat)
 
     # Params for simuulation
-    params.set(Params.RANDOMIZE_COLUMNS, True) # Preents some algorithsm from taking advantage of causal order
+    params.set(Params.RANDOMIZE_COLUMNS, True) # Prevents some algorithms from taking advantage of causal order
     params.set(Params.SAMPLE_SIZE, samp_size)
     params.set(Params.SAVE_LATENT_VARS, False)
     # params.set(Params.SEED, 29483)
@@ -78,6 +78,31 @@ def simulateDiscrete(num_meas = 20, num_lat = 0, avg_deg = 4, min_cat=3, max_cat
 
     # Do the simulation and grab the dataset and generative graph
     sim_ = sim.BayesNetSimulation(graph.RandomForward())
+    sim_.createData(params, True)
+    D = sim_.getDataModel(0)
+    G = sim_.getTrueGraph(0)
+
+    return D, G
+
+# Simulates a discrete dataset with the given arguments and returns the dataset as a pandas dataframe
+def simulateDiscreteFromGraph(tetrad_graph, min_cat=3, max_cat=3, samp_size=1000):
+    # Set the parameters for the simulation
+    params = Parameters()
+
+    # Params for Bayes PM
+    params.set(Params.MIN_CATEGORIES, min_cat)
+    params.set(Params.MAX_CATEGORIES, max_cat)
+
+    # Params for simuulation
+    params.set(Params.RANDOMIZE_COLUMNS, True) # Prevents some algorithms from taking advantage of causal order
+    params.set(Params.SAMPLE_SIZE, samp_size)
+    params.set(Params.SAVE_LATENT_VARS, False)
+    # params.set(Params.SEED, 29483
+
+    params.set(Params.NUM_RUNS, 1)
+
+    # Do the simulation and grab the dataset and generative graph
+    sim_ = sim.BayesNetSimulation(graph.SingleGraph(tetrad_graph))
     sim_.createData(params, True)
     D = sim_.getDataModel(0)
     G = sim_.getTrueGraph(0)
