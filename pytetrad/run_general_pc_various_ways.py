@@ -60,7 +60,8 @@ def run_cl_pc_using_cl_kci():
             # approx=approx, est_width='median', polyd=polyd)
     end_time = time.time()
 
-    print("\nCL PC with CL's KCI", cg.G)
+    print("\nCL PC with CL's KCI")
+    print(cg.G)
     print("Time taken", end_time - start_time)
 
     # ad_p = getMarkovCheckerP(cg, df)
@@ -126,6 +127,6 @@ def run_tetrad_pc_using_tetrad_kci():
 
     printMcResult(graph, df)
 
-# run_cl_pc_using_cl_kci()
+run_cl_pc_using_cl_kci()
 # run_tetrad_pc_using_cl_kci(timeout=timeout)
-run_tetrad_pc_using_tetrad_kci()
+# run_tetrad_pc_using_tetrad_kci()
