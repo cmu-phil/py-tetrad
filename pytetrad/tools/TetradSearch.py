@@ -902,6 +902,12 @@ class TetradSearch:
         else:
             return gp.graphToLavaan(java)
 
+    def get_json(self, java=None):
+        if (java == None):
+            return gp.graphToJson(self.java)
+        else:
+            return gp.graphToJson(java)
+
     def bootstrap_graph(self, index):
         i = lang.Integer(index).intValue()
         if i < 0 or i > len(self.bootstrap_graphs):

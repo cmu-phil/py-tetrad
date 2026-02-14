@@ -30,5 +30,8 @@ print(search.get_string())
 search.run_direct_lingam()
 print(search.get_string())
 
+# Adding a JSON graph output here.
+print(search.get_json())
+
 ## Print all subsets independence facts.
 print(search.all_subsets_independence_facts(search.get_java()))
