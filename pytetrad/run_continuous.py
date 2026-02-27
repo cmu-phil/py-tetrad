@@ -63,14 +63,6 @@ print('FCI')
 search.run_fci()
 print(search.get_string())
 
-print('FCI-Max')
-search.run_fci_max()
-print(search.get_string())
-
-print('CFCI')
-search.run_cfci()
-print(search.get_string())
-
 print('GFCI')
 search.run_gfci()
 print(search.get_string())

@@ -111,7 +111,6 @@ statistics.add(stat.SemidirectedRecall())
 statistics.add(stat.SemidirectedPathF1())
 statistics.add(stat.NoSemidirectedPrecision())
 statistics.add(stat.NoSemidirectedRecall())
-statistics.add(stat.NoSemidirectedF1())
 
 statistics.add(stat.ElapsedCpuTime())
 
