@@ -1,0 +1,9 @@
+/knowledge
+addtemporal
+
+0  anti_motif_square anti_triangle_motif clique crossing modularity-violation package-cycle unhealthy-inheritance unstable-interface
+1  file_bug_churn file_bug_frequency file_churn file_non_bug_churn file_non_bug_frequency
+
+forbiddirect
+
+requiredirect

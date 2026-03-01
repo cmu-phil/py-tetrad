@@ -1,0 +1,99 @@
+Graph Nodes:
+b_100433;b_100740;b_100742;b_102939;b_103864;b_104180;b_113207;b_114109;b_114576;b_114577;b_114619;b_120027;b_120884;b_122110;b_122333;b_130166;b_134353;b_136450;b_140076;b_140160;b_140195;b_140221;b_140224;b_142970;b_143470;b_143505;b_143506;b_143507;b_143508;b_143509;b_143510;b_143511;b_143513;b_143567;b_143568;b_143569;b_143570;b_143571;b_143572;b_148275;b_150204;b_150205;b_150206;b_150207;b_150208;b_150209;b_150285;b_150286;b_150287;b_150288;b_150289;b_150290;b_150291;b_151787;b_151788;b_151789;b_151790;b_151791;b_151793;b_151794;b_160701;b_160702;b_160705;b_160797;b_160798;b_160799;b_162105;b_162106;b_162107;b_162108;b_162109;b_162176;b_162178;b_162179;b_162180;b_162181;b_162182;b_166302;b_166303;b_166304;b_167053;b_173731;b_173733;b_180732;b_180734;b_180735;b_180737;b_180739;b_191547;b_191549;b_201967;b_62937;b_62940;b_63738;b_64339;b_80891;b_81672;b_93245;churn;churn2;code_dev;code_dev2;commit;commit2;file;file2;mail_dev;mail_dev2;mis_link;mis_link2;nv-b_100433;nv-b_100740;nv-b_100742;nv-b_102939;nv-b_103864;nv-b_104180;nv-churn;nv-churn2;nv-code_dev;nv-code_dev2;nv-commit;nv-commit2;nv-file;nv-file2;nv-mail_dev;nv-mail_dev2;nv-mis_link;nv-mis_link2;nv-silence;nv-silence2;nv-start;nv-thread;nv-thread2;silence;silence2;start;thread;thread2
+
+Graph Edges:
+1. commit --> commit2 [commit --> commit2 dd pl]:0.9802;[commit --- commit2]:0.0099;[commit <-- commit2 dd nl]:0.0099;[edge]:1.0000 dd pl
+2. commit --> churn [commit --> churn dd pl]:0.9604;[commit --- churn]:0.0297;[commit <-- churn pd nl]:0.0099;[edge]:1.0000 dd pl
+3. file --> churn [file --> churn dd pl]:0.9604;[file --- churn]:0.0198;[file <-- churn dd pl]:0.0198;[edge]:1.0000 dd pl
+4. thread --> churn [thread --> churn dd nl]:0.9505;[thread <-- churn dd pl]:0.0495;[edge]:1.0000 dd nl
+5. file --> silence2 [file --> silence2 dd pl]:0.9505;[file <-- silence2 dd pl]:0.0297;[file --- silence2]:0.0099;[no edge]:0.0099;[edge]:0.9901 dd pl
+6. mis_link --> churn [mis_link --> churn dd nl]:0.9406;[mis_link <-- churn dd nl]:0.0297;[no edge]:0.0198;[mis_link --- churn]:0.0099;[edge]:0.9802 dd nl
+7. mis_link --> thread2 [mis_link --> thread2 dd nl]:0.9307;[mis_link <-- thread2 pd nl]:0.0693;[edge]:1.0000 dd nl
+8. start --> file2 [start --> file2 dd nl]:0.9208;[start <-- file2 dd pl]:0.0792;[edge]:1.0000 dd nl
+9. start --> commit2 [start --> commit2 dd nl]:0.9010;[no edge]:0.0891;[start <-- commit2 dd nl]:0.0099;[edge]:0.9109 dd nl
+10. thread --> file2 [thread --> file2 dd nl]:0.9010;[thread <-- file2 dd pl]:0.0594;[no edge]:0.0396;[edge]:0.9604 dd nl
+11. mail_dev --> mail_dev2 [mail_dev --> mail_dev2 pd nl]:0.8911;[mail_dev --- mail_dev2]:0.0396;[mail_dev <-- mail_dev2 dd nl]:0.0396;[no edge]:0.0297;[edge]:0.9703 pd nl
+12. start --> b_162107 [start --> b_162107]:0.8812;[start <-- b_162107]:0.0594;[start --- b_162107]:0.0495;[no edge]:0.0099;[edge]:0.9901
+13. code_dev --> commit2 [code_dev --> commit2 dd pl]:0.8614;[code_dev <-- commit2 dd pl]:0.0891;[no edge]:0.0495;[edge]:0.9505 dd pl
+14. commit --> mail_dev2 [commit --> mail_dev2 dd pl]:0.8614;[no edge]:0.0990;[commit <-- mail_dev2 dd nl]:0.0396;[edge]:0.9010 dd pl
+15. mis_link --> file2 [mis_link --> file2 dd nl]:0.8515;[no edge]:0.0792;[mis_link <-- file2 dd pl]:0.0495;[mis_link --- file2]:0.0198;[edge]:0.9208 dd nl
+16. mail_dev --> churn [mail_dev --> churn dd nl]:0.8416;[mail_dev <-- churn dd pl]:0.1485;[no edge]:0.0099;[edge]:0.9901 dd nl
+17. mis_link --> start [mis_link --> start]:0.8416;[mis_link <-- start]:0.1485;[mis_link --- start]:0.0099;[edge]:1.0000
+18. mail_dev --> commit2 [mail_dev --> commit2 dd nl]:0.8218;[mail_dev <-- commit2 dd pl]:0.1584;[no edge]:0.0198;[edge]:0.9802 dd nl
+19. mis_link --> mis_link2 [mis_link --> mis_link2 dd nl]:0.8119;[mis_link <-- mis_link2 dd pl]:0.1584;[mis_link --- mis_link2]:0.0297;[edge]:1.0000 dd nl
+20. code_dev2 --> commit2 [code_dev2 --> commit2 dd nl]:0.8020;[code_dev2 <-- commit2 dd pl]:0.1089;[no edge]:0.0891;[edge]:0.9109 dd nl
+21. mail_dev --> thread2 [mail_dev --> thread2 dd nl]:0.8020;[mail_dev <-- thread2 dd nl]:0.1386;[no edge]:0.0594;[edge]:0.9406 dd nl
+22. silence --> file2 [silence --> file2 pd nl]:0.7921;[silence <-- file2 dd pl]:0.1584;[no edge]:0.0495;[edge]:0.9505 pd nl
+23. thread2 --> commit2 [thread2 --> commit2 pd nl]:0.7921;[thread2 <-- commit2 dd pl]:0.2079;[edge]:1.0000 pd nl
+24. silence2 --> file2 [silence2 --> file2 dd pl]:0.7525;[silence2 <-- file2 dd pl]:0.2475;[edge]:1.0000 dd pl
+25. start --> mis_link2 [start --> mis_link2 dd nl]:0.7426;[start <-- mis_link2 dd pl]:0.2574;[edge]:1.0000 dd nl
+26. file --> start [file --> start dd pl]:0.7426;[file <-- start pd nl]:0.2574;[edge]:1.0000 dd pl
+27. silence --> commit2 [silence --> commit2 dd nl]:0.7327;[no edge]:0.2178;[silence <-- commit2 dd nl]:0.0495;[edge]:0.7822 dd nl
+28. thread --> thread2 [thread --> thread2 dd nl]:0.7030;[no edge]:0.2079;[thread <-- thread2 dd nl]:0.0792;[thread --- thread2]:0.0099;[edge]:0.7921 dd nl
+29. mis_link2 --> file2 [mis_link2 --> file2 dd nl]:0.6832;[mis_link2 <-- file2 dd nl]:0.2772;[no edge]:0.0396;[edge]:0.9604 dd nl
+30. mail_dev --> churn2 [mail_dev --> churn2]:0.6832;[no edge]:0.1881;[mail_dev <-- churn2]:0.1188;[mail_dev --- churn2]:0.0099;[edge]:0.8119
+31. mis_link --> silence2 [mis_link --> silence2 dd nl]:0.6733;[no edge]:0.2475;[mis_link <-- silence2 pd nl]:0.0792;[edge]:0.7525 dd nl
+32. thread --> mail_dev [thread --> mail_dev pd nl]:0.6733;[thread <-- mail_dev dd nl]:0.2772;[thread --- mail_dev]:0.0495;[edge]:1.0000 pd nl
+33. mis_link --> code_dev2 [mis_link --> code_dev2 dd nl]:0.6634;[no edge]:0.1881;[mis_link <-- code_dev2 dd pl]:0.0990;[mis_link --- code_dev2]:0.0495;[edge]:0.8119 dd nl
+34. commit --> churn2 [commit --> churn2 dd pl]:0.6634;[no edge]:0.3267;[commit --- churn2]:0.0099;[edge]:0.6733 dd pl
+35. silence --> silence2 [silence --> silence2 dd pl]:0.6634;[silence <-- silence2 dd nl]:0.2871;[no edge]:0.0297;[silence --- silence2]:0.0198;[edge]:0.9703 dd pl
+36. mis_link2 --> churn2 [mis_link2 --> churn2]:0.6634;[mis_link2 <-- churn2]:0.3366;[edge]:1.0000
+37. thread --> silence2 [thread --> silence2 dd nl]:0.6535;[no edge]:0.2772;[thread <-- silence2 dd nl]:0.0693;[edge]:0.7228 dd nl
+38. file --> silence [file --> silence dd pl]:0.6436;[file <-- silence dd nl]:0.3069;[file --- silence]:0.0495;[edge]:1.0000 dd pl
+39. silence --> code_dev2 [silence --> code_dev2]:0.6436;[silence <-- code_dev2]:0.3168;[no edge]:0.0297;[silence --- code_dev2]:0.0099;[edge]:0.9703
+40. mis_link2 --> commit2 [mis_link2 --> commit2 dd nl]:0.6337;[no edge]:0.2277;[mis_link2 <-- commit2 pd nl]:0.1287;[mis_link2 --- commit2]:0.0099;[edge]:0.7723 dd nl
+41. mis_link2 --> mail_dev2 [mis_link2 --> mail_dev2 dd pl]:0.6337;[no edge]:0.2277;[mis_link2 <-- mail_dev2 dd nl]:0.1386;[edge]:0.7723 dd pl
+42. code_dev --> churn2 [code_dev --> churn2]:0.6337;[no edge]:0.2970;[code_dev <-- churn2]:0.0594;[code_dev --- churn2]:0.0099;[edge]:0.7030
+43. file2 --> commit2 [file2 --> commit2 dd nl]:0.6238;[file2 <-- commit2 dd nl]:0.3762;[edge]:1.0000 dd nl
+44. code_dev --> file2 [code_dev --> file2 dd pl]:0.6238;[no edge]:0.2079;[code_dev <-- file2 dd nl]:0.1683;[edge]:0.7921 dd pl
+45. code_dev --> mail_dev2 [code_dev --> mail_dev2 dd pl]:0.6238;[no edge]:0.3267;[code_dev <-- mail_dev2 pd pl]:0.0495;[edge]:0.6733 dd pl
+46. code_dev2 --> churn2 [code_dev2 --> churn2]:0.6238;[code_dev2 <-- churn2]:0.3465;[no edge]:0.0198;[code_dev2 --- churn2]:0.0099;[edge]:0.9802
+47. commit --> start [commit --> start]:0.6238;[commit <-- start]:0.2178;[no edge]:0.1584;[edge]:0.8416
+48. b_62937 --> start [b_62937 --> start pd pl]:0.6139;[no edge]:0.3564;[b_62937 <-- start pd nl]:0.0297;[edge]:0.6436 pd pl
+49. commit --> file2 [commit --> file2 dd pl]:0.6040;[no edge]:0.3564;[commit --- file2]:0.0198;[commit <-- file2 dd pl]:0.0198;[edge]:0.6436 dd pl
+50. code_dev --> code_dev2 [code_dev --> code_dev2]:0.6040;[code_dev <-- code_dev2]:0.3762;[code_dev --- code_dev2]:0.0198;[edge]:1.0000
+51. file --> code_dev [file --> code_dev dd nl]:0.5941;[file <-- code_dev pd nl]:0.2772;[file --- code_dev]:0.1089;[no edge]:0.0198;[edge]:0.9802 dd nl
+52. silence --> churn2 [silence --> churn2 dd pl]:0.5941;[no edge]:0.2871;[silence <-- churn2 dd pl]:0.1188;[edge]:0.7129 dd pl
+53. silence2 --> churn [silence2 --> churn pd pl]:0.5941;[silence2 <-- churn dd nl]:0.4059;[edge]:1.0000 pd pl
+54. start --> b_63738 [start --> b_63738 pd nl]:0.5842;[start <-- b_63738 pd pl]:0.2970;[no edge]:0.0792;[start --- b_63738]:0.0396;[edge]:0.9208 pd nl
+55. silence2 --> mail_dev2 [silence2 --> mail_dev2]:0.5842;[silence2 <-- mail_dev2]:0.4158;[edge]:1.0000
+56. start --> b_162180 [start --> b_162180]:0.5842;[start <-- b_162180]:0.2277;[no edge]:0.1386;[start --- b_162180]:0.0495;[edge]:0.8614
+57. thread --> mail_dev2 [thread --> mail_dev2 dd nl]:0.5644;[no edge]:0.4059;[thread <-- mail_dev2 pd nl]:0.0297;[edge]:0.5941 dd nl
+58. mail_dev2 --> thread2 [mail_dev2 --> thread2 dd nl]:0.5545;[mail_dev2 <-- thread2 dd nl]:0.4455;[edge]:1.0000 dd nl
+59. silence --> mail_dev [silence --> mail_dev dd nl]:0.5545;[silence <-- mail_dev dd nl]:0.3960;[silence --- mail_dev]:0.0495;[edge]:1.0000 dd nl
+60. mis_link --> code_dev [mis_link --> code_dev dd pl]:0.5545;[mis_link <-- code_dev dd pl]:0.4257;[mis_link --- code_dev]:0.0198;[edge]:1.0000 dd pl
+61. code_dev2 --> churn [code_dev2 --> churn dd pl]:0.5446;[no edge]:0.3762;[code_dev2 <-- churn dd nl]:0.0792;[edge]:0.6238 dd pl
+62. file2 --> churn2 [file2 --> churn2]:0.5446;[file2 <-- churn2]:0.4554;[edge]:1.0000
+63. mis_link2 --> code_dev2 [mis_link2 --> code_dev2]:0.5446;[mis_link2 <-- code_dev2]:0.4455;[mis_link2 --- code_dev2]:0.0099;[edge]:1.0000
+64. thread --> commit2 [thread --> commit2 dd nl]:0.5347;[no edge]:0.4356;[thread <-- commit2 dd nl]:0.0297;[edge]:0.5644 dd nl
+65. silence2 --> churn2 [silence2 --> churn2]:0.5347;[silence2 <-- churn2]:0.3366;[no edge]:0.1287;[edge]:0.8713
+66. churn2 --> churn [churn2 --> churn dd nl]:0.5248;[churn2 <-- churn pd nl]:0.4752;[edge]:1.0000 dd nl
+67. mail_dev2 --> commit2 [mail_dev2 --> commit2 dd nl]:0.5248;[mail_dev2 <-- commit2 dd pl]:0.2475;[no edge]:0.2277;[edge]:0.7723 dd nl
+68. churn2 --> commit2 [churn2 --> commit2 dd pl]:0.5248;[churn2 <-- commit2 pd nl]:0.4752;[edge]:1.0000 dd pl
+69. file --> mis_link2 [file --> mis_link2 dd pl]:0.5248;[no edge]:0.3960;[file <-- mis_link2 dd pl]:0.0792;[edge]:0.6040 dd pl
+70. start --> b_64339 [start --> b_64339 pd nl]:0.5149;[start <-- b_64339 pd pl]:0.3960;[start --- b_64339]:0.0495;[no edge]:0.0396;[edge]:0.9604 pd nl
+71. b_173733 --> nv-b_102939 [b_173733 --> nv-b_102939 pd pl]:0.5149;[no edge]:0.4554;[b_173733 --- nv-b_102939]:0.0198;[b_173733 <-- nv-b_102939 pd pl]:0.0099;[edge]:0.5446 pd pl
+72. file2 --> thread2 [file2 --> thread2 pd nl]:0.5050;[file2 <-- thread2 dd nl]:0.2871;[no edge]:0.2079;[edge]:0.7921 pd nl
+73. thread --> code_dev [thread --> code_dev dd pl]:0.5050;[thread <-- code_dev dd pl]:0.2376;[no edge]:0.1584;[thread --- code_dev]:0.0990;[edge]:0.8416 dd pl
+74. mis_link --> thread [mis_link --> thread]:0.5050;[mis_link <-- thread]:0.3366;[mis_link --- thread]:0.1485;[no edge]:0.0099;[edge]:0.9901
+75. thread2 --> churn2 [thread2 --> churn2]:0.5050;[thread2 <-- churn2]:0.3366;[no edge]:0.1584;[edge]:0.8416
+76. commit --> thread [commit --> thread dd pl]:0.4950;[commit <-- thread dd pl]:0.3960;[commit --- thread]:0.0990;[no edge]:0.0099;[edge]:0.9901 dd pl
+77. code_dev2 --> mail_dev [code_dev2 --> mail_dev pd nl]:0.4851;[code_dev2 <-- mail_dev dd nl]:0.4851;[no edge]:0.0297;[edge]:0.9703 pd nl
+78. start --> b_62940 [start --> b_62940 pd nl]:0.4851;[start <-- b_62940 pd pl]:0.3960;[no edge]:0.0693;[start --- b_62940]:0.0495;[edge]:0.9307 pd nl
+79. churn --> thread2 [churn --> thread2]:0.4851;[no edge]:0.3465;[churn <-- thread2]:0.1683;[edge]:0.6535
+80. silence2 --> mis_link2 [silence2 --> mis_link2]:0.4851;[silence2 <-- mis_link2]:0.2970;[no edge]:0.2178;[edge]:0.7822
+81. start --> b_160705 [start --> b_160705]:0.4851;[no edge]:0.3069;[start <-- b_160705]:0.1782;[start --- b_160705]:0.0297;[edge]:0.6931
+82. churn --> file2 [churn --> file2 dd nl]:0.4752;[no edge]:0.3564;[churn <-- file2 dd pl]:0.1683;[edge]:0.6436 dd nl
+83. code_dev2 --> mail_dev2 [code_dev2 --> mail_dev2 dd nl]:0.4752;[no edge]:0.4752;[code_dev2 <-- mail_dev2 dd pl]:0.0495;[edge]:0.5248 dd nl
+84. mis_link --> mail_dev [mis_link --> mail_dev dd nl]:0.4653;[no edge]:0.3564;[mis_link <-- mail_dev dd nl]:0.1188;[mis_link --- mail_dev]:0.0594;[edge]:0.6436 dd nl
+85. commit --> mis_link [commit --> mis_link dd pl]:0.4653;[commit <-- mis_link dd pl]:0.3168;[no edge]:0.1188;[commit --- mis_link]:0.0990;[edge]:0.8812 dd pl
+86. file --> commit [file --> commit dd pl]:0.4653;[file <-- commit dd nl]:0.3861;[file --- commit]:0.1485;[edge]:1.0000 dd pl
+87. churn --> commit2 [churn --> commit2]:0.4653;[churn <-- commit2]:0.3465;[no edge]:0.1881;[edge]:0.8119
+88. code_dev --> mis_link2 [code_dev --> mis_link2]:0.4554;[code_dev <-- mis_link2]:0.2970;[no edge]:0.2475;[edge]:0.7525
+89. commit --> code_dev [commit --> code_dev pd nl]:0.4455;[no edge]:0.3168;[commit <-- code_dev pd nl]:0.2178;[commit --- code_dev]:0.0198;[edge]:0.6832 pd nl
+90. thread --> code_dev2 [thread --> code_dev2 dd pl]:0.4356;[no edge]:0.4356;[thread <-- code_dev2 dd nl]:0.1287;[edge]:0.5644 dd pl
+91. mail_dev2 --> churn2 [mail_dev2 --> churn2]:0.4158;[mail_dev2 <-- churn2]:0.3564;[no edge]:0.2178;[mail_dev2 --- churn2]:0.0099;[edge]:0.7822
+92. file --> mis_link [file --> mis_link pd nl]:0.3960;[file <-- mis_link dd pl]:0.3267;[file --- mis_link]:0.1485;[no edge]:0.1287;[edge]:0.8713 pd nl
+93. start --> b_81672 [start --> b_81672 pd nl]:0.3960;[start <-- b_81672 pd pl]:0.3960;[no edge]:0.1584;[start --- b_81672]:0.0495;[edge]:0.8416 pd nl
+94. start --> b_80891 [start --> b_80891]:0.3960;[start <-- b_80891]:0.3762;[no edge]:0.2178;[start --- b_80891]:0.0099;[edge]:0.7822
+
