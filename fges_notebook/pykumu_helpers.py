@@ -3,7 +3,8 @@ PyKumu Helper Functions
 =======================
 
 Helper functions for causal analysis matching Kumu's R implementation.
-This module provides utilities for data loading, configuration, and validation.
+This module provides utilities for data loading, configuration, validation,
+graph parsing, and threshold derivation.
 
 Author: Migrated from Kumu R package
 Date: February 2026
@@ -11,6 +12,7 @@ Date: February 2026
 
 import pandas as pd
 import numpy as np
+import json
 import os
 from typing import Optional, Dict, Tuple, List
 import pytetrad.tools.TetradSearch as ts
@@ -386,3 +388,262 @@ def configure_fges_search(data: pd.DataFrame,
     search, _ = load_knowledge_constraints(search, data, knowledge_file)
     
     return search
+
+# =============================================================================
+# Graph Parsing Functions (matches R parse_graph())
+# =============================================================================
+
+def parse_graph(graph_json_str: str) -> Dict[str, pd.DataFrame]:
+    """
+    Parse Tetrad JSON graph into nodes, edgeset, and edge_type_probabilities.
+    
+    Matches R function: parse_graph() from kumu/R/graph.R
+    
+    The edgeset table contains the ensemble edge (highest probability edge type)
+    for each node pair. The probability is the sum of all non-nil edge type
+    probabilities.
+    
+    Parameters
+    ----------
+    graph_json_str : str
+        JSON string from TetradSearch.get_json()
+        
+    Returns
+    -------
+    dict
+        Dictionary with keys:
+        - 'nodes': DataFrame with column 'node_name'
+        - 'edgeset': DataFrame with columns: node1_name, node2_name, 
+          endpoint1, endpoint2, bold, highlighted, properties, probability
+        - 'edge_type_probabilities': DataFrame with columns: node1_name,
+          node2_name, edge_type, properties, probability
+          
+    Example
+    -------
+    >>> graph_json = search.get_json()
+    >>> graph = parse_graph(str(graph_json))
+    >>> print(graph['nodes'].head())
+    >>> print(graph['edgeset'].head())
+    """
+    graph_data = json.loads(str(graph_json_str))
+    
+    # Parse Nodes
+    nodes = pd.DataFrame({
+        'node_name': [node['name'] for node in graph_data.get('nodes', [])]
+    })
+    
+    # Parse EdgeSet and EdgeTypeProbabilities
+    edgeset_rows = []
+    edge_type_prob_rows = []
+    
+    for edge in graph_data.get('edgesSet', []):
+        node1_name = edge['node1']['name']
+        node2_name = edge['node2']['name']
+        endpoint1 = edge.get('endpoint1', '')
+        endpoint2 = edge.get('endpoint2', '')
+        bold = edge.get('bold', False)
+        highlighted = edge.get('highlighted', False)
+        properties = ';'.join(edge.get('properties', []))
+        probability = edge.get('probability', 1.0)
+        
+        edgeset_rows.append({
+            'node1_name': node1_name,
+            'node2_name': node2_name,
+            'endpoint1': endpoint1,
+            'endpoint2': endpoint2,
+            'bold': bold,
+            'highlighted': highlighted,
+            'properties': properties if properties else None,
+            'probability': probability
+        })
+        
+        # Parse edgeTypeProbabilities (only present in bootstrap/multi-run graphs)
+        for etp in edge.get('edgeTypeProbabilities', []):
+            edge_type = etp.get('edgeType', '')
+            etp_properties = ';'.join(etp.get('properties', []))
+            etp_probability = etp.get('probability', 0.0)
+            
+            edge_type_prob_rows.append({
+                'node1_name': node1_name,
+                'node2_name': node2_name,
+                'edge_type': edge_type,
+                'properties': etp_properties if etp_properties else None,
+                'probability': etp_probability
+            })
+    
+    edgeset = pd.DataFrame(edgeset_rows) if edgeset_rows else pd.DataFrame(
+        columns=['node1_name', 'node2_name', 'endpoint1', 'endpoint2',
+                 'bold', 'highlighted', 'properties', 'probability'])
+    
+    edge_type_probabilities = pd.DataFrame(edge_type_prob_rows) if edge_type_prob_rows else pd.DataFrame(
+        columns=['node1_name', 'node2_name', 'edge_type', 'properties', 'probability'])
+    
+    return {
+        'nodes': nodes,
+        'edgeset': edgeset,
+        'edge_type_probabilities': edge_type_probabilities
+    }
+
+
+def parse_graph_from_file(filepath: str) -> Dict[str, pd.DataFrame]:
+    """
+    Parse Tetrad JSON graph from file.
+    
+    Convenience wrapper around parse_graph() for loading from disk.
+    
+    Parameters
+    ----------
+    filepath : str
+        Path to JSON graph file
+        
+    Returns
+    -------
+    dict
+        Same as parse_graph()
+    """
+    with open(filepath, 'r') as f:
+        return parse_graph(f.read())
+
+
+# =============================================================================
+# 1PNEF Threshold Functions (matches R random_causality_threshold.Rmd)
+# =============================================================================
+
+def derive_1pnef_threshold(edgeset: pd.DataFrame, 
+                           percentile: float = 0.01) -> Tuple[float, pd.DataFrame]:
+    """
+    Derive 1PNEF (1st Percentile NoEdge Frequency) threshold from null variable edges.
+    
+    Matches R workflow in issue_causal_analysis.Rmd:
+    1. Filter edges involving null variables (nv-*)
+    2. Compute no_edge = 1 - probability
+    3. Take the specified percentile of no_edge values
+    
+    The threshold tells us: given entirely random variables, causal links
+    were formed between them up to (1 - threshold) of the time. In the
+    final causal search, we only keep links formed MORE than that.
+    
+    Parameters
+    ----------
+    edgeset : pd.DataFrame
+        Edgeset table from parse_graph() containing 'node1_name', 
+        'node2_name', and 'probability' columns
+    percentile : float
+        Percentile for threshold (default: 0.01 = 1st percentile)
+        
+    Returns
+    -------
+    tuple
+        (pnef_threshold, nv_edges_df) where:
+        - pnef_threshold: The 1PNEF threshold value
+        - nv_edges_df: DataFrame of null variable edges with 'no_edge' column
+        
+    Example
+    -------
+    >>> graph = parse_graph(json_str)
+    >>> pnef_1, nv_edges = derive_1pnef_threshold(graph['edgeset'])
+    >>> print(f"1PNEF threshold: {pnef_1:.4f}")
+    """
+    nv_edges = edgeset.copy()
+    
+    # Filter edges where at least one node is a null variable (nv-*)
+    is_node1_nv = nv_edges['node1_name'].str.startswith('nv-')
+    is_node2_nv = nv_edges['node2_name'].str.startswith('nv-')
+    nv_edges = nv_edges[is_node1_nv | is_node2_nv].copy()
+    
+    if len(nv_edges) == 0:
+        print("⚠️  No null variable edges found. Cannot derive 1PNEF threshold.")
+        return 0.0, nv_edges
+    
+    # Compute no_edge probability
+    nv_edges['no_edge'] = 1 - nv_edges['probability']
+    
+    # Derive threshold at given percentile
+    pnef_threshold = nv_edges['no_edge'].quantile(percentile)
+    
+    print(f"Null variable edges: {len(nv_edges)}")
+    print(f"1PNEF threshold (percentile={percentile}): {pnef_threshold:.4f}")
+    print(f"  → Random edges formed up to {(1 - pnef_threshold)*100:.1f}% of the time")
+    print(f"  → Keep only edges with probability > {(1 - pnef_threshold)*100:.1f}%")
+    
+    return pnef_threshold, nv_edges
+
+
+def apply_1pnef_threshold(edgeset: pd.DataFrame, 
+                          pnef_threshold: float) -> pd.DataFrame:
+    """
+    Apply 1PNEF threshold to filter edges from a causal graph.
+    
+    Removes edges that may have formed by random chance, keeping only
+    those with no_edge probability <= the 1PNEF threshold.
+    
+    Parameters
+    ----------
+    edgeset : pd.DataFrame
+        Edgeset table from parse_graph()
+    pnef_threshold : float
+        1PNEF threshold from derive_1pnef_threshold()
+        
+    Returns
+    -------
+    pd.DataFrame
+        Filtered edgeset with only significant edges
+        
+    Example
+    -------
+    >>> edges_1pnef = apply_1pnef_threshold(graph['edgeset'], pnef_1)
+    >>> print(f"Kept {len(edges_1pnef)} significant edges")
+    """
+    edges = edgeset.copy()
+    edges['no_edge'] = 1 - edges['probability']
+    
+    n_before = len(edges)
+    edges_filtered = edges[edges['no_edge'] <= pnef_threshold].copy()
+    n_after = len(edges_filtered)
+    
+    print(f"Edges before threshold: {n_before}")
+    print(f"Edges after 1PNEF threshold: {n_after}")
+    print(f"Removed: {n_before - n_after} edges (potentially random)")
+    
+    return edges_filtered
+
+
+# =============================================================================
+# Non-Null Dataset Preparation
+# =============================================================================
+
+def prepare_non_null_dataset(data: pd.DataFrame, 
+                             save_path: Optional[str] = None) -> pd.DataFrame:
+    """
+    Remove null variables (nv-*) from dataset for non-null causal search.
+    
+    Matches R workflow: Creates binarized_lag_dt without null features
+    for the domain knowledge causal search.
+    
+    Parameters
+    ----------
+    data : pd.DataFrame
+        Full dataset including null variables
+    save_path : str, optional
+        Path to save the non-null dataset CSV
+        
+    Returns
+    -------
+    pd.DataFrame
+        Dataset without null variable columns
+        
+    Example
+    -------
+    >>> non_null_data = prepare_non_null_dataset(data, save_path="binarized_variable_dt.csv")
+    """
+    nv_cols = [col for col in data.columns if col.startswith('nv-')]
+    non_null_data = data.drop(columns=nv_cols)
+    
+    print(f"Removed {len(nv_cols)} null variable columns")
+    print(f"Non-null dataset: {non_null_data.shape[0]} rows × {non_null_data.shape[1]} columns")
+    
+    if save_path:
+        non_null_data.to_csv(save_path, index=False)
+        print(f"Saved to: {save_path}")
+    
+    return non_null_data

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graph>
+  <variables>
+    <variable>b_100433</variable>
+    <variable>b_100740</variable>
+    <variable>b_100742</variable>
+    <variable>b_102939</variable>
+    <variable>b_103864</variable>
+    <variable>b_104180</variable>
+    <variable>b_113207</variable>
+    <variable>b_114109</variable>
+    <variable>b_114576</variable>
+    <variable>b_114577</variable>
+    <variable>b_114619</variable>
+    <variable>b_120027</variable>
+    <variable>b_120884</variable>
+    <variable>b_122110</variable>
+    <variable>b_122333</variable>
+    <variable>b_130166</variable>
+    <variable>b_134353</variable>
+    <variable>b_136450</variable>
+    <variable>b_140076</variable>
+    <variable>b_140160</variable>
+    <variable>b_140195</variable>
+    <variable>b_140221</variable>
+    <variable>b_140224</variable>
+    <variable>b_142970</variable>
+    <variable>b_143470</variable>
+    <variable>b_143505</variable>
+    <variable>b_143506</variable>
+    <variable>b_143507</variable>
+    <variable>b_143508</variable>
+    <variable>b_143509</variable>
+    <variable>b_143510</variable>
+    <variable>b_143511</variable>
+    <variable>b_143513</variable>
+    <variable>b_143567</variable>
+    <variable>b_143568</variable>
+    <variable>b_143569</variable>
+    <variable>b_143570</variable>
+    <variable>b_143571</variable>
+    <variable>b_143572</variable>
+    <variable>b_148275</variable>
+    <variable>b_150204</variable>
+    <variable>b_150205</variable>
+    <variable>b_150206</variable>
+    <variable>b_150207</variable>
+    <variable>b_150208</variable>
+    <variable>b_150209</variable>
+    <variable>b_150285</variable>
+    <variable>b_150286</variable>
+    <variable>b_150287</variable>
+    <variable>b_150288</variable>
+    <variable>b_150289</variable>
+    <variable>b_150290</variable>
+    <variable>b_150291</variable>
+    <variable>b_151787</variable>
+    <variable>b_151788</variable>
+    <variable>b_151789</variable>
+    <variable>b_151790</variable>
+    <variable>b_151791</variable>
+    <variable>b_151793</variable>
+    <variable>b_151794</variable>
+    <variable>b_160701</variable>
+    <variable>b_160702</variable>
+    <variable>b_160705</variable>
+    <variable>b_160797</variable>
+    <variable>b_160798</variable>
+    <variable>b_160799</variable>
+    <variable>b_162105</variable>
+    <variable>b_162106</variable>
+    <variable>b_162107</variable>
+    <variable>b_162108</variable>
+    <variable>b_162109</variable>
+    <variable>b_162176</variable>
+    <variable>b_162178</variable>
+    <variable>b_162179</variable>
+    <variable>b_162180</variable>
+    <variable>b_162181</variable>
+    <variable>b_162182</variable>
+    <variable>b_166302</variable>
+    <variable>b_166303</variable>
+    <variable>b_166304</variable>
+    <variable>b_167053</variable>
+    <variable>b_173731</variable>
+    <variable>b_173733</variable>
+    <variable>b_180732</variable>
+    <variable>b_180734</variable>
+    <variable>b_180735</variable>
+    <variable>b_180737</variable>
+    <variable>b_180739</variable>
+    <variable>b_191547</variable>
+    <variable>b_191549</variable>
+    <variable>b_201967</variable>
+    <variable>b_62937</variable>
+    <variable>b_62940</variable>
+    <variable>b_63738</variable>
+    <variable>b_64339</variable>
+    <variable>b_80891</variable>
+    <variable>b_81672</variable>
+    <variable>b_93245</variable>
+    <variable>churn</variable>
+    <variable>churn2</variable>
+    <variable>code_dev</variable>
+    <variable>code_dev2</variable>
+    <variable>commit</variable>
+    <variable>commit2</variable>
+    <variable>file</variable>
+    <variable>file2</variable>
+    <variable>mail_dev</variable>
+    <variable>mail_dev2</variable>
+    <variable>mis_link</variable>
+    <variable>mis_link2</variable>
+    <variable>silence</variable>
+    <variable>silence2</variable>
+    <variable>start</variable>
+    <variable>thread</variable>
+    <variable>thread2</variable>
+  </variables>
+  <edges>
+    <edge>code_dev --&gt; code_dev2 [code_dev --&gt; code_dev2]:0.6139;[code_dev &lt;-- code_dev2]:0.3663;[code_dev --- code_dev2]:0.0198;[edge]:1.0000</edge>
+    <edge>start --&gt; b_160705 [start --&gt; b_160705]:0.4851;[no edge]:0.3069;[start &lt;-- b_160705]:0.1782;[start --- b_160705]:0.0297;[edge]:0.6931</edge>
+    <edge>silence --&gt; mail_dev [silence --&gt; mail_dev dd nl]:0.5446;[silence &lt;-- mail_dev dd nl]:0.3861;[silence --- mail_dev]:0.0693;[edge]:1.0000 dd nl</edge>
+    <edge>silence --&gt; silence2 [silence --&gt; silence2 dd pl]:0.6337;[silence &lt;-- silence2 dd nl]:0.3168;[no edge]:0.0396;[silence --- silence2]:0.0099;[edge]:0.9604 dd pl</edge>
+    <edge>churn --&gt; commit2 [churn --&gt; commit2]:0.4653;[churn &lt;-- commit2]:0.3465;[no edge]:0.1881;[edge]:0.8119</edge>
+    <edge>start --&gt; commit2 [start --&gt; commit2 dd nl]:0.9109;[no edge]:0.0891;[edge]:0.9109 dd nl</edge>
+    <edge>mis_link --&gt; mail_dev [mis_link --&gt; mail_dev dd nl]:0.4158;[no edge]:0.3663;[mis_link &lt;-- mail_dev dd nl]:0.1287;[mis_link --- mail_dev]:0.0891;[edge]:0.6337 dd nl</edge>
+    <edge>thread2 --&gt; churn2 [thread2 --&gt; churn2]:0.4950;[thread2 &lt;-- churn2]:0.3564;[no edge]:0.1485;[edge]:0.8515</edge>
+    <edge>mis_link --&gt; silence2 [mis_link --&gt; silence2 dd nl]:0.6634;[no edge]:0.2376;[mis_link &lt;-- silence2 pd nl]:0.0990;[edge]:0.7624 dd nl</edge>
+    <edge>silence2 --&gt; mis_link2 [silence2 --&gt; mis_link2]:0.4950;[silence2 &lt;-- mis_link2]:0.3366;[no edge]:0.1683;[edge]:0.8317</edge>
+    <edge>file2 --&gt; thread2 [file2 --&gt; thread2 pd nl]:0.5446;[file2 &lt;-- thread2 dd nl]:0.2772;[no edge]:0.1782;[edge]:0.8218 pd nl</edge>
+    <edge>silence2 --&gt; file2 [silence2 --&gt; file2 dd pl]:0.7129;[silence2 &lt;-- file2 dd pl]:0.2871;[edge]:1.0000 dd pl</edge>
+    <edge>mis_link2 --&gt; mail_dev2 [mis_link2 --&gt; mail_dev2 dd pl]:0.6337;[no edge]:0.2475;[mis_link2 &lt;-- mail_dev2 dd nl]:0.1188;[edge]:0.7525 dd pl</edge>
+    <edge>mail_dev --&gt; churn2 [mail_dev --&gt; churn2]:0.6832;[mail_dev &lt;-- churn2]:0.1584;[no edge]:0.1485;[mail_dev --- churn2]:0.0099;[edge]:0.8515</edge>
+    <edge>silence --&gt; commit2 [silence --&gt; commit2 dd nl]:0.7723;[no edge]:0.1683;[silence &lt;-- commit2 dd nl]:0.0594;[edge]:0.8317 dd nl</edge>
+    <edge>mail_dev2 --&gt; commit2 [mail_dev2 --&gt; commit2 dd nl]:0.5446;[mail_dev2 &lt;-- commit2 dd pl]:0.2475;[no edge]:0.2079;[edge]:0.7921 dd nl</edge>
+    <edge>start --&gt; b_63738 [start --&gt; b_63738 pd nl]:0.5743;[start &lt;-- b_63738 pd pl]:0.3069;[no edge]:0.0693;[start --- b_63738]:0.0495;[edge]:0.9307 pd nl</edge>
+    <edge>code_dev --&gt; mis_link2 [code_dev --&gt; mis_link2]:0.4554;[code_dev &lt;-- mis_link2]:0.2772;[no edge]:0.2673;[edge]:0.7327</edge>
+    <edge>start --&gt; b_162180 [start --&gt; b_162180]:0.5644;[start &lt;-- b_162180]:0.2475;[no edge]:0.1287;[start --- b_162180]:0.0594;[edge]:0.8713</edge>
+    <edge>commit --&gt; mis_link [commit --&gt; mis_link dd pl]:0.4653;[commit &lt;-- mis_link dd pl]:0.2970;[no edge]:0.1386;[commit --- mis_link]:0.0990;[edge]:0.8614 dd pl</edge>
+    <edge>code_dev --&gt; churn2 [code_dev --&gt; churn2]:0.6337;[no edge]:0.2970;[code_dev &lt;-- churn2]:0.0594;[code_dev --- churn2]:0.0099;[edge]:0.7030</edge>
+    <edge>commit --&gt; silence [commit --&gt; silence dd pl]:0.4059;[no edge]:0.3861;[commit &lt;-- silence pd nl]:0.1287;[commit --- silence]:0.0792;[edge]:0.6139 dd pl</edge>
+    <edge>start --&gt; b_62940 [start --&gt; b_62940 pd nl]:0.5050;[start &lt;-- b_62940 pd pl]:0.3663;[no edge]:0.0693;[start --- b_62940]:0.0594;[edge]:0.9307 pd nl</edge>
+    <edge>thread2 --&gt; commit2 [thread2 --&gt; commit2 pd nl]:0.8218;[thread2 &lt;-- commit2 dd pl]:0.1782;[edge]:1.0000 pd nl</edge>
+    <edge>churn2 --&gt; commit2 [churn2 --&gt; commit2 dd pl]:0.5545;[churn2 &lt;-- commit2 pd nl]:0.4455;[edge]:1.0000 dd pl</edge>
+    <edge>mis_link2 --&gt; code_dev2 [mis_link2 --&gt; code_dev2]:0.5545;[mis_link2 &lt;-- code_dev2]:0.4356;[mis_link2 --- code_dev2]:0.0099;[edge]:1.0000</edge>
+    <edge>commit --&gt; mail_dev2 [commit --&gt; mail_dev2 dd pl]:0.8911;[no edge]:0.0594;[commit &lt;-- mail_dev2 dd nl]:0.0495;[edge]:0.9406 dd pl</edge>
+    <edge>churn --&gt; thread2 [churn --&gt; thread2]:0.4752;[no edge]:0.3564;[churn &lt;-- thread2]:0.1683;[edge]:0.6436</edge>
+    <edge>mis_link --&gt; thread [mis_link --&gt; thread]:0.5248;[mis_link &lt;-- thread]:0.3366;[mis_link --- thread]:0.1287;[no edge]:0.0099;[edge]:0.9901</edge>
+    <edge>churn2 --&gt; churn [churn2 --&gt; churn dd nl]:0.5248;[churn2 &lt;-- churn pd nl]:0.4752;[edge]:1.0000 dd nl</edge>
+    <edge>thread --&gt; mail_dev2 [thread --&gt; mail_dev2 dd nl]:0.5644;[no edge]:0.4059;[thread &lt;-- mail_dev2 pd nl]:0.0297;[edge]:0.5941 dd nl</edge>
+    <edge>thread --&gt; silence [thread --&gt; silence dd nl]:0.3267;[no edge]:0.3267;[thread &lt;-- silence dd nl]:0.3069;[thread --- silence]:0.0396;[edge]:0.6733 dd nl</edge>
+    <edge>mis_link2 --&gt; commit2 [mis_link2 --&gt; commit2 dd nl]:0.6733;[no edge]:0.2178;[mis_link2 &lt;-- commit2 pd nl]:0.0990;[mis_link2 --- commit2]:0.0099;[edge]:0.7822 dd nl</edge>
+    <edge>b_62937 --&gt; start [b_62937 --&gt; start pd pl]:0.6139;[no edge]:0.3564;[b_62937 &lt;-- start pd nl]:0.0297;[edge]:0.6436 pd pl</edge>
+    <edge>file --&gt; churn [file --&gt; churn dd pl]:0.9604;[file --- churn]:0.0198;[file &lt;-- churn dd pl]:0.0198;[edge]:1.0000 dd pl</edge>
+    <edge>code_dev2 --&gt; churn2 [code_dev2 --&gt; churn2]:0.6040;[code_dev2 &lt;-- churn2]:0.3663;[no edge]:0.0198;[code_dev2 --- churn2]:0.0099;[edge]:0.9802</edge>
+    <edge>mis_link2 --&gt; file2 [mis_link2 --&gt; file2 dd nl]:0.6733;[mis_link2 &lt;-- file2 dd nl]:0.2871;[no edge]:0.0396;[edge]:0.9604 dd nl</edge>
+    <edge>thread --&gt; silence2 [thread --&gt; silence2 dd nl]:0.6436;[no edge]:0.2871;[thread &lt;-- silence2 dd nl]:0.0693;[edge]:0.7129 dd nl</edge>
+    <edge>commit --&gt; churn [commit --&gt; churn dd pl]:0.9604;[commit --- churn]:0.0297;[commit &lt;-- churn pd nl]:0.0099;[edge]:1.0000 dd pl</edge>
+    <edge>start --&gt; file2 [start --&gt; file2 dd nl]:0.8911;[start &lt;-- file2 dd pl]:0.1089;[edge]:1.0000 dd nl</edge>
+    <edge>file --&gt; code_dev [file --&gt; code_dev dd pl]:0.5743;[file &lt;-- code_dev pd nl]:0.2574;[file --- code_dev]:0.1485;[no edge]:0.0198;[edge]:0.9802 dd pl</edge>
+    <edge>mis_link --&gt; start [mis_link --&gt; start]:0.8515;[mis_link &lt;-- start]:0.1386;[mis_link --- start]:0.0099;[edge]:1.0000</edge>
+    <edge>start --&gt; mis_link2 [start --&gt; mis_link2 dd nl]:0.7228;[start &lt;-- mis_link2 dd pl]:0.2772;[edge]:1.0000 dd nl</edge>
+    <edge>silence2 --&gt; mail_dev2 [silence2 --&gt; mail_dev2]:0.5743;[silence2 &lt;-- mail_dev2]:0.4257;[edge]:1.0000</edge>
+    <edge>b_81672 --&gt; start [b_81672 --&gt; start]:0.3960;[b_81672 &lt;-- start]:0.3861;[no edge]:0.1584;[b_81672 --- start]:0.0594;[edge]:0.8416</edge>
+    <edge>churn --&gt; file2 [churn --&gt; file2 dd nl]:0.4950;[no edge]:0.3366;[churn &lt;-- file2 dd pl]:0.1683;[edge]:0.6634 dd nl</edge>
+    <edge>commit --&gt; start [commit --&gt; start]:0.6436;[commit &lt;-- start]:0.1782;[no edge]:0.1782;[edge]:0.8218</edge>
+    <edge>start --&gt; b_162107 [start --&gt; b_162107]:0.8812;[start &lt;-- b_162107]:0.0594;[start --- b_162107]:0.0495;[no edge]:0.0099;[edge]:0.9901</edge>
+    <edge>file2 --&gt; churn2 [file2 --&gt; churn2]:0.5446;[file2 &lt;-- churn2]:0.4554;[edge]:1.0000</edge>
+    <edge>mail_dev --&gt; mail_dev2 [mail_dev --&gt; mail_dev2 pd nl]:0.8911;[mail_dev &lt;-- mail_dev2 dd pl]:0.0495;[mail_dev --- mail_dev2]:0.0396;[no edge]:0.0198;[edge]:0.9802 pd nl</edge>
+    <edge>mis_link --&gt; churn [mis_link --&gt; churn dd nl]:0.9208;[mis_link &lt;-- churn dd nl]:0.0495;[no edge]:0.0198;[mis_link --- churn]:0.0099;[edge]:0.9802 dd nl</edge>
+    <edge>thread --&gt; thread2 [thread --&gt; thread2 dd nl]:0.7228;[no edge]:0.1980;[thread &lt;-- thread2 dd nl]:0.0693;[thread --- thread2]:0.0099;[edge]:0.8020 dd nl</edge>
+    <edge>code_dev2 --&gt; churn [code_dev2 --&gt; churn dd pl]:0.5347;[no edge]:0.3663;[code_dev2 &lt;-- churn dd nl]:0.0990;[edge]:0.6337 dd pl</edge>
+    <edge>file --&gt; mis_link2 [file --&gt; mis_link2 dd pl]:0.5248;[no edge]:0.3861;[file &lt;-- mis_link2 dd nl]:0.0891;[edge]:0.6139 dd pl</edge>
+    <edge>mis_link --&gt; mis_link2 [mis_link --&gt; mis_link2 dd nl]:0.7822;[mis_link &lt;-- mis_link2 dd pl]:0.1782;[mis_link --- mis_link2]:0.0396;[edge]:1.0000 dd nl</edge>
+    <edge>silence2 --&gt; churn [silence2 --&gt; churn pd pl]:0.5842;[silence2 &lt;-- churn dd nl]:0.4158;[edge]:1.0000 pd pl</edge>
+    <edge>code_dev2 --&gt; commit2 [code_dev2 --&gt; commit2 dd nl]:0.8020;[code_dev2 &lt;-- commit2 dd pl]:0.1188;[no edge]:0.0792;[edge]:0.9208 dd nl</edge>
+    <edge>file --&gt; commit [file --&gt; commit dd pl]:0.4455;[file &lt;-- commit dd nl]:0.3465;[file --- commit]:0.2079;[edge]:1.0000 dd pl</edge>
+    <edge>mis_link2 --&gt; churn2 [mis_link2 --&gt; churn2]:0.6535;[mis_link2 &lt;-- churn2]:0.3465;[edge]:1.0000</edge>
+    <edge>mail_dev --&gt; thread2 [mail_dev --&gt; thread2 dd nl]:0.8317;[mail_dev &lt;-- thread2 dd nl]:0.1287;[no edge]:0.0297;[mail_dev --- thread2]:0.0099;[edge]:0.9703 dd nl</edge>
+    <edge>silence --&gt; file2 [silence --&gt; file2 pd nl]:0.7921;[silence &lt;-- file2 dd pl]:0.1584;[no edge]:0.0495;[edge]:0.9505 pd nl</edge>
+    <edge>thread --&gt; mail_dev [thread --&gt; mail_dev pd nl]:0.6634;[thread &lt;-- mail_dev dd nl]:0.2772;[thread --- mail_dev]:0.0594;[edge]:1.0000 pd nl</edge>
+    <edge>mis_link --&gt; file2 [mis_link --&gt; file2 dd nl]:0.8614;[no edge]:0.0792;[mis_link &lt;-- file2 dd pl]:0.0495;[mis_link --- file2]:0.0099;[edge]:0.9208 dd nl</edge>
+    <edge>commit --&gt; file2 [commit --&gt; file2 dd pl]:0.5644;[no edge]:0.3960;[commit &lt;-- file2 dd pl]:0.0297;[commit --- file2]:0.0099;[edge]:0.6040 dd pl</edge>
+    <edge>commit --&gt; thread [commit --&gt; thread dd pl]:0.4950;[commit &lt;-- thread dd pl]:0.4059;[commit --- thread]:0.0891;[no edge]:0.0099;[edge]:0.9901 dd pl</edge>
+    <edge>thread --&gt; commit2 [thread --&gt; commit2 dd nl]:0.5347;[no edge]:0.4356;[thread &lt;-- commit2 dd nl]:0.0297;[edge]:0.5644 dd nl</edge>
+    <edge>commit --&gt; churn2 [commit --&gt; churn2 dd pl]:0.6733;[no edge]:0.3069;[commit --- churn2]:0.0099;[commit &lt;-- churn2 pd pl]:0.0099;[edge]:0.6931 dd pl</edge>
+    <edge>mis_link --&gt; code_dev [mis_link --&gt; code_dev dd pl]:0.5545;[mis_link &lt;-- code_dev dd pl]:0.4158;[mis_link --- code_dev]:0.0297;[edge]:1.0000 dd pl</edge>
+    <edge>thread --&gt; code_dev [thread --&gt; code_dev dd pl]:0.5050;[thread &lt;-- code_dev dd pl]:0.2376;[no edge]:0.1584;[thread --- code_dev]:0.0990;[edge]:0.8416 dd pl</edge>
+    <edge>file --&gt; start [file --&gt; start dd pl]:0.7624;[file &lt;-- start pd nl]:0.2376;[edge]:1.0000 dd pl</edge>
+    <edge>file2 --&gt; commit2 [file2 --&gt; commit2 dd nl]:0.6634;[file2 &lt;-- commit2 dd nl]:0.3366;[edge]:1.0000 dd nl</edge>
+    <edge>mail_dev --&gt; commit2 [mail_dev --&gt; commit2 dd nl]:0.8317;[mail_dev &lt;-- commit2 dd pl]:0.1386;[no edge]:0.0297;[edge]:0.9703 dd nl</edge>
+    <edge>start --&gt; b_80891 [start --&gt; b_80891]:0.4257;[start &lt;-- b_80891]:0.3366;[no edge]:0.2178;[start --- b_80891]:0.0198;[edge]:0.7822</edge>
+    <edge>code_dev --&gt; mail_dev2 [code_dev --&gt; mail_dev2 dd pl]:0.6238;[no edge]:0.3267;[code_dev &lt;-- mail_dev2 dd pl]:0.0495;[edge]:0.6733 dd pl</edge>
+    <edge>code_dev --&gt; file2 [code_dev --&gt; file2 dd pl]:0.6337;[no edge]:0.1980;[code_dev &lt;-- file2 dd nl]:0.1584;[code_dev --- file2]:0.0099;[edge]:0.8020 dd pl</edge>
+    <edge>code_dev2 --&gt; mail_dev [code_dev2 --&gt; mail_dev pd nl]:0.5050;[code_dev2 &lt;-- mail_dev dd nl]:0.4554;[no edge]:0.0396;[edge]:0.9604 pd nl</edge>
+    <edge>thread --&gt; file2 [thread --&gt; file2 dd nl]:0.9109;[thread &lt;-- file2 dd pl]:0.0495;[no edge]:0.0396;[edge]:0.9604 dd nl</edge>
+    <edge>code_dev --&gt; commit2 [code_dev --&gt; commit2 dd pl]:0.8713;[code_dev &lt;-- commit2 dd pl]:0.0792;[no edge]:0.0495;[edge]:0.9505 dd pl</edge>
+    <edge>churn2 --&gt; mail_dev2 [churn2 --&gt; mail_dev2 dd nl]:0.3762;[churn2 &lt;-- mail_dev2 dd nl]:0.3366;[no edge]:0.2772;[churn2 --- mail_dev2]:0.0099;[edge]:0.7228 dd nl</edge>
+    <edge>mis_link --&gt; thread2 [mis_link --&gt; thread2 dd nl]:0.9010;[mis_link &lt;-- thread2 dd pl]:0.0891;[mis_link --- thread2]:0.0099;[edge]:1.0000 dd nl</edge>
+    <edge>thread --&gt; churn [thread --&gt; churn dd nl]:0.9604;[thread &lt;-- churn dd pl]:0.0396;[edge]:1.0000 dd nl</edge>
+    <edge>mail_dev2 --&gt; thread2 [mail_dev2 --&gt; thread2 dd nl]:0.5545;[mail_dev2 &lt;-- thread2 dd nl]:0.4455;[edge]:1.0000 dd nl</edge>
+    <edge>silence2 --&gt; churn2 [silence2 --&gt; churn2]:0.4752;[silence2 &lt;-- churn2]:0.3762;[no edge]:0.1485;[edge]:0.8515</edge>
+    <edge>mail_dev --&gt; churn [mail_dev --&gt; churn dd nl]:0.8317;[mail_dev &lt;-- churn dd pl]:0.1584;[no edge]:0.0099;[edge]:0.9901 dd nl</edge>
+    <edge>mis_link --&gt; code_dev2 [mis_link --&gt; code_dev2 dd nl]:0.6733;[no edge]:0.1584;[mis_link &lt;-- code_dev2 dd pl]:0.1089;[mis_link --- code_dev2]:0.0594;[edge]:0.8416 dd nl</edge>
+    <edge>thread --&gt; code_dev2 [thread --&gt; code_dev2 dd pl]:0.4455;[no edge]:0.4158;[thread &lt;-- code_dev2 dd nl]:0.1386;[edge]:0.5842 dd pl</edge>
+    <edge>silence --&gt; code_dev2 [silence --&gt; code_dev2]:0.6337;[silence &lt;-- code_dev2]:0.3366;[no edge]:0.0198;[silence --- code_dev2]:0.0099;[edge]:0.9802</edge>
+    <edge>commit --&gt; commit2 [commit --&gt; commit2 dd pl]:0.9802;[commit --- commit2]:0.0099;[commit &lt;-- commit2 dd nl]:0.0099;[edge]:1.0000 dd pl</edge>
+    <edge>file --&gt; silence [file --&gt; silence dd pl]:0.6436;[file &lt;-- silence dd nl]:0.2970;[file --- silence]:0.0594;[edge]:1.0000 dd pl</edge>
+    <edge>file --&gt; mis_link [file --&gt; mis_link pd nl]:0.3663;[file &lt;-- mis_link pd pl]:0.2970;[file --- mis_link]:0.1881;[no edge]:0.1485;[edge]:0.8515 pd nl</edge>
+    <edge>start --&gt; b_64339 [start --&gt; b_64339 pd nl]:0.5149;[start &lt;-- b_64339 pd pl]:0.3861;[start --- b_64339]:0.0594;[no edge]:0.0396;[edge]:0.9604 pd nl</edge>
+    <edge>silence --&gt; churn2 [silence --&gt; churn2 dd pl]:0.5842;[no edge]:0.2970;[silence &lt;-- churn2 dd pl]:0.1188;[edge]:0.7030 dd pl</edge>
+    <edge>commit --&gt; code_dev [commit --&gt; code_dev pd nl]:0.4455;[no edge]:0.3069;[commit &lt;-- code_dev pd nl]:0.2277;[commit --- code_dev]:0.0198;[edge]:0.6931 pd nl</edge>
+    <edge>file --&gt; silence2 [file --&gt; silence2 dd pl]:0.9307;[file &lt;-- silence2 dd pl]:0.0396;[file --- silence2]:0.0198;[no edge]:0.0099;[edge]:0.9901 dd pl</edge>
+  </edges>
+</graph>
