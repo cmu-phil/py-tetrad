@@ -641,13 +641,13 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_ica_lingam(self, ica_a=1.1, ica_max_iter=5000, ica_tolerance=1e-8, threshold_b=0.1):
+    def run_lingam(self, ica_a=1.1, ica_max_iter=5000, ica_tolerance=1e-8, threshold_b=0.1):
         self.params.set(Params.FAST_ICA_A, ica_a)
         self.params.set(Params.FAST_ICA_MAX_ITER, ica_max_iter)
         self.params.set(Params.FAST_ICA_TOLERANCE, ica_tolerance)
         self.params.set(Params.THRESHOLD_B, threshold_b)
 
-        alg = dag.IcaLingam()
+        alg = dag.Lingam()
         self.java = alg.search(self.data, self.params)
         self.bhat = alg.getBHat()
         self.bootstrap_graphs = alg.getBootstrapGraphs()
@@ -656,14 +656,14 @@ class TetradSearch:
     def get_bhat(self):
         return tr.tetrad_matrix_to_pandas(self.bhat, self.data.getVariableNames())
 
-    def run_ica_lingd(self, ica_a=1.1, ica_max_iter=5000, ica_tolerance=1e-8, threshold_b=0.1, threshold_w=0.1):
+    def run_lingd(self, ica_a=1.1, ica_max_iter=5000, ica_tolerance=1e-8, threshold_b=0.1, threshold_w=0.1):
         self.params.set(Params.FAST_ICA_A, ica_a)
         self.params.set(Params.FAST_ICA_MAX_ITER, ica_max_iter)
         self.params.set(Params.FAST_ICA_TOLERANCE, ica_tolerance)
         self.params.set(Params.THRESHOLD_B, threshold_b)
         self.params.set(Params.THRESHOLD_W, threshold_w)
 
-        alg = dag.IcaLingD()
+        alg = dag.LingD()
         self.java = alg.search(self.data, self.params)
         self.unstable_bhats = alg.getUnstableBHats()
         self.stable_bhats = alg.getStableBHats()
