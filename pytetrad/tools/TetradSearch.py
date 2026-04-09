@@ -375,12 +375,12 @@ class TetradSearch:
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_boss(self, num_starts=1, use_bes=False, time_lag=0, use_data_order=True,
-                 output_cpdag=True):
+                 output_pdag=True):
         self.params.set(Params.USE_BES, use_bes)
         self.params.set(Params.NUM_STARTS, num_starts)
         self.params.set(Params.TIME_LAG, time_lag)
         self.params.set(Params.USE_DATA_ORDER, use_data_order)
-        self.params.set(Params.OUTPUT_CPDAG, output_cpdag)
+        self.params.set(Params.OUTPUT_PDAG, output_pdag)
         alg = cpdag.Boss(self.SCORE)
         alg.setKnowledge(self.knowledge)
 
@@ -566,12 +566,12 @@ class TetradSearch:
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_lv_heuristic(self, num_starts=1, use_bes=False, time_lag=0, use_data_order=True,
-                         output_cpdag=True, complete_rule_set_used=True):
+                         output_pdag=True, complete_rule_set_used=True):
         self.params.set(Params.USE_BES, use_bes)
         self.params.set(Params.NUM_STARTS, num_starts)
         self.params.set(Params.TIME_LAG, time_lag)
         self.params.set(Params.USE_DATA_ORDER, use_data_order)
-        self.params.set(Params.OUTPUT_CPDAG, output_cpdag)
+        self.params.set(Params.OUTPUT_PDAG, output_pdag)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used),
 
         alg = pag.LvHeuristic(self.SCORE)

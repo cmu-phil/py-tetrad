@@ -228,16 +228,16 @@ TetradSearch <- setRefClass(
     # @param time_lag Default 0; if > 1, a time lag model of this order is constructed.
     # @param use_data_order TRUE if the original data order should be used for the initial permutation. If
     #   num_starts > 1, random permuatations are used for subsequent restarts.
-    # @param output_cpdag TRUE if a CPDAG should be output, FALSE if a DAG should be output.
+    # @param output_pdag TRUE if a CPDAG should be output, FALSE if a DAG should be output.
     # @return The estimated graph.
-    run_boss = function(num_starts = 1, use_bes = FALSE, time_lag = 0, use_data_order = TRUE, output_cpdag = TRUE) {
+    run_boss = function(num_starts = 1, use_bes = FALSE, time_lag = 0, use_data_order = TRUE, output_pdag = TRUE) {
       cat("Running BOSS algorithm...\n")
 
       .self$.setParam("useBes", use_bes)
       .self$.setParamInt("numStarts", num_starts)
       .self$.setParamInt("timeLag", time_lag)
       .self$.setParam("useDataOrder", use_data_order)
-      .self$.setParam("outputCpdag", output_cpdag)
+      .self$.setParam("outputPdag", output_pdag)
 
       dataModel <- .jcast(.self$data_model, "edu.cmu.tetrad.data.DataModel")
 
