@@ -2,6 +2,7 @@
 ## either from Python or from R. The inputs are all pandas data frames
 ## and the outputs are endpoint-matrix-formatted graphs, also data frames. (In a
 ## future version, we may allow the outputs to be given other formats.)
+from networkx.algorithms.structuralholes import effective_size
 
 # import importlib.resources as importlib_resources
 # import jpype.imports
@@ -154,10 +155,25 @@ class TetradSearch:
         self.params.set(Params.DO_ONE_EQUATION_ONLY, do_one_equation_only)
         self.SCORE = score_.BasisFunctionBicScoreTabular()
 
+    def use_ffml(self, ffml_ridge=1.0, bw_max_rows=100, ffml_ff_features=50, cat_rho=0.5, effective_sample_size=-1):
+        self.params.set(Params.FFML_RIDGE, ffml_ridge)
+        self.params.set(Params.BW_MAX_ROWS, bw_max_rows)
+        self.params.set(Params.FFML_FF_FEATURES, ffml_ff_features)
+        self.params.set(Params.CAT_RHO, cat_rho)
+        self.params.set(Params.EFFECTIVE_SAMPLE_SIZE, effective_sample_size)
+        self.SCORE = score_.FfMl()
+
+    def use_trff_bic(self, trff_ridge=0.001, ffml_ff_features=100, penalty_discount=1, trff_nu=5.0):
+        self.params.set(Params.TRFF_RIDGE, trff_ridge)
+        self.params.set(Params.NUM_FF_FEATURES, ffml_ff_features)
+        self.params.set(Params.PENALTY_DISCOUNT_DEFAULT_1, penalty_discount)
+        self.params.set(Params.TRFF_NU, trff_nu)
+        self.SCORE = score_.TRffBicScore()
+
     # Uses covariance as a sufficient statistic.
     # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
-    def use_basis_function_lrt(self, truncation_limit=3, alpha=0.01, use_for_mc=False, singularity_lambda=0.0,
-                               do_one_equation_only=False):
+    def use_basis_function_lrt(self, truncation_limit=3, alpha=0.01, singularity_lambda=0.0,
+                               do_one_equation_only=False, use_for_mc=False):
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
         self.params.set(Params.SINGULARITY_LAMBDA, singularity_lambda)
@@ -167,6 +183,21 @@ class TetradSearch:
             self.MC_TEST = ind_.BasisFunctionLrt()
         else:
             self.TEST = ind_.BasisFunctionLrt()
+
+    def use_ffci(self, alpha=0.01, permutations=500, num_features_xy=10, num_features_z=100, lambda_=1, bandwidth_multiplier=1
+                 , approx=1, use_for_mc=False):
+        self.params.set(Params.ALPHA, alpha)
+        self.params.set(Params.RCIT_PERMUTATIONS, permutations)
+        self.params.set(Params.RCIT_NUM_FEATURES_XY, num_features_xy)
+        self.params.set(Params.RCIT_NUM_FEATURES_Z, num_features_z)
+        self.params.set(Params.KML_LAMBDA, lambda_)
+        self.params.set(Params.KML_BANDWIDTH_MULTIPLIER, bandwidth_multiplier)
+        self.params.set(Params.RCIT_APPROX, approx)
+
+        if use_for_mc:
+            self.MC_TEST = ind_.FfCi()
+        else:
+            self.TEST = ind_.FfCi()
 
     # Full sample
     # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
