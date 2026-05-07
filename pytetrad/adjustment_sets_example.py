@@ -35,7 +35,9 @@ for i in range(0, nodes.size()):
                                                   max_num_sets=max_num_sets,
                                                   max_distance_from_point=max_distance_from_point,
                                                   near_which_endpoint=near_which_endpoint,
-                                                  max_path_length=max_path_length)
+                                                  max_path_length=max_path_length,
+                                                  heckel_pruning=False,
+                                                  o_set_compatible=False)
             print(f"Adjustment sets for source = {nodes.get(i).getName()} target = {nodes.get(j).getName()}")
 
             for adj_set in adj_sets:
