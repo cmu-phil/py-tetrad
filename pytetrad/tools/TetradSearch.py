@@ -1027,7 +1027,7 @@ class TetradSearch:
     # for the source/target pair.f
     # near_which_endpoint: The endpoint(s) to consider for adjustment; 1 = near the source, 2 = near the target, 3 = near either.
     def get_adjustment_sets(self, graph, graph_type, source, target, max_num_sets=10, max_distance_from_point=5,
-                            near_which_endpoint=1, max_path_length=20):
+                            near_which_endpoint=1, max_path_length=20, heckel_pruning=False, o_set_compatible=False):
         return graph.paths().adjustmentSets(source, graph_type, target, max_num_sets, max_distance_from_point,
-                                             near_which_endpoint, max_path_length)
+                                             near_which_endpoint, max_path_length, heckel_pruning, o_set_compatible)
 
