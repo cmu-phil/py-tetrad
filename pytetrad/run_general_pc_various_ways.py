@@ -7,7 +7,6 @@
 import time
 
 import pytetrad.tools.translate as tr
-from pytetrad.tools import WrappedClKci as wc
 import pytetrad.tools.TetradSearch as tetrads
 
 import edu.cmu.tetrad.search as ts
@@ -15,6 +14,7 @@ import edu.cmu.tetrad.search.test as tt
 import pandas as pd
 
 from pytetrad.tools import WrappedClKci as wc
+from pytetrad.tools import WrappedClRcit as wr
 
 try:
     from causallearn.utils.cit import CIT
@@ -96,6 +96,33 @@ def run_tetrad_pc_using_cl_kci(timeout=-1):
 
     printMcResult(graph, df)
 
+# Run Tetrad's PC using causal-learn's RCIT.
+# For this we'll need to wrap causal-learn's RCIT in a JPype object so that
+# Tetrad can use it.
+# We need to use the non-stable version of PC to avoid parallelization.
+def run_tetrad_pc_using_cl_rcit(timeout=-1):
+
+    import numpy as np
+
+    shuffled_columns = np.random.permutation(df.columns)
+    df_ = df[shuffled_columns]
+
+    start_time = time.time()
+
+    test1 = wr.RcitWrapper(df_, start_time=start_time, timeout=timeout,
+                           alpha=alpha_)
+    pc = ts.Pc(test1)
+    pc.setVerbose(True)
+    pc.setFasStable(False)
+    pc.setTimeoutMs(timeout * 1000)
+    graph = pc.search()
+    end_time = time.time()
+
+    print("Tetrad PC w/ JPype wrapper of causal-learn's RCIT", graph)
+    print("Time taken", end_time - start_time)
+
+    printMcResult(graph, df)
+
 def run_tetrad_pc_using_tetrad_kci():
     start_time = time.time()
     data = tr.pandas_data_to_tetrad(df)
@@ -127,6 +154,7 @@ def run_tetrad_pc_using_tetrad_kci():
 
     printMcResult(graph, df)
 
-run_cl_pc_using_cl_kci()
+# run_cl_pc_using_cl_kci()
 # run_tetrad_pc_using_cl_kci(timeout=timeout)
+run_tetrad_pc_using_cl_rcit(timeout=timeout)
 # run_tetrad_pc_using_tetrad_kci()
