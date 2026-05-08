@@ -15,9 +15,6 @@ except ImportError as e:
 
 df = pd.read_csv(f"resources/airfoil-self-noise.continuous.txt", sep="\t")
 df = df.astype({col: "float64" for col in df.columns})
-#
-# df = pd.read_csv("/Users/josephramsey/Downloads/006S0731_v21_schaefer100.csv", sep=",")
-# df = df.astype({col: "float64" for col in df.columns})
 
 data = tr.pandas_data_to_tetrad(df)
 
