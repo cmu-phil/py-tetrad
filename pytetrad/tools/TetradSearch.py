@@ -303,11 +303,11 @@ class TetradSearch:
         else:
             self.TEST = ind_.Kci()
 
-    def use_test(self, test, use_for_mc):
+    def use_test(self, test, use_for_mc=False):
         if use_for_mc:
-            self.MC_TEST = ind_.Kci()
+            self.MC_TEST = test
         else:
-            self.TEST = ind_.Kci()
+            self.TEST = test
 
     def use_cci(self, alpha=0.01, scaling_factor=2, num_basis_functions=3, basis_type=4,
                 basis_scale=0.0, use_for_mc=False):
@@ -1024,7 +1024,7 @@ class TetradSearch:
         return pvalues
 
     # Returns a (tetrad-format) List of Sets of Nodes. Each set of nodes in the list is an adjustment set
-    # for the source/target pair.f
+    # for the source/target pair.
     # near_which_endpoint: The endpoint(s) to consider for adjustment; 1 = near the source, 2 = near the target, 3 = near either.
     def get_adjustment_sets(self, graph, graph_type, source, target, max_num_sets=10, max_distance_from_point=5,
                             near_which_endpoint=1, max_path_length=20, heckel_pruning=False, o_set_compatible=False):

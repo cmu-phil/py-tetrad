@@ -4,6 +4,10 @@
 import pandas as pd
 import numpy as np
 import pytetrad.tools.translate as tr
+from pytetrad.tools import WrappedClKci as wc
+from pytetrad.tools import WrappedClRcit as wr
+from pytetrad.tools import WrappedClFisherZ as cl_fz
+import pytetrad.tools.TetradSearch as tetrads
 
 import edu.cmu.tetrad.search as ts
 import edu.cmu.tetrad.search.test as test
@@ -16,19 +20,28 @@ except ImportError as e:
 
 df = pd.read_csv(f"resources/airfoil-self-noise.continuous.txt", sep="\t")
 df = df.astype({col: "float64" for col in df.columns})
+#
+# df = pd.read_csv("/Users/josephramsey/Downloads/006S0731_v21_schaefer100.csv", sep=",")
+# df = df.astype({col: "float64" for col in df.columns})
 
 data = tr.pandas_data_to_tetrad(df)
 
 print("\nCL PC\n")
-cg = pc(np.array(df), 0.05, fisherz, node_names=df.columns)
+cg = pc(np.array(df), 0.01, fisherz, node_names=df.columns)
 print(cg.G)
 
 print("\nTetrad PC\n")
-test = test.IndTestFisherZ(data, 0.05)
-tetrad_pc = ts.Pc(test)
+test_ = test.IndTestFisherZ(data, 0.01)
+tetrad_pc = ts.Pc(test_)
+tetrad_pc.setColliderOrientationStyle(ts.Pc.ColliderOrientationStyle.SEPSETS)
 tetrad_pc_graph = tetrad_pc.search()
-
 print(tetrad_pc_graph)
+
+print("\nPy-tetrad TetradSearch using Tetrad's Fisher Z\n")
+_search = tetrads.TetradSearch(df)
+_search.use_test(cl_fz.WrappedClFisherZ(df, alpha=0.01))
+_search.run_pc()
+print(_search.get_java())
 
 ## PRINTOUT:
 
