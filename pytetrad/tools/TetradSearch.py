@@ -491,11 +491,11 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_pc(self, depth=-1, stable_fas=True, allow_bidirected=False):
+    def run_pc(self, depth=-1, stable_fas=True, allow_bidirected=False, collider_orientation_style=3):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.STABLE_FAS, stable_fas)
         self.params.set(Params.ALLOW_BIDIRECTED, allow_bidirected)
-        self.params.set(Params.COLLIDER_ORIENTATION_STYLE, 1)
+        self.params.set(Params.COLLIDER_ORIENTATION_STYLE, collider_orientation_style)
 
         alg = cpdag.Pc(self.TEST)
         alg.setKnowledge(self.knowledge)
