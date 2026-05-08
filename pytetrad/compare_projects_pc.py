@@ -1,16 +1,11 @@
 ## This script assumes that the user has pip-installed the pytetrad package. Here is how:
 ## pip install git+https://github.com/cmu-phil/py-tetrad
 
-import pandas as pd
 import numpy as np
-import pytetrad.tools.translate as tr
-from pytetrad.tools import WrappedClKci as wc
-from pytetrad.tools import WrappedClRcit as wr
-from pytetrad.tools import WrappedClFisherZ as cl_fz
+import pandas as pd
 import pytetrad.tools.TetradSearch as tetrads
-
-import edu.cmu.tetrad.search as ts
-import edu.cmu.tetrad.search.test as test
+import pytetrad.tools.translate as tr
+from pytetrad.tools import WrappedClFisherZ as cl_fz
 
 try:
     from causallearn.search.ConstraintBased.PC import pc
@@ -18,11 +13,11 @@ try:
 except ImportError as e:
     print('Could not import a causal-learn module: ', e)
 
-# df = pd.read_csv(f"resources/airfoil-self-noise.continuous.txt", sep="\t")
-# df = df.astype({col: "float64" for col in df.columns})
-
-df = pd.read_csv("/Users/josephramsey/Downloads/006S0731_v21_schaefer100.csv", sep=",")
+df = pd.read_csv(f"resources/airfoil-self-noise.continuous.txt", sep="\t")
 df = df.astype({col: "float64" for col in df.columns})
+#
+# df = pd.read_csv("/Users/josephramsey/Downloads/006S0731_v21_schaefer100.csv", sep=",")
+# df = df.astype({col: "float64" for col in df.columns})
 
 data = tr.pandas_data_to_tetrad(df)
 
