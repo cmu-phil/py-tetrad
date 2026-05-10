@@ -22,7 +22,7 @@ print("\nCL PC\n")
 cg = pc(np.array(df), 0.01, fisherz, node_names=df.columns)
 print(cg.G)
 
-print("\nPy-tetrad TetradSearch using Tetrad's Fisher Z\n")
+print("\nPy-tetrad TetradSearch using CL's Fisher Z\n")
 _search = tetrads.TetradSearch(df)
 _search.use_test(cl_fz.WrappedClFisherZ(df, alpha=0.01))
 _search.run_pc(collider_orientation_style=1)
