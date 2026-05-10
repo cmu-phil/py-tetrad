@@ -199,6 +199,20 @@ class TetradSearch:
         else:
             self.TEST = ind_.FfCi()
 
+    def use_rcit(self, seed=-1, alpha=0.01, lambda_=0.0011, mode=True, approx=1, num_features_xy=10, num_features_z=100, use_for_mc=False):
+        self.params.set(Params.SEED, seed)
+        self.params.set(Params.ALPHA, alpha)
+        self.params.set(Params.RCIT_LAMBDA, lambda_)
+        self.params.set(Params.RCIT_MODE, mode)
+        self.params.set(Params.RCIT_APPROX, approx)
+        self.params.set(Params.RCIT_NUM_FEATURES_XY, num_features_xy)
+        self.params.set(Params.RCIT_NUM_FEATURES_Z, num_features_z)
+
+        if use_for_mc:
+            self.MC_TEST = ind_.FfCi()
+        else:
+            self.TEST = ind_.FfCi()
+
     # Full sample
     # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
     def use_basis_function_lrt_fs(self, truncation_limit=3, alpha=0.01, use_for_mc=False, singularity_lambda=0.0,
