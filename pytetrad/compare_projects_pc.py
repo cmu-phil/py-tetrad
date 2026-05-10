@@ -25,7 +25,7 @@ print(cg.G)
 print("\nPy-tetrad TetradSearch using Tetrad's Fisher Z\n")
 _search = tetrads.TetradSearch(df)
 _search.use_test(cl_fz.WrappedClFisherZ(df, alpha=0.01))
-_search.run_pc()
+_search.run_pc(collider_orientation_style=1)
 print(_search.get_java())
 
 ## PRINTOUT:
