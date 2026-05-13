@@ -1,7 +1,3 @@
-# Note
-
-These instructions were being revised some time ago to account for the pip install option. Please, if you're not using the pip install method, check the instructions below to switch to it.
-
 # News
 
 We have a new Tetrad manual [ReadTheDocs manual](https://tetrad-manual.readthedocs.io/en/latest/). Let us know if you can think of improvements we can make. All algorithms, tests, scores, and parameters are documented here.
@@ -28,7 +24,7 @@ We should clarify that once you see how to use JPype to run Tetrad code in Pytho
 
 1. type ``echo $JAVA_HOME``in a terminal to see if this is already set to your JDK. On Windows, it should already be set if you've installed Java. On Mac, it should be set to the latest JDK installed. If it's not set, you'll need to [set JAVA_HOME](https://www.baeldung.com/java-home-on-windows-7-8-10-mac-os-x-linux#:~:text=On%20the%20Desktop%2C%20right%2Dclick,Variable%20value%20and%20click%20OK.) to the path of the Java installation you want to use for py-tetrad.
 
-1. Confirm you have a Python version of agt least 3.5. Here is how to [update Python](https://www.pythoncentral.io/how-to-update-python/) if you need to.
+1. Confirm you have a Python version of agt least 3.12. Here is how to [update Python](https://www.pythoncentral.io/how-to-update-python/) if you need to.
 
 1. Install JPype via pip:
 
