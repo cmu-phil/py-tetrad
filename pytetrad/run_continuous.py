@@ -28,89 +28,95 @@ print('FGES')
 search.run_fges()
 print(search.get_graph_to_matrix())
 
-print('BOSS')
+print('BOSS with CL output')
 search.run_boss(num_starts=1, use_bes=True, time_lag=0, use_data_order=True)
 print(search.get_string())
-dag = search.get_dag_java()
-print(dag)
+g = search.get_causal_learn()
+print(g)
 
-search.run_boss()
-adj = search.get_graph_to_matrix()
-
-print(adj)
-
-print('SP')
-search.run_sp()
-print(search.get_string())
-
-print('GRaSP')
-search.run_grasp()
-print(search.get_string())
-
-print('PC')
-search.run_pc()
-print(search.get_string())
-
-print('PC-Max')
-search.run_pc_max()
-print(search.get_string())
-
-print('CPC')
-search.run_cpc()
-print(search.get_string())
-
-print('FCI')
-search.run_fci()
-print(search.get_string())
-
-print('GFCI')
-search.run_gfci()
-print(search.get_string())
-
-print('FCIT')
-search.run_fcit()
-print(search.get_string())
-
-print('GRaSP-FCI')
-search.run_grasp_fci()
-print(search.get_string())
-
-print('BOSS-FCI')
-search.run_boss_fci()
-print(search.get_string)
-
-print('LV-Heuristic')
-search.run_lv_heuristic()
-print(search.get_string)
-
-print('CCD')
-search.run_ccd()
-print(search.get_string())
-
-print('SP-FCI')
-search.run_sp_fci()
-print(search.get_string())
-
-print('LiNGAM')
-search.run_lingam(threshold_b=0.06)
-print(search.get_string())
-print('bhat:')
-print(search.get_bhat())
-
-print('FASK')
-search.run_fask()
-print(search.get_string())
-
-## Set verbose to True to print unstable models; otherwise, only stable models will be printed.
-print('LiNG-D')
-search.set_verbose(False)
-search.run_lingd(threshold_w=1e-4)
-print('unstable bhats:')
-print(search.get_unstable_bhats())
-print('stable bhats:')
-print(search.get_stable_bhats())
-
-
-## The algorithm will return one of the stable models, or an empty graph if there is none. But the above should
-## print all of the stable models if verbose is set to False.
+# print('BOSS')
+# search.run_boss(num_starts=1, use_bes=True, time_lag=0, use_data_order=True)
 # print(search.get_string())
+# dag = search.get_dag_java()
+# print(dag)
+#
+# search.run_boss()
+# adj = search.get_graph_to_matrix()
+#
+# print(adj)
+#
+# print('SP')
+# search.run_sp()
+# print(search.get_string())
+#
+# print('GRaSP')
+# search.run_grasp()
+# print(search.get_string())
+#
+# print('PC')
+# search.run_pc()
+# print(search.get_string())
+#
+# print('PC-Max')
+# search.run_pc_max()
+# print(search.get_string())
+#
+# print('CPC')
+# search.run_cpc()
+# print(search.get_string())
+#
+# print('FCI')
+# search.run_fci()
+# print(search.get_string())
+#
+# print('GFCI')
+# search.run_gfci()
+# print(search.get_string())
+#
+# print('FCIT')
+# search.run_fcit()
+# print(search.get_string())
+#
+# print('GRaSP-FCI')
+# search.run_grasp_fci()
+# print(search.get_string())
+#
+# print('BOSS-FCI')
+# search.run_boss_fci()
+# print(search.get_string)
+#
+# print('LV-Heuristic')
+# search.run_lv_heuristic()
+# print(search.get_string)
+#
+# print('CCD')
+# search.run_ccd()
+# print(search.get_string())
+#
+# print('SP-FCI')
+# search.run_sp_fci()
+# print(search.get_string())
+#
+# print('LiNGAM')
+# search.run_lingam(threshold_b=0.06)
+# print(search.get_string())
+# print('bhat:')
+# print(search.get_bhat())
+#
+# print('FASK')
+# search.run_fask()
+# print(search.get_string())
+#
+# ## Set verbose to True to print unstable models; otherwise, only stable models will be printed.
+# print('LiNG-D')
+# search.set_verbose(False)
+# search.run_lingd(threshold_w=1e-4)
+# print('unstable bhats:')
+# print(search.get_unstable_bhats())
+# print('stable bhats:')
+# print(search.get_stable_bhats())
+#
+#
+# ## The algorithm will return one of the stable models, or an empty graph if there is none. But the above should
+# ## print all of the stable models if verbose is set to False.
+# # print(search.get_string())
