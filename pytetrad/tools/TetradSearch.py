@@ -432,11 +432,11 @@ class TetradSearch:
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_restricted_boss(self, targets="", use_bes=False, num_starts=1,
-                            allow_internal_randomness=True):
+                            trimming_style = 3):
         self.params.set(Params.TARGETS, targets)
         self.params.set(Params.USE_BES, use_bes)
         self.params.set(Params.NUM_STARTS, num_starts)
-        self.params.set(Params.ALLOW_INTERNAL_RANDOMNESS, allow_internal_randomness)
+        self.params.set(Params.TRIMMING_STYLE, trimming_style)
 
         alg = cpdag.RestrictedBoss(self.SCORE)
         self.java = alg.search(self.data, self.params)
