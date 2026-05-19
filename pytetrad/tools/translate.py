@@ -10,7 +10,8 @@ jar_path = importlib_resources.files('pytetrad').joinpath('resources','tetrad-cu
 jar_path = str(jar_path)
 if not jpype.isJVMStarted():
     try:
-        jpype.startJVM(jpype.getDefaultJVMPath(), classpath=[jar_path])
+        jpype.startJVM(jpype.getDefaultJVMPath(), "-ea",
+                       "--enable-native-access=ALL-UNNAMED", classpath=[jar_path], )
     except OSError:
         print("can't load jvm")
         pass
