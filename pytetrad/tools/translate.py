@@ -276,3 +276,83 @@ def tetrad_graph_to_causal_learn(java_graph: tg.Graph):
         cl_graph.add_edge(cl_edge)
 
     return cl_graph
+
+def causal_learn_graph_to_tetrad(cl_graph) -> tg.Graph:
+    try:
+        import causallearn.graph.GeneralGraph as clgg
+        import causallearn.graph.GraphNode as clgn
+        import causallearn.graph.Endpoint as cle
+        import causallearn.graph.Edge as cle2
+    except ImportError:
+        raise ImportError(
+            "causal-learn is required for this function. "
+            "Install it with: pip install causal-learn"
+        ) from None
+
+    """
+    Translates a causal-learn GeneralGraph into a Tetrad Graph (EdgeListGraph).
+
+    Endpoint mapping (inverse of tetrad_graph_to_causal_learn):
+        causal-learn Endpoint.TAIL   (3) → Tetrad Endpoint.TAIL   (-)
+        causal-learn Endpoint.ARROW  (2) → Tetrad Endpoint.ARROW  (>)
+        causal-learn Endpoint.CIRCLE (1) → Tetrad Endpoint.CIRCLE (o)
+
+    Args:
+        cl_graph: A causal-learn GeneralGraph object.
+
+    Returns:
+        A JPype-wrapped Tetrad EdgeListGraph equivalent.
+    """
+    # --- Pull Tetrad Java classes via JPype ---
+
+    # --- Endpoint translation map (causal-learn → Tetrad) ---
+    endpoint_map = {
+        cle.Endpoint.TAIL.value:   tg.Endpoint.TAIL,    # 3 → -
+        cle.Endpoint.ARROW.value:  tg.Endpoint.ARROW,   # 2 → >
+        cle.Endpoint.CIRCLE.value: tg.Endpoint.CIRCLE,  # 1 → o
+    }
+
+    # --- Build Tetrad nodes from causal-learn nodes ---
+    cl_nodes = cl_graph.get_nodes()
+    node_map = {}  # causal-learn node name → Tetrad GraphNode
+
+    t_node_list = []
+    for cl_node in cl_nodes:
+        name = cl_node.get_name()
+        t_node = tg.GraphNode(name)
+        node_map[name] = t_node
+        t_node_list.append(t_node)
+
+    # --- Construct the Tetrad EdgeListGraph with those nodes ---
+    t_graph = tg.EdgeListGraph()
+    for t_node in t_node_list:
+        t_graph.addNode(t_node)
+
+    # --- Translate edges ---
+    for cl_edge in cl_graph.get_graph_edges():
+        cl_node1 = cl_edge.get_node1()
+        cl_node2 = cl_edge.get_node2()
+
+        name1 = cl_node1.get_name()
+        name2 = cl_node2.get_name()
+
+        t_node1 = node_map[name1]
+        t_node2 = node_map[name2]
+
+        cl_ep1 = cl_edge.get_endpoint1()   # endpoint at node1's side
+        cl_ep2 = cl_edge.get_endpoint2()   # endpoint at node2's side
+
+        t_ep1 = endpoint_map.get(cl_ep1.value)
+        t_ep2 = endpoint_map.get(cl_ep2.value)
+
+        if t_ep1 is None or t_ep2 is None:
+            raise ValueError(
+                f"Unknown causal-learn endpoint(s): {cl_ep1}, {cl_ep2} "
+                f"on edge {name1} --- {name2}"
+            )
+
+        # Tetrad Edge(node1, node2, endpoint_at_node1, endpoint_at_node2)
+        t_edge = tg.Edge(t_node1, t_node2, t_ep1, t_ep2)
+        t_graph.addEdge(t_edge)
+
+    return t_graph
