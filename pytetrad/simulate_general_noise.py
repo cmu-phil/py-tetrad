@@ -4,7 +4,7 @@
 import pytetrad.tools.translate as tr
 import pytetrad.tools.simulate as sim
 
-D, G = sim.simulateSemSimulation(num_meas=100, samp_size=1000)
+D, G = sim.simulateGeneralNoise(num_meas=20, samp_size=1000)
 
 D2 = tr.tetrad_data_to_pandas(D)
 G2 = tr.graph_to_matrix(G)

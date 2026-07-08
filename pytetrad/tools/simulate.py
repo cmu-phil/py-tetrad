@@ -25,8 +25,8 @@ import edu.cmu.tetrad.algcomparison.simulation as sim
 import edu.cmu.tetrad.algcomparison.graph as graph
 
 # Simuolates a continuous dataset with the given arguments and returns the dataset as a pandas datafram
-def simulateContinuous(num_meas = 20, num_lat = 0, avg_deg = 4, samp_size = 200, coef_low = 0, coef_high = 1,
-                       var_low = 1, var_high = 3, rand_cols=False):
+def simulateLinearFisher(num_meas = 20, num_lat = 0, avg_deg = 4, samp_size = 200, coef_low = 0, coef_high = 1,
+                         var_low = 1, var_high = 3, rand_cols=False):
     # Set the parameters for the simulation
     params = Parameters()
 
@@ -47,6 +47,72 @@ def simulateContinuous(num_meas = 20, num_lat = 0, avg_deg = 4, samp_size = 200,
 
     # Do the simulation and grab the dataset and generative graph
     sim_ = sim.LinearFisherModel(graph.RandomForward())
+    sim_.createData(params, True)
+
+    D = sim_.getDataModel(0)
+    G = sim_.getTrueGraph(0)
+
+    return D, G
+
+def simulateSemSimulation(num_meas = 20, num_lat = 0, avg_deg = 4, samp_size = 200, coef_low = 0, coef_high = 1,
+                         var_low = 1, var_high = 3, rand_cols=False):
+    # Set the parameters for the simulation
+    params = Parameters()
+
+    params.set(Params.SAMPLE_SIZE, samp_size)
+    params.set(Params.NUM_MEASURES, num_meas)
+    params.set(Params.AVG_DEGREE, avg_deg)
+    params.set(Params.NUM_LATENTS, num_lat)
+    params.set(Params.RANDOMIZE_COLUMNS, rand_cols) # Prevents some algorithsm from taking advantage of true causal order
+    params.set(Params.COEF_LOW, coef_low)
+    params.set(Params.COEF_HIGH, coef_high)
+    params.set(Params.VAR_LOW, var_low)
+    params.set(Params.VAR_HIGH, var_high)
+    params.set(Params.VERBOSE, False)
+    params.set(Params.NUM_RUNS, 1)
+    # params.set(Params.SEED, 29483)
+
+    # Do the simulation and grab the dataset and generative graph
+    sim_ = sim.SemSimulation(graph.RandomForward())
+    sim_.createData(params, True)
+
+    D = sim_.getDataModel(0)
+    G = sim_.getTrueGraph(0)
+
+    return D, G
+
+def simulateGeneralNoise(num_meas = 20, num_lat = 0, avg_deg = 4, samp_size = 200,
+                          rand_cols=False):
+    # Set the parameters for the simulation
+    params = Parameters()
+
+    params.set(Params.SAMPLE_SIZE, samp_size)
+    params.set(Params.NUM_MEASURES, num_meas)
+    params.set(Params.AVG_DEGREE, avg_deg)
+    params.set(Params.NUM_LATENTS, num_lat)
+    params.set(Params.RANDOMIZE_COLUMNS, rand_cols) # Prevents some algorithsm from taking advantage of true causal order
+    # params.set(Params.COEF_LOW, coef_low)
+    # params.set(Params.COEF_HIGH, coef_high)
+    # params.set(Params.VAR_LOW, var_low)
+    # params.set(Params.VAR_HIGH, var_high)
+    params.set(Params.VERBOSE, False)
+    params.set(Params.NUM_RUNS, 1)
+    # params.set(Params.SEED, 29483)
+
+    # params.set(Params.NOISE_EXPRESSION)
+    # params.set(Params.HIDDEN_DIMENSIONS)
+    # params.set(Params.INPUT_SCALE)
+    # params.set(Params.NUM_RUNS)
+    # params.set(Params.PROB_REMOVE_COLUMN)
+    # params.set(Params.DIFFERENT_GRAPHS)
+    # params.set(Params.RANDOMIZE_COLUMNS)
+    # params.set(Params.SAMPLE_SIZE)
+    # params.set(Params.SAVE_LATENT_VARS)
+    # params.set(Params.STANDARDIZE)
+    # params.add(Params.SEED)
+
+    # Do the simulation and grab the dataset and generative graph
+    sim_ = sim.GeneralNoiseSimulation(graph.RandomForward())
     sim_.createData(params, True)
 
     D = sim_.getDataModel(0)
