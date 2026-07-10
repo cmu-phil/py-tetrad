@@ -603,7 +603,7 @@ class TetradSearch:
         self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
         self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
 
-        alg = pag.BossFci(self.TEST, self.SCORE)
+        alg = pag.Bfci(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
         self.java = alg.search(self.data, self.params)
