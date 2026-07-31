@@ -287,8 +287,8 @@ TetradSearch <- setRefClass(
     #   should be used, FALSE if the arrow-complete rule set from Causation, Prediction and Search should be used.
     # @param guarangee_pag TRUE if a final pipeline should be run to guarantee a legal PAG estimated graph.
     # @return The estimated graph
-    run_boss_fci = function(depth = -1, max_disc_path_length = -1, complete_rule_set_used = TRUE, guarantee_pag = FALSE) {
-      cat("Running BOSS-FCI algorithm...\n")
+    run_bfci = function(depth = -1, max_disc_path_length = -1, complete_rule_set_used = TRUE, guarantee_pag = FALSE) {
+      cat("Running BFCI algorithm...\n")
 
       .self$.setParamInt("depth", depth)
       .self$.setParamInt("maxDiscriminatingPathLength", max_disc_path_length)
@@ -297,13 +297,13 @@ TetradSearch <- setRefClass(
 
       dataModel <- .jcast(.self$data_model, "edu.cmu.tetrad.data.DataModel")
 
-      boss_fci <- .jnew("edu.cmu.tetrad.algcomparison.algorithm.oracle.pag.BossFci", .self$test, .self$score)
-      .jcall(boss_fci, "V", "setKnowledge", .self$knowledge)
+      bfci <- .jnew("edu.cmu.tetrad.algcomparison.algorithm.oracle.pag.BossFci", .self$test, .self$score)
+      .jcall(bfci, "V", "setKnowledge", .self$knowledge)
 
-      graph <- .jcall(boss_fci, "Ledu/cmu/tetrad/graph/Graph;", "search", dataModel, .self$params)
+      graph <- .jcall(bfci, "Ledu/cmu/tetrad/graph/Graph;", "search", dataModel, .self$params)
       .self$graph <- graph
 
-      cat("BOSS-FCI search completed.\n")
+      cat("BFCI search completed.\n")
     },
 
 

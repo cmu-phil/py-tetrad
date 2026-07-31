@@ -596,7 +596,7 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_boss_fci(self, depth=-1, max_disc_path_length=-1, complete_rule_set_used=True,
+    def run_bfci(self, depth=-1, max_disc_path_length=-1, complete_rule_set_used=True,
                  guarantee_pag=False):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used),

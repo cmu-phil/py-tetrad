@@ -75,8 +75,8 @@ print('GRaSP-FCI')
 search.run_grasp_fci()
 print(search.get_string())
 
-print('BOSS-FCI')
-search.run_boss_fci()
+print('BFCI')
+search.run_bfci()
 print(search.get_string)
 
 print('LV-Heuristic')

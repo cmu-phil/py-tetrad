@@ -51,7 +51,7 @@ search.run_gfci()
 print(search.get_string())
 
 print('BFCI')
-search.run_boss_fci()
+search.run_bfci()
 print(search.get_string())
 
 print('GRaSP-FCI')
