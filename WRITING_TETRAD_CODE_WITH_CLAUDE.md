@@ -63,8 +63,7 @@ via py-tetrad and JPype. Follow the rules below when writing or modifying code.
 ## Source of truth for the Tetrad API
 
 - The Tetrad API you are calling is defined by the `development` branch of
-  https://github.com/cmu-phil/tetrad (current working branches may exist,
-  e.g. `joe-work-2026-8-4`, but code here should target `development`).
+  https://github.com/cmu-phil/tetrad.
 - Do NOT rely on memorized Tetrad class names, packages, or signatures —
   they change between versions. Before using any Tetrad class or method,
   verify it against the development-branch source (fetch the file from
