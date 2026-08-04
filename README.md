@@ -2,6 +2,8 @@
 
 We have a new Tetrad manual [ReadTheDocs manual](https://tetrad-manual.readthedocs.io/en/latest/). Let us know if you can think of improvements we can make. All algorithms, tests, scores, and parameters are documented here.
 
+Also, after a fair amount of experimenting, we are happy to see that py-tetrad is compatible with AI coding tools. See [WRITING_TETRAD_CODE_WITH_CLAUDE.md](https://github.com/cmu-phil/py-tetrad/blob/main/WRITING_TETRAD_CODE_WITH_CLAUDE.md) for pointers.
+
 # py-tetrad
 
 Please visit our [Tetrad web page](https://www.cmu.edu/dietrich/philosophy/tetrad/) for current links for downloadables, a list of contributors, some history, documentation, descriptions, links for our various projects, Javadocs, and more.
