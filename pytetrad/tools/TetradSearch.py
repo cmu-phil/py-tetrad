@@ -77,6 +77,21 @@ class TetradSearch:
         return "\n\n".join([str(item) for item in display])
 
     # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
+    def set_missing_data_policy(self, policy="default", num_imputations=10, em_ridge=0.0,
+                                em_tolerance=1e-6, em_max_iterations=1000, ess_mode="fullN"):
+        """Sets the missing-data policy: "default", "fail", "listwise", "testwise", "em"
+        (EM covariance; MAR-valid, continuous data), or "mi" (use tools.missing.imputation_search).
+        Requires a tetrad-current.jar built from development on or after 2026-08-05."""
+        if not hasattr(Params, "MISSING_DATA_POLICY"):
+            raise RuntimeError("This tetrad-current.jar predates the missing-data policies; "
+                               "update to a jar built from development on or after 2026-08-05.")
+        self.params.set(Params.MISSING_DATA_POLICY, policy)
+        self.params.set(Params.MISSING_NUM_IMPUTATIONS, num_imputations)
+        self.params.set(Params.MISSING_EM_RIDGE, em_ridge)
+        self.params.set(Params.MISSING_EM_TOLERANCE, em_tolerance)
+        self.params.set(Params.MISSING_EM_MAX_ITERATIONS, em_max_iterations)
+        self.params.set(Params.MISSING_ESS_MODE, ess_mode)
+
     def use_sem_bic(self, penalty_discount=2, structurePrior=0, sem_bic_rule=1, singularity_lambda=0.0):
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
         self.params.set(Params.SEM_BIC_STRUCTURE_PRIOR, structurePrior)
