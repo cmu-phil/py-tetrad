@@ -4,6 +4,26 @@ One of the pleasant surprises of the py-tetrad approach — accessing [Tetrad](h
 
 This document explains how to set that up, what to watch out for, and provides a `CLAUDE.md` file you can drop into your own project so that Claude (especially Claude Code) has the context it needs to write correct code on the first try.
 
+## What Claude may and may not do in a causal analysis
+
+The pairing above is powerful precisely because of a division of labor worth
+stating explicitly: *agents assist; algorithms discover; scientists judge*
+(Zheng, Verma, Gill, Dai, Spirtes & Zhang, 2026, "Causal discovery in the
+era of agents," arXiv:2606.23608). Claude can audit your data
+(`pytetrad/tools/audit.py`), explain what each test and score assumes,
+propose algorithms, settings, transforms, and knowledge tiers, drive
+parameter sweeps with diagnostics (`pytetrad/tools/sweep.py`), and translate
+CPDAGs and PAGs into plain language. What Claude cannot do is supply causal
+evidence: no edge, orientation, prior, or constraint should enter a search
+because a language model believes it — only because you adopted it as an
+explicit assumption. Concretely, Claude should propose preprocessing and
+knowledge for your approval rather than silently applying them, and should
+present discovered graphs as equivalence-class objects conditioned on stated
+assumptions rather than as confirmed causal facts. `TETRAD_ANALYSIS_GUIDE.md`
+in this repository spells out the full workflow (audit → decide → search →
+diagnose → report), and the `skills/tetrad-analysis` skill packages it so
+Claude follows it automatically.
+
 ## Why this works well
 
 - **The full API is available.** JPype gives Python direct access to every public class and method in the Tetrad jar. There is no wrapper layer that can be out of date or incomplete. If a method exists in Tetrad, Claude can call it from Python.

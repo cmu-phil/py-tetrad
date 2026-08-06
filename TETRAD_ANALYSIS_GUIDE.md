@@ -1,5 +1,3 @@
-(Draft)
-
 # Analyzing Real Data with Tetrad: A Field Guide
 
 This guide describes a discipline for applying Tetrad's causal discovery
@@ -40,10 +38,11 @@ threshold until the output looks better. When interpreting results, present
 CPDAGs and PAGs as the equivalence-class objects they are, conditioned on the
 stated assumptions — not as confirmed causal facts.
 
-All code samples were checked against `pytetrad/tools/TetradSearch.py` on the
-main branch and `tetrad-current.jar` built from the Tetrad `development`
-branch (August 2026). If a method is missing in your installation, update the
-jar and py-tetrad checkout.
+All code samples were checked against `pytetrad/tools/TetradSearch.py`,
+`audit.py`, and `sweep.py` on the main branch and `tetrad-current.jar` built
+from the Tetrad `development` branch (August 2026; the audit and sweep APIs
+require a jar built on or after 2026-08-06). If a method is missing in your
+installation, update the jar and py-tetrad checkout.
 
 ---
 
@@ -86,27 +85,28 @@ Load the data and compute, at minimum:
 | Missingness pattern | Listwise deletion is only safe under MCAR | Use `MissingDataAudit` / `pytetrad/tools/missing.py`: audit, then testwise, EM, or multiple imputation via `set_missing_data_policy` |
 | n vs. p, and n vs. conditioning-set sizes | Small n bounds the depth of conditioning you can trust | Restrict depth; prefer score-based; be modest |
 
-A minimal audit in pandas/scipy:
+In py-tetrad, the whole battery runs in one call (`edu.cmu.tetrad.data.audit`
+on the Java side; requires a jar built from `development` on or after
+2026-08-06):
 
 ```python
 import pandas as pd
-from scipy import stats
+import pytetrad.tools.audit as au
 
 df = pd.read_csv("data.txt", sep="\t")
 
-print(df.shape)
-print(df.nunique())                      # cardinalities
-print(df.isna().sum())                   # missingness
-print(df.corr(numeric_only=True).round(2))
-
-for c in df.select_dtypes("number"):
-    x = df[c].dropna()
-    print(c, "skew", round(stats.skew(x), 2),
-          "AD", round(stats.anderson(x, "norm").statistic, 1))
+result = au.audit(df)          # or au.audit(df, int_as_cont=True)
+print(result.report)           # human-readable findings
+result.findings                # DataFrame: code, severity, variables, values, message
 ```
 
-(A `DataAudit` class producing this report from Java, the GUI, and py-tetrad
-in one call is planned; this guide will be updated to use it.)
+Every finding carries the statistic *and* the threshold that fired it, so
+results can be re-judged without re-running; thresholds are overridable by
+keyword (e.g. `au.audit(df, high_correlation=0.95)`). The audit reports
+findings, never recommendations — Appendix A maps each finding code to the
+considerations it should raise. Missingness details beyond the summary
+finding are in `pytetrad/tools/missing.py` (`audit`, `impute`,
+`imputation_search`).
 
 **py-tetrad dtype convention (important).** `translate.py` maps **float
 columns to continuous variables and everything else — including plain
@@ -191,27 +191,39 @@ setting, compute three things:
 3. **Bootstrap edge stability**: rerun under resampling and record edge
    frequencies (`set_bootstrapping`).
 
-Sketch, using the mixed-data setup from the worked example below:
+In py-tetrad, the whole loop is one call to the sweep harness
+(`edu.cmu.tetrad.algcomparison.sweep` on the Java side), which draws the
+resamples once and shares them across settings so comparisons are paired.
+Using the mixed-data setup from the worked example below:
 
 ```python
 import pytetrad.tools.TetradSearch as ts
+import pytetrad.tools.sweep as sw
 
-results = {}
-for pd_ in [1, 2, 4]:
-    search = ts.TetradSearch(df)
-    for i, tier in enumerate(tiers):
-        for v in tier:
-            search.add_to_tier(i, v)
-    search.use_conditional_gaussian_score(penalty_discount=pd_)
-    search.use_conditional_gaussian_test(alpha=0.01, use_for_mc=True)
-    search.set_bootstrapping(numberResampling=100, seed=42)
-    search.run_boss()
-    g = search.get_java()
-    (ad_ind, ad_dep, ks_ind, ks_dep, bin_ind, bin_dep,
-     frac_dep_ind, frac_dep_dep, n_ind, n_dep, mc) = search.markov_check(g)
-    results[pd_] = dict(graph=search.get_string(),
-                        ad_ind=ad_ind, frac_dep_dep=frac_dep_dep)
+search = ts.TetradSearch(df)
+for i, tier in enumerate(tiers):                       # user-approved knowledge
+    for v in tier:
+        search.add_to_tier(i, v)
+search.use_conditional_gaussian_score()                # score for the searches
+search.use_conditional_gaussian_test(alpha=0.01, use_for_mc=True)  # MC test
+
+report = sw.sweep(search, "boss", "penaltyDiscount", [1.0, 2.0, 4.0],
+                  num_resamples=100, seed=42)
+print(report.table)      # per setting: num_edges, instability, ad_ind, frac_dep_dep
+print(report.markdown)   # the same as a pasteable table
+
+i = report.select_by_markov_adequacy()   # a defaulted decision rule, yours to override
+print(report.point_graph(i))             # the point estimate at that setting
+print(report.probability_graph(i))       # with bootstrap-style edge probabilities
 ```
+
+The selection helpers (`select_by_markov_adequacy`, `select_by_instability`,
+`select_most_stable`) are explicit, overridable decision rules, not evidence
+— the report exists precisely so the choice can be inspected and defended.
+Note on reproducibility: `seed` makes the resampled row sets exactly
+reproducible, but algorithms with internal thread pools (e.g. FGES) can
+break score near-ties differently between runs, so small run-to-run wobble
+in instabilities is possible and expected.
 
 Choose the setting where (a) the Markov-check independence p-values are
 closest to uniform (`ad_ind` not small), (b) implied dependencies are
@@ -261,6 +273,11 @@ one: "vehicle/engine class" plausibly drives `cylinders`, `displacement`,
 PAG search) in exactly that cluster.
 
 ### Step 1 — audit (actual numbers)
+
+Running `au.audit(df)` on the raw load fires `DISCRETE_MANY_LEVELS`,
+`NEAR_DETERMINISM_DISCRETE_CONTINUOUS`, `SMALL_MARGINAL_CELL`, and
+`SMALL_PAIRWISE_CELLS` — the integer columns were silently discrete, and the
+audit catches it. After the Step 2 typing below, the audit reports:
 
 - No missing values in this version (but say so: the original had 6 missing
   `horsepower` rows, listwise-deleted upstream — benign at 6/398).
@@ -322,7 +339,7 @@ tiers = [["modelyear", "origin"],
 **Primary: BOSS with the conditional-Gaussian score** (discrete set =
 {`origin`} only), penalty discount swept over {1, 2, 4}, knowledge tiers
 set, 100 bootstrap resamples, Markov check with the CG test — exactly the
-sweep loop shown in Step 4 above. Expectations to check against, given the
+sweep call shown in Step 4 above. Expectations to check against, given the
 audit: penalty 1 should overconnect the engine cluster; the modelyear→mpg
 and weight→mpg edges should be stable at every setting; edges *within*
 {displacement, horsepower, weight, cylinders} should show unstable
@@ -359,7 +376,30 @@ discipline.
 
 ---
 
-## Appendix: pitfalls seen in practice
+## Appendix A: finding codes and the considerations they raise
+
+The audit emits findings, not recommendations; this table is the judgment
+layer, and it is deliberately documentation rather than code so it can
+evolve. Each code below names what is true of the data and what an analyst
+(human or AI assistant, proposing for user approval) should weigh in
+response.
+
+| Code | What it means | Considerations |
+|---|---|---|
+| `CONTINUOUS_FEW_VALUES` | A continuous variable takes few distinct values | Was it meant to be discrete? Or a count/ordinal best left continuous? Check the dtype conversion (int columns become discrete in py-tetrad; floats continuous) |
+| `DISCRETE_MANY_LEVELS` | A discrete variable has many observed levels | If ordered (year, stage, dose), continuous treatment usually beats k categories; if nominal, expect small cells when crossed with other discretes |
+| `NEAR_CONSTANT` | A column is (nearly) constant | Usually drop; it carries no information and can destabilize numerics |
+| `SMALL_MARGINAL_CELL` | A discrete category has very few cases | Merge categories, treat as continuous if ordered, or accept unreliable tests involving it |
+| `SMALL_PAIRWISE_CELLS` | A discrete pair has small expected cells | Conditional independence tests conditioning on this pair are unreliable; restrict depth or restructure the variables |
+| `HIGH_CORRELATION` | A continuous pair is very highly correlated | Expect unstable edges within the cluster; consider whether a latent common cause explains it (→ PAG search); check bootstrap probabilities there before believing orientations |
+| `EXACT_LINEAR_DEPENDENCE` | The continuous correlation matrix is singular | A variable is redundant; remove one of the involved variables before searching |
+| `NEAR_DETERMINISM_CONTINUOUS` | A variable is nearly a linear function of the others | Near-faithfulness violation; expect unstable CI decisions; consider removing or combining variables |
+| `NEAR_DETERMINISM_DISCRETE_CONTINUOUS` | A discrete variable nearly determines a continuous one | The discrete is close to a coarsening of the continuous (auto-mpg's cylinders/displacement); including both adds instability without information |
+| `NON_GAUSSIAN` (INFO) | A marginal deviates from Gaussian | Threat to linear-Gaussian machinery (transform, or use basis-function/nonparametric tests) but an asset for LiNGAM-family orientation — often worth an extra run, not just a fix |
+| `LOW_SAMPLE_RATIO` | Few rows per variable | Prefer score-based searches, restrict conditioning depth, report humbly with wide bootstrap intervals |
+| `MISSING_DATA` (INFO) | Missing values present | Read the delegated missingness audit; choose a policy (testwise, EM, multiple imputation) as a visible decision — see `pytetrad/tools/missing.py` |
+
+## Appendix B: pitfalls seen in practice
 
 - **Integer columns silently treated as discrete** in py-tetrad (see Step 1).
 - Running FGES + SEM-BIC defaults on mixed or non-Gaussian data because it
