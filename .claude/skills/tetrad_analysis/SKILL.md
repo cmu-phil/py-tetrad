@@ -77,6 +77,18 @@ basis-function scores or KCI/CCI; plausible latents → an FCI-family PAG
 search. Agreement between methods with different failure modes is the most
 persuasive robustness evidence available.
 
+Findings nominate; Markov adequacy arbitrates. The audit table proposes
+candidate families, never vetoes one: a family it disfavors may still reach
+Markov adequacy (on Auto MPG, DG+BOSS/FGES passes despite flagged
+nonlinearity), and a pass is relative to the checking test — confirm a pass
+under a linear/CG test with a test that has power against the flagged
+violation (KCI, CCI, basis-function LRT) before reporting adequacy.
+Experimental engines on the development branch (e.g., the Cord family) are
+opt-in only: propose them clearly labeled as experimental, and only when the
+user asks for frontier methods or every released family fails Markov
+adequacy after sweeping and repair; the user's adoption is a recorded
+decision.
+
 ### 4. Sweep and diagnose
 
 ```python
@@ -98,8 +110,31 @@ print(report.probability_graph(i))       # point estimate with bootstrap-style e
 Sweep penalty discount (score-based) or alpha (test-based). A good setting
 has near-uniform Markov-check independence p-values (`ad_ind` not small),
 high detection of implied dependencies (`frac_dep_dep`), and stable edges.
-If NO setting is Markov-adequate, that is a finding — the model family is
-misspecified; revisit Steps 2–3 rather than shipping the least-bad graph.
+
+If the selected candidate is close but not adequate AND the graph is very
+small (Auto MPG scale, roughly ≤ 15 nodes — candidate enumeration is
+combinatorial), try Vertex Repair before declaring misspecification:
+
+```python
+import edu.cmu.tetrad.search as tsearch
+import edu.cmu.tetrad.search.test as ttest
+test = ttest.IndTestDegenerateGaussianLrt(tr.pandas_data_to_tetrad(df))
+test.setAlpha(0.01)
+repaired = tsearch.VertexRepairSearch(graph, test,
+    tsearch.ConditioningSetType.ORDERED_LOCAL_MARKOV_PROPERTY).search()
+# re-run markov_check on `repaired` with the same setup
+```
+
+Repair rules (guide Step 4.5): repair only marginal candidates — it can
+REDUCE the adequacy of an already adequate graph, so re-check and keep the
+better of the two; repair cannot rescue a misspecified setting (if it does
+not reach adequacy, revisit Steps 2–3); and repair edits are decisions — the
+report shows the pre-repair graph, the post-repair graph, the edit list, and
+both Markov checks.
+
+If NO setting is Markov-adequate even after repair, that is a finding — the
+model family is misspecified; revisit Steps 2–3 rather than shipping the
+least-bad graph.
 The selection helpers are defaulted decisions: show the table, state which
 rule you applied, and let the user choose. Seeds pin the resample draws but
 not internal tie-breaking in algorithms like FGES, so small run-to-run
@@ -123,4 +158,7 @@ variable as nominal; reporting a bare graph without bootstrap frequencies or
 a Markov check; reading every directed CPDAG edge as an established causal
 claim; ignoring near-determinism and then blaming the algorithm for
 "unstable results"; choosing alpha or penalty by whichever value gives the
-most interesting graph.
+most interesting graph; repairing an already-adequate graph, or reporting a
+repaired graph without the edit trail and both Markov checks; declaring
+misspecification without sweeping, or declaring adequacy from a check whose
+test has no power against the violation the audit flagged.

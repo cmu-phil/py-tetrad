@@ -175,6 +175,25 @@ Two rules of thumb:
 - **Never report an algorithm's output at a parameter setting you did not
   examine alternatives to.** That is Step 4.
 
+And two principles about how to use the table:
+
+- **Findings nominate; Markov adequacy arbitrates.** The table maps audit
+  findings to *candidate* families — it is not a veto. A family the table
+  disfavors may still check out: on Auto MPG, where the nonlinearity check
+  flags every continuous relationship, a Degenerate-Gaussian score with
+  BOSS/FGES nonetheless reaches Markov adequacy at penalty 1 (Step 4). Let
+  the Markov check on the fitted graph decide, and remember the verdict is
+  relative to the checking test: a pass under a linear or CG test on data
+  with flagged nonlinearity should be confirmed with a test that has power
+  against nonlinear alternatives (KCI, CCI, or a basis-function LRT) before
+  it is reported as adequacy.
+- **Experimental methods are opt-in.** Tetrad's development branch carries
+  experimental engines (e.g., the Cord family) beyond the released methods
+  above. Do not select these by default. Propose them, clearly labeled
+  experimental, only when the user asks for frontier methods or when every
+  released family fails Markov adequacy after sweeping and repair — and
+  record the user's decision to use one as a Step 2 decision.
+
 ## Step 4: Parameter sweeps and diagnostics
 
 For score-based searches sweep `penalty_discount` (e.g. {1, 2, 4}); for
@@ -231,6 +250,51 @@ overwhelmingly detected (`frac_dep_dep` high), and (c) bootstrap edge
 frequencies are stable in the neighborhood of the setting. If no setting
 satisfies (a), that is a finding: the model family is misspecified for this
 data — revisit Step 2/3 rather than shipping the least-bad graph.
+
+### Step 4.5: Vertex Repair (small graphs only)
+
+Between "the selected setting is marginal" and "the family is misspecified"
+there is a third case: the graph is nearly right and a few local edits would
+fix it. `VertexRepairSearch` is a greedy local search over single-edge edits
+(additions, removals, reorientations) scored by Markov-checker diagnostics.
+Candidate enumeration is combinatorial in local degree, so this is a tool
+for **very small graphs** — Auto MPG scale (~8 variables) is comfortable;
+do not reach for it on large models.
+
+```python
+import edu.cmu.tetrad.search as tsearch
+import edu.cmu.tetrad.search.test as ttest
+import pytetrad.tools.translate as tr
+
+data_java = tr.pandas_data_to_tetrad(df)
+test = ttest.IndTestDegenerateGaussianLrt(data_java)   # match the MC test family
+test.setAlpha(0.01)
+
+repair = tsearch.VertexRepairSearch(
+    graph, test, tsearch.ConditioningSetType.ORDERED_LOCAL_MARKOV_PROPERTY)
+repaired = repair.search()
+# ... then RE-RUN the Markov check on `repaired` with the same setup.
+```
+
+Rules of use, each of which we have watched matter on Auto MPG:
+
+1. **Repair only when the selected candidate is marginal.** Repair
+   optimizes local diagnostics and can *reduce* the adequacy of an already
+   adequate graph (FGES/DG at penalty 1: `ad_ind` 0.57 before repair, 0.18
+   after). Re-check after repair and keep whichever graph checks better.
+2. **Repair cannot rescue a misspecified setting.** At penalty 4 on the
+   same data, repair moved `ad_ind` from 0.0000 to 0.0005 — better, still
+   failing. If repair does not reach adequacy, the answer is Step 2/3, not
+   more repair.
+3. **Where it earns its keep**: lifting a near-adequate candidate (BOSS/DG
+   at penalty 1: 0.40 → 0.44) or recovering edges a slightly-too-strict
+   penalty pruned — on Auto MPG, repair at penalty 2 restored `origin → mpg`
+   and `origin — modelyear`, edges the adequate penalty-1 graphs contain.
+4. **Repair edits are decisions.** The report must show the pre-repair
+   graph, the post-repair graph, the list of edits, and both Markov checks.
+   A graph edited to satisfy a diagnostic and presented without the edit
+   trail is exactly the "tune until it looks better" failure this guide
+   exists to prevent.
 
 Finally, overlay the surviving graphs from your different algorithm families
 and classify each edge: agreed by all, agreed by some, contested.
@@ -360,6 +424,26 @@ vehicle-class factor.
 BIC (`use_basis_function_bic`) on the raw scale as a nonlinearity-robust
 replication of the primary run.
 
+**Sweep-and-repair, actual numbers** (DG score, DG-LRT Markov test at
+alpha 0.01, ordered local Markov, 392 complete rows):
+
+| algorithm | penalty | edges | `ad_ind` | after repair | `ad_ind` |
+|---|---|---|---|---|---|
+| FGES | 1 | 16 | **0.574** | 15 | 0.177 |
+| FGES | 2 | 11 | 0.001 | 13 | 0.004 |
+| FGES | 4 | 9 | 0.000 | 13 | 0.001 |
+| BOSS | 1 | 16 | **0.397** | 15 | **0.440** |
+| BOSS | 2 | 11 | 0.001 | 13 | 0.004 |
+| BOSS | 4 | 9 | 0.000 | 13 | 0.001 |
+
+Reading: penalty 1 is Markov-adequate for both algorithms before any
+repair; repair lifts the marginal BOSS candidate and *lowers* the already
+comfortable FGES one (rule 1 of Step 4.5); repair improves but cannot
+rescue penalties 2 and 4 (rule 2); and the edges repair adds at penalty 2
+(`origin → mpg`, `origin — modelyear`) are ones the adequate penalty-1
+graphs already contain — repair is recovering over-pruning, which is
+evidence about the penalty, not just the graph.
+
 ### Step 5 — what the report looks like
 
 The deliverable is *not* one graph. It is: the decision log above; the sweep
@@ -412,6 +496,13 @@ response.
   fact faithfulness violations.
 - Choosing alpha or penalty by whichever value gives the most interesting
   graph.
+- Applying Vertex Repair to an already Markov-adequate graph, or reporting
+  a repaired graph without the pre-repair graph, the edit list, and both
+  Markov checks (see Step 4.5).
+- Declaring a model family misspecified without having swept the parameter
+  — or, conversely, declaring adequacy from a Markov check whose test has
+  no power against the violation the audit flagged (e.g., a linear test on
+  data the nonlinearity check failed).
 
 ---
 
