@@ -280,14 +280,13 @@ Rules of use, each of which we have watched matter on Auto MPG:
 
 1. **Repair only when the selected candidate is marginal.** Repair
    optimizes local diagnostics and can *reduce* the adequacy of an already
-   adequate graph (FGES/DG at penalty 1: `ad_ind` 0.57 before repair, 0.18
-   after). Re-check after repair and keep whichever graph checks better.
+   adequate graph (FGES/DG at penalty 1: `ad_ind` 0.62 before repair, 0.20 after). Re-check after repair and keep whichever graph checks better.
 2. **Repair cannot rescue a misspecified setting.** At penalty 4 on the
-   same data, repair moved `ad_ind` from 0.0000 to 0.0005 — better, still
+   same data, repair moved `ad_ind` from 0.0000 to 0.0008 — better, still
    failing. If repair does not reach adequacy, the answer is Step 2/3, not
    more repair.
 3. **Where it earns its keep**: lifting a near-adequate candidate (BOSS/DG
-   at penalty 1: 0.40 → 0.44) or recovering edges a slightly-too-strict
+   at penalty 1: 0.44 → 0.48) or recovering edges a slightly-too-strict
    penalty pruned — on Auto MPG, repair at penalty 2 restored `origin → mpg`
    and `origin — modelyear`, edges the adequate penalty-1 graphs contain.
 4. **Repair edits are decisions.** The report must show the pre-repair
@@ -425,15 +424,16 @@ BIC (`use_basis_function_bic`) on the raw scale as a nonlinearity-robust
 replication of the primary run.
 
 **Sweep-and-repair, actual numbers** (DG score, DG-LRT Markov test at
-alpha 0.01, ordered local Markov, 392 complete rows):
+alpha 0.01, ordered local Markov, 392 complete rows; `ad_ind` computed with
+the corrected Anderson-Darling statistic — see the note below the table):
 
 | algorithm | penalty | edges | `ad_ind` | after repair | `ad_ind` |
 |---|---|---|---|---|---|
-| FGES | 1 | 16 | **0.574** | 15 | 0.177 |
-| FGES | 2 | 11 | 0.001 | 13 | 0.004 |
+| FGES | 1 | 16 | **0.617** | 15 | 0.203 |
+| FGES | 2 | 11 | 0.002 | 13 | 0.006 |
 | FGES | 4 | 9 | 0.000 | 13 | 0.001 |
-| BOSS | 1 | 16 | **0.397** | 15 | **0.440** |
-| BOSS | 2 | 11 | 0.001 | 13 | 0.004 |
+| BOSS | 1 | 16 | **0.439** | 15 | **0.479** |
+| BOSS | 2 | 11 | 0.002 | 13 | 0.006 |
 | BOSS | 4 | 9 | 0.000 | 13 | 0.001 |
 
 Reading: penalty 1 is Markov-adequate for both algorithms before any
@@ -443,6 +443,22 @@ rescue penalties 2 and 4 (rule 2); and the edges repair adds at penalty 2
 (`origin → mpg`, `origin — modelyear`) are ones the adequate penalty-1
 graphs already contain — repair is recovering over-pruning, which is
 evidence about the penalty, not just the graph.
+
+**A note on comparing `ad_ind` across graphs.** The Markov check's
+Anderson-Darling p-value tests the graph's implied-independence p-values for
+uniformity against a fully specified Uniform(0, 1). Before this was
+corrected, the check evaluated Stephens' case-3 statistic (which corrects for
+an estimated mean and variance) against the tail for the uncorrected one,
+making p-values too small by a factor that grows as the number of implied
+independencies shrinks — rejecting a genuinely Markov graph about 9% of the
+time at 5 tests against a nominal 5%. Two consequences persist as advice.
+Prefer Anderson-Darling to Kolmogorov-Smirnov, which is calibrated but less
+sensitive in the tails where a handful of p-values carries most of the
+information. And treat `ad_ind` comparisons between graphs of different
+density with care: sparser graphs have fewer implied independencies, so any
+small-sample effect bears on them unequally. Where two graphs check out
+comparably, prefer the sparser one — it implies more independencies and is
+therefore the more falsifiable claim.
 
 ### Step 5 — what the report looks like
 
