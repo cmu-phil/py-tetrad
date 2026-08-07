@@ -152,6 +152,8 @@ class TetradSearch:
 
     # Uses covariance as a sufficient statistic
     # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
+    # Note: singularity_lambda and do_one_equation_only require a tetrad-current.jar that
+    # includes the 2026-8 wrapper wiring fix; older jars silently ignored both.
     def use_basis_function_bic(self, truncation_limit=3, penalty_discount=2, singularity_lambda=0.0,
                                do_one_equation_only=False):
         self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
@@ -162,6 +164,8 @@ class TetradSearch:
 
     # Full sample.
     # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
+    # Note: requires a tetrad-current.jar that includes the 2026-8 BasisFunctionBicScoreTabular
+    # wrapper; the wrapper had been removed from Tetrad, which broke this hook.
     def use_basis_function_bic_fs(self, truncation_limit=3, penalty_discount=2, singularity_lambda=0.0,
                                   do_one_equation_only=False):
         self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
@@ -185,14 +189,26 @@ class TetradSearch:
         self.params.set(Params.TRFF_NU, trff_nu)
         self.SCORE = score_.TRffBicScore()
 
-    # Uses covariance as a sufficient statistic.
-    # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
-    def use_basis_function_lrt(self, truncation_limit=3, alpha=0.01, singularity_lambda=0.0,
-                               do_one_equation_only=False, use_for_mc=False):
+    # BF-LRT. As of 2026-8 the Java-side BF-LRT wrapper delegates to the Wilks-lambda /
+    # Bartlett block test over the basis-embedded blocks (df = |X-block| x |Y-block|); the
+    # previous trace-averaged LRT was miscalibrated and is deprecated. The Wilks path handles
+    # near-singularity via rank-aware whitening internally, so singularity_lambda no longer
+    # applies, and do_one_equation_only is not supported; both are kept as arguments for
+    # backward compatibility and warn if set.
+    def use_basis_function_lrt(self, truncation_limit=3, alpha=0.01, effective_sample_size=-1,
+                               singularity_lambda=None, do_one_equation_only=None,
+                               use_for_mc=False):
+        import warnings
+        if singularity_lambda is not None:
+            warnings.warn("singularity_lambda is ignored by the Wilks-based BF-LRT "
+                          "(near-singularity is handled internally by rank-aware whitening)",
+                          DeprecationWarning, stacklevel=2)
+        if do_one_equation_only is not None:
+            warnings.warn("do_one_equation_only is not supported by the Wilks-based BF-LRT "
+                          "and is ignored", DeprecationWarning, stacklevel=2)
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
-        self.params.set(Params.SINGULARITY_LAMBDA, singularity_lambda)
-        self.params.set(Params.DO_ONE_EQUATION_ONLY, do_one_equation_only)
+        self.params.set(Params.EFFECTIVE_SAMPLE_SIZE, effective_sample_size)
 
         if use_for_mc:
             self.MC_TEST = ind_.BasisFunctionLrt()
@@ -223,24 +239,22 @@ class TetradSearch:
         self.params.set(Params.RCIT_NUM_FEATURES_XY, num_features_xy)
         self.params.set(Params.RCIT_NUM_FEATURES_Z, num_features_z)
 
+        # Fixed 2026-8: this previously bound ind_.FfCi() (a copy-paste from use_ffci), so
+        # "RCIT" runs were actually running FfCi.
         if use_for_mc:
-            self.MC_TEST = ind_.FfCi()
+            self.MC_TEST = ind_.Rcit()
         else:
-            self.TEST = ind_.FfCi()
+            self.TEST = ind_.Rcit()
 
-    # Full sample
-    # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
+    # Full-sample BF-LRT. The backing Java wrapper (BasisFunctionLrtFullSample) has been
+    # removed from Tetrad, and the underlying trace-averaged LRT statistic is deprecated and
+    # miscalibrated; use use_basis_function_lrt (Wilks-based) instead.
     def use_basis_function_lrt_fs(self, truncation_limit=3, alpha=0.01, use_for_mc=False, singularity_lambda=0.0,
                                   do_one_equation_only=False):
-        self.params.set(Params.ALPHA, alpha)
-        self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
-        self.params.set(Params.SINGULARITY_LAMBDA, singularity_lambda)
-        self.params.set(Params.DO_ONE_EQUATION_ONLY, do_one_equation_only)
-
-        if use_for_mc:
-            self.MC_TEST = ind_.BasisFunctionLrtFullSample()
-        else:
-            self.TEST = ind_.BasisFunctionLrtFullSample()
+        raise NotImplementedError(
+            "use_basis_function_lrt_fs is no longer available: its Java wrapper was removed and "
+            "the underlying trace-averaged LRT statistic was miscalibrated. Use "
+            "use_basis_function_lrt, which delegates to the Wilks/Bartlett block test.")
 
     # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
     def use_fisher_z(self, alpha=0.01, use_for_mc=False, singularity_lambda=0.0):
