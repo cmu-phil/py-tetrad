@@ -1034,13 +1034,19 @@ class TetradSearch:
         if self.mc_knowledge is not None:
             mc.setKnowledge(self.mc_knowledge)
 
+        # Set the effective sample size if specified. Fixed 2026-8: this was previously
+        # applied AFTER generateAllResults(), when all p-values had already been computed,
+        # so the parameter had no effect. MarkovCheck.setEffectiveSampleSize forwards to the
+        # independence test, which must therefore be EffectiveSampleSizeSettable. Note: honoring
+        # the value through the Markov Checker's row resampling also requires a
+        # tetrad-current.jar with the 2026-8 effective-sample-size persistence fix in
+        # IndTestBasisFunctionBlocks (earlier jars reset the value when rows are set).
+        if effective_sample_size != -1:
+            mc.setEffectiveSampleSize(effective_sample_size)
+
         mc.generateAllResults()
 
         self.mc_ind_results = mc.getResults(True)
-
-        # Set the sample size if specified
-        if effective_sample_size != -1:
-            mc.setEffectiveSampleSize(effective_sample_size)
 
         ad_ind = mc.getAndersonDarlingP(True)
         ad_dep = mc.getAndersonDarlingP(False)
