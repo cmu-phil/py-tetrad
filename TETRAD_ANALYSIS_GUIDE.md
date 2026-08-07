@@ -1,5 +1,8 @@
 # Analyzing Real Data with Tetrad: A Field Guide
 
+This is experimental; we are attempting to formulate good advice for 
+analyzing real data using Tetrad. If you have input, please let us know.
+
 This guide describes a discipline for applying Tetrad's causal discovery
 algorithms to real datasets. It is written both for human users and for AI
 assistants (see `WRITING_TETRAD_CODE_WITH_CLAUDE.md`): if you are asking
