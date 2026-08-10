@@ -1,10 +1,21 @@
 """Python conveniences for Tetrad's pre-search data audit (edu.cmu.tetrad.data.audit): a
 battery of checks on a data matrix that bear on the choice and reliability of causal search
 procedures - variable typing and cardinalities, small discrete cells, near-constant columns,
-high correlation and near-determinism, marginal non-Gaussianity, sample adequacy, and
-missingness. The audit reports findings, never recommendations; see TETRAD_ANALYSIS_GUIDE.md
-for how to act on the finding codes. Requires a tetrad-current.jar built from development on
-or after 2026-08-06.
+high correlation and near-determinism, marginal non-Gaussianity, serial dependence of rows
+in file order, sample adequacy, and missingness. The audit reports findings, never
+recommendations; see TETRAD_ANALYSIS_GUIDE.md for how to act on the finding codes. Requires
+a tetrad-current.jar built from development on or after 2026-08-06; the serial dependence
+settings (the serial_* and min_serial_sample_size keywords below) additionally require a jar
+built on or after 2026-08-10, and are gracefully skipped at their defaults against older
+jars.
+
+The SERIAL_DEPENDENCE check is one-sided with respect to row order: a flag means rows are
+dependent in the order given (so independence tests assuming i.i.d. rows may be
+anticonservative), but a clean result does not rule out dependence under some other row
+ordering (e.g., if a time series was shuffled before saving). If the dataset concatenates
+blocks (regions, subjects, sessions), pass the block column's name as serial_group_variable
+so autocorrelations are computed within blocks; otherwise block-level mean shifts and
+boundary jumps contaminate the pooled estimate.
 
 Note py-tetrad's dtype convention (see translate.py): float columns become continuous Tetrad
 variables; integer, category, and object columns become discrete. Integer-coded continuous
@@ -33,8 +44,10 @@ def _require():
 
 # Threshold keyword arguments accepted by audit(), in the positional order of the Java
 # Config constructor, with defaults mirroring the Java defaults (keep in sync with
-# DataAudit.Config).
-_CONFIG_DEFAULTS = [
+# DataAudit.Config). _LEGACY_DEFAULTS is the 12-argument constructor of jars built before
+# 2026-08-10; _SERIAL_DEFAULTS are the serial dependence settings appended by the full
+# constructor of later jars.
+_LEGACY_DEFAULTS = [
     ("few_continuous_values", 5),
     ("many_discrete_levels", 10),
     ("small_cell_count", 10),
@@ -48,6 +61,16 @@ _CONFIG_DEFAULTS = [
     ("near_constant_frequency", 0.99),
     ("near_constant_variance", 1e-12),
 ]
+
+_SERIAL_DEFAULTS = [
+    ("serial_max_lag", 5),
+    ("serial_alpha", 0.01),
+    ("serial_min_abs_autocorrelation", 0.2),
+    ("min_serial_sample_size", 20),
+    ("serial_group_variable", None),
+]
+
+_CONFIG_DEFAULTS = _LEGACY_DEFAULTS + _SERIAL_DEFAULTS
 
 
 class AuditResult:
@@ -80,6 +103,24 @@ class AuditResult:
         """The JSON rendering of the findings and summary statistics."""
         return str(self.java.toJson())
 
+    @property
+    def lag1_autocorrelations(self):
+        """Lag-1 autocorrelation in file order per continuous variable name, as a dict, for
+        those variables with enough observed values (within groups, if serial_group_variable
+        was passed). Empty dict against jars that predate the serial dependence check."""
+        if not hasattr(self.java, "getLag1Autocorrelations"):
+            return {}
+        return {str(k): float(v) for k, v in self.java.getLag1Autocorrelations().items()}
+
+    @property
+    def serial_p_values(self):
+        """Ljung-Box p-value per continuous variable name, as a dict, testing the joint null
+        that the first serial_max_lag autocorrelations in file order are zero. Empty dict
+        against jars that predate the serial dependence check."""
+        if not hasattr(self.java, "getSerialDependencePValues"):
+            return {}
+        return {str(k): float(v) for k, v in self.java.getSerialDependencePValues().items()}
+
     def has(self, code):
         """True if any finding has the given code (a FindingCode name, e.g.
         'HIGH_CORRELATION')."""
@@ -99,9 +140,17 @@ def audit(df, int_as_cont=False, **thresholds):
     few_continuous_values=5, many_discrete_levels=10, small_cell_count=10,
     min_expected_pairwise_cell=5.0, high_correlation=0.9, r2_determinism=0.98,
     eta_squared_determinism=0.95, ad_alpha=0.01, min_ad_sample_size=20,
-    low_sample_ratio=5.0, near_constant_frequency=0.99, near_constant_variance=1e-12.
+    low_sample_ratio=5.0, near_constant_frequency=0.99, near_constant_variance=1e-12,
+    serial_max_lag=5, serial_alpha=0.01, serial_min_abs_autocorrelation=0.2,
+    min_serial_sample_size=20, serial_group_variable=None.
     Every finding also records the threshold it used, so results can be re-judged at other
-    thresholds without re-running."""
+    thresholds without re-running.
+
+    serial_group_variable names a discrete column (in Tetrad's typing after translation, so
+    an integer/category/object column of df unless int_as_cont interferes) within whose
+    groups row autocorrelations are computed; use it whenever the file stacks blocks such as
+    regions or subjects. Naming an absent or continuous column raises. serial_max_lag=0
+    disables the serial dependence check."""
     _require()
 
     unknown = set(thresholds) - {name for name, _ in _CONFIG_DEFAULTS}
@@ -113,7 +162,20 @@ def audit(df, int_as_cont=False, **thresholds):
 
     if thresholds:
         args = [thresholds.get(name, default) for name, default in _CONFIG_DEFAULTS]
-        config = ta.DataAudit.Config(*args)
+
+        try:
+            config = ta.DataAudit.Config(*args)
+        except TypeError:
+            # The jar predates the serial dependence settings. If none of them were
+            # explicitly requested, fall back to the legacy 12-argument constructor;
+            # otherwise the request cannot be honored.
+            if any(name in thresholds for name, _ in _SERIAL_DEFAULTS):
+                raise RuntimeError(
+                    "This tetrad-current.jar predates the serial dependence settings; "
+                    "update to a jar built from development on or after 2026-08-10 to use "
+                    f"{sorted(name for name, _ in _SERIAL_DEFAULTS)}.") from None
+            config = ta.DataAudit.Config(*args[:len(_LEGACY_DEFAULTS)])
+
         return AuditResult(ta.DataAudit(data, config))
 
     return AuditResult(ta.DataAudit(data))
