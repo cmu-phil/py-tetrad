@@ -429,8 +429,6 @@ class TetradSearch:
 
         self.java = alg.search(self.data, self.params)
 
-        print("here")
-
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_fges_mb(self, targets="", max_degree=-1, trimming_style=3,
