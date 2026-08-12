@@ -417,8 +417,27 @@ class TetradSearch:
     def print_knowledge(self):
         print(self.knowledge)
 
+    def _require_test(self, method):
+        """Raises a friendly error if no search test has been set. The algorithm wrappers
+        dereference the test deep inside the Java bootstrap machinery, so a missing test
+        otherwise surfaces as a bare NullPointerException (or, for some algorithms, a
+        misleading data-type error) long after the actual mistake."""
+        if self.TEST is None:
+            raise Exception(f"{method} requires a search test, but none has been set. Please call a "
+                            "use_* test method first (e.g. use_fisher_z(alpha=0.01)). Note that "
+                            "use_for_mc=True sets only the Markov-check test; to set both the search "
+                            "test and the Markov-check test, call the use_* test method twice, once "
+                            "without use_for_mc and once with use_for_mc=True.")
+
+    def _require_score(self, method):
+        """Raises a friendly error if no score has been set; see _require_test."""
+        if self.SCORE is None:
+            raise Exception(f"{method} requires a score, but none has been set. Please call a "
+                            "use_* score method first (e.g. use_sem_bic()).")
+
     def run_fges(self, symmetric_first_step=False, max_degree=-1, parallelized=False,
                  faithfulness_assumed=False):
+        self._require_score("run_fges")
         alg = cpdag.Fges(self.SCORE)
         alg.setKnowledge(self.knowledge)
 
@@ -433,6 +452,7 @@ class TetradSearch:
 
     def run_fges_mb(self, targets="", max_degree=-1, trimming_style=3,
                     number_of_expansions=2, faithfulness_assumed=False):
+        self._require_score("run_fges_mb")
         alg = cpdag.FgesMb(self.SCORE)
         alg.setKnowledge(self.knowledge)
 
@@ -452,6 +472,7 @@ class TetradSearch:
         self.params.set(Params.TIME_LAG, time_lag)
         self.params.set(Params.USE_DATA_ORDER, use_data_order)
         self.params.set(Params.OUTPUT_CPDAG, output_cpdag)
+        self._require_score("run_boss")
         alg = cpdag.Boss(self.SCORE)
         alg.setKnowledge(self.knowledge)
 
@@ -465,6 +486,7 @@ class TetradSearch:
         self.params.set(Params.NUM_STARTS, num_starts)
         self.params.set(Params.TRIMMING_STYLE, trimming_style)
 
+        self._require_score("run_restricted_boss")
         alg = cpdag.RestrictedBoss(self.SCORE)
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
@@ -503,10 +525,13 @@ class TetradSearch:
         self.params.set(Params.REMOVE_EFFECT_NODES, remove_effect_nodes)
         self.params.set(Params.SAMPLE_STYLE, sample_style)
 
+        self._require_test("run_cstar")
+        self._require_score("run_cstar")
         alg = cpdag.Cstar(self.TEST, self.SCORE)
         self.java = alg.search(self.data, self.params)
 
     def run_sp(self):
+        self._require_score("run_sp")
         alg = cpdag.Sp(self.SCORE)
         alg.setKnowledge(self.knowledge)
         self.java = alg.search(self.data, self.params)
@@ -525,6 +550,8 @@ class TetradSearch:
         self.params.set(Params.USE_DATA_ORDER, use_data_order)
         self.params.set(Params.NUM_STARTS, num_starts)
 
+        self._require_test("run_grasp")
+        self._require_score("run_grasp")
         alg = cpdag.Grasp(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
@@ -537,6 +564,7 @@ class TetradSearch:
         self.params.set(Params.ALLOW_BIDIRECTED, allow_bidirected)
         self.params.set(Params.COLLIDER_ORIENTATION_STYLE, collider_orientation_style)
 
+        self._require_test("run_pc")
         alg = cpdag.Pc(self.TEST)
         alg.setKnowledge(self.knowledge)
 
@@ -549,6 +577,7 @@ class TetradSearch:
         self.params.set(Params.ALLOW_BIDIRECTED, allow_bidirected)
         self.params.set(Params.COLLIDER_ORIENTATION_STYLE, 2)
 
+        self._require_test("run_pc_max")
         alg = cpdag.Pc(self.TEST)
         alg.setKnowledge(self.knowledge)
 
@@ -561,6 +590,7 @@ class TetradSearch:
         self.params.set(Params.ALLOW_BIDIRECTED, allow_bidirected)
         self.params.set(Params.COLLIDER_ORIENTATION_STYLE, 3)
 
+        self._require_test("run_cpc")
         alg = cpdag.Pc(self.TEST)
         alg.setKnowledge(self.knowledge)
 
@@ -575,6 +605,7 @@ class TetradSearch:
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
         self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
 
+        self._require_test("run_fci")
         alg = pag.Fci(self.TEST)
         alg.setKnowledge(self.knowledge)
 
@@ -587,6 +618,7 @@ class TetradSearch:
         self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
 
+        self._require_test("run_rfci")
         alg = pag.Rfci(self.TEST)
         alg.setKnowledge(self.knowledge)
 
@@ -602,6 +634,8 @@ class TetradSearch:
         self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
         self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
 
+        self._require_test("run_gfci")
+        self._require_score("run_gfci")
         alg = pag.Gfci(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
@@ -617,6 +651,8 @@ class TetradSearch:
         self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
         self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
 
+        self._require_test("run_fges_fci")
+        self._require_score("run_fges_fci")
         alg = pag.Gfci(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
@@ -630,6 +666,8 @@ class TetradSearch:
         self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
         self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
 
+        self._require_test("run_bfci")
+        self._require_score("run_bfci")
         alg = pag.Bfci(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
@@ -645,6 +683,7 @@ class TetradSearch:
         self.params.set(Params.OUTPUT_CPDAG, output_cpdag)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used),
 
+        self._require_score("run_lv_heuristic")
         alg = pag.LvHeuristic(self.SCORE)
 
         alg.setKnowledge(self.knowledge)
@@ -663,6 +702,8 @@ class TetradSearch:
         self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
         self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
 
+        self._require_test("run_fcit")
+        self._require_score("run_fcit")
         alg = pag.Fcit(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
@@ -693,6 +734,8 @@ class TetradSearch:
         self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
 
+        self._require_test("run_grasp_fci")
+        self._require_score("run_grasp_fci")
         alg = pag.GraspFci(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
@@ -706,6 +749,8 @@ class TetradSearch:
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
 
+        self._require_test("run_sp_fci")
+        self._require_score("run_sp_fci")
         alg = pag.SpFci(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
@@ -747,6 +792,7 @@ class TetradSearch:
         self.params.set(Params.FASK_LEFT_RIGHT_RULE, left_right_rule)
         self.params.set(Params.SKEW_EDGE_THRESHOLD, skew_edge_threshold)
 
+        self._require_score("run_fask")
         alg = dag.Fask(self.SCORE)
         alg.setKnowledge(self.knowledge)
         self.java = alg.search(self.data, self.params)
@@ -811,6 +857,7 @@ class TetradSearch:
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.APPLY_R1, apply_r1)
 
+        self._require_test("run_ccd")
         alg = pag.Ccd(self.TEST)
         alg.setKnowledge(self.knowledge)
         self.java = alg.search(self.data, self.params)
@@ -828,6 +875,7 @@ class TetradSearch:
         # self.bootstrap_graphs = svar_fci.getBootstrapGraphs()
 
     def run_direct_lingam(self):
+        self._require_score("run_direct_lingam")
         alg = dag.DirectLingam(self.SCORE)
 
         self.java = alg.search(self.data, self.params)
@@ -997,6 +1045,7 @@ class TetradSearch:
         return facts
 
     def all_subsets_dependence_facts(self, graph):
+        self._require_test("all_subsets_dependence_facts")
         mconn = ts.MarkovCheck.getAllSubsetsIndependenceFacts(graph, self.TEST,
                                                               ts.ConditioningSetType.LOCAL_MARKOV).getMconn()
 
