@@ -1,6 +1,15 @@
 ## This script assumes that the user has pip-installed the pytetrad package. Here is how:
 ## pip install git+https://github.com/cmu-phil/py-tetrad
 
+## NOTE: IMaGES is no longer a separate algorithm in the Tetrad interface. Pooling several data
+## sets that share a causal structure (what IMaGES did, via a summed score) is now a general
+## capability of any score- or test-based search, requested via TetradSearch.add_data_set(...) and
+## TetradSearch.set_pool_data_sets(True) -- see pooled_data_sets_example.py for the current,
+## recommended way to do this. This script is kept as a low-level demonstration of the raw JPype
+## API (multi.Images is still present in the jar; it is just no longer registered in the GUI's
+## algorithm list), for anyone working directly against edu.cmu.tetrad.algcomparison.algorithm.multi
+## rather than through TetradSearch.
+
 import pandas as pd
 
 import importlib.resources as importlib_resources

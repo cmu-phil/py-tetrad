@@ -72,6 +72,12 @@ class TetradSearch:
         self.params = Parameters()
         self.bootstrap_graphs = None
 
+        # Additional data sets registered for pooling (IMaGES-style for a score-based search, Fisher/Tippett
+        # p-value combination for a test-based search); see add_data_set and set_pool_data_sets. All pooled data
+        # sets, including the primary one passed to the constructor, must have the same variables.
+        self.pooled_data_sets = []
+        self.pool_data_sets = False
+
     def __str__(self):
         display = [self.SCORE, self.TEST, self.knowledge, self.java]
         return "\n\n".join([str(item) for item in display])
@@ -446,7 +452,7 @@ class TetradSearch:
         self.params.set(Params.PARALLELIZED, parallelized)
         self.params.set(Params.FAITHFULNESS_ASSUMED, faithfulness_assumed)
 
-        self.java = alg.search(self.data, self.params)
+        self.java = alg.search(self._search_data(), self.params)
 
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
@@ -476,7 +482,7 @@ class TetradSearch:
         alg = cpdag.Boss(self.SCORE)
         alg.setKnowledge(self.knowledge)
 
-        self.java = alg.search(self.data, self.params)
+        self.java = alg.search(self._search_data(), self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_restricted_boss(self, targets="", use_bes=False, num_starts=1,
@@ -534,7 +540,7 @@ class TetradSearch:
         self._require_score("run_sp")
         alg = cpdag.Sp(self.SCORE)
         alg.setKnowledge(self.knowledge)
-        self.java = alg.search(self.data, self.params)
+        self.java = alg.search(self._search_data(), self.params)
         alg.setKnowledge(self.knowledge)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
@@ -555,7 +561,7 @@ class TetradSearch:
         alg = cpdag.Grasp(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
-        self.java = alg.search(self.data, self.params)
+        self.java = alg.search(self._search_data(), self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_pc(self, depth=-1, stable_fas=True, allow_bidirected=False, collider_orientation_style=3):
@@ -568,7 +574,7 @@ class TetradSearch:
         alg = cpdag.Pc(self.TEST)
         alg.setKnowledge(self.knowledge)
 
-        self.java = alg.search(self.data, self.params)
+        self.java = alg.search(self._search_data(), self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_pc_max(self, depth=-1, stable_fas=True, allow_bidirected=False):
@@ -581,7 +587,7 @@ class TetradSearch:
         alg = cpdag.Pc(self.TEST)
         alg.setKnowledge(self.knowledge)
 
-        self.java = alg.search(self.data, self.params)
+        self.java = alg.search(self._search_data(), self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_cpc(self, depth=-1, stable_fas=True, allow_bidirected=False):
@@ -594,7 +600,7 @@ class TetradSearch:
         alg = cpdag.Pc(self.TEST)
         alg.setKnowledge(self.knowledge)
 
-        self.java = alg.search(self.data, self.params)
+        self.java = alg.search(self._search_data(), self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_fci(self, depth=-1, stable_fas=True, max_disc_path_length=-1, complete_rule_set_used=True,
@@ -609,7 +615,7 @@ class TetradSearch:
         alg = pag.Fci(self.TEST)
         alg.setKnowledge(self.knowledge)
 
-        self.java = alg.search(self.data, self.params)
+        self.java = alg.search(self._search_data(), self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_rfci(self, depth=-1, stable_fas=True, max_disc_path_length=-1, complete_rule_set_used=True, ):
@@ -622,7 +628,7 @@ class TetradSearch:
         alg = pag.Rfci(self.TEST)
         alg.setKnowledge(self.knowledge)
 
-        self.java = alg.search(self.data, self.params)
+        self.java = alg.search(self._search_data(), self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     # This is GFCI with the possible d-sep step.
@@ -639,7 +645,7 @@ class TetradSearch:
         alg = pag.Gfci(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
-        self.java = alg.search(self.data, self.params)
+        self.java = alg.search(self._search_data(), self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     # This is GFCI without the possible d-sep step
@@ -656,7 +662,7 @@ class TetradSearch:
         alg = pag.Gfci(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
-        self.java = alg.search(self.data, self.params)
+        self.java = alg.search(self._search_data(), self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_bfci(self, depth=-1, max_disc_path_length=-1, complete_rule_set_used=True,
@@ -671,7 +677,7 @@ class TetradSearch:
         alg = pag.Bfci(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
-        self.java = alg.search(self.data, self.params)
+        self.java = alg.search(self._search_data(), self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_lv_heuristic(self, num_starts=1, use_bes=False, time_lag=0, use_data_order=True,
@@ -688,7 +694,7 @@ class TetradSearch:
 
         alg.setKnowledge(self.knowledge)
 
-        self.java = alg.search(self.data, self.params)
+        self.java = alg.search(self._search_data(), self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_fcit(self, num_starts=1, max_blocking_path_length=5, depth=5, max_disc_path_length=5,
@@ -707,7 +713,7 @@ class TetradSearch:
         alg = pag.Fcit(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
-        self.java = alg.search(self.data, self.params)
+        self.java = alg.search(self._search_data(), self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_grasp_fci(self, depth=-1, stable_fas=True,
@@ -739,7 +745,7 @@ class TetradSearch:
         alg = pag.GraspFci(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
-        self.java = alg.search(self.data, self.params)
+        self.java = alg.search(self._search_data(), self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_sp_fci(self, max_disc_path_length=-1, complete_rule_set_used=True, depth=-1,
@@ -754,7 +760,7 @@ class TetradSearch:
         alg = pag.SpFci(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
-        self.java = alg.search(self.data, self.params)
+        self.java = alg.search(self._search_data(), self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_lingam(self, ica_a=1.1, ica_max_iter=5000, ica_tolerance=1e-8, threshold_b=0.1):
@@ -925,6 +931,67 @@ class TetradSearch:
 
     def set_data(self, data):
         self.data = tr.pandas_data_to_tetrad(data)
+
+    def add_data_set(self, df):
+        """
+        Registers an additional data set to pool with the primary one on the next run_* call, if
+        set_pool_data_sets(True) has been called. All pooled data sets must have the same variables, in the same
+        order, as the primary data set (the one passed to the TetradSearch constructor or set via set_data).
+
+        Pooling replaces IMaGES as a general mechanism: for a score-based search (e.g. run_boss with use_sem_bic),
+        pooling sums the score across data sets, exactly reproducing what a dedicated IMaGES algorithm would have
+        done. For a test-based search (e.g. run_pc with use_fisher_z), pooling combines the per-data-set p-values
+        for each independence fact via set_pooled_test_method ("fisher", the default, or "tippett"). Time lag, if
+        set on the search method, is applied to each data set separately before pooling, so a lagged multi-region
+        analysis does not create a false transition at the seam between regions.
+
+        :param df: a pandas DataFrame with the same variables as the primary data set.
+        """
+        self.pooled_data_sets.append(tr.pandas_data_to_tetrad(df))
+
+    def clear_pooled_data_sets(self):
+        """Removes all data sets registered via add_data_set. Does not affect the primary data set."""
+        self.pooled_data_sets = []
+
+    def set_pool_data_sets(self, pool=True):
+        """
+        If True, and one or more additional data sets have been registered via add_data_set, the next run_* call
+        pools the primary data set together with all registered ones into a single search, instead of searching the
+        primary data set alone. Has no effect if no additional data sets have been registered. See add_data_set.
+
+        :param pool: whether to pool.
+        """
+        self.pool_data_sets = pool
+
+    def set_pooled_test_method(self, method="fisher"):
+        """
+        Selects how per-data-set p-values are combined for a pooled test-based search (see add_data_set,
+        set_pool_data_sets). "fisher" (the default) is the most powerful choice when a dependence, if present, is
+        present in all the pooled data sets, and its power increases with the number of data sets. "tippett" (the
+        minimum p-value, Sidak-adjusted for the number of data sets) is more powerful when a dependence is present
+        in only some of the data sets, at a small cost in power when it is present in all of them. Has no effect on
+        a score-based pooled search (e.g. run_boss with use_sem_bic), whose pooling is a sum of scores, not a
+        p-value combination.
+
+        :param method: "fisher" or "tippett".
+        """
+        self.params.set(Params.POOLED_TEST_METHOD, method)
+
+    def _search_data(self):
+        """
+        Internal. Returns the data model to hand to alg.search(...): the primary data set, unless pooling is
+        requested (set_pool_data_sets(True)) and one or more additional data sets are registered, in which case a
+        DataModelList of the primary data set followed by the registered ones is returned. Passing a DataModelList
+        with more than one element to an AbstractBootstrapAlgorithm's search method is itself the request to pool;
+        no other flag is required at that layer.
+        """
+        if self.pool_data_sets and len(self.pooled_data_sets) > 0:
+            data_model_list = td.DataModelList()
+            data_model_list.add(self.data)
+            for d in self.pooled_data_sets:
+                data_model_list.add(d)
+            return data_model_list
+        return self.data
 
     def set_verbose(self, verbose):
         self.params.set(Params.VERBOSE, verbose)
