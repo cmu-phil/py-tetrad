@@ -141,12 +141,18 @@ class TetradSearch:
         self.params.set(Params.STRUCTURE_PRIOR, structure_prior)
         self.SCORE = score_.BdeuScore()
 
+    # effective_sample_size: -1 to use the actual row count. Otherwise the score behaves as if the data
+    # consisted of that many independent rows (likelihood scaled by nEff / N, penalty uses nEff); use when rows
+    # are serially dependent, clustered, or interpolated. Requires a tetrad jar dated 2026-8-25 or later; earlier
+    # jars ignore it. min_sample_size_per_cell: smallest discrete cell the CG likelihood will fit (default 4).
     def use_conditional_gaussian_score(self, penalty_discount=1, discretize=True, num_categories_to_discretize=3,
-                                       structure_prior=0):
+                                       structure_prior=0, min_sample_size_per_cell=4, effective_sample_size=-1):
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
         self.params.set(Params.STRUCTURE_PRIOR, structure_prior)
         self.params.set(Params.DISCRETIZE, discretize)
         self.params.set(Params.NUM_CATEGORIES_TO_DISCRETIZE, num_categories_to_discretize)
+        self.params.set(Params.MIN_SAMPLE_SIZE_PER_CELL, min_sample_size_per_cell)
+        self.params.set(Params.EFFECTIVE_SAMPLE_SIZE, effective_sample_size)
         self.SCORE = score_.ConditionalGaussianBicScore()
 
     # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
@@ -302,12 +308,18 @@ class TetradSearch:
         else:
             self.TEST = ind_.GSquare()
 
+    # effective_sample_size: -1 to use the actual row count; otherwise the LRT statistic is scaled by nEff / N
+    # (see use_conditional_gaussian_score). Requires a tetrad jar dated 2026-8-25 or later; earlier jars ignore it.
+    # Before 2026-8-25 this method also set self.TEST unconditionally, so use_for_mc=True silently replaced a
+    # search test chosen earlier; it now sets only the test the caller asked for.
     def use_conditional_gaussian_test(self, alpha=0.01, discretize=True,
-                                      num_categories_to_discretize=3, use_for_mc=False):
+                                      num_categories_to_discretize=3, use_for_mc=False,
+                                      min_sample_size_per_cell=4, effective_sample_size=-1):
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.DISCRETIZE, discretize)
         self.params.set(Params.NUM_CATEGORIES_TO_DISCRETIZE, num_categories_to_discretize)
-        self.TEST = ind_.ConditionalGaussianLrt()
+        self.params.set(Params.MIN_SAMPLE_SIZE_PER_CELL, min_sample_size_per_cell)
+        self.params.set(Params.EFFECTIVE_SAMPLE_SIZE, effective_sample_size)
 
         if use_for_mc:
             self.MC_TEST = ind_.ConditionalGaussianLrt()
