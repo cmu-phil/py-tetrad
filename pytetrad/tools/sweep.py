@@ -37,15 +37,21 @@ Typical use:
     print(report.point_graph(i))
 """
 
+import jpype
 import jpype.imports
 
-try:
-    jpype.startJVM(classpath=["resources/tetrad-current.jar"])
-except OSError:
-    pass
+# Start the JVM on the package's own jar (works both pip-installed and from the source tree);
+# the same block as translate.py, so whichever tools module is imported first wins harmlessly.
+import importlib.resources as importlib_resources
+_jar_path = str(importlib_resources.files('pytetrad').joinpath('resources', 'tetrad-current.jar'))
+if not jpype.isJVMStarted():
+    try:
+        jpype.startJVM(jpype.getDefaultJVMPath(), "-ea",
+                       "--enable-native-access=ALL-UNNAMED", classpath=[_jar_path])
+    except OSError:
+        print("can't load jvm")
 
 import pandas as pd
-import jpype
 
 import edu.cmu.tetrad.algcomparison.sweep as tsweep
 import edu.cmu.tetrad.algcomparison.algorithm.oracle.cpdag as cpdag
