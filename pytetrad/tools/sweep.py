@@ -9,6 +9,13 @@ The sweep executes and measures; it does not decide. The selection helpers on Sw
 overridable decision rules, and choosing a setting remains the user's call - see
 TETRAD_ANALYSIS_GUIDE.md and Zheng et al. (2026), arXiv:2606.23608.
 
+Block resampling: when rows are grouped into units that are exchangeable with each other but
+dependent within (subjects with repeated measurements, time-series segments, sites), row
+resampling overstates stability. Pass resample_by=labels (any array-like with one label per
+row, e.g. df["subject"] before you drop that column) and resamples are drawn as whole groups,
+with percent_resample_size and with_replacement applied to groups. Requires a jar built on or
+after 2026-08-25.
+
 Reproducibility: under a fixed seed the resampled row sets are exactly reproducible, but
 end-to-end reproducibility of the report additionally requires the searched algorithm to be
 deterministic; algorithms with internal thread pools (e.g. FGES) can break score near-ties
@@ -38,6 +45,7 @@ except OSError:
     pass
 
 import pandas as pd
+import jpype
 
 import edu.cmu.tetrad.algcomparison.sweep as tsweep
 import edu.cmu.tetrad.algcomparison.algorithm.oracle.cpdag as cpdag
@@ -163,6 +171,11 @@ class SweepReport:
         evidence."""
         return self._index_of(self.java.selectByMarkovAdequacy())
 
+    @property
+    def num_resample_groups(self):
+        """The number of distinct groups if resampling was by block (resample_by), else -1."""
+        return int(self.java.getNumResampleGroups()) if hasattr(self.java, "getNumResampleGroups") else -1
+
     def _index_of(self, result):
         if result is None:
             return None
@@ -185,7 +198,8 @@ def _unbox(v):
 
 def sweep(search, algorithm, parameter, values, parameter2=None, values2=None,
           num_resamples=50, percent_resample_size=1.0, with_replacement=True, seed=-1,
-          markov_check=True, conditioning_set_type=None, parallelized=True, verbose=False):
+          markov_check=True, conditioning_set_type=None, parallelized=True, verbose=False,
+          resample_by=None):
     """Sweeps one parameter (or the cross product of two) of the named algorithm and
     returns a SweepReport.
 
@@ -204,7 +218,16 @@ def sweep(search, algorithm, parameter, values, parameter2=None, values2=None,
     are drawn once and shared across settings, so instability comparisons are paired;
     seed >= 0 makes the draws reproducible. markov_check runs the Markov check on each
     point graph with the TetradSearch's MC test; conditioning_set_type is a
-    ts.ConditioningSetType or its name (default ORDERED_LOCAL_MARKOV_PROPERTY)."""
+    ts.ConditioningSetType or its name (default ORDERED_LOCAL_MARKOV_PROPERTY).
+
+    resample_by: None for row resampling (default), or an array-like with one group label
+    per row of the search's data (any hashable labels; a pandas Series, list, or numpy
+    array). Resamples are then drawn as whole groups - all rows of each drawn group, in
+    order - so that instability and edge probabilities reflect between-group variation
+    rather than treating dependent rows as independent evidence. percent_resample_size and
+    with_replacement apply to the number of groups. The label array is not part of the data
+    searched; if the labels live in a column of your DataFrame, drop that column before
+    constructing the TetradSearch and pass the column here."""
     _require()
 
     alg = _build_algorithm(search, algorithm)
@@ -217,6 +240,16 @@ def sweep(search, algorithm, parameter, values, parameter2=None, values2=None,
     harness.setSeed(int(seed))
     harness.setParallelized(bool(parallelized))
     harness.setVerbose(bool(verbose))
+
+    if resample_by is not None:
+        if not hasattr(harness, "setResampleGroups"):
+            raise RuntimeError("resample_by requires a tetrad-current.jar built from development "
+                               "on or after 2026-08-25 (ParameterSweep.setResampleGroups).")
+        codes, _ = pd.factorize(pd.Series(list(resample_by)), sort=False)
+        n = int(search.data.getNumRows())
+        if len(codes) != n:
+            raise ValueError(f"resample_by has {len(codes)} labels but the data has {n} rows.")
+        harness.setResampleGroups(jpype.JArray(jpype.JInt)([int(c) for c in codes]))
 
     if markov_check:
         if search.MC_TEST is None:
