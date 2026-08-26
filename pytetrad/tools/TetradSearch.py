@@ -17,6 +17,7 @@ from networkx.algorithms.structuralholes import effective_size
 #         pass
 
 import pytetrad.tools.translate as tr
+import pytetrad.tools.gregression as gregression
 import edu.cmu.tetrad.search as ts
 import edu.cmu.tetrad.data as td
 import edu.cmu.tetrad.graph as gr
@@ -1205,4 +1206,36 @@ class TetradSearch:
                             near_which_endpoint=1, max_path_length=20, heckel_pruning=False, o_set_compatible=False):
         return graph.paths().adjustmentSets(source, graph_type, target, max_num_sets, max_distance_from_point,
                                              near_which_endpoint, max_path_length, heckel_pruning, o_set_compatible)
+
+    def get_gregression(self, graph=None, use_knowledge=False):
+        """
+        Returns a pytetrad.tools.gregression.GRegression estimator (Guo and Perkovic's efficient least
+        squares for total effects) over this search's data and the given graph, which defaults to the
+        graph from the last search and must be an MPDAG (a CPDAG or DAG qualifies). If use_knowledge is
+        True, the search's knowledge is imposed on the graph and Meek-closed first, so that, e.g., a CPDAG
+        from a search run without knowledge can be refined by orientations known from background.
+
+        Then, e.g., est.is_identified(["X3"], "X7"), est.total_effect(["X3"], "X7"), or
+        est.bootstrap(["X3", "X5"], "X7", num_bootstraps=200). See the gregression module for details.
+        """
+        if graph is None:
+            graph = self.java
+        if graph is None:
+            raise ValueError("No graph given and no search has been run.")
+        if use_knowledge:
+            graph = gregression.orient_with_knowledge(graph, self.knowledge)
+        return gregression.GRegression(graph, data=self.data)
+
+    def get_total_effect(self, treatments, outcome, graph=None, use_knowledge=False, num_bootstraps=0, seed=None):
+        """
+        The G-regression estimate of the total effect of treatments (a name or list of names) on outcome
+        in the given MPDAG (default: the last search result). With num_bootstraps > 0, returns a dict with
+        the estimate, bootstrap standard errors, and bootstrap covariance; otherwise a pandas Series indexed
+        by treatment (a float if a single treatment name is given). Raises ValueError if the effect is not
+        identified in the graph.
+        """
+        est = self.get_gregression(graph, use_knowledge)
+        if num_bootstraps > 0:
+            return est.bootstrap(treatments, outcome, num_bootstraps, seed)
+        return est.total_effect(treatments, outcome)
 
