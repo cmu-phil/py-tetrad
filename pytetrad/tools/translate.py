@@ -93,7 +93,12 @@ def tetrad_data_to_pandas(data: td.DataSet):
 
     for row in range(data.getNumRows()):
         for col in range(data.getNumColumns()):
-            df.at[row, columns_[col]] = data.getObject(row, col)
+            value = data.getObject(row, col)
+            # Java Strings (string-category discrete columns) must be coerced to
+            # Python str, or pandas will store them as tuples of characters.
+            if isinstance(value, jpype.JString):
+                value = str(value)
+            df.at[row, columns_[col]] = value
 
     return df
 
