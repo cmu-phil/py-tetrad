@@ -1,9 +1,10 @@
-"""Parametric-bootstrap null reference for the Markov check (prototype).
+"""Parametric-bootstrap null reference for the Markov check.
 
-Given a dataset, a DAG D, and a Markov-check test configuration, this module
-fits a simulator to (data, D), simulates B datasets that satisfy D's
-factorization by construction, runs the identical Markov check on each, and
-reports where the real data's check statistic falls in that null distribution.
+This module is a thin Python front end for edu.cmu.tetrad.search.MarkovCheckNullReference
+(requires a tetrad-current.jar containing that class). Given a dataset, a DAG D, and a
+Markov-check test configuration, the Java side fits a simulator to (data, D), simulates B
+datasets that satisfy D's factorization by construction, runs the identical Markov check on
+each, and reports where the real data's check statistic falls in that null distribution.
 
 Simulators:
   "gnm"    -- edu.cmu.tetrad.sem.TrainedDagSimulatorGNM (NN mechanisms, bootstrapped
@@ -18,55 +19,63 @@ Read-out per test:
   simulator leakage; compare with the linear null to separate those.
   Null ad_inds clustered near 1 => broken simulator (lost sampling variation).
 
-This module reports statistics only; decisions about the model belong to the
-user. Typical use:
+The reference inherits the Markov check's one-sidedness: it certifies the implied
+independencies, not the dependencies that missing edges fail to imply. It sharpens
+"fails Markov" into a diagnosis; it does not turn "passes Markov" into an endorsement.
+This module reports statistics only; decisions about the model belong to the user.
+
+Typical use:
 
     import pytetrad.tools.TetradSearch as ts
     import pytetrad.tools.sweep as sw
-    import null_reference as nr
+    import pytetrad.tools.null_reference as nr
 
     def mc_test(s):  # the same test used for the sweep's Markov check
         s.use_basis_function_lrt(truncation_limit=3, alpha=0.01, use_for_mc=True)
 
     report = sw.sweep(search, "boss", "penaltyDiscount", [1, 2, 4], ...)
-    i = report.select_by_markov_adequacy()
-    ref = nr.for_sweep(df, report, i, mc_test, B=50)   # null ref for the selected graph
+    i = report.select_by_markov_adequacy()   # a defaulted decision; yours to override
+    ref = nr.for_sweep(df, report, i, mc_test, B=50)
     print(ref.report)
 """
 
-import time
 import numpy as np
-import pandas as pd
 
 import pytetrad.tools.TetradSearch as ts
 import pytetrad.tools.translate as tr
 import jpype.imports  # noqa: F401  (JVM started by the imports above)
 
+_SIMULATORS = ("gnm", "linear")
+
 
 class NullReferenceReport:
-    """Holds the real-data check statistics and the null distributions."""
+    """Holds the real-data check statistics and the null distributions (mirrors the
+    fields of the Java Result; the Java object itself is kept as .java)."""
 
-    def __init__(self, dag, B, simulator, real, null_ad, null_frac, timings):
-        self.dag = dag                    # the checked DAG (java Graph)
-        self.B = B
+    def __init__(self, java_result, simulator):
+        self.java = java_result
+        self.dag = java_result.getDag()
+        self.B = int(java_result.getNumDraws())
         self.simulator = simulator
-        self.real_ad_ind = real[0]        # AD p for uniformity of independence-fact p-values
-        self.real_frac_dep = real[1]      # fraction of independence facts judged dependent
-        self.null_ad_ind = list(null_ad)
-        self.null_frac_dep = list(null_frac)
-        self.timings = dict(timings)      # seconds: fit, simulate, check
+        self.real_ad_ind = float(java_result.getRealAdInd())
+        self.real_frac_dep = float(java_result.getRealFractionDependent())
+        self.null_ad_ind = [float(v) for v in java_result.getNullAdInd()]
+        self.null_frac_dep = [float(v) for v in java_result.getNullFractionDependent()]
+        self.timings = {"fit": java_result.getFitMillis() / 1000.0,
+                        "simulate": java_result.getSimulateMillis() / 1000.0,
+                        "check": java_result.getCheckMillis() / 1000.0}
 
     @property
     def empirical_p(self):
         """Fraction of null draws with ad_ind <= the real ad_ind (small => real is
         atypically bad for the null; resolution is 1/B)."""
-        return float(np.mean([x <= self.real_ad_ind for x in self.null_ad_ind]))
+        return float(self.java.getEmpiricalP())
 
     @property
     def empirical_p_frac(self):
         """Same idea on the rejection fraction (large fractions are bad, so the
         tail is >=)."""
-        return float(np.mean([x >= self.real_frac_dep for x in self.null_frac_dep]))
+        return float(self.java.getEmpiricalPFraction())
 
     @property
     def report(self):
@@ -86,66 +95,47 @@ class NullReferenceReport:
         return self.report
 
 
-def _check(df, dag, configure):
-    """Run the Markov check with the configured test; return (ad_ind, frac_dep_ind)."""
-    s = ts.TetradSearch(df)
-    configure(s)
-    res = s.markov_check(dag)
-    return float(res[0]), float(res[6])
-
-
 def null_reference(df, graph, configure, B=50, simulator="gnm", n_sim=None,
-                   base_seed=1000, gnm_params=None, verbose=False):
+                   base_seed=1000, gnm_params=None,
+                   condition_set_type=None):
     """Compute a parametric-bootstrap null reference for the Markov check.
 
     df        : pandas DataFrame (the real data; dtypes per py-tetrad conventions).
-    graph     : java Graph. A CPDAG is converted to a member DAG via dagFromCpdag;
+    graph     : java Graph. A CPDAG is converted to a member DAG on the Java side;
                 the DAG actually checked is available as report.dag.
     configure : callable(TetradSearch) that sets the Markov-check test with
                 use_for_mc=True -- the same configuration used on the real data.
     B         : number of null draws (empirical-p resolution is 1/B).
     simulator : "gnm" or "linear".
     n_sim     : rows per simulated dataset (default: len(df)).
+    base_seed : draw b uses seed base_seed + b (gnm); applied once to RandomUtil (linear).
+    gnm_params: a TrainedDagSimulatorGNM.Params, or None for defaults.
+    condition_set_type : an edu.cmu.tetrad.search.ConditioningSetType
+                (default ORDERED_LOCAL_MARKOV_PROPERTY, matching TetradSearch.markov_check).
     """
-    from edu.cmu.tetrad.graph import GraphTransforms
-    from edu.cmu.tetrad.sem import SemPm, SemEstimator, TrainedDagSimulatorGNM
+    from edu.cmu.tetrad.search import MarkovCheckNullReference, ConditioningSetType
 
-    n_sim = n_sim or len(df)
-    dag = graph if graph.paths().isLegalDag() else GraphTransforms.dagFromCpdag(graph)
+    if simulator not in _SIMULATORS:
+        raise ValueError(f"unknown simulator: {simulator} (expected one of {_SIMULATORS})")
+
+    # Harvest the Markov-check test wrapper + parameters from a configured TetradSearch,
+    # so the null draws are checked with exactly the test used on the real data.
+    s = ts.TetradSearch(df)
+    configure(s)
+    if s.MC_TEST is None:
+        raise Exception("A test for the Markov Checker has not been set. In 'configure', call a "
+                        "use_{test name} method with use_for_mc=True.")
+
+    sim_type = (MarkovCheckNullReference.SimulatorType.TRAINED_DAG_GNM if simulator == "gnm"
+                else MarkovCheckNullReference.SimulatorType.LINEAR_SEM)
+    cst = condition_set_type or ConditioningSetType.ORDERED_LOCAL_MARKOV_PROPERTY
+
     data_j = tr.pandas_data_to_tetrad(df)
+    result = MarkovCheckNullReference.compute(
+        data_j, graph, s.MC_TEST, s.params, cst, sim_type,
+        int(B), int(n_sim) if n_sim else -1, int(base_seed), gnm_params)
 
-    real = _check(df, dag, configure)
-
-    t0 = time.time()
-    if simulator == "gnm":
-        params = gnm_params or TrainedDagSimulatorGNM.Params()
-        model = TrainedDagSimulatorGNM(data_j, dag, params)
-        model.fit()
-        draw = lambda b: tr.tetrad_data_to_pandas(
-            model.simulate(n_sim, base_seed + b).toDataSet()).astype(float)
-    elif simulator == "linear":
-        sem_im = SemEstimator(data_j, SemPm(dag)).estimate()
-        draw = lambda b: tr.tetrad_data_to_pandas(
-            sem_im.simulateData(n_sim, False)).astype(float)
-    else:
-        raise ValueError(f"unknown simulator: {simulator}")
-    t_fit = time.time() - t0
-
-    null_ad, null_frac, t_sim, t_chk = [], [], 0.0, 0.0
-    for b in range(B):
-        t0 = time.time()
-        sim_df = draw(b)
-        t_sim += time.time() - t0
-        t0 = time.time()
-        ad, frac = _check(sim_df, dag, configure)
-        t_chk += time.time() - t0
-        null_ad.append(ad)
-        null_frac.append(frac)
-        if verbose:
-            print(f"  draw {b + 1}/{B}: ad_ind = {ad:.4f}, frac = {frac:.3f}")
-
-    return NullReferenceReport(dag, B, simulator, real, null_ad, null_frac,
-                               {"fit": t_fit, "simulate": t_sim, "check": t_chk})
+    return NullReferenceReport(result, simulator)
 
 
 def for_sweep(df, sweep_report, index, configure, **kwargs):
