@@ -19,6 +19,7 @@ from networkx.algorithms.structuralholes import effective_size
 import pytetrad.tools.translate as tr
 import pytetrad.tools.gregression as gregression
 import edu.cmu.tetrad.search as ts
+import java.util as jutil
 import edu.cmu.tetrad.data as td
 import edu.cmu.tetrad.graph as gr
 import edu.cmu.tetrad.graph.GraphSaveLoadUtils as gp
@@ -1150,7 +1151,8 @@ class TetradSearch:
         return facts
 
     def markov_check(self, graph, fraction_resample=1, condition_set_type=ts.ConditioningSetType.ORDERED_LOCAL_MARKOV_PROPERTY,
-                     removeExtraneous=False, parallelized=True, effective_sample_size=-1):
+                     removeExtraneous=False, parallelized=True, effective_sample_size=-1,
+                     per_fact_ess=False, ess_block_columns=None):
         if self.MC_TEST == None:
             raise Exception("A test for the Markov Checker has not been set. Please call as use_{test name} method setting the parmaeter 'use_for_mc' to True")
 
@@ -1171,6 +1173,21 @@ class TetradSearch:
         # IndTestBasisFunctionBlocks (earlier jars reset the value when rows are set).
         if effective_sample_size != -1:
             mc.setEffectiveSampleSize(effective_sample_size)
+
+        # Per-fact effective sample sizes from block structure (see
+        # edu.cmu.tetrad.search.utils.PerFactEss). Each implied fact is tested at an
+        # effective sample size computed from how its variables sit in the blocks defined
+        # by the distinct joint values of ess_block_columns; overrides
+        # effective_sample_size per fact, and forces sequential fact evaluation.
+        if per_fact_ess:
+            if not ess_block_columns:
+                raise Exception("per_fact_ess=True requires ess_block_columns, a list of "
+                                "column names whose distinct joint values define the blocks.")
+            cols = jutil.ArrayList()
+            for c in ess_block_columns:
+                cols.add(c)
+            mc.setEssBlockColumns(cols)
+            mc.setPerFactEss(True)
 
         mc.generateAllResults()
 
