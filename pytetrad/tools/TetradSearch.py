@@ -365,11 +365,56 @@ class TetradSearch:
         else:
             self.TEST = ind_.Kci()
 
-    def use_test(self, test, use_for_mc=False):
+    def use_trff_lr_test(self, alpha=0.01, trff_ridge=0.001, trff_ff_features=100, penalty_discount=1,
+                         symmetrized=True, effective_sample_size=-1, use_for_mc=False):
+        """Likelihood-ratio CI test on nested TRffBicScore local fits (TRFF-LR-Test, 2026-8).
+
+        The reduced (Y ~ Z) and full (Y ~ Z + X) models are fit on a shared design in which
+        the reduced columns are a prefix of the full columns, so the models are nested and
+        the LR statistic is nonnegative. Continuous targets are referred to an F
+        distribution (the chi-square reference fails under per-model scale profiling when
+        the added block is not small relative to n); discrete targets use the chi-square on
+        the deviance. symmetrized=True (the default) computes both directions and reports
+        the more conservative p-value, so results do not depend on argument order;
+        symmetrized=False halves the cost but makes the test asymmetric. Note trff_ridge
+        both regularizes the fits and controls the effective-dof charge, so it materially
+        affects power; the test's calibration was established at trff_ridge=0.001.
+        Experimental; heavy inside constraint-based searches at large trff_ff_features."""
+        self.params.set(Params.ALPHA, alpha)
+        self.params.set(Params.MINIMAX_RIDGE, trff_ridge)
+        self.params.set(Params.MINIMAX_FF_FEATURES, trff_ff_features)
+        self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
+        self.params.set(Params.TRFF_SYMMETRIZED, symmetrized)
+        self.params.set(Params.EFFECTIVE_SAMPLE_SIZE, effective_sample_size)
+
         if use_for_mc:
-            self.MC_TEST = test
+            self.MC_TEST = ind_.TRffLrTest()
         else:
-            self.TEST = test
+            self.TEST = ind_.TRffLrTest()
+
+    def use_minimax_ci_test(self, alpha=0.01, use_adaptive_z_bins=True, bins_per_cont_z=16,
+                            bins_per_cont_xy=8, min_stratum_size=20, minimax_permutations=200,
+                            use_for_mc=False):
+        """Stratified permutation CI test (Minimax Conditional Independence Test, 2026-8).
+
+        Continuous conditioning variables are binned and X is permuted within each stratum,
+        so no functional-form assumptions are made about the dependence on Z. With
+        use_adaptive_z_bins=True (the default, recommended) the bin count per continuous Z
+        grows at the n^(2/5) rate of Neykov, Balakrishnan & Wasserman (2021), which is
+        required for level control; bins_per_cont_z applies only when adaptive binning is
+        off. Intended scope: |Z| of at most about two continuous variables, n >= ~1000,
+        spot checks of individual facts rather than use inside a search."""
+        self.params.set(Params.ALPHA, alpha)
+        self.params.set(Params.USE_ADAPTIVE_Z_BINS, use_adaptive_z_bins)
+        self.params.set(Params.BINS_PER_CONT_Z, bins_per_cont_z)
+        self.params.set(Params.BINS_PER_CONT_XY, bins_per_cont_xy)
+        self.params.set(Params.MIN_STRATUM_SIZE, min_stratum_size)
+        self.params.set(Params.MINIMAX_PERMUTATIONS, minimax_permutations)
+
+        if use_for_mc:
+            self.MC_TEST = ind_.MinimaxCITest()
+        else:
+            self.TEST = ind_.MinimaxCITest()
 
     def use_cci(self, alpha=0.01, scaling_factor=2, num_basis_functions=3, basis_type=4,
                 basis_scale=0.0, use_for_mc=False):
