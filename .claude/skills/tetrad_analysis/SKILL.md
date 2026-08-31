@@ -135,6 +135,14 @@ both Markov checks.
 If NO setting is Markov-adequate even after repair, that is a finding — the
 model family is misspecified; revisit Steps 2–3 rather than shipping the
 least-bad graph.
+
+Markov checks test only the graph's implied *independencies* (the
+dependency side is summarized separately as `frac_dep_dep`), so denser
+graphs imply fewer checkable facts and pass more easily — a complete graph
+implies none at all. Two rules follow: report the number of implied facts
+alongside every pass/fail verdict, and among models that pass the Markov
+check, prefer the one with fewer edges. Never read a pass as strong
+evidence for a dense graph without noting how little it asserted.
 The selection helpers are defaulted decisions: show the table, state which
 rule you applied, and let the user choose. Seeds pin the resample draws but
 not internal tie-breaking in algorithms like FGES, so small run-to-run

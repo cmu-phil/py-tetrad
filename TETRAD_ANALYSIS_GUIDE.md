@@ -254,6 +254,13 @@ frequencies are stable in the neighborhood of the setting. If no setting
 satisfies (a), that is a finding: the model family is misspecified for this
 data — revisit Step 2/3 rather than shipping the least-bad graph.
 
+Ties and near-ties under (a)–(c) are broken by parsimony: a Markov check
+tests only implied independencies, so a denser graph asserts fewer
+checkable facts and passes more easily (a complete graph asserts none).
+Among settings or models that pass, prefer the one with fewer edges, and
+report the number of implied facts tested alongside every verdict so that
+passes on dense graphs are not over-read.
+
 ### Step 4.5: Vertex Repair (small graphs only)
 
 Between "the selected setting is marginal" and "the family is misspecified"
