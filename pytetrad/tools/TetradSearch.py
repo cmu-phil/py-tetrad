@@ -38,6 +38,22 @@ import java.io as io
 from edu.cmu.tetrad.util import Params, Parameters
 
 
+def recommended_penalty_discount(p, n, expected_degree=5.0, fdr=0.01):
+    """Penalty discount c that holds the expected number of spurious edges at `fdr` times the expected
+    number of true edges (p * expected_degree / 2), for p variables and sample size n. Returns
+    (c, r_min) where r_min is the smallest |partial correlation| the BIC sign rule then accepts.
+
+    Derivation: adding a null parent is accepted when a chi-square(1) statistic exceeds c ln n, which
+    happens with probability alpha(c); with ~p^2/2 non-adjacent pairs the expected spurious-edge count
+    is p^2/2 * alpha(c). Invert to hit the budget. At p=100, n=1000, fdr=0.01, degree=6 this returns
+    the conventional c = 2.0; at p=5000 it returns about 2.8.
+    """
+    import edu.cmu.tetrad.search.score as score_impl
+    c = float(score_impl.SemBicScore.penaltyDiscountForFalseDiscoveryRate(int(p), int(n), float(expected_degree), float(fdr)))
+    r_min = float(score_impl.SemBicScore.minDetectablePartialCorrelation(c, int(n)))
+    return c, r_min
+
+
 class TetradSearch:
     """
     Represents a Tetrad-based search class for structure learning and related statistical scoring and testing 
@@ -100,11 +116,18 @@ class TetradSearch:
         self.params.set(Params.MISSING_EM_MAX_ITERATIONS, em_max_iterations)
         self.params.set(Params.MISSING_ESS_MODE, ess_mode)
 
-    def use_sem_bic(self, penalty_discount=2, structurePrior=0, sem_bic_rule=1, singularity_lambda=0.0):
+    def use_sem_bic(self, penalty_discount=2, structurePrior=0, sem_bic_rule=1, singularity_lambda=0.0,
+                    auto_penalty=False, target_fdr=0.01, expected_degree=5.0):
+        """SEM BIC score. If auto_penalty is True, penalty_discount is ignored and the discount is
+        calibrated from p, N, expected_degree and target_fdr (see recommended_penalty_discount);
+        the value used is written to the Tetrad log."""
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
         self.params.set(Params.SEM_BIC_STRUCTURE_PRIOR, structurePrior)
         self.params.set(Params.SEM_BIC_RULE, sem_bic_rule)
         self.params.set(Params.SINGULARITY_LAMBDA, singularity_lambda)
+        self.params.set(Params.SEM_BIC_AUTO_PENALTY, auto_penalty)
+        self.params.set(Params.SEM_BIC_TARGET_FDR, target_fdr)
+        self.params.set(Params.SEM_BIC_EXPECTED_DEGREE, expected_degree)
         self.SCORE = score_.SemBicScore()
 
     # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
