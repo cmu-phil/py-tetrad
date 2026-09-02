@@ -531,9 +531,16 @@ class TetradSearch:
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_boss(self, num_starts=1, use_bes=False, time_lag=0, use_data_order=True,
-                 output_cpdag=True):
+                 output_cpdag=True, use_ils_restarts=False):
+        """Runs BOSS (Best Order Score Search).
+
+        use_ils_restarts: if True, restarts after the first perturb the best order found so far with about
+        ln(m) random transpositions and rerun the search from there (iterated local search), in the style of
+        FLOP, rather than starting from a fresh random order. This has no effect unless num_starts > 1.
+        """
         self.params.set(Params.USE_BES, use_bes)
         self.params.set(Params.NUM_STARTS, num_starts)
+        self.params.set(Params.USE_ILS_RESTARTS, use_ils_restarts)
         self.params.set(Params.TIME_LAG, time_lag)
         self.params.set(Params.USE_DATA_ORDER, use_data_order)
         self.params.set(Params.OUTPUT_CPDAG, output_cpdag)
@@ -619,6 +626,45 @@ class TetradSearch:
         self._require_score("run_grasp")
         alg = cpdag.Grasp(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
+
+        self.java = alg.search(self._search_data(), self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
+    def run_flop(self, num_restarts=20, penalty_discount=2, seed=-1):
+        """Runs FLOP (Fast Learning of Order and Parents), the permutation search of Wienobst, Henckel, and
+        Weichwald (2026). Like BOSS it searches over topological orders by repeatedly reinserting each variable
+        at its best-scoring position, but it chooses parent sets by a randomized non-greedy grow-shrink, warm
+        starts those parent sets as the order changes, and restarts by iterated local search rather than from
+        fresh random orders.
+
+        Unlike the other score-based searches here, FLOP does not take a score object: it is specialized to the
+        linear Gaussian BIC internally, so it requires continuous data (or a covariance matrix) and there is no
+        need to call a use_* score method first. Knowledge is not supported and this method raises if any has
+        been set, rather than silently ignoring it. For an arbitrary score, or for knowledge, use run_boss with
+        use_ils_restarts=True, which applies the same iterated local search on the BOSS engine.
+
+        num_restarts: the number of iterated local search restarts. Note that this differs in meaning from
+        BOSS's num_starts: 0 gives one search, from FLOP's pivoted-Cholesky initial order, rather than no
+        search. More restarts can never return a worse-scoring graph, so this trades runtime against score.
+
+        penalty_discount: the multiplier on the ln(N) * |parents| BIC penalty term, lambda in the paper.
+        Note that this writes the shared PENALTY_DISCOUNT parameter, so it will also apply to a subsequently
+        run score-based search unless that search's own penalty discount is set again.
+
+        seed: the random seed, or -1 for a nondeterministic one. FLOP's local search is randomized, so results
+        are reproducible only when this is set. Note that this writes the shared SEED parameter, which is also
+        used for bootstrap resampling.
+        """
+        if not self.knowledge.isEmpty():
+            raise Exception("run_flop does not support knowledge, but knowledge has been set. Use run_boss "
+                            "with use_ils_restarts=True instead, which supports knowledge and uses the same "
+                            "iterated local search.")
+
+        self.params.set(Params.FLOP_NUM_RESTARTS, num_restarts)
+        self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
+        self.params.set(Params.SEED, seed)
+
+        alg = cpdag.Flop()
 
         self.java = alg.search(self._search_data(), self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
