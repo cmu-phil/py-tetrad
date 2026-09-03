@@ -38,20 +38,60 @@ import java.io as io
 from edu.cmu.tetrad.util import Params, Parameters
 
 
-def recommended_penalty_discount(p, n, expected_degree=5.0, fdr=0.01):
-    """Penalty discount c that holds the expected number of spurious edges at `fdr` times the expected
-    number of true edges (p * expected_degree / 2), for p variables and sample size n. Returns
-    (c, r_min) where r_min is the smallest |partial correlation| the BIC sign rule then accepts.
+def recommended_penalty_discount(p, n, expected_degree=5.0, fdr=0.01, min_effect=0.0):
+    """Penalty discount c for SEM BIC that holds the expected number of spurious edges at `fdr` times the
+    expected number of true edges (p * expected_degree / 2), for p variables and sample size n, optionally
+    raised so that partial correlations below `min_effect` are ignored. Returns (c, r_min) where r_min is
+    the smallest |partial correlation| the BIC sign rule then accepts.
 
     Derivation: adding a null parent is accepted when a chi-square(1) statistic exceeds c ln n, which
     happens with probability alpha(c); with ~p^2/2 non-adjacent pairs the expected spurious-edge count
     is p^2/2 * alpha(c). Invert to hit the budget. At p=100, n=1000, fdr=0.01, degree=6 this returns
     the conventional c = 2.0; at p=5000 it returns about 2.8.
+
+    The FDR discount shrinks like 1/ln n, so at large n it admits any real dependence however small
+    (about r = 0.02 at n = 20000), and real data then gives near-complete graphs. `min_effect` sets an
+    effect-size floor instead, c = -n ln(1 - r^2) / ln n, which grows like n / ln n; the larger of the
+    two is returned. Values of 0.03 to 0.1 are reasonable starting points.
     """
     import edu.cmu.tetrad.search.score as score_impl
     c = float(score_impl.SemBicScore.penaltyDiscountForFalseDiscoveryRate(int(p), int(n), float(expected_degree), float(fdr)))
+    if min_effect and min_effect > 0:
+        c = max(c, float(score_impl.PenaltyDiscountCalibration.penaltyDiscountForMinPartialCorrelation(float(min_effect), int(n))))
     r_min = float(score_impl.SemBicScore.minDetectablePartialCorrelation(c, int(n)))
     return c, r_min
+
+
+def recommended_penalty_discount_bf(df, truncation_limit=3, rank_transform=True, adaptive_basis_selection=True,
+                                    expected_degree=5.0, fdr=0.01, min_effect=0.0, null_samples=500, seed=0):
+    """Penalty discount for BF-BIC on a pandas DataFrame, computed the way the score's auto mode computes it:
+    from the per-variable embedding block sizes (adding a parent x to y costs size[y] * size[x] degrees of
+    freedom, so the chi-square tail is much thinner than SEM BIC's and the calibrated c much smaller).
+
+    With rank_transform=True the score's null is chi-square on its nominal df and the exact calibration
+    is used. With rank_transform=False the min-max embedding's null has a power-law tail; a permutation
+    -fitted scaled chi-square (`null_samples` draws per df class) is used instead, and the result should be
+    read as a floor -- prefer rank_transform=True. `min_effect` is applied as in recommended_penalty_discount.
+
+    Returns (c, block_sizes, df_histogram) so the inputs to the calculation can be inspected.
+    """
+    import edu.cmu.tetrad.search.score as score_impl
+    data = tr.pandas_data_to_tetrad(df)
+    score = score_impl.BasisFunctionBicScore(data, int(truncation_limit), 0.0, bool(adaptive_basis_selection),
+                                             bool(rank_transform))
+    sizes = [int(x) for x in score.embeddingBlockSizes()]
+    n, p = data.getNumRows(), len(sizes)
+    hist = score_impl.PenaltyDiscountCalibration.pairDofHistogram(score.embeddingBlockSizes())
+    if rank_transform:
+        c = float(score_impl.PenaltyDiscountCalibration.penaltyDiscountForFalseDiscoveryRate(
+            hist, n, p, float(expected_degree), float(fdr)))
+    else:
+        fits = score.fitNullsByPermutation(data, int(null_samples), int(seed))
+        c = float(score_impl.PenaltyDiscountCalibration.penaltyDiscountForFalseDiscoveryRateFitted(
+            fits, n, p, float(expected_degree), float(fdr)))
+    if min_effect and min_effect > 0:
+        c = max(c, float(score_impl.PenaltyDiscountCalibration.penaltyDiscountForMinPartialCorrelation(float(min_effect), n)))
+    return c, sizes, {int(e.getKey()): int(e.getValue()) for e in hist.entrySet()}
 
 
 class TetradSearch:
@@ -117,10 +157,11 @@ class TetradSearch:
         self.params.set(Params.MISSING_ESS_MODE, ess_mode)
 
     def use_sem_bic(self, penalty_discount=2, structurePrior=0, sem_bic_rule=1, singularity_lambda=0.0,
-                    auto_penalty=False, target_fdr=0.01, expected_degree=5.0):
+                    auto_penalty=False, target_fdr=0.01, expected_degree=5.0, min_effect=0.0):
         """SEM BIC score. If auto_penalty is True, penalty_discount is ignored and the discount is
-        calibrated from p, N, expected_degree and target_fdr (see recommended_penalty_discount);
-        the value used is written to the Tetrad log."""
+        calibrated from p, N, expected_degree and target_fdr, raised if necessary so that partial
+        correlations below min_effect are ignored (see recommended_penalty_discount); the value used
+        is written to the Tetrad log."""
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
         self.params.set(Params.SEM_BIC_STRUCTURE_PRIOR, structurePrior)
         self.params.set(Params.SEM_BIC_RULE, sem_bic_rule)
@@ -128,6 +169,7 @@ class TetradSearch:
         self.params.set(Params.SEM_BIC_AUTO_PENALTY, auto_penalty)
         self.params.set(Params.SEM_BIC_TARGET_FDR, target_fdr)
         self.params.set(Params.SEM_BIC_EXPECTED_DEGREE, expected_degree)
+        self.params.set(Params.SEM_BIC_MIN_EFFECT, min_effect)
         self.SCORE = score_.SemBicScore()
 
     # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
@@ -192,11 +234,32 @@ class TetradSearch:
     # Note: singularity_lambda and do_one_equation_only require a tetrad-current.jar that
     # includes the 2026-8 wrapper wiring fix; older jars silently ignored both.
     def use_basis_function_bic(self, truncation_limit=3, penalty_discount=2, singularity_lambda=0.0,
-                               do_one_equation_only=False):
+                               do_one_equation_only=False, adaptive_basis_selection=True, rank_transform=False,
+                               auto_penalty=False, target_fdr=0.01, expected_degree=5.0, min_effect=0.0,
+                               null_samples=500):
+        """BF-BIC score.
+
+        rank_transform: rank-transform continuous variables to [-1, 1] before the Legendre embedding. Gives
+            every row the same leverage and makes the score's null chi-square on its nominal df; the default
+            min-max scaling has a power-law null tail so a few extreme rows can create spurious nonlinear
+            edges at any penalty. Recommended, especially with auto_penalty.
+        auto_penalty / target_fdr / expected_degree / min_effect: as in use_sem_bic, but df-aware -- a parent
+            costs size[y] * size[x] parameters here, so the calibrated c is much smaller than SEM BIC's.
+            With rank_transform=False the null is estimated by permutation (null_samples draws per df class)
+            and the result is a floor rather than a target. See recommended_penalty_discount_bf to inspect
+            the number before searching.
+        """
         self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
         self.params.set(Params.SINGULARITY_LAMBDA, singularity_lambda)
         self.params.set(Params.DO_ONE_EQUATION_ONLY, do_one_equation_only)
+        self.params.set(Params.ADAPTIVE_BASIS_SELECTION, adaptive_basis_selection)
+        self.params.set(Params.BASIS_RANK_TRANSFORM, rank_transform)
+        self.params.set(Params.SEM_BIC_AUTO_PENALTY, auto_penalty)
+        self.params.set(Params.SEM_BIC_TARGET_FDR, target_fdr)
+        self.params.set(Params.SEM_BIC_EXPECTED_DEGREE, expected_degree)
+        self.params.set(Params.SEM_BIC_MIN_EFFECT, min_effect)
+        self.params.set(Params.SEM_BIC_NULL_SAMPLES, null_samples)
         self.SCORE = score_.BasisFunctionBicScore()
 
     # Full sample.
