@@ -64,8 +64,8 @@ def recommended_penalty_discount(p, n, expected_degree=5.0, fdr=0.01, min_effect
 
 def recommended_penalty_discount_bf(df, truncation_limit=3, rank_transform=True, adaptive_basis_selection=True,
                                     expected_degree=5.0, fdr=0.01, min_effect=0.0, null_samples=500, seed=0):
-    """Penalty discount for BF-BIC on a pandas DataFrame, computed the way the score's auto mode computes it:
-    from the per-variable embedding block sizes (adding a parent x to y costs size[y] * size[x] degrees of
+    """Penalty discount for BF-BIC on a pandas DataFrame, computed the way the Tetrad interface's
+    Alpha/Penalty Discount Calculator computes it: from the per-variable embedding block sizes (adding a parent x to y costs size[y] * size[x] degrees of
     freedom, so the chi-square tail is much thinner than SEM BIC's and the calibrated c much smaller).
 
     With rank_transform=True the score's null is chi-square on its nominal df and the exact calibration
@@ -156,20 +156,14 @@ class TetradSearch:
         self.params.set(Params.MISSING_EM_MAX_ITERATIONS, em_max_iterations)
         self.params.set(Params.MISSING_ESS_MODE, ess_mode)
 
-    def use_sem_bic(self, penalty_discount=2, structurePrior=0, sem_bic_rule=1, singularity_lambda=0.0,
-                    auto_penalty=False, target_fdr=0.01, expected_degree=5.0, min_effect=0.0):
-        """SEM BIC score. If auto_penalty is True, penalty_discount is ignored and the discount is
-        calibrated from p, N, expected_degree and target_fdr, raised if necessary so that partial
-        correlations below min_effect are ignored (see recommended_penalty_discount); the value used
-        is written to the Tetrad log."""
+    def use_sem_bic(self, penalty_discount=2, structurePrior=0, sem_bic_rule=1, singularity_lambda=0.0):
+        """SEM BIC score. To choose penalty_discount from a false-edge budget rather than by convention,
+        call recommended_penalty_discount(p, n, ...) first and pass its value here; the choice is made
+        explicitly on purpose, so that it is looked at rather than defaulted."""
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
         self.params.set(Params.SEM_BIC_STRUCTURE_PRIOR, structurePrior)
         self.params.set(Params.SEM_BIC_RULE, sem_bic_rule)
         self.params.set(Params.SINGULARITY_LAMBDA, singularity_lambda)
-        self.params.set(Params.SEM_BIC_AUTO_PENALTY, auto_penalty)
-        self.params.set(Params.SEM_BIC_TARGET_FDR, target_fdr)
-        self.params.set(Params.SEM_BIC_EXPECTED_DEGREE, expected_degree)
-        self.params.set(Params.SEM_BIC_MIN_EFFECT, min_effect)
         self.SCORE = score_.SemBicScore()
 
     # singularity_lambda: >= 0 Add lambda to matrix diagonals, < 0 Use pseudoinverse
@@ -234,20 +228,17 @@ class TetradSearch:
     # Note: singularity_lambda and do_one_equation_only require a tetrad-current.jar that
     # includes the 2026-8 wrapper wiring fix; older jars silently ignored both.
     def use_basis_function_bic(self, truncation_limit=3, penalty_discount=2, singularity_lambda=0.0,
-                               do_one_equation_only=False, adaptive_basis_selection=True, rank_transform=False,
-                               auto_penalty=False, target_fdr=0.01, expected_degree=5.0, min_effect=0.0,
-                               null_samples=500):
+                               do_one_equation_only=False, adaptive_basis_selection=True, rank_transform=False):
         """BF-BIC score.
 
         rank_transform: rank-transform continuous variables to [-1, 1] before the Legendre embedding. Gives
             every row the same leverage and makes the score's null chi-square on its nominal df; the default
             min-max scaling has a power-law null tail so a few extreme rows can create spurious nonlinear
-            edges at any penalty. Recommended, especially with auto_penalty.
-        auto_penalty / target_fdr / expected_degree / min_effect: as in use_sem_bic, but df-aware -- a parent
-            costs size[y] * size[x] parameters here, so the calibrated c is much smaller than SEM BIC's.
-            With rank_transform=False the null is estimated by permutation (null_samples draws per df class)
-            and the result is a floor rather than a target. See recommended_penalty_discount_bf to inspect
-            the number before searching.
+            edges at any penalty. Recommended.
+        penalty_discount: a parent costs size[y] * size[x] parameters here, so a discount calibrated to a
+            false-edge budget is much smaller than SEM BIC's. To choose it that way, call
+            recommended_penalty_discount_bf(df, ...) first and pass its value; the choice is made explicitly
+            on purpose, so that it is looked at rather than defaulted.
         """
         self.params.set(Params.TRUNCATION_LIMIT, truncation_limit)
         self.params.set(Params.PENALTY_DISCOUNT, penalty_discount)
@@ -255,11 +246,6 @@ class TetradSearch:
         self.params.set(Params.DO_ONE_EQUATION_ONLY, do_one_equation_only)
         self.params.set(Params.ADAPTIVE_BASIS_SELECTION, adaptive_basis_selection)
         self.params.set(Params.BASIS_RANK_TRANSFORM, rank_transform)
-        self.params.set(Params.SEM_BIC_AUTO_PENALTY, auto_penalty)
-        self.params.set(Params.SEM_BIC_TARGET_FDR, target_fdr)
-        self.params.set(Params.SEM_BIC_EXPECTED_DEGREE, expected_degree)
-        self.params.set(Params.SEM_BIC_MIN_EFFECT, min_effect)
-        self.params.set(Params.SEM_BIC_NULL_SAMPLES, null_samples)
         self.SCORE = score_.BasisFunctionBicScore()
 
     # Full sample.
