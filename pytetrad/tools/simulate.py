@@ -242,6 +242,13 @@ def simulateDesignedExperiment(num_factors=4, num_derived=1, num_responses=1,
 # Defaults below match the Tetrad parameter defaults. NOTE: prop_missing defaults to 0.1
 # in Tetrad but only takes effect when missing_mechanism is not "none".
 #
+# Discrete variables: prop_context_discrete is a per-variable coin flip over the context
+# variables (exogenous); discrete_outcome makes the outcomes discrete (terminal);
+# prop_system_discrete makes a fixed count round(prop * num_system) of the SYSTEM variables
+# genuinely discrete, so a discrete cause can sit inside the graph with both parents and
+# children (the case where CG and DG scores differ). prop_ordinalized, by contrast, records
+# continuous system variables as categories -- coarsening, not a discrete cause.
+#
 # Panel emission (num_subjects > 1): by default the subjects are concatenated into one
 # dataset with the structure undeclared, as panel data usually arrive. With
 # emit_subject_column=True a discrete bookkeeping column SUBJECT is appended (not in the
@@ -257,7 +264,8 @@ def simulateDesignedExperiment(num_factors=4, num_derived=1, num_responses=1,
 # gives access to sim_.getContemporaneousGraph(i) and sim_.getSubjectStarts(i).
 def simulateObservationalStudy(num_context=2, num_hidden_context=0, num_system=6,
                                num_indices=2, num_outcomes=1, avg_system_degree=2.0,
-                               prop_context_discrete=0.5, num_categories=3,
+                               prop_context_discrete=0.5, prop_system_discrete=0.0,
+                               num_categories=3,
                                discrete_outcome=False, prop_ordinalized=0.0,
                                max_lag=0, ar_coef=0.7, index_memory_low=0.2,
                                index_memory_high=0.9, prop_cross_lag=0.15,
@@ -281,6 +289,7 @@ def simulateObservationalStudy(num_context=2, num_hidden_context=0, num_system=6
     params.set(Params.OS_GRAPH_NUM_OUTCOMES, num_outcomes)
     params.set(Params.OS_GRAPH_AVG_SYSTEM_DEGREE, avg_system_degree)
     params.set(Params.OS_TYPE_PROP_CONTEXT_DISCRETE, prop_context_discrete)
+    params.set(Params.OS_TYPE_PROP_SYSTEM_DISCRETE, prop_system_discrete)
     params.set(Params.OS_TYPE_NUM_CATEGORIES, num_categories)
     params.set(Params.OS_TYPE_DISCRETE_OUTCOME, discrete_outcome)
     params.set(Params.OS_DEGRADE_ORDINALIZE_PROP, prop_ordinalized)
