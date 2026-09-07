@@ -10,7 +10,7 @@ import pytetrad.tools.simulate as sim
 
 # Airfoil-like settings: 4 factors, 1 derived, 1 response, rows sorted into
 # configuration blocks with a CONFIG bookkeeping column appended.
-D, G, sim_ = sim.simulateDesignedExperiment(num_factors=4, num_derived=1, num_responses=1,
+D, G, K, sim_ = sim.simulateDesignedExperiment(num_factors=4, num_derived=1, num_responses=1,
                                             coupling=0.5, sort_by_configuration=True,
                                             emit_config_column=True, samp_size=1500)
 
@@ -20,6 +20,9 @@ print(df.head(12))
 print()
 print("True graph (pre-selection DAG):")
 print(G)
+print()
+print("Design-implied knowledge (role tiers; pass to TetradSearch.set_knowledge):")
+print(K)
 
 starts = sim_.getConfigurationStarts(0)
 print()

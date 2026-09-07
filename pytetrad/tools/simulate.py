@@ -183,9 +183,14 @@ def simulateDiscreteFromGraph(tetrad_graph, min_cat=3, max_cat=3, samp_size=1000
 #
 # Defaults below match the Tetrad parameter defaults.
 #
-# Returns (D, G, sim_): the dataset, the true (pre-selection) DAG, and the simulation
-# object itself. The simulation object gives access to sim_.getConfigurationStarts(0),
-# the starting row of each configuration block when sort_by_configuration is True.
+# Returns (D, G, K, sim_): the dataset, the true (pre-selection) DAG, the design-implied
+# knowledge, and the simulation object itself. K is a Tetrad Knowledge object with role
+# tiers -- factors (F) before derived (D) before responses (R), and CONFIG, if emitted, in
+# a leading tier of its own (its fixed-effects reading) -- which an analyst of such data
+# would legitimately have; it says nothing about the random structure within a role. Pass
+# it to TetradSearch.set_knowledge(K). The simulation object gives access to
+# sim_.getConfigurationStarts(0), the starting row of each configuration block when
+# sort_by_configuration is True.
 #
 # Note: when selection > 0, the observed data contains input-input dependence NOT in the
 # true graph; that is by design. When emit_config_column is True, a discrete CONFIG
@@ -226,8 +231,9 @@ def simulateDesignedExperiment(num_factors=4, num_derived=1, num_responses=1,
 
     D = sim_.getDataModel(0)
     G = sim_.getTrueGraph(0)
+    K = sim_.getKnowledge(0)
 
-    return D, G, sim_
+    return D, G, K, sim_
 
 # Simulates data with the anatomy of an observational study (archetype: the Algerian
 # Forest Fire dataset). Variables have roles: observed/hidden context variables (exogenous
@@ -258,10 +264,16 @@ def simulateDesignedExperiment(num_factors=4, num_derived=1, num_responses=1,
 # pooling (TetradSearch.add_data_set / set_pool_data_sets) -- and D is then a Python LIST
 # of datasets, one per subject.
 #
-# Returns (D, G, sim_): the dataset (or list of per-subject datasets, see above), the true
-# graph (a lag graph when max_lag > 0; with latent nodes when num_hidden_context > 0, so
-# FCI-style evaluation works), and the simulation object itself. The simulation object
-# gives access to sim_.getContemporaneousGraph(i) and sim_.getSubjectStarts(i).
+# Returns (D, G, K, sim_): the dataset (or list of per-subject datasets, see above), the
+# true graph (a lag graph when max_lag > 0; with latent nodes when num_hidden_context > 0,
+# so FCI-style evaluation works), the design-implied knowledge, and the simulation object
+# itself. K is a Tetrad Knowledge object with role tiers -- context (C) before system (S)
+# before indices (I) before outcomes (Y), and SUBJECT, if emitted, in a leading tier of its
+# own (its fixed-effects reading) -- which an analyst of such data would legitimately have;
+# it says nothing about the random structure within a role. Pass it to
+# TetradSearch.set_knowledge(K). In serial mode it is knowledge over the contemporaneous
+# variables; lag tiers come from the lag-data machinery. The simulation object gives access
+# to sim_.getContemporaneousGraph(i), sim_.getSubjectStarts(i), and sim_.getKnowledge(i).
 def simulateObservationalStudy(num_context=2, num_hidden_context=0, num_system=6,
                                num_indices=2, num_outcomes=1, avg_system_degree=2.0,
                                prop_context_discrete=0.5, prop_system_discrete=0.0,
@@ -326,8 +338,9 @@ def simulateObservationalStudy(num_context=2, num_hidden_context=0, num_system=6
     else:
         D = sim_.getDataModel(0)
     G = sim_.getTrueGraph(0)
+    K = sim_.getKnowledge(0)
 
-    return D, G, sim_
+    return D, G, K, sim_
 
 # Simuolates a mixed continuous/discrete dataset using the Lee-Hastic method with the given arguments
 # and returns the dataset as a pandas dataframe.
