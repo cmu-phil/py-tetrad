@@ -83,24 +83,36 @@ def pandas_data_to_tetrad(df: DataFrame, int_as_cont=False):
 
 
 def tetrad_data_to_pandas(data: td.DataSet):
-    names = data.getVariableNames()
-    columns_ = []
+    """Converts a Tetrad DataSet to a pandas DataFrame with dtypes that round-trip through
+    pandas_data_to_tetrad: continuous variables become float64 columns (missing -> NaN) and discrete
+    variables become object columns holding the category strings (missing -> None). Before 2026-09 every
+    column came back as object, built cell by cell, so a continuous column with any missing value was
+    reclassified as discrete on the way back in."""
+    n = data.getNumRows()
+    columns = {}
 
-    for name in names:
-        columns_.append(str(name))
+    for col in range(data.getNumColumns()):
+        var = data.getVariable(col)
+        name = str(var.getName())
 
-    df: DataFrame = pd.DataFrame(columns=columns_, index=range(data.getNumRows()))
+        if isinstance(var, td.ContinuousVariable):
+            columns[name] = np.array([data.getDouble(row, col) for row in range(n)], dtype=float)
+        elif isinstance(var, td.DiscreteVariable):
+            missing = td.DiscreteVariable.MISSING_VALUE
+            values = []
+            for row in range(n):
+                idx = data.getInt(row, col)
+                values.append(None if idx == missing else str(var.getCategory(idx)))
+            columns[name] = pd.Series(values, dtype=object)
+        else:
+            values = []
+            for row in range(n):
+                value = data.getObject(row, col)
+                # Java Strings must be coerced to Python str, or pandas stores tuples of characters.
+                values.append(str(value) if isinstance(value, jpype.JString) else value)
+            columns[name] = pd.Series(values, dtype=object)
 
-    for row in range(data.getNumRows()):
-        for col in range(data.getNumColumns()):
-            value = data.getObject(row, col)
-            # Java Strings (string-category discrete columns) must be coerced to
-            # Python str, or pandas will store them as tuples of characters.
-            if isinstance(value, jpype.JString):
-                value = str(value)
-            df.at[row, columns_[col]] = value
-
-    return df
+    return pd.DataFrame(columns, index=range(n))
 
 ## The defaults here are for the PCALG style of general graph endpoint matrices, but
 ## the user can use whichever endpoint encoding they like.
