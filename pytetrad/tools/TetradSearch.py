@@ -981,6 +981,55 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
+    def run_rlcd(self, alpha=0.01, max_k=3, allow_non_leaf_x=True, unfold_covers=True,
+                 check_v=True, latent_gate=True, partition_clique_threshold=3,
+                 stage1_fges=False, penalty_discount=1.0, seed=-1,
+                 stratify_by_domain=False, domain_column="domain"):
+        """Runs RLCD (Rank-based Latent Causal Discovery; Dong et al., ICLR 2024). The output graph contains
+        the observed variables together with any discovered latents, marked as latent nodes. No score or test
+        needs to be set; RLCD uses its own rank tests and its own stage-one score internally. The data must be
+        all continuous, so when loading from pandas, integer columns should be converted to float first, or the
+        data handed to TetradSearch with int_as_cont set to True in pandas_data_to_tetrad.
+
+        If stratify_by_domain is True, RLCD runs in stratified, domain-pooled mode, after Phase 1 of LCD-NOD
+        (Dong et al., ICML 2026), for data gathered in several domains, batches, sites, or cohorts whose causal
+        structure is shared but whose coefficients, means, and noise variances may differ by domain. The column
+        named by domain_column holds the domain index as integer values stored in a continuous column. That
+        column is the context variable only: it is removed from the searched variables and used just to split
+        the rows, so it will not appear in the output graph. Each domain needs enough rows for its own
+        covariance matrix, so merge small domains first.
+
+        Stratified mode cannot be combined with pooled imputations, since the strata must be independent
+        samples, and imputations share their rows."""
+        self.params.set(Params.ALPHA, alpha)
+        self.params.set(Params.RLCD_MAX_K, max_k)
+        self.params.set(Params.RLCD_ALLOW_NON_LEAF_X, allow_non_leaf_x)
+        self.params.set(Params.RLCD_UNFOLD_COVERS, unfold_covers)
+        self.params.set(Params.RLCD_CHECK_V, check_v)
+        self.params.set(Params.RLCD_LATENT_GATE, latent_gate)
+        self.params.set(Params.RLCD_PARTITION_CLIQUE_THRESHOLD, partition_clique_threshold)
+        self.params.set(Params.RLCD_STAGE1_FGES, stage1_fges)
+        self.params.set(Params.PENALTY_DISCOUNT_DEFAULT_1, penalty_discount)
+        self.params.set(Params.SEED, seed)
+        self.params.set(Params.STRATIFY_BY_DOMAIN, stratify_by_domain)
+        self.params.set(Params.DOMAIN_COLUMN, domain_column)
+
+        alg = alg_other.Rlcd()
+        alg.setKnowledge(self.knowledge)
+
+        if self.pool_data_sets and len(self.pooled_data_sets) > 0:
+            if stratify_by_domain:
+                raise ValueError("Stratified (domain-pooled) RLCD cannot be combined with pooled imputations: "
+                                 "the strata must be independent samples, and imputations share their rows. "
+                                 "Turn one of the two off.")
+            data_models = jutil.ArrayList()
+            data_models.add(self.data)
+            for d in self.pooled_data_sets:
+                data_models.add(d)
+            self.java = alg.searchImputations(data_models, self.params)
+        else:
+            self.java = alg.search(self.data, self.params)
+
     def run_factor_analysis(self, fa_threshold=0.001, num_factors=2.0, use_varimax=True,
                 convergence_threshold=0.001):
         """
