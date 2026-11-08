@@ -741,7 +741,16 @@ class TetradSearch:
         self.java = alg.search(self._search_data(), self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_pc(self, depth=-1, stable_fas=True, allow_bidirected=False, collider_orientation_style=3):
+    # Collider orientation style for PC and FCI: 1 = sepsets (as published), 2 = conservative,
+    # 3 = max-p. The variant algorithms below (run_cpc, run_pc_max, run_cfci, run_fci_max) call
+    # the dedicated Java wrappers, which pin the rule on the Java side, rather than passing one
+    # of these integers.
+    COLLIDER_SEPSETS = 1
+    COLLIDER_CONSERVATIVE = 2
+    COLLIDER_MAX_P = 3
+
+    def run_pc(self, depth=-1, stable_fas=True, allow_bidirected=False,
+               collider_orientation_style=COLLIDER_SEPSETS):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.STABLE_FAS, stable_fas)
         self.params.set(Params.ALLOW_BIDIRECTED, allow_bidirected)
@@ -758,10 +767,9 @@ class TetradSearch:
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.STABLE_FAS, stable_fas)
         self.params.set(Params.ALLOW_BIDIRECTED, allow_bidirected)
-        self.params.set(Params.COLLIDER_ORIENTATION_STYLE, 2)
 
         self._require_test("run_pc_max")
-        alg = cpdag.Pc(self.TEST)
+        alg = cpdag.PcMax(self.TEST)
         alg.setKnowledge(self.knowledge)
 
         self.java = alg.search(self._search_data(), self.params)
@@ -771,25 +779,57 @@ class TetradSearch:
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.STABLE_FAS, stable_fas)
         self.params.set(Params.ALLOW_BIDIRECTED, allow_bidirected)
-        self.params.set(Params.COLLIDER_ORIENTATION_STYLE, 3)
 
         self._require_test("run_cpc")
-        alg = cpdag.Pc(self.TEST)
+        alg = cpdag.Cpc(self.TEST)
         alg.setKnowledge(self.knowledge)
 
         self.java = alg.search(self._search_data(), self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_fci(self, depth=-1, stable_fas=True, max_disc_path_length=-1, complete_rule_set_used=True,
-                guarantee_pag=False):
+                guarantee_pag=False, collider_orientation_style=COLLIDER_SEPSETS):
+        self.params.set(Params.DEPTH, depth)
+        self.params.set(Params.STABLE_FAS, stable_fas)
+        self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
+        self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
+        self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
+        # Set explicitly: self.params is reused across run_* calls, so leaving this unset would
+        # inherit whatever a previous call on this object left behind.
+        self.params.set(Params.COLLIDER_ORIENTATION_STYLE, collider_orientation_style)
+
+        self._require_test("run_fci")
+        alg = pag.Fci(self.TEST)
+        alg.setKnowledge(self.knowledge)
+
+        self.java = alg.search(self._search_data(), self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
+    def run_fci_max(self, depth=-1, stable_fas=True, max_disc_path_length=-1, complete_rule_set_used=True,
+                    guarantee_pag=False):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.STABLE_FAS, stable_fas)
         self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
         self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
 
-        self._require_test("run_fci")
-        alg = pag.Fci(self.TEST)
+        self._require_test("run_fci_max")
+        alg = pag.FciMax(self.TEST)
+        alg.setKnowledge(self.knowledge)
+
+        self.java = alg.search(self._search_data(), self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
+    def run_cfci(self, depth=-1, stable_fas=True, max_disc_path_length=-1, complete_rule_set_used=True,
+                 guarantee_pag=False):
+        self.params.set(Params.DEPTH, depth)
+        self.params.set(Params.STABLE_FAS, stable_fas)
+        self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
+        self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
+        self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
+
+        self._require_test("run_cfci")
+        alg = pag.Cfci(self.TEST)
         alg.setKnowledge(self.knowledge)
 
         self.java = alg.search(self._search_data(), self.params)
