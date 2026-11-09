@@ -16,6 +16,8 @@ from networkx.algorithms.structuralholes import effective_size
 #         print("can't load jvm")
 #         pass
 
+import warnings
+
 import pytetrad.tools.translate as tr
 import pytetrad.tools.gregression as gregression
 import edu.cmu.tetrad.search as ts
@@ -176,7 +178,7 @@ class TetradSearch:
     def use_gic_score(self, penalty_discount=1, sem_gic_rule=4):
         self.params.set(Params.SEM_GIC_RULE, sem_gic_rule)
         self.params.set(Params.PENALTY_DISCOUNT_ZS, penalty_discount)
-        self.SCORE = score_.KimEtAlScores()
+        self.SCORE = score_.GicScores()
 
     def use_mixed_variable_polynomial(self, structure_prior=0, f_degree=0, discretize=False):
         self.params.set(Params.STRUCTURE_PRIOR, structure_prior)
@@ -554,6 +556,23 @@ class TetradSearch:
     def print_knowledge(self):
         print(self.knowledge)
 
+    @staticmethod
+    def _ignored(method, name, value, default):
+        """Warns when a keyword that Tetrad 8.0.0 no longer reads is given a non-default value. The keyword is kept
+        in the signature so that existing calls, positional ones included, keep working."""
+        if value != default:
+            warnings.warn(f"{method}: '{name}' is no longer read by Tetrad and has no effect.", stacklevel=3)
+
+    def _set_correctness(self, fcit_correctness, imap_alpha):
+        """The three-way correctness choice shared by FCIT, FCIT-ZM, GFCI, BFCI, SP-FCI, and GRaSP-FCI in Tetrad 8.0.0:
+        1 = guarantee that every committed state is an I-map of the test (gate tested at imap_alpha), 2 = require a
+        strict RICF-BIC improvement for every removal (continuous data with SEM BIC and zero structure prior only),
+        3 = saturating step for stalled removals (the configuration proved correct in the oracle). Default 1."""
+        if fcit_correctness not in (1, 2, 3):
+            raise ValueError("fcit_correctness must be 1 (I-map), 2 (score step), or 3 (saturating step)")
+        self.params.set(Params.FCIT_CORRECTNESS, fcit_correctness)
+        self.params.set(Params.IMAP_ALPHA, imap_alpha)
+
     def _require_test(self, method):
         """Raises a friendly error if no search test has been set. The algorithm wrappers
         dereference the test deep inside the Java bootstrap machinery, so a missing test
@@ -850,12 +869,13 @@ class TetradSearch:
 
     # This is GFCI with the possible d-sep step.
     def run_gfci(self, depth=-1, max_degree=-1, max_disc_path_length=-1, complete_rule_set_used=True,
-                 guarantee_pag=False):
+                 guarantee_pag=False, fcit_correctness=1, imap_alpha=0.001):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.MAX_DEGREE, max_degree)
-        self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used),
+        self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
         self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
-        self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
+        self._ignored("run_gfci", "guarantee_pag", guarantee_pag, False)
+        self._set_correctness(fcit_correctness, imap_alpha)
 
         self._require_test("run_gfci")
         self._require_score("run_gfci")
@@ -867,12 +887,13 @@ class TetradSearch:
 
     # This is GFCI without the possible d-sep step
     def run_fges_fci(self, depth=-1, max_degree=-1, max_disc_path_length=-1, complete_rule_set_used=True,
-                 guarantee_pag=False):
+                 guarantee_pag=False, fcit_correctness=1, imap_alpha=0.001):
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.MAX_DEGREE, max_degree)
-        self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used),
+        self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
         self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
-        self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
+        self._ignored("run_fges_fci", "guarantee_pag", guarantee_pag, False)
+        self._set_correctness(fcit_correctness, imap_alpha)
 
         self._require_test("run_fges_fci")
         self._require_score("run_fges_fci")
@@ -883,11 +904,17 @@ class TetradSearch:
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_bfci(self, depth=-1, max_disc_path_length=-1, complete_rule_set_used=True,
-                 guarantee_pag=False):
+                 guarantee_pag=False, fcit_correctness=1, imap_alpha=0.001, use_bes=True, num_starts=1):
+        """BFCI (BOSS-FCI). Experimental in Tetrad 8.0.0: the extra-edge-removal step now follows the shared *-FCI
+        formulation with the three-way fcit_correctness choice (see _set_correctness), and its behavior at scale on
+        real data has not yet been measured."""
         self.params.set(Params.DEPTH, depth)
-        self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used),
+        self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
         self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
-        self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
+        self.params.set(Params.USE_BES_DEFAULT_TRUE, use_bes)
+        self.params.set(Params.NUM_STARTS, num_starts)
+        self._ignored("run_bfci", "guarantee_pag", guarantee_pag, False)
+        self._set_correctness(fcit_correctness, imap_alpha)
 
         self._require_test("run_bfci")
         self._require_score("run_bfci")
@@ -897,14 +924,18 @@ class TetradSearch:
         self.java = alg.search(self._search_data(), self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_lv_heuristic(self, num_starts=1, use_bes=False, time_lag=0, use_data_order=True,
-                         output_cpdag=True, complete_rule_set_used=True):
-        self.params.set(Params.USE_BES, use_bes)
+    def run_lv_heuristic(self, num_starts=1, use_bes=True, time_lag=0, use_data_order=True,
+                         output_cpdag=True, complete_rule_set_used=True, max_blocking_path_length=-1):
+        """LV-Heuristic: the PAG of the BOSS DAG. Experimental in Tetrad 8.0.0. Note: earlier versions of this
+        method set a BES key the algorithm does not read, so BES was always on; use_bes now reaches the algorithm,
+        and its default is True to match what actually ran before."""
+        self.params.set(Params.USE_BES_DEFAULT_TRUE, use_bes)
         self.params.set(Params.NUM_STARTS, num_starts)
         self.params.set(Params.TIME_LAG, time_lag)
         self.params.set(Params.USE_DATA_ORDER, use_data_order)
-        self.params.set(Params.OUTPUT_CPDAG, output_cpdag)
-        self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used),
+        self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
+        self.params.set(Params.MAX_BLOCKING_PATH_LENGTH, max_blocking_path_length)
+        self._ignored("run_lv_heuristic", "output_cpdag", output_cpdag, True)
 
         self._require_score("run_lv_heuristic")
         alg = pag.LvHeuristic(self.SCORE)
@@ -914,20 +945,61 @@ class TetradSearch:
         self.java = alg.search(self._search_data(), self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_fcit(self, num_starts=1, max_blocking_path_length=5, depth=5, max_disc_path_length=5,
-                    guarantee_pag=True):
-        # BOSS
+    def _set_fcit_params(self, method, num_starts, max_blocking_path_length, depth, max_disc_path_length,
+                         guarantee_pag, starts_with, use_bes, use_data_order, raskutti_uhler, rb_radius,
+                         recursive_depth, test_timeout, complete_rule_set_used, fcit_correctness, imap_alpha):
+        # Initial Markov PAG
+        self.params.set(Params.FCIT_STARTS_WITH, starts_with)
         self.params.set(Params.NUM_STARTS, num_starts)
+        self.params.set(Params.USE_BES_DEFAULT_TRUE, use_bes)
+        self.params.set(Params.USE_DATA_ORDER, use_data_order)
+        self.params.set(Params.GRASP_USE_RASKUTTI_UHLER, raskutti_uhler)
 
-        # FCIT
-        self.params.set(Params.MAX_BLOCKING_PATH_LENGTH, max_blocking_path_length)
+        # Removal and orientation
         self.params.set(Params.DEPTH, depth)
         self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
-        self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
+        self.params.set(Params.RB_RADIUS, rb_radius)
+        self.params.set(Params.RECURSIVE_DEPTH, recursive_depth)
+        self.params.set(Params.TEST_TIMEOUT, test_timeout)
+        self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
+        self._set_correctness(fcit_correctness, imap_alpha)
+
+        # Kept for existing calls; neither is read by FCIT in Tetrad 8.0.0.
+        self._ignored(method, "max_blocking_path_length", max_blocking_path_length, 5)
+        self._ignored(method, "guarantee_pag", guarantee_pag, True)
+
+    def run_fcit(self, num_starts=1, max_blocking_path_length=5, depth=5, max_disc_path_length=5,
+                 guarantee_pag=True, starts_with=1, use_bes=True, use_data_order=True, raskutti_uhler=False,
+                 rb_radius=-1, recursive_depth=-1, test_timeout=-1, complete_rule_set_used=True,
+                 fcit_correctness=1, imap_alpha=0.001):
+        """FCIT. Experimental in Tetrad 8.0.0. starts_with chooses the initial Markov PAG: 1 = BOSS, 2 = GRaSP,
+        3 = SP, 4 = complete PAG. fcit_correctness chooses the warrant for the result: 1 = guarantee I-map (default),
+        2 = score step, 3 = saturating step; see _set_correctness. For d-separation oracle input, BOSS (starts_with=1)
+        needs use_bes=True for its CPDAG guarantee."""
+        self._set_fcit_params("run_fcit", num_starts, max_blocking_path_length, depth, max_disc_path_length,
+                              guarantee_pag, starts_with, use_bes, use_data_order, raskutti_uhler, rb_radius,
+                              recursive_depth, test_timeout, complete_rule_set_used, fcit_correctness, imap_alpha)
 
         self._require_test("run_fcit")
         self._require_score("run_fcit")
         alg = pag.Fcit(self.TEST, self.SCORE)
+        alg.setKnowledge(self.knowledge)
+
+        self.java = alg.search(self._search_data(), self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
+    def run_fcit_zm(self, num_starts=1, depth=5, max_disc_path_length=5, starts_with=1, use_bes=True,
+                    use_data_order=True, raskutti_uhler=False, rb_radius=-1, recursive_depth=-1, test_timeout=-1,
+                    complete_rule_set_used=True, fcit_correctness=1, imap_alpha=0.001):
+        """FCIT-ZM: FCIT with every proposed change judged on the Zhang MAG side. Experimental in Tetrad 8.0.0. Takes
+        the same fcit_correctness choice as run_fcit."""
+        self._set_fcit_params("run_fcit_zm", num_starts, 5, depth, max_disc_path_length, True, starts_with, use_bes,
+                              use_data_order, raskutti_uhler, rb_radius, recursive_depth, test_timeout,
+                              complete_rule_set_used, fcit_correctness, imap_alpha)
+
+        self._require_test("run_fcit_zm")
+        self._require_score("run_fcit_zm")
+        alg = pag.FcitZm(self.TEST, self.SCORE)
         alg.setKnowledge(self.knowledge)
 
         self.java = alg.search(self._search_data(), self.params)
@@ -939,7 +1011,7 @@ class TetradSearch:
                       covered_depth=4, singular_depth=1,
                       nonsingular_depth=1, ordered_alg=False,
                       raskutti_uhler=False, use_data_order=True,
-                      num_starts=1, guarantee_pag=False):
+                      num_starts=1, guarantee_pag=False, fcit_correctness=1, imap_alpha=0.001):
         # GRaSP
         self.params.set(Params.GRASP_DEPTH, covered_depth)
         self.params.set(Params.GRASP_SINGULAR_DEPTH, singular_depth)
@@ -948,7 +1020,8 @@ class TetradSearch:
         self.params.set(Params.GRASP_USE_RASKUTTI_UHLER, raskutti_uhler)
         self.params.set(Params.USE_DATA_ORDER, use_data_order)
         self.params.set(Params.NUM_STARTS, num_starts)
-        self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
+        self._ignored("run_grasp_fci", "guarantee_pag", guarantee_pag, False)
+        self._set_correctness(fcit_correctness, imap_alpha)
 
         # FCI
         self.params.set(Params.DEPTH, depth)
@@ -966,11 +1039,12 @@ class TetradSearch:
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
     def run_sp_fci(self, max_disc_path_length=-1, complete_rule_set_used=True, depth=-1,
-                   guarantee_pag=False):
+                   guarantee_pag=False, fcit_correctness=1, imap_alpha=0.001):
         self.params.set(Params.MAX_DISCRIMINATING_PATH_LENGTH, max_disc_path_length)
         self.params.set(Params.COMPLETE_RULE_SET_USED, complete_rule_set_used)
         self.params.set(Params.DEPTH, depth)
-        self.params.set(Params.GUARANTEE_PAG, guarantee_pag)
+        self._ignored("run_sp_fci", "guarantee_pag", guarantee_pag, False)
+        self._set_correctness(fcit_correctness, imap_alpha)
 
         self._require_test("run_sp_fci")
         self._require_score("run_sp_fci")
@@ -1024,7 +1098,10 @@ class TetradSearch:
     def run_rlcd(self, alpha=0.01, max_k=3, allow_non_leaf_x=True, unfold_covers=True,
                  check_v=True, latent_gate=True, partition_clique_threshold=3,
                  stage1_fges=False, penalty_discount=1.0, seed=-1,
-                 stratify_by_domain=False, domain_column="domain"):
+                 stratify_by_domain=False, domain_column="domain",
+                 stage1_none=False, knowledge_in_stage1=True, resolve_two_indicator_latents=False,
+                 qualify_observed_causes=True, observed_explanation_check=False, observed_explanation_alpha=0.05,
+                 stability_runs=0, stability_time_limit=300.0, censor_ceiling=False, ceiling_value=100.0):
         """Runs RLCD (Rank-based Latent Causal Discovery; Dong et al., ICLR 2024). The output graph contains
         the observed variables together with any discovered latents, marked as latent nodes. No score or test
         needs to be set; RLCD uses its own rank tests and its own stage-one score internally. The data must be
@@ -1040,7 +1117,16 @@ class TetradSearch:
         covariance matrix, so merge small domains first.
 
         Stratified mode cannot be combined with pooled imputations, since the strata must be independent
-        samples, and imputations share their rows."""
+        samples, and imputations share their rows.
+
+        RLCD is marked experimental in Tetrad 8.0.0. The remaining keywords expose its 8.0.0 options at their Tetrad
+        defaults: stage1_none skips stage 1 so the rank search runs unconstrained; knowledge_in_stage1 hands tiers to
+        stage 1 as well as stage 2; resolve_two_indicator_latents uses third-order cumulants to replace a two-indicator
+        latent by a direct edge; qualify_observed_causes keeps an observed-to-latent arrow only when an observed parent
+        identifies its direction; observed_explanation_check drops a cluster whose rank deficiency an equally small set
+        of observed variables explains, tested at observed_explanation_alpha; stability_runs > 0 adds a bootstrap
+        stability summary within stability_time_limit seconds; censor_ceiling treats values at or above ceiling_value as
+        censored. Several of these are unit-tested but not yet measured at scale."""
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.RLCD_MAX_K, max_k)
         self.params.set(Params.RLCD_ALLOW_NON_LEAF_X, allow_non_leaf_x)
@@ -1053,6 +1139,16 @@ class TetradSearch:
         self.params.set(Params.SEED, seed)
         self.params.set(Params.STRATIFY_BY_DOMAIN, stratify_by_domain)
         self.params.set(Params.DOMAIN_COLUMN, domain_column)
+        self.params.set(Params.RLCD_STAGE1_NONE, stage1_none)
+        self.params.set(Params.RLCD_KNOWLEDGE_IN_STAGE1, knowledge_in_stage1)
+        self.params.set(Params.RLCD_RESOLVE_TWO_INDICATOR_LATENTS, resolve_two_indicator_latents)
+        self.params.set(Params.RLCD_QUALIFY_OBSERVED_CAUSES, qualify_observed_causes)
+        self.params.set(Params.RLCD_OBSERVED_EXPLANATION_CHECK, observed_explanation_check)
+        self.params.set(Params.RLCD_OBSERVED_EXPLANATION_ALPHA, observed_explanation_alpha)
+        self.params.set(Params.RLCD_STABILITY_RUNS, stability_runs)
+        self.params.set(Params.RLCD_STABILITY_TIME_LIMIT, stability_time_limit)
+        self.params.set(Params.RLCD_CENSOR_CEILING, censor_ceiling)
+        self.params.set(Params.RLCD_CEILING_VALUE, ceiling_value)
 
         alg = alg_other.Rlcd()
         alg.setKnowledge(self.knowledge)
@@ -1135,17 +1231,6 @@ class TetradSearch:
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
 
-    def run_svar_fci(self, penalty_discount=2):
-        num_lags = 2
-        lagged_data = ts.TimeSeriesUtils.createLagData(self.data, num_lags)
-        ts_test = ts.IndTestFisherZ(lagged_data, 0.01)
-        ts_score = ts.SemBicScore(lagged_data)
-        ts_score.setPenaltyDiscount(penalty_discount)
-        svar_fci = ts.SvarFci(ts_test)
-        svar_fci.setKnowledge(lagged_data.getKnowledge())
-        self.java = svar_fci.search()
-        # self.bootstrap_graphs = svar_fci.getBootstrapGraphs()
-
     def run_direct_lingam(self):
         self._require_score("run_direct_lingam")
         alg = dag.DirectLingam(self.SCORE)
@@ -1162,21 +1247,6 @@ class TetradSearch:
 
         self.java = alg.search(self.data, self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
-
-    def run_pc_lingam(self):
-        alg = dag.PcLingam()
-        self.java = alg.search(self.data, self.params)
-        self.bootstrap_graphs = alg.getBootstrapGraphs()
-
-    def run_gango(self, score, data):
-        fges_graph = TetradSearch.run_fges(score)
-        datasets = util.ArrayList()
-        datasets.add(data)
-        rskew = ts.Lofs2(fges_graph, datasets)
-        rskew.setKnowledge(self.knowledge)
-        rskew.setRule(ts.Lofs2.Rule.RSkew)
-        gango_graph = rskew.orient()
-        return gango_graph
 
     # Set numberResampling to 0 to turn off bootstrapping.
     # For resampling ensemble, 1 = "preserved" which means the graph will summarize the edge

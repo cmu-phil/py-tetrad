@@ -285,19 +285,24 @@ TetradSearch <- setRefClass(
     # @param max_disc_path_length The maximum length of any discriminating path considered, or -1 if unlimited.
     # @param complete_rule_set_used TRUE if the tail and arrow complete (Zhang) FCI final orienation rule set
     #   should be used, FALSE if the arrow-complete rule set from Causation, Prediction and Search should be used.
-    # @param guarangee_pag TRUE if a final pipeline should be run to guarantee a legal PAG estimated graph.
+    # @param guarantee_pag Kept for existing calls; not read by BFCI in Tetrad 8.0.0.
+    # @param fcit_correctness Warrant for the result (Tetrad 8.0.0): 1 = guarantee I-map (default), 2 = score step,
+    #   3 = saturating step.
+    # @param imap_alpha Significance level of the I-map gate's tests (default 0.001).
     # @return The estimated graph
-    run_bfci = function(depth = -1, max_disc_path_length = -1, complete_rule_set_used = TRUE, guarantee_pag = FALSE) {
+    run_bfci = function(depth = -1, max_disc_path_length = -1, complete_rule_set_used = TRUE, guarantee_pag = FALSE,
+                        fcit_correctness = 1, imap_alpha = 0.001) {
       cat("Running BFCI algorithm...\n")
 
       .self$.setParamInt("depth", depth)
       .self$.setParamInt("maxDiscriminatingPathLength", max_disc_path_length)
       .self$.setParam("completeRuleSetUsed", complete_rule_set_used)
-      .self$.setParam("guaranteePag", guarantee_pag)
+      .self$.setParamInt("fcitCorrectness", fcit_correctness)
+      .self$.setParamDouble("imapAlpha", imap_alpha)
 
       dataModel <- .jcast(.self$data_model, "edu.cmu.tetrad.data.DataModel")
 
-      bfci <- .jnew("edu.cmu.tetrad.algcomparison.algorithm.oracle.pag.BossFci", .self$test, .self$score)
+      bfci <- .jnew("edu.cmu.tetrad.algcomparison.algorithm.oracle.pag.Bfci", .self$test, .self$score)
       .jcall(bfci, "V", "setKnowledge", .self$knowledge)
 
       graph <- .jcall(bfci, "Ledu/cmu/tetrad/graph/Graph;", "search", dataModel, .self$params)
@@ -315,16 +320,20 @@ TetradSearch <- setRefClass(
     # @param max_disc_path_length The maximum length of any discriminating path considered, or -1 if unlimited.
     # @param depth The maximum size of any conditioning set for independence testing or -1 if unlimited.
     # @return The estimated graph
-    run_fcit = function(num_starts = 1, max_blocking_path_length = 5, depth = 5, max_disc_path_length = -1) {
+    run_fcit = function(num_starts = 1, max_blocking_path_length = 5, depth = 5, max_disc_path_length = -1,
+                        starts_with = 1, fcit_correctness = 1, imap_alpha = 0.001) {
       cat("Running FCIT algorithm...\n")
 
-      # BOSS parameters
+      # Initial Markov PAG: 1 = BOSS, 2 = GRaSP, 3 = SP, 4 = complete PAG
+      .self$.setParamInt("fcitStartsWith", starts_with)
       .self$.setParamInt("numStarts", num_starts)
 
-      # FCIT parameters
+      # FCIT parameters (maxBlockingPathLength is kept for existing calls; FCIT no longer reads it)
       .self$.setParamInt("maxBlockingPathLength", max_blocking_path_length)
       .self$.setParamInt("depth", depth)
       .self$.setParamInt("maxDiscriminatingPathLength", max_disc_path_length)
+      .self$.setParamInt("fcitCorrectness", fcit_correctness)
+      .self$.setParamDouble("imapAlpha", imap_alpha)
 
       dataModel <- .jcast(.self$data_model, "edu.cmu.tetrad.data.DataModel")
 
