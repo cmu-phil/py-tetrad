@@ -1101,7 +1101,8 @@ class TetradSearch:
                  stratify_by_domain=False, domain_column="domain",
                  stage1_none=False, knowledge_in_stage1=True, resolve_two_indicator_latents=False,
                  qualify_observed_causes=True, observed_explanation_check=False, observed_explanation_alpha=0.05,
-                 stability_runs=0, stability_time_limit=300.0, censor_ceiling=False, ceiling_value=100.0):
+                 stability_runs=0, stability_time_limit=300.0, censor_ceiling=False, ceiling_value=100.0,
+                 effective_sample_size=-1):
         """Runs RLCD (Rank-based Latent Causal Discovery; Dong et al., ICLR 2024). The output graph contains
         the observed variables together with any discovered latents, marked as latent nodes. No score or test
         needs to be set; RLCD uses its own rank tests and its own stage-one score internally. The data must be
@@ -1126,7 +1127,15 @@ class TetradSearch:
         identifies its direction; observed_explanation_check drops a cluster whose rank deficiency an equally small set
         of observed variables explains, tested at observed_explanation_alpha; stability_runs > 0 adds a bootstrap
         stability summary within stability_time_limit seconds; censor_ceiling treats values at or above ceiling_value as
-        censored. Several of these are unit-tested but not yet measured at scale."""
+        censored. Several of these are unit-tested but not yet measured at scale.
+
+        effective_sample_size, when not -1, is the sample size every rank test and the stage-one score are
+        calibrated by, in place of the row count: the design-effect-corrected count when rows are not independent
+        (repeated respondents, retakes, clustered sampling), or a value below the row count as a tolerance for
+        approximate rank deficiency on a large sample, where exact rank tests reject everything and the search
+        climbs to large cover sizes very slowly. In stratified mode each domain's sample size is scaled in
+        proportion. It must not exceed the row count, and it cannot be combined with a missing-data policy,
+        censoring, or pooled imputations, which set sample sizes of their own."""
         self.params.set(Params.ALPHA, alpha)
         self.params.set(Params.RLCD_MAX_K, max_k)
         self.params.set(Params.RLCD_ALLOW_NON_LEAF_X, allow_non_leaf_x)
@@ -1149,6 +1158,7 @@ class TetradSearch:
         self.params.set(Params.RLCD_STABILITY_TIME_LIMIT, stability_time_limit)
         self.params.set(Params.RLCD_CENSOR_CEILING, censor_ceiling)
         self.params.set(Params.RLCD_CEILING_VALUE, ceiling_value)
+        self.params.set(Params.EFFECTIVE_SAMPLE_SIZE, effective_sample_size)
 
         alg = alg_other.Rlcd()
         alg.setKnowledge(self.knowledge)
