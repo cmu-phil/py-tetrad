@@ -1688,13 +1688,44 @@ class TetradSearch:
 
         return pvalues
 
-    # Returns a (tetrad-format) List of Sets of Nodes. Each set of nodes in the list is an adjustment set
-    # for the source/target pair.
-    # near_which_endpoint: The endpoint(s) to consider for adjustment; 1 = near the source, 2 = near the target, 3 = near either.
-    def get_adjustment_sets(self, graph, graph_type, source, target, max_num_sets=10, max_distance_from_point=5,
+    # The kinds of graph adjustment sets can be asked for. Tetrad treats PAG and MAG each in its own way and the
+    # others alike, so a PAG or MAG given as one of the others gets sets that need not be valid for it.
+    ADJUSTMENT_GRAPH_TYPES = ("DAG", "CPDAG", "PDAG", "MPDAG", "MAG", "PAG")
+
+    def get_adjustment_sets(self, graph, source, target, graph_type, max_num_sets=10, max_distance_from_point=5,
                             near_which_endpoint=1, max_path_length=20, heckel_pruning=False, o_set_compatible=False):
-        return graph.paths().adjustmentSets(source, graph_type, target, max_num_sets, max_distance_from_point,
-                                             near_which_endpoint, max_path_length, heckel_pruning, o_set_compatible)
+        """Returns a (tetrad-format) List of Sets of Nodes. Each set of nodes in the list is an adjustment set
+        for the effect of source on target in the given graph. The list is empty if source and target are the
+        same or there is no amenable path from source to target.
+
+        graph: the graph, as get_java() gives it.
+        source, target: the two variables, each as a name or as a Tetrad Node of the graph.
+        graph_type: what kind of graph it is, one of "DAG", "CPDAG", "PDAG", "MPDAG", "MAG" or "PAG". It is not
+        worked out from the graph, and it matters: say "PAG" for the result of FCI and its relatives.
+        near_which_endpoint: the endpoint(s) to look for adjustment variables near; 1 = near the source,
+        2 = near the target, 3 = near either.
+
+        Before 2026-11-26 the signature read (graph, graph_type, source, target), and the three were handed
+        to Tetrad in an order that could not work as read. Called as (graph, source, target, graph_type), which
+        is how adjustment_sets_example.py calls it, it ran and gave the sets for the effect of target on
+        source, the wrong way round. Results got that way should be redone."""
+        if not isinstance(graph_type, str) or graph_type.upper() not in self.ADJUSTMENT_GRAPH_TYPES:
+            raise ValueError(f"graph_type must be one of {', '.join(self.ADJUSTMENT_GRAPH_TYPES)}, and was "
+                             f"{graph_type!r}. The arguments are (graph, source, target, graph_type).")
+
+        nodes = []
+
+        for role, variable in (("source", source), ("target", target)):
+            node = graph.getNode(variable) if isinstance(variable, str) else variable
+
+            if node is None:
+                raise ValueError(f"The {role}, {variable!r}, is not a variable of the graph.")
+
+            nodes.append(node)
+
+        return graph.paths().adjustmentSets(nodes[0], nodes[1], graph_type.upper(), max_num_sets,
+                                             max_distance_from_point, near_which_endpoint, max_path_length,
+                                             heckel_pruning, o_set_compatible)
 
     def get_gregression(self, graph=None, use_knowledge=False):
         """

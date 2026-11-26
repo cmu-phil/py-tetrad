@@ -81,7 +81,9 @@ print(g2$getAttribute("BIC"))
 
 print("========== ADJUSTMENT SETS ==============")
 
-adj_sets <- ts$get_adjustment_sets(g2, "Attack", "Pressure")
+## BOSS gives a CPDAG. The kind of graph has to be said; for the result of FCI
+## it would be "PAG".
+adj_sets <- ts$get_adjustment_sets(g2, "Attack", "Pressure", graph_type = "CPDAG")
 ts$print_adjustment_sets(adj_sets)
 
 print("========== MARKOV CHECK ==================")
@@ -114,6 +116,6 @@ print(g4$getAttribute("BIC"))
 print("========== MARKOV CHECK ==================")
 
 ts$use_fisher_z(use_for_mc=TRUE)
-ret <- ts$markov_check(g4, condition_set_type="ORDERED_LOCAL_MARKOV")
+ret <- ts$markov_check(g4, condition_set_type="ORDERED_LOCAL_MARKOV_PROPERTY")
 print(ret)
 

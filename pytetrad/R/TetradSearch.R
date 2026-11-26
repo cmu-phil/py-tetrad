@@ -56,8 +56,10 @@ TetradSearch <- setRefClass(
     # Initialize the TetradSearch object
     #
     # @param data A data frame containing the dataset to be analyzed.
+    # @param int_as_cont TRUE, the default, to take a column of type 'integer' as continuous; FALSE to take it
+    #   as discrete. See data_frame_to_tetrad_dataset.
     # @return A TetradSearch object.
-    initialize = function(data) {
+    initialize = function(data, int_as_cont = TRUE) {
       cat("Initializing TetradSearch object...\n")
 
       if (!is.data.frame(data)) {
@@ -69,7 +71,7 @@ TetradSearch <- setRefClass(
       cat("Data frame dimensions:", dim(data), "\n")
       cat("Sample size set to:", .self$sample_size, "\n")
 
-      .self$data_model <- .self$data_frame_to_tetrad_dataset(data)
+      .self$data_model <- .self$data_frame_to_tetrad_dataset(data, int_as_cont = int_as_cont)
       .self$data_model <- .jcast(.self$data_model, "edu.cmu.tetrad.data.DataModel")
 
       cat("Tetrad DataSet created.\n")
@@ -534,8 +536,14 @@ TetradSearch <- setRefClass(
     # along with the size ordering can help to give guidance for the user to choose the best adjustment set for
     # their purposes when multiple adjustment sets are possible.
     #
-    # @param source                  The source node whose sets will be used for adjustment.
-    # @param target                  The target node whose sets will be adjusted to match the source node.
+    # @param graph                   The graph, as get_java() gives it.
+    # @param source                  The name of the source variable.
+    # @param target                  The name of the target variable. The sets are for the effect of the source
+    #                                on the target.
+    # @param graph_type              What kind of graph it is, one of "DAG", "CPDAG", "PDAG", "MPDAG", "MAG" or
+    #                                "PAG". It is not worked out from the graph, and it matters: Tetrad treats PAG
+    #                                and MAG each in its own way and the others alike, so say "PAG" for the result
+    #                                of FCI and its relatives.
     # @param maxNumSets              The maximum number of sets to be adjusted. If this value is less than or equal to
     #                                0, all sets in the target node will be adjusted to match the source node.
     # @param maxDistanceFromEndpoint The maximum distance from the endpoint of the trek to consider for adjustment.
@@ -545,8 +553,16 @@ TetradSearch <- setRefClass(
     #                                given, all paths will be considered.
     # @return A list of adjustment sets for the pair of nodes &lt;source, target&gt;. Return an smpty
     # list if source == target or there is no amenable path from source to target.
-    get_adjustment_sets = function(graph, source, target, max_num_sets = 10, max_distance_from_point = 5,
-                                   near_which_endpoint = 1, max_path_length = 20) {
+    get_adjustment_sets = function(graph, source, target, graph_type, max_num_sets = 10,
+                                   max_distance_from_point = 5, near_which_endpoint = 1, max_path_length = 20) {
+      graph_types <- c("DAG", "CPDAG", "PDAG", "MPDAG", "MAG", "PAG")
+
+      if (missing(graph_type) || !is.character(graph_type) || length(graph_type) != 1 ||
+          !(toupper(graph_type) %in% graph_types)) {
+        stop("graph_type must be given, as one of ", paste(graph_types, collapse = ", "),
+             "; for example get_adjustment_sets(graph, \"X\", \"Y\", graph_type = \"CPDAG\").")
+      }
+
       cat("Getting adjustment sets for:", source, "->", target, "\n")
 
       # Look up Node objects by name
@@ -565,6 +581,7 @@ TetradSearch <- setRefClass(
                           "adjustmentSets",
                           source_node,
                           target_node,
+                          toupper(graph_type),
                           as.integer(max_num_sets),
                           as.integer(max_distance_from_point),
                           as.integer(near_which_endpoint),
@@ -611,27 +628,41 @@ TetradSearch <- setRefClass(
     # @param fraction_resample Tests are done using random subsamples of the data per test, if this is
     #   less than 1, or all of the data, if it is equal to 1.
     # @param condition_set_type The type of conditioning set to use for the Markov check, one of:
-    #   GLOBAL_MARKOV, LOCAL_MARKOV, PARENTS_AND_NEIGHBORS, MARKOV_BLANKET, RECURSIVE_MSEP, NONCOLLIDERS_ONLY,
-    #   ORDERED_LOCAL_MARKOV, or ORDERED_LOCAL_MARKOV_MAG
+    #   ORDERED_LOCAL_MARKOV_PROPERTY, ORDERED_LOCAL_MARKOV_PROPERTY_SINK_ELIMINATION, PAIRWISE_MARKOV_PROPERTY,
+    #   MARKOV_BLANKET, RECURSIVE_BLOCKING, RECURSIVE_BLOCKING_WITH_GRAPHOID_CLOSURE,
+    #   RECURSIVE_BLOCKING_WITH_COMPOSITIONAL_GRAPHOID_CLOSURE, LOCAL_MARKOV, PARENTS_AND_NEIGHBORS or
+    #   GLOBAL_MARKOV. These are the names Tetrad now has; a name it does not have is refused with the list of
+    #   those it does.
     # @param find_smallest_subset Whether to find the smallest subset for a given set that yields independence.
     # @param parallelized TRUE if conditional independencies should be checked in parallel.
     # @effective_sample_size The effective sample size to use for calculations, or -1 if the actual sample size.
+    #   The test must be one that takes an effective sample size.
     # @return Marov checker statistics as a named list.
-    markov_check = function(graph, fraction_resample = 1, condition_set_type = "ORDERED_LOCAL_MARKOV",
+    markov_check = function(graph, fraction_resample = 1, condition_set_type = "ORDERED_LOCAL_MARKOV_PROPERTY",
                             find_smallest_subset = FALSE, parallelized = TRUE, effective_sample_size = -1) {
       cat("Running Markov check...\n")
 
-      if (is.null(.self$mc_test)) {
+      # A field that was never set is not NULL.
+      if (is.null(.self$mc_test) || is(.self$mc_test, "uninitializedField")) {
         stop("A test for the Markov Checker has not been set. Please call a `use_*` method with `use_for_mc = TRUE`.")
       }
 
-      condition_set_type_ <- .jfield("edu.cmu.tetrad.search.ConditioningSetType",
-                                    name = condition_set_type,
-                                    sig = "Ledu/cmu/tetrad/search/ConditioningSetType;")
+      # The conditioning set types this Tetrad has, asked of Tetrad so that the list here cannot go stale.
+      set_types <- .jcall("edu.cmu.tetrad.search.ConditioningSetType",
+                          "[Ledu/cmu/tetrad/search/ConditioningSetType;", "values")
+      set_type_names <- vapply(set_types, function(t) .jcall(t, "S", "name"), character(1))
+
+      if (!is.character(condition_set_type) || length(condition_set_type) != 1 ||
+          !(condition_set_type %in% set_type_names)) {
+        stop("condition_set_type must be one of ", paste(set_type_names, collapse = ", "), ", and was ",
+             paste(format(condition_set_type), collapse = " "), ".")
+      }
+
+      condition_set_type_ <- set_types[[match(condition_set_type, set_type_names)]]
 
       dataModel <- .jcast(.self$data_model, "edu.cmu.tetrad.data.DataModel")
 
-      test_ <- .jcall(.self$mc_test, "Ledu/cmu/tetrad/search/IndependenceTest;",
+      test_ <- .jcall(.self$mc_test, "Ledu/cmu/tetrad/search/test/IndependenceTest;",
                      "getTest", dataModel, .self$params)
 
       mc <- .jnew("edu.cmu.tetrad.search.MarkovCheck", graph, test_, condition_set_type_)
@@ -641,22 +672,23 @@ TetradSearch <- setRefClass(
       .jcall(mc, "V", "setFindSmallestSubset", find_smallest_subset)
       .jcall(mc, "V", "setParallelized", parallelized)
 
-      # Generate results
-      .jcall(mc, "V", "generateAllResults")
-      .self$mc_ind_results <- .jcall(mc, "Ljava/util/List;", "getResults", TRUE)
-
-      # Set effective sample size if specified
+      # Set the effective sample size if specified. This has to come before the results are generated: set
+      # afterward, as it was here, it changed nothing, since every p-value had been computed by then.
       if (effective_sample_size != -1) {
         .jcall(mc, "V", "setEffectiveSampleSize", as.integer(effective_sample_size))
       }
+
+      # Generate results
+      .jcall(mc, "V", "generateAllResults")
+      .self$mc_ind_results <- .jcall(mc, "Ljava/util/List;", "getResults", TRUE)
 
       # Extract statistics
       ad_ind <- .jcall(mc, "D", "getAndersonDarlingP", TRUE)
       ad_dep <- .jcall(mc, "D", "getAndersonDarlingP", FALSE)
       ks_ind <- .jcall(mc, "D", "getKsPValue", TRUE)
       ks_dep <- .jcall(mc, "D", "getKsPValue", FALSE)
-      bin_indep <- .jcall(mc, "D", "getBinomialPValue", TRUE)
-      bin_dep <- .jcall(mc, "D", "getBinomialPValue", FALSE)
+      bin_indep <- .jcall(mc, "D", "getBinomialPValue_", TRUE)
+      bin_dep <- .jcall(mc, "D", "getBinomialPValue_", FALSE)
       frac_dep_ind <- .jcall(mc, "D", "getFractionDependent", TRUE)
       frac_dep_dep <- .jcall(mc, "D", "getFractionDependent", FALSE)
       num_tests_ind <- .jcall(mc, "I", "getNumTests", TRUE)
@@ -680,9 +712,21 @@ TetradSearch <- setRefClass(
 
     # Converts the given R data frame to a (possibly mixed) Tetrad DataSet.
     #
-    # @param df The R data frame to translate. Continuous columns should be of type 'numeric' and the
-    #   discrete columns of type 'integer'.
-    data_frame_to_tetrad_dataset = function(df) {
+    # A column of type 'numeric' (double) is continuous. A column of type 'factor', 'character' or 'logical' is
+    # discrete: its categories are its levels, or its distinct values in sorted order, by name, and each value is
+    # stored as the place of its category, counting from 0 as Tetrad does. A level with no rows is left out. A
+    # missing value (NA) stays missing in either kind of column.
+    #
+    # A column of type 'integer' is continuous unless int_as_cont is FALSE, in which case it is discrete, with
+    # its distinct values as the categories. The default is TRUE because the scores and tests this class offers
+    # are for continuous data, and read.table and read.csv give type 'integer' to any column of whole numbers,
+    # a count or a year as much as a code. To have one such column discrete, make it a factor.
+    #
+    # (This differs from py-tetrad's pandas_data_to_tetrad, where int_as_cont is FALSE unless given.)
+    #
+    # @param df The R data frame to translate.
+    # @param int_as_cont TRUE to take columns of type 'integer' as continuous; FALSE to take them as discrete.
+    data_frame_to_tetrad_dataset = function(df, int_as_cont = TRUE) {
       stopifnot(require(rJava))
 
       nrows <- nrow(df)
@@ -695,25 +739,40 @@ TetradSearch <- setRefClass(
       cont_data <- vector("list", ncols)
       disc_data <- vector("list", ncols)
 
+      # Tetrad's code for a missing discrete value, DiscreteVariable.MISSING_VALUE.
+      missing_discrete <- -99L
+
       for (j in seq_len(ncols)) {
         name <- colnames(df)[j]
         col <- df[[j]]
 
-        if (is.numeric(col)) {
+        # A factor is of type integer underneath, and is.numeric is TRUE of an integer column, so the kinds
+        # are told apart in this order.
+        if (is.factor(col) || is.character(col) || is.logical(col) || (is.integer(col) && !int_as_cont)) {
+          levels_ <- if (is.factor(col)) droplevels(col) else factor(col)
+          categories <- .jnew("java/util/ArrayList")
+
+          for (category in levels(levels_)) {
+            .jcall(categories, "Z", "add", .jcast(.jnew("java/lang/String", category), "java/lang/Object"))
+          }
+
+          codes <- as.integer(levels_) - 1L
+          codes[is.na(codes)] <- missing_discrete
+
+          variable <- .jnew("edu/cmu/tetrad/data/DiscreteVariable", name, .jcast(categories, "java/util/List"))
+          node <- .jcast(variable, "edu/cmu/tetrad/graph/Node")
+          .jcall(var_list, "Z", "add", .jcast(node, "java/lang/Object"))
+          cont_data[[j]] <- .jnull("[D")  # null double[] for continuous
+          disc_data[[j]] <- .jarray(codes, dispatch = TRUE)
+        } else if (is.numeric(col)) {
           variable <- .jnew("edu/cmu/tetrad/data/ContinuousVariable", name)
           node <- .jcast(variable, "edu/cmu/tetrad/graph/Node")
           .jcall(var_list, "Z", "add", .jcast(node, "java/lang/Object"))
           cont_data[[j]] <- .jarray(as.numeric(col), dispatch = TRUE)
           disc_data[[j]] <- .jnull("[I")  # null int[] for discrete
-        } else if (is.integer(col) || is.factor(col)) {
-          num_categories <- length(unique(na.omit(col)))
-          variable <- .jnew("edu/cmu/tetrad/data/DiscreteVariable", name, as.integer(num_categories))
-          node <- .jcast(variable, "edu/cmu/tetrad/graph/Node")
-          .jcall(var_list, "Z", "add", .jcast(node, "java/lang/Object"))
-          cont_data[[j]] <- .jnull("[D")  # null double[] for continuous
-          disc_data[[j]] <- .jarray(as.integer(col), dispatch = TRUE)
         } else {
-          stop(paste("Unsupported column type:", name))
+          stop(paste0("Unsupported column type for ", name, ": ", paste(class(col), collapse = ", "),
+                      ". A column must be numeric, integer, factor, character or logical."))
         }
       }
 
