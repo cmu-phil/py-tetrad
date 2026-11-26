@@ -28,6 +28,12 @@ orders = search.get_topk_orders()
 
 print(f"Models kept: {len(graphs)}")
 
+## How many searches were made, and whether max_runs stopped the search with placements still set aside. If it
+## did, the models are the best of those reached, and a higher max_runs would search the rest. (These two need a
+## tetrad-current.jar built from development after 2026-11-26.)
+print(f"Runs made: {search.get_topk_num_runs()}")
+print(f"Cut short by max_runs: {search.get_topk_stopped_by_max_runs()}")
+
 for i, (graph, score, order) in enumerate(zip(graphs, scores, orders)):
     print(f"\nModel {i + 1}: score {score:.3f}, {score - scores[0]:.3f} from the best")
     print("Order: " + ", ".join(order))

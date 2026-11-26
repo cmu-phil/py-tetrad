@@ -46,6 +46,8 @@ TetradSearch <- setRefClass(
     topk_graphs = "list",         # Graphs of the models kept by the last run_boss_topk, best first
     topk_scores = "numeric",      # Their scores
     topk_orders = "list",         # Their variable orders, as character vectors
+    topk_num_runs = "numeric",    # How many runs that search made; NA if the jar does not say
+    topk_stopped = "logical",     # Whether its cap on runs cut it short; NA if the jar does not say
     topk_result = "ANY"           # The graph that run returned
   ),
 
@@ -278,6 +280,8 @@ TetradSearch <- setRefClass(
     #   above 0.
     # @param max_runs A cap on the number of searches made, counting the branches set aside. A search that reaches
     #   the cap stops there, so the models kept are then the best of those reached, not of all there are.
+    #   get_topk_num_runs() gives the number made and get_topk_stopped_by_max_runs() says whether the cap cut the
+    #   search short.
     # @param dedup_by_cpdag TRUE to count two orders that give the same CPDAG as one model; FALSE to count every
     #   order as a model.
     # @param optimal_across_branches TRUE to offer every order visited to the models kept, not only the order each
@@ -338,6 +342,14 @@ TetradSearch <- setRefClass(
       })
       .self$topk_result <- graph
 
+      if (any(grepl("getNumRuns", .jmethods(alg), fixed = TRUE))) {
+        .self$topk_num_runs <- .jcall(alg, "I", "getNumRuns")
+        .self$topk_stopped <- .jcall(alg, "Z", "isStoppedByMaxRuns")
+      } else {
+        .self$topk_num_runs <- NA_real_
+        .self$topk_stopped <- NA
+      }
+
       cat("BOSS Top-K search completed. Models kept:", length(kept), "\n")
       invisible(.self$graph)
     },
@@ -364,6 +376,35 @@ TetradSearch <- setRefClass(
     # character vector of variable names. A model's graph is the one BOSS builds from its order.
     get_topk_orders = function() {
       if (.self$.topk_current()) .self$topk_orders else list()
+    },
+
+    # A count from the last run_boss_topk, or the given value if that search has been replaced.
+    .topk_count = function(value, none) {
+      if (!.self$.topk_current()) return(none)
+      if (is.na(value)) {
+        stop("This tetrad-current.jar predates the BOSS Top-K run count; update to a jar built from development ",
+             "after 2026-11-26.")
+      }
+      value
+    },
+
+    # The number of runs the last run_boss_topk made: its starts, and one for each placement that was set aside
+    # and then searched from. With knowledge that puts every variable in a tier this is the sum over the tiers,
+    # and max_runs applies to each tier's search separately. It is 0 wherever get_topk_graphs is empty.
+    #
+    # Requires a tetrad-current.jar built from development after 2026-11-26.
+    get_topk_num_runs = function() {
+      .self$.topk_count(.self$topk_num_runs, 0)
+    },
+
+    # TRUE if max_runs cut the last run_boss_topk short, that is, if a placement that was to be set aside was not
+    # searched from because of the cap. The models kept are then the best of those reached, not of all there are
+    # within split_delta; raise max_runs to search the rest. A search that used up max_runs exactly, with nothing
+    # left set aside, was not cut short. It is FALSE wherever get_topk_graphs is empty.
+    #
+    # Requires a tetrad-current.jar built from development after 2026-11-26.
+    get_topk_stopped_by_max_runs = function() {
+      .self$.topk_count(.self$topk_stopped, FALSE)
     },
 
     # Run the FCI algorithm

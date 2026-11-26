@@ -80,6 +80,13 @@ orders <- ts$get_topk_orders()
 
 cat("Models kept:", length(graphs), "\n")
 
+## How many searches were made, and whether max_runs stopped the search with
+## placements still set aside. With no splitting, as here, the runs are the
+## starts and nothing is cut short. (These two need a tetrad-current.jar built
+## from development after 2026-11-26.)
+cat("Runs made:", ts$get_topk_num_runs(), "\n")
+cat("Cut short by max_runs:", ts$get_topk_stopped_by_max_runs(), "\n")
+
 for (i in seq_along(graphs)) {
   cat(sprintf("\nModel %d: score %.3f, %.3f from the best\n", i, scores[i], scores[i] - scores[1]))
   cat("Order:", paste(orders[[i]], collapse = ", "), "\n")

@@ -137,6 +137,9 @@ class TetradSearch:
         self._topk_scores = []
         self._topk_orders = []
         self._topk_result = None
+        # How many runs that search made and whether its cap cut it short; None if the jar does not say.
+        self._topk_num_runs = None
+        self._topk_stopped_by_max_runs = None
 
         # Additional data sets registered for pooling (IMaGES-style for a score-based search, Fisher/Tippett
         # p-value combination for a test-based search); see add_data_set and set_pool_data_sets. All pooled data
@@ -672,6 +675,8 @@ class TetradSearch:
 
         max_runs: a cap on the number of searches made, counting the branches set aside. A search that reaches
         the cap stops there, so the models kept are then the best of those reached, not of all there are.
+        get_topk_num_runs() gives the number made and get_topk_stopped_by_max_runs() says whether the cap cut
+        the search short.
 
         dedup_by_cpdag: True to count two orders that give the same CPDAG as one model; False to count every
         order as a model.
@@ -721,6 +726,13 @@ class TetradSearch:
         self._topk_orders = [[str(node.getName()) for node in order] for order in alg.getTopOrders()]
         self._topk_result = self.java
 
+        if hasattr(alg, "getNumRuns"):
+            self._topk_num_runs = int(alg.getNumRuns())
+            self._topk_stopped_by_max_runs = bool(alg.isStoppedByMaxRuns())
+        else:
+            self._topk_num_runs = None
+            self._topk_stopped_by_max_runs = None
+
     def _topk(self, kept):
         """Internal. The models of the last run_boss_topk, unless another search has replaced its result."""
         return list(kept) if self.java is not None and self.java is self._topk_result else []
@@ -742,6 +754,33 @@ class TetradSearch:
         get_topk_graphs, each as a list of variable names. A model's graph is the one BOSS builds from its
         order."""
         return [list(order) for order in self._topk(self._topk_orders)]
+
+    def _topk_count(self, value, none):
+        """Internal. A count from the last run_boss_topk, or the given value if that search has been replaced."""
+        if self.java is None or self.java is not self._topk_result:
+            return none
+        if value is None:
+            raise RuntimeError("This tetrad-current.jar predates the BOSS Top-K run count; update to a jar built "
+                               "from development after 2026-11-26.")
+        return value
+
+    def get_topk_num_runs(self):
+        """Returns the number of runs the last run_boss_topk made: its starts, and one for each placement that
+        was set aside and then searched from. With knowledge that puts every variable in a tier this is the sum
+        over the tiers, and max_runs applies to each tier's search separately. It is 0 wherever get_topk_graphs
+        is empty.
+
+        Requires a tetrad-current.jar built from development after 2026-11-26."""
+        return self._topk_count(self._topk_num_runs, 0)
+
+    def get_topk_stopped_by_max_runs(self):
+        """Returns True if max_runs cut the last run_boss_topk short, that is, if a placement that was to be set
+        aside was not searched from because of the cap. The models kept are then the best of those reached, not
+        of all there are within split_delta; raise max_runs to search the rest. A search that used up max_runs
+        exactly, with nothing left set aside, was not cut short. It is False wherever get_topk_graphs is empty.
+
+        Requires a tetrad-current.jar built from development after 2026-11-26."""
+        return self._topk_count(self._topk_stopped_by_max_runs, False)
 
     def run_restricted_boss(self, targets="", use_bes=False, num_starts=1,
                             trimming_style = 3):
