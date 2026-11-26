@@ -42,7 +42,11 @@ TetradSearch <- setRefClass(
     knowledge = "ANY",            # Background knowledge object
     graph = "ANY",                # Resulting graph
     search = "ANY",               # Search object
-    params = "ANY"                # Parameters object
+    params = "ANY",               # Parameters object
+    topk_graphs = "list",         # Graphs of the models kept by the last run_boss_topk, best first
+    topk_scores = "numeric",      # Their scores
+    topk_orders = "list",         # Their variable orders, as character vectors
+    topk_result = "ANY"           # The graph that run returned
   ),
 
   methods = list(
@@ -77,7 +81,7 @@ TetradSearch <- setRefClass(
 
     # Make sure the score object is initialized
     .check_score = function() {
-      if (is.null(.self$score)) {
+      if (is.null(.self$score) || is(.self$score, "uninitializedField")) {
         stop("Error: The 'score' field has not been initialized yet. Please \
                  set a score before running the algorithm.")
       }
@@ -103,7 +107,7 @@ TetradSearch <- setRefClass(
 
     # Make sure the test object is initialized
     .check_test = function() {
-      if (is.null(.self$test)) {
+      if (is.null(.self$test) || is(.self$test, "uninitializedField")) {
         stop("Error: The 'test' field has not been initialized yet. Please \
                  set a test before running the algorithm.")
       }
@@ -220,6 +224,10 @@ TetradSearch <- setRefClass(
       .jcall(.self$params, "V", "set", key, .jcast(.jnew("java/lang/Double", as.double(value)), "java/lang/Object"))
     },
 
+    .setParamLong = function(key, value) {
+      .jcall(.self$params, "V", "set", key, .jcast(.jnew("java/lang/Long", .jlong(value)), "java/lang/Object"))
+    },
+
     # Run the BOSS algorithm
     #
     # @param num_starts The number of random restarts to do; the model with the best BIC score overall is returned.
@@ -248,6 +256,114 @@ TetradSearch <- setRefClass(
       .self$graph <- graph
 
       cat("BOSS search completed.\n")
+    },
+
+    # Run the BOSS Top-K algorithm, which keeps the best few models BOSS comes across and not only the best one.
+    #
+    # The best graph is the result, as for run_boss: get_java() and print_graph() give it. The models kept, best
+    # first, are given by get_topk_graphs(), get_topk_scores() and get_topk_orders(). The first of them is the
+    # result.
+    #
+    # With split_delta = 0 and num_starts = 1 the search is plain BOSS and keeps one model. To get several, set
+    # num_starts above 1, or split_delta above 0, or both.
+    #
+    # Requires a tetrad-current.jar built from development on or after 2026-11-26.
+    #
+    # @param top_k How many models to keep at most.
+    # @param split_delta When above 0, a placement of a variable that scores within this much of the best placement
+    #   is set aside and searched from later, as a branch of its own. 0 turns splitting off. The score is the one
+    #   set by the use_* method, so for a BIC score this is in BIC units.
+    # @param split_defer_ties Whether a placement that ties with the best is set aside too. It gives the same model
+    #   but a different order to search from. TRUE takes more runs; FALSE is cheaper. Only read when split_delta is
+    #   above 0.
+    # @param max_runs A cap on the number of searches made, counting the branches set aside. A search that reaches
+    #   the cap stops there, so the models kept are then the best of those reached, not of all there are.
+    # @param dedup_by_cpdag TRUE to count two orders that give the same CPDAG as one model; FALSE to count every
+    #   order as a model.
+    # @param optimal_across_branches TRUE to offer every order visited to the models kept, not only the order each
+    #   search ends at.
+    # @param num_starts,use_bes,time_lag,use_data_order,output_cpdag As for run_boss.
+    # @param seed The random seed for starts after the first, or -1 for none.
+    # @return The best graph, invisibly.
+    run_boss_topk = function(top_k = 10, split_delta = 0, split_defer_ties = TRUE, max_runs = 10000,
+                             dedup_by_cpdag = TRUE, optimal_across_branches = FALSE, num_starts = 1,
+                             use_bes = FALSE, time_lag = 0, use_data_order = TRUE, output_cpdag = TRUE,
+                             seed = -1) {
+      cat("Running BOSS Top-K algorithm...\n")
+
+      .self$.check_score()
+
+      alg <- .jnew("edu.cmu.tetrad.algcomparison.algorithm.oracle.cpdag.BossTopK", .self$score)
+
+      if (!any(grepl("getTopGraphs", .jmethods(alg), fixed = TRUE))) {
+        stop("This tetrad-current.jar predates the BOSS Top-K accessors for the models kept; update to a jar ",
+             "built from development on or after 2026-11-26.")
+      }
+
+      .self$.setParamInt("topK", top_k)
+      .self$.setParamDouble("splitDelta", split_delta)
+      .self$.setParam("splitDeferTies", split_defer_ties)
+      .self$.setParamInt("maxRuns", max_runs)
+      .self$.setParam("dedupByCpdag", dedup_by_cpdag)
+      .self$.setParam("optimalAcrossBranches", optimal_across_branches)
+      .self$.setParam("useBes", use_bes)
+      .self$.setParamInt("numStarts", num_starts)
+      .self$.setParamInt("timeLag", time_lag)
+      .self$.setParam("useDataOrder", use_data_order)
+      .self$.setParam("outputCpdag", output_cpdag)
+      .self$.setParamLong("seed", seed)
+
+      dataModel <- .jcast(.self$data_model, "edu.cmu.tetrad.data.DataModel")
+
+      .jcall(alg, "V", "setKnowledge", .self$knowledge)
+
+      graph <- .jcall(alg, "Ledu/cmu/tetrad/graph/Graph;", "search", dataModel, .self$params)
+      .self$graph <- graph
+
+      graphs <- .jcall(alg, "Ljava/util/List;", "getTopGraphs")
+      scores <- .jcall(alg, "Ljava/util/List;", "getTopScores")
+      orders <- .jcall(alg, "Ljava/util/List;", "getTopOrders")
+      kept <- seq_len(.jcall(graphs, "I", "size"))
+
+      .self$topk_graphs <- lapply(kept, function(i) {
+        .jcast(.jcall(graphs, "Ljava/lang/Object;", "get", as.integer(i - 1)), "edu.cmu.tetrad.graph.Graph")
+      })
+      .self$topk_scores <- vapply(kept, function(i) {
+        .jcall(.jcall(scores, "Ljava/lang/Object;", "get", as.integer(i - 1)), "D", "doubleValue")
+      }, numeric(1))
+      .self$topk_orders <- lapply(kept, function(i) {
+        order <- .jcall(orders, "Ljava/lang/Object;", "get", as.integer(i - 1))
+        nodes <- .jcall(order, "[Ljava/lang/Object;", "toArray")
+        vapply(nodes, function(node) .jcall(node, "S", "getName"), character(1))
+      })
+      .self$topk_result <- graph
+
+      cat("BOSS Top-K search completed. Models kept:", length(kept), "\n")
+      invisible(.self$graph)
+    },
+
+    # Whether the models of the last run_boss_topk still go with the current graph, that is, no other search has
+    # replaced its result.
+    .topk_current = function() {
+      !is(.self$topk_result, "uninitializedField") && !is(.self$graph, "uninitializedField") &&
+        .jidenticalRef(.self$graph, .self$topk_result)
+    },
+
+    # The graphs of the models kept by the last run_boss_topk, best first, as a list of Java Graph objects. The
+    # list is empty if run_boss_topk has not been run or another search has been run since.
+    get_topk_graphs = function() {
+      if (.self$.topk_current()) .self$topk_graphs else list()
+    },
+
+    # The scores of the models kept by the last run_boss_topk, in the order of get_topk_graphs.
+    get_topk_scores = function() {
+      if (.self$.topk_current()) .self$topk_scores else numeric(0)
+    },
+
+    # The variable orders of the models kept by the last run_boss_topk, in the order of get_topk_graphs, each as a
+    # character vector of variable names. A model's graph is the one BOSS builds from its order.
+    get_topk_orders = function() {
+      if (.self$.topk_current()) .self$topk_orders else list()
     },
 
     # Run the FCI algorithm
