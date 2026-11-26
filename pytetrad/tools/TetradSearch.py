@@ -132,6 +132,12 @@ class TetradSearch:
         self.params = Parameters()
         self.bootstrap_graphs = None
 
+        # The models kept by the last run_boss_topk, and the graph that run returned; see get_topk_graphs.
+        self._topk_graphs = []
+        self._topk_scores = []
+        self._topk_orders = []
+        self._topk_result = None
+
         # Additional data sets registered for pooling (IMaGES-style for a score-based search, Fisher/Tippett
         # p-value combination for a test-based search); see add_data_set and set_pool_data_sets. All pooled data
         # sets, including the primary one passed to the constructor, must have the same variables.
@@ -641,6 +647,101 @@ class TetradSearch:
 
         self.java = alg.search(self._search_data(), self.params)
         self.bootstrap_graphs = alg.getBootstrapGraphs()
+
+    def run_boss_topk(self, top_k=10, split_delta=0.0, split_defer_ties=True, max_runs=10000,
+                      dedup_by_cpdag=True, optimal_across_branches=False, num_starts=1, use_bes=False,
+                      time_lag=0, use_data_order=True, output_cpdag=True, seed=-1):
+        """Runs BOSS Top-K, which keeps the best few models BOSS comes across and not only the best one.
+
+        The best graph is the result, as for run_boss: get_java(), get_string(), get_dot() and the rest give it.
+        The models kept, best first, are given by get_topk_graphs(), get_topk_scores() and get_topk_orders().
+        The first of them is the result.
+
+        With split_delta=0 and num_starts=1 the search is plain BOSS and keeps one model. To get several, set
+        split_delta above 0, or num_starts above 1, or both.
+
+        top_k: how many models to keep at most.
+
+        split_delta: when above 0, a placement of a variable that scores within this much of the best placement
+        is set aside and searched from later, as a branch of its own. 0 turns splitting off. The score is the
+        one set by the use_* method, so for a BIC score this is in BIC units.
+
+        split_defer_ties: whether a placement that ties with the best is set aside too. It gives the same model
+        but a different order to search from. True takes more runs and in trials found a better-scoring model
+        more often; False is cheaper. Only read when split_delta is above 0.
+
+        max_runs: a cap on the number of searches made, counting the branches set aside. A search that reaches
+        the cap stops there, so the models kept are then the best of those reached, not of all there are.
+
+        dedup_by_cpdag: True to count two orders that give the same CPDAG as one model; False to count every
+        order as a model.
+
+        optimal_across_branches: True to offer every order visited to the models kept, not only the order each
+        search ends at.
+
+        num_starts, use_bes, time_lag, use_data_order, output_cpdag: as for run_boss.
+
+        seed: the random seed for starts after the first, or -1 for none. Note that this writes the shared SEED
+        parameter, which is also used for bootstrap resampling.
+
+        With bootstrapping there are no models to give, since the search is run on each resample; the result is
+        the bootstrap graph and the three get_topk_* methods return empty lists.
+
+        Tetrad also prints the models kept to the console.
+
+        Requires a tetrad-current.jar built from development on or after 2026-11-26.
+        """
+        self._require_score("run_boss_topk")
+
+        if not hasattr(cpdag.BossTopK, "getTopGraphs"):
+            raise RuntimeError("This tetrad-current.jar predates the BOSS Top-K accessors for the models kept; "
+                               "update to a jar built from development on or after 2026-11-26.")
+
+        self.params.set(Params.TOP_K, top_k)
+        self.params.set(Params.SPLIT_DELTA, split_delta)
+        self.params.set(Params.SPLIT_DEFER_TIES, split_defer_ties)
+        self.params.set(Params.MAX_RUNS, max_runs)
+        self.params.set(Params.DEDUP_BY_CPDAG, dedup_by_cpdag)
+        self.params.set(Params.OPTIMAL_ACROSS_BRANCHES, optimal_across_branches)
+        self.params.set(Params.USE_BES, use_bes)
+        self.params.set(Params.NUM_STARTS, num_starts)
+        self.params.set(Params.TIME_LAG, time_lag)
+        self.params.set(Params.USE_DATA_ORDER, use_data_order)
+        self.params.set(Params.OUTPUT_CPDAG, output_cpdag)
+        self.params.set(Params.SEED, seed)
+
+        alg = cpdag.BossTopK(self.SCORE)
+        alg.setKnowledge(self.knowledge)
+
+        self.java = alg.search(self._search_data(), self.params)
+        self.bootstrap_graphs = alg.getBootstrapGraphs()
+
+        self._topk_graphs = list(alg.getTopGraphs())
+        self._topk_scores = [float(score) for score in alg.getTopScores()]
+        self._topk_orders = [[str(node.getName()) for node in order] for order in alg.getTopOrders()]
+        self._topk_result = self.java
+
+    def _topk(self, kept):
+        """Internal. The models of the last run_boss_topk, unless another search has replaced its result."""
+        return list(kept) if self.java is not None and self.java is self._topk_result else []
+
+    def get_topk_graphs(self):
+        """Returns the graphs of the models kept by the last run_boss_topk, best first, as a list of Java
+        graphs. The first is the result of that search. Each can be given to get_string, get_dot,
+        get_causal_learn and the other get_* methods that take a graph. The list is empty if run_boss_topk has
+        not been run, if another search has been run since, or if it was run with bootstrapping."""
+        return self._topk(self._topk_graphs)
+
+    def get_topk_scores(self):
+        """Returns the scores of the models kept by the last run_boss_topk, in the order of get_topk_graphs.
+        A higher score is better."""
+        return self._topk(self._topk_scores)
+
+    def get_topk_orders(self):
+        """Returns the variable orders of the models kept by the last run_boss_topk, in the order of
+        get_topk_graphs, each as a list of variable names. A model's graph is the one BOSS builds from its
+        order."""
+        return [list(order) for order in self._topk(self._topk_orders)]
 
     def run_restricted_boss(self, targets="", use_bes=False, num_starts=1,
                             trimming_style = 3):
@@ -1361,7 +1462,7 @@ class TetradSearch:
         if (java == None):
             return lang.String @ self.java.toString()
         else:
-            lang.String @ java.toString()
+            return lang.String @ java.toString()
 
     def get_dag_string(self, java=None):
         if (java == None):
@@ -1383,13 +1484,13 @@ class TetradSearch:
         if (java == None):
             return tr.tetrad_graph_to_causal_learn(self.java)
         else:
-            tr.tetrad_graph_to_causal_learn(java)
+            return tr.tetrad_graph_to_causal_learn(java)
 
     def get_graph_to_matrix(self, java=None, nullEpt=0, circleEpt=1, arrowEpt=2, tailEpt=3):
         if (java == None):
             return tr.graph_to_matrix(self.java, nullEpt, circleEpt, arrowEpt, tailEpt)
         else:
-            tr.graph_to_matrix(java)
+            return tr.graph_to_matrix(java, nullEpt, circleEpt, arrowEpt, tailEpt)
 
     def get_dot(self, java=None):
         if (java == None):
@@ -1401,7 +1502,7 @@ class TetradSearch:
         if (java == None):
             return str(gp.graphToXml(self.java))
         else:
-            return str(gp.graphToXml(self.java))
+            return str(gp.graphToXml(java))
 
     def get_lavaan(self, java=None):
         if (java == None):
