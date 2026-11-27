@@ -167,20 +167,152 @@ TetradSearch <- setRefClass(
       cat("Fisher Z object created with alpha set.\n")
     },
 
+    # --- Scores and tests for discrete and mixed data ---
+    #
+    # The arguments and their defaults are those of the methods of the same names in py-tetrad's
+    # TetradSearch, so that the same call gives the same search in R and in Python.
+    #
+    # Which to use:
+    #   every column discrete:        use_bdeu;  use_chi_square or use_g_square
+    #   discrete and continuous both: use_conditional_gaussian_score or use_degenerate_gaussian_score;
+    #                                 use_conditional_gaussian_test or use_degenerate_gaussian_test
+    # A factor, character or logical column of the data frame is discrete; see data_frame_to_tetrad_dataset.
+
+    # Sets the score to the named class of edu.cmu.tetrad.algcomparison.score.
+    .use_score = function(class_name) {
+      .self$score <- .jcast(.jnew(paste0("edu.cmu.tetrad.algcomparison.score.", class_name)),
+                            "edu.cmu.tetrad.algcomparison.score.ScoreWrapper")
+      cat(class_name, "object created.\n")
+    },
+
+    # Sets the test, or the Markov checker's test if use_for_mc is TRUE, to the named class of
+    # edu.cmu.tetrad.algcomparison.independence.
+    .use_test = function(class_name, use_for_mc = FALSE) {
+      wrapper <- .jcast(.jnew(paste0("edu.cmu.tetrad.algcomparison.independence.", class_name)),
+                        "edu.cmu.tetrad.algcomparison.independence.IndependenceWrapper")
+
+      if (use_for_mc) {
+        .self$mc_test <- wrapper
+      } else {
+        .self$test <- wrapper
+      }
+
+      cat(class_name, "object created", if (use_for_mc) "for the Markov checker.\n" else "for searching.\n")
+    },
+
+    # Set the score to BDeu, for data in which every column is discrete.
+    #
+    # @param sample_prior The prior equivalent sample size.
+    # @param structure_prior The structure prior; 0 for none.
+    use_bdeu = function(sample_prior = 10, structure_prior = 0) {
+      .self$.setParamDouble("priorEquivalentSampleSize", sample_prior)
+      .self$.setParamDouble("structurePrior", structure_prior)
+      .self$.use_score("BdeuScore")
+    },
+
+    # Set the score to the Conditional Gaussian BIC score, for data with discrete and continuous columns.
+    #
+    # @param penalty_discount The penalty discount.
+    # @param discretize TRUE if a continuous parent of a discrete child should be discretized, which is faster;
+    #   FALSE to integrate over it.
+    # @param num_categories_to_discretize How many categories to use when discretizing.
+    # @param structure_prior The structure prior; 0 for none.
+    # @param min_sample_size_per_cell The smallest discrete cell the likelihood will be fitted in.
+    # @param effective_sample_size -1 to use the number of rows; otherwise the score behaves as if the data
+    #   had that many independent rows.
+    use_conditional_gaussian_score = function(penalty_discount = 1, discretize = TRUE,
+                                              num_categories_to_discretize = 3, structure_prior = 0,
+                                              min_sample_size_per_cell = 4, effective_sample_size = -1) {
+      .self$.setParamDouble("penaltyDiscount", penalty_discount)
+      .self$.setParamDouble("structurePrior", structure_prior)
+      .self$.setParam("discretize", discretize)
+      .self$.setParamInt("numCategoriesToDiscretize", num_categories_to_discretize)
+      .self$.setParamInt("minSampleSizePerCell", min_sample_size_per_cell)
+      .self$.setParamInt("effectiveSampleSize", effective_sample_size)
+      .self$.use_score("ConditionalGaussianBicScore")
+    },
+
+    # Set the score to the Degenerate Gaussian BIC score, for data with discrete and continuous columns.
+    #
+    # @param penalty_discount The penalty discount.
+    # @param structure_prior The structure prior; 0 for none.
+    # @param singularity_lambda At or above 0, this is added to the diagonal of a covariance matrix before it is
+    #   inverted; below 0, a pseudoinverse is used.
+    use_degenerate_gaussian_score = function(penalty_discount = 1, structure_prior = 0, singularity_lambda = 0) {
+      .self$.setParamDouble("penaltyDiscount", penalty_discount)
+      .self$.setParamDouble("structurePrior", structure_prior)
+      .self$.setParamDouble("singularityLambda", singularity_lambda)
+      .self$.use_score("DegenerateGaussianBicScore")
+    },
+
+    # Set the test to Chi Square, for data in which every column is discrete.
+    #
+    # @param min_count The smallest count a cell of the table may have and still be used.
+    # @param alpha The significance cutoff.
+    # @param cell_table_type How the counts are made: 1 = AD tree, 2 = by counting the sample. The result is
+    #   the same; the speed may differ.
+    # @param use_for_mc TRUE to set the Markov checker's test and leave the search's test as it is.
+    use_chi_square = function(min_count = 1, alpha = 0.01, cell_table_type = 1, use_for_mc = FALSE) {
+      .self$.setParamDouble("alpha", alpha)
+      .self$.setParamInt("minCountPerCell", min_count)
+      .self$.setParamInt("cellTableType", cell_table_type)
+      .self$.use_test("ChiSquare", use_for_mc)
+    },
+
+    # Set the test to G Square, for data in which every column is discrete.
+    #
+    # @param min_count,alpha,cell_table_type,use_for_mc As for use_chi_square.
+    use_g_square = function(min_count = 1, alpha = 0.01, cell_table_type = 1, use_for_mc = FALSE) {
+      .self$.setParamDouble("alpha", alpha)
+      .self$.setParamInt("minCountPerCell", min_count)
+      .self$.setParamInt("cellTableType", cell_table_type)
+      .self$.use_test("GSquare", use_for_mc)
+    },
+
+    # Set the test to the Conditional Gaussian likelihood ratio test, for data with discrete and continuous
+    # columns.
+    #
+    # @param alpha The significance cutoff.
+    # @param discretize,num_categories_to_discretize,min_sample_size_per_cell,effective_sample_size As for
+    #   use_conditional_gaussian_score.
+    # @param use_for_mc TRUE to set the Markov checker's test and leave the search's test as it is.
+    use_conditional_gaussian_test = function(alpha = 0.01, discretize = TRUE, num_categories_to_discretize = 3,
+                                             use_for_mc = FALSE, min_sample_size_per_cell = 4,
+                                             effective_sample_size = -1) {
+      .self$.setParamDouble("alpha", alpha)
+      .self$.setParam("discretize", discretize)
+      .self$.setParamInt("numCategoriesToDiscretize", num_categories_to_discretize)
+      .self$.setParamInt("minSampleSizePerCell", min_sample_size_per_cell)
+      .self$.setParamInt("effectiveSampleSize", effective_sample_size)
+      .self$.use_test("ConditionalGaussianLrt", use_for_mc)
+    },
+
+    # Set the test to the Degenerate Gaussian likelihood ratio test, for data with discrete and continuous
+    # columns.
+    #
+    # @param alpha The significance cutoff.
+    # @param use_for_mc TRUE to set the Markov checker's test and leave the search's test as it is.
+    # @param singularity_lambda As for use_degenerate_gaussian_score.
+    use_degenerate_gaussian_test = function(alpha = 0.01, use_for_mc = FALSE, singularity_lambda = 0) {
+      .self$.setParamDouble("alpha", alpha)
+      .self$.setParamDouble("singularityLambda", singularity_lambda)
+      .self$.use_test("DegenerateGaussianLrt", use_for_mc)
+    },
+
     # Runs the PC algorithm.
     #
-    # @param conflict_rule The rule used for resolving collider conflicts: 1 = prioritize existing
-    #   colliders, 2 = orient bidirected edges, 3 = overwrite existing colliders.
+    # @param conflict_rule Kept for existing calls; PC in the current Tetrad does not read it.
     # @param depth The maximum number of conditioning variables per test.
-    # @stable_fas TRUE is the stable FAS should be used.
-    # @guarantee_cpdag TRUE is a legal CPDAG output should be guaranteed.
+    # @stable_fas TRUE is the stable FAS should be used. (Before 2026-11-26 this was set under a name Tetrad
+    #   does not have, here and in run_fci, so FALSE had no effect.)
+    # @guarantee_cpdag Kept for existing calls; PC in the current Tetrad does not read it.
     # @return The estimated graph.
     run_pc = function(conflict_rule=1, depth=-1, stable_fas=TRUE, guarantee_cpdag=FALSE) {
       cat("Running PC algorithm...\n")
 
       .self$.setParamInt("conflictRule", conflict_rule)
       .self$.setParamInt("depth", depth)
-      .self$.setParam("stableFas", stable_fas)
+      .self$.setParam("stableFAS", stable_fas)
       .self$.setParam("guaranteePag", guarantee_cpdag)
 
       dataModel <- .jcast(.self$data_model, "edu.cmu.tetrad.data.DataModel")
@@ -423,7 +555,7 @@ TetradSearch <- setRefClass(
       cat("Running FCI algorithm...\n")
 
       .self$.setParamInt("depth", depth)
-      .self$.setParam("stableFas", stable_fas)
+      .self$.setParam("stableFAS", stable_fas)
       .self$.setParamInt("maxDiscriminatingPathLength", max_disc_path_length)
       .self$.setParam("completeRuleSetUsed", complete_rule_set_used)
       .self$.setParam("guaranteePag", guarantee_pag)
@@ -551,10 +683,20 @@ TetradSearch <- setRefClass(
     #                                target, 3 = near either.
     # @param maxPathLength           The maximum length of the path to consider for backdoor paths. If a value of -1 is
     #                                given, all paths will be considered.
+    # @param henckel_pruning         TRUE to prune each set by the rule of Henckel, Perkovic and Maathuis (2020):
+    #                                a variable z is dropped when the target is m-separated from z given the source
+    #                                and the rest of the set. This assumes a linear model; the pruned set is still
+    #                                valid there and its asymptotic variance is no larger.
+    # @param o_set_compatible        TRUE to draw the sets only from the candidates for the O-set: parents of the
+    #                                target and of the nodes on the causal paths from the source to it, leaving out
+    #                                descendants of the source and other forbidden nodes. FALSE for any valid sets.
+    #                                These two are py-tetrad's heckel_pruning (so spelled there) and
+    #                                o_set_compatible.
     # @return A list of adjustment sets for the pair of nodes &lt;source, target&gt;. Return an smpty
     # list if source == target or there is no amenable path from source to target.
     get_adjustment_sets = function(graph, source, target, graph_type, max_num_sets = 10,
-                                   max_distance_from_point = 5, near_which_endpoint = 1, max_path_length = 20) {
+                                   max_distance_from_point = 5, near_which_endpoint = 1, max_path_length = 20,
+                                   henckel_pruning = FALSE, o_set_compatible = FALSE) {
       graph_types <- c("DAG", "CPDAG", "PDAG", "MPDAG", "MAG", "PAG")
 
       if (missing(graph_type) || !is.character(graph_type) || length(graph_type) != 1 ||
@@ -585,7 +727,9 @@ TetradSearch <- setRefClass(
                           as.integer(max_num_sets),
                           as.integer(max_distance_from_point),
                           as.integer(near_which_endpoint),
-                          as.integer(max_path_length))
+                          as.integer(max_path_length),
+                          isTRUE(henckel_pruning),
+                          isTRUE(o_set_compatible))
 
 
       size <- .jcall(sets_list, "I", "size")
@@ -718,9 +862,9 @@ TetradSearch <- setRefClass(
     # missing value (NA) stays missing in either kind of column.
     #
     # A column of type 'integer' is continuous unless int_as_cont is FALSE, in which case it is discrete, with
-    # its distinct values as the categories. The default is TRUE because the scores and tests this class offers
-    # are for continuous data, and read.table and read.csv give type 'integer' to any column of whole numbers,
-    # a count or a year as much as a code. To have one such column discrete, make it a factor.
+    # its distinct values as the categories. The default is TRUE because read.table and read.csv give type
+    # 'integer' to any column of whole numbers, a count or a year as much as a code. To have one such column
+    # discrete, make it a factor.
     #
     # (This differs from py-tetrad's pandas_data_to_tetrad, where int_as_cont is FALSE unless given.)
     #
